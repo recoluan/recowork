@@ -83,7 +83,7 @@ Prompt 初始化模式适合不想本地安装工具、希望直接让 AI 帮忙
 │   └── learning-engineering/
 ├── cli/
 │   └── recowork/
-└── site/
+└── docs/
     ├── index.html
     ├── styles.css
     └── app.js
@@ -135,12 +135,12 @@ rw init project --platform codex .
 
 ## 网站
 
-静态网站放在 `site/`，用于 GitHub Pages 展示。
+静态网站放在 `docs/`，用于 GitHub Pages 展示。
 
 本地直接打开：
 
 ```text
-site/index.html
+docs/index.html
 ```
 
 网站介绍了项目定位、三个首批工作流包、支持工具和 CLI 使用方式。网站支持英文和中文切换。
@@ -151,7 +151,7 @@ site/index.html
 
 ```bash
 node --check cli/recowork/bin/rw.js
-node --check site/app.js
+node --check docs/app.js
 node cli/recowork/bin/rw.js list
 node cli/recowork/bin/rw.js platforms
 ```

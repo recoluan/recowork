@@ -83,7 +83,7 @@ Use this when you want RecoWork to create files for a project or workspace autom
 │   └── learning-engineering/
 ├── cli/
 │   └── recowork/
-└── site/
+└── docs/
     ├── index.html
     ├── styles.css
     └── app.js
@@ -135,12 +135,12 @@ rw init project --platform codex .
 
 ## Website
 
-The static website lives in `site/` and is designed for GitHub Pages.
+The static website lives in `docs/` and is designed for GitHub Pages.
 
 Open locally:
 
 ```text
-site/index.html
+docs/index.html
 ```
 
 It introduces the project, the three starter workflow packs, supported tools, and CLI usage. The site supports English and Chinese.
@@ -151,7 +151,7 @@ Current validation commands:
 
 ```bash
 node --check cli/recowork/bin/rw.js
-node --check site/app.js
+node --check docs/app.js
 node cli/recowork/bin/rw.js list
 node cli/recowork/bin/rw.js platforms
 ```
