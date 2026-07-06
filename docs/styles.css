@@ -188,8 +188,7 @@ h3 {
   margin-top: 28px;
 }
 
-.primary-link,
-.secondary-link,
+.hero-actions a,
 .copy-button {
   display: inline-flex;
   align-items: center;
@@ -201,10 +200,38 @@ h3 {
   text-decoration: none;
 }
 
-.primary-link {
+.hero-actions a {
+  min-width: 148px;
+  border: 2px solid var(--ink);
+  box-shadow: 5px 5px 0 rgba(18, 19, 22, 0.18);
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    background-color 160ms ease;
+}
+
+.hero-actions a:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 rgba(18, 19, 22, 0.18);
+}
+
+.hero-actions a:active {
+  transform: translate(1px, 1px);
+  box-shadow: 3px 3px 0 rgba(18, 19, 22, 0.18);
+}
+
+.hero-actions .primary-link {
   color: #fff;
   background: var(--ink);
-  box-shadow: 8px 8px 0 var(--pink);
+  box-shadow: 5px 5px 0 var(--pink);
+}
+
+.hero-actions .primary-link:hover {
+  box-shadow: 7px 7px 0 var(--pink);
+}
+
+.hero-actions .primary-link:active {
+  box-shadow: 3px 3px 0 var(--pink);
 }
 
 .secondary-link,
@@ -212,6 +239,22 @@ h3 {
   color: var(--ink);
   background: #fff;
   border: 1px solid var(--line);
+}
+
+.hero-actions .secondary-link {
+  border: 2px solid var(--ink);
+}
+
+.hero-actions .secondary-link[href="#cli"] {
+  box-shadow: 5px 5px 0 var(--green);
+}
+
+.hero-actions .secondary-link[href="#cli"]:hover {
+  box-shadow: 7px 7px 0 var(--green);
+}
+
+.hero-actions .secondary-link[href="#cli"]:active {
+  box-shadow: 3px 3px 0 var(--green);
 }
 
 .metric-row {
@@ -280,6 +323,32 @@ h3 {
   background: var(--yellow);
   border: 0;
   border-radius: 6px;
+  font-weight: 900;
+}
+
+.visual-actions {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+}
+
+.visual-actions a,
+.visual-actions button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 9px;
+  text-decoration: none;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.visual-actions a {
+  color: #fff;
+  background: var(--violet);
+  border-radius: 6px;
+  box-shadow: 4px 4px 0 var(--pink);
   font-weight: 900;
 }
 
@@ -675,8 +744,19 @@ pre {
 
   .hero-actions,
   .metric-row,
+  .visual-topline,
   .site-footer {
     flex-direction: column;
+  }
+
+  .visual-actions {
+    width: 100%;
+  }
+
+  .visual-actions a,
+  .visual-actions button {
+    justify-content: center;
+    flex: 1;
   }
 
   .package-map,

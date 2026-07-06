@@ -19,8 +19,8 @@
       <nav class="main-nav" aria-label="Primary navigation">
         <a href="#packs" data-i18n="navPacks">Packs</a>
         <a href="#platforms" data-i18n="navPlatforms">Tools</a>
-        <a href="#prompt-mode" data-i18n="navPrompt">Prompt Init</a>
-        <a href="#cli" data-i18n="navCli">CLI</a>
+        <a href="#prompt-mode" data-i18n="navPrompt">Prompt Usage</a>
+        <a href="#cli" data-i18n="navCli">CLI Usage</a>
         <a href="#structure" data-i18n="navStructure">Structure</a>
       </nav>
       <div class="header-actions">
@@ -38,7 +38,8 @@
             Pick a work scenario, then pick the AI tool you already use. RecoWork gives you ready-to-use prompts, project rules, knowledge templates, and continuation memory.
           </p>
           <div class="hero-actions">
-            <a class="primary-link" href="#cli" data-i18n="heroPrimary">View CLI usage</a>
+            <a class="primary-link" href="#prompt-mode" data-i18n="heroPrompt">Prompt Init</a>
+            <a class="secondary-link" href="#cli" data-i18n="heroPrimary">View CLI usage</a>
             <a class="secondary-link" href="#packs" data-i18n="heroSecondary">Explore packs</a>
           </div>
           <div class="metric-row" aria-label="Project stats">
@@ -60,7 +61,10 @@
         <div class="hero-visual" aria-label="RecoWork package preview">
           <div class="visual-topline">
             <span>rw init project --platform codex .</span>
-            <button type="button" data-copy="rw init project --platform codex .">Copy</button>
+            <div class="visual-actions">
+              <a href="#prompt-mode" data-i18n="visualPrompt">Prompt</a>
+              <button type="button" data-copy="rw init project --platform codex .">Copy</button>
+            </div>
           </div>
           <div class="package-map">
             <div class="map-column core-column">
