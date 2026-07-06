@@ -56,7 +56,7 @@ const translations = {
     promptEyebrow: "Prompt 用法",
     promptTitle: "直接让 AI 帮你初始化工作流包。",
     promptStepOneTitle: "复制初始化 prompt",
-    promptStepOneText: "使用 prompt 模板，填入 GitHub 仓库地址、工作流包、目标平台和目标位置。",
+    promptStepOneText: "使用已经填好 RecoWork 仓库地址的 prompt 模板，再选择工作流包、目标平台和目标位置。",
     promptStepTwoTitle: "发给 AI 助手",
     promptStepTwoText: "可以用 Codex、ChatGPT、Claude、Cursor，或任何能访问仓库并创建文件/结构化内容的 AI。",
     promptStepThreeTitle: "检查生成结果",
@@ -64,7 +64,7 @@ const translations = {
     promptTemplate: `你是一个 RecoWork 工作流包初始化助手。
 
 来源仓库：
-<你的 GitHub 仓库地址>
+https://github.com/recoluan/recowork
 
 工作流包：
 project-engineering
@@ -102,7 +102,7 @@ codex
     heroText:
       "Pick a work scenario, then pick the AI tool you already use. RecoWork gives you ready-to-use prompts, project rules, knowledge templates, and continuation memory.",
     heroPrompt: "Prompt Usage",
-    heroPrimary: "View CLI usage",
+    heroPrimary: "CLI usage",
     heroSecondary: "Explore packs",
     metricPacks: "starter workflow packs",
     metricPlatforms: "supported tools",
@@ -148,7 +148,7 @@ codex
     promptEyebrow: "Prompt Init",
     promptTitle: "Ask AI to initialize the package for you.",
     promptStepOneTitle: "Copy the init prompt",
-    promptStepOneText: "Use the prompt template and fill in the GitHub repo URL, package, platform, and target location.",
+    promptStepOneText: "Use the prompt template with the RecoWork repo already filled in, then choose the package, platform, and target location.",
     promptStepTwoTitle: "Paste it into an AI assistant",
     promptStepTwoText: "Use Codex, ChatGPT, Claude, Cursor, or any AI that can access the repo and create files or structured content.",
     promptStepThreeTitle: "Review the generated package",
@@ -156,7 +156,7 @@ codex
     promptTemplate: `You are a RecoWork package initializer.
 
 Source repository:
-<your GitHub repo URL>
+https://github.com/recoluan/recowork
 
 Package:
 project-engineering

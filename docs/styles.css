@@ -99,11 +99,40 @@ button {
 
 .header-actions {
   display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
   gap: 6px;
   padding: 5px;
   background: #fff;
   border: 1px solid var(--line);
   border-radius: 8px;
+}
+
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-width: 78px;
+  height: 34px;
+  padding: 0 12px;
+  color: #fff;
+  background: var(--ink);
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 950;
+  text-decoration: none;
+}
+
+.github-link svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+.github-link:hover {
+  background: var(--violet);
 }
 
 .language-toggle {
@@ -734,6 +763,18 @@ pre {
 @media (max-width: 640px) {
   .main-nav {
     justify-content: flex-start;
+  }
+
+  .header-actions {
+    width: 100%;
+  }
+
+  .github-link {
+    flex: 1 1 100%;
+  }
+
+  .language-toggle {
+    flex: 1;
   }
 
   .hero,
