@@ -1,10 +1,7 @@
 {
   "name": "recowork",
   "version": "0.1.0",
-  "description": "Initialize RecoWork workflow packs for different AI platforms.",
-  "bin": {
-    "rw": "./bin/rw.js"
-  },
+  "description": "Internal CLI files for the RecoWork npm package.",
   "type": "commonjs",
   "license": "MIT"
 }

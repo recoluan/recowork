@@ -1,0 +1,26 @@
+{
+  "name": "recowork",
+  "version": "0.0.1",
+  "description": "Initialize RecoWork workflow packs for different AI platforms.",
+  "bin": {
+    "rw": "bin/rw.js"
+  },
+  "files": [
+    "README.md",
+    "README.zh.md",
+    "bin/",
+    "cli/",
+    "packages/",
+    "prompts/"
+  ],
+  "type": "commonjs",
+  "license": "MIT",
+  "keywords": [
+    "ai",
+    "workflow",
+    "prompt",
+    "codex",
+    "cursor",
+    "chatgpt"
+  ]
+}
