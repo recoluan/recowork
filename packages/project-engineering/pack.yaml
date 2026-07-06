@@ -1,0 +1,25 @@
+id: project-engineering
+name: 项目工程化工作流包
+description: 为 AI 辅助项目建立工作协议、项目知识库、自审流程、项目级 skills 和持续沉淀机制。
+audience:
+  - 开发者
+  - 独立产品开发者
+  - Codex / Cursor 用户
+supported_platforms:
+  - chatgpt-mobile
+  - claude-mobile
+  - kimi-doubao
+  - codex
+  - cursor
+  - notion-feishu
+default_platform: codex
+aliases:
+  - project
+  - codex
+  - engineering
+outputs:
+  - AGENTS.md
+  - project-skills
+  - knowledge-base
+  - review-checklist
+  - project-brief
