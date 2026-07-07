@@ -1,0 +1,7 @@
+id: claude-chat
+name: Claude Chat
+type: chat
+description: Generates copyable Claude project instructions and chat prompts.
+aliases:
+  - claude
+  - claude-mobile

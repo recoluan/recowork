@@ -1,0 +1,6 @@
+id: cursor-project
+name: Cursor Project
+type: project
+description: Generates lightweight project rules for Cursor-style AI coding workflows.
+aliases:
+  - cursor

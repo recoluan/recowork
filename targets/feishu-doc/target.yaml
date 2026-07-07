@@ -1,0 +1,7 @@
+id: feishu-doc
+name: Feishu Doc
+type: doc
+description: Generates markdown document templates that can be copied into Feishu documents.
+aliases:
+  - feishu
+  - lark

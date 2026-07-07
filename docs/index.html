@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>RecoWork · AI Workflow Packs</title>
+    <title>RecoWork · AI Workflow Templates</title>
     <meta
       name="description"
-      content="RecoWork packages reusable AI workflows and exports them to ChatGPT, Codex, Cursor, Claude, Kimi, Notion, and Feishu."
+      content="RecoWork combines AI workflow templates with concrete output targets for ChatGPT, Claude Code, Codex, Cursor, Notion, and Feishu."
     />
     <link rel="stylesheet" href="./styles.css" />
   </head>
@@ -18,7 +18,7 @@
       </a>
       <nav class="main-nav" aria-label="Primary navigation">
         <a href="#packs" data-i18n="navPacks">Packs</a>
-        <a href="#platforms" data-i18n="navPlatforms">Tools</a>
+        <a href="#platforms" data-i18n="navPlatforms">Targets</a>
         <a href="#prompt-mode" data-i18n="navPrompt">Prompt Usage</a>
         <a href="#cli" data-i18n="navCli">CLI Usage</a>
         <a href="#structure" data-i18n="navStructure">Structure</a>
@@ -41,7 +41,7 @@
           <p class="eyebrow" data-i18n="heroEyebrow">AI workflow toolkit</p>
           <h1 data-i18n="heroTitle">Give your AI a workflow.</h1>
           <p class="hero-text" data-i18n="heroText">
-            Pick a work scenario, then pick the AI tool you already use. RecoWork gives you ready-to-use prompts, project rules, knowledge templates, and continuation memory.
+            Pick a workflow template, then pick the AI tool you already use. RecoWork combines the two and creates the files you need.
           </p>
           <div class="hero-actions">
             <a class="primary-link" href="#prompt-mode" data-i18n="heroPrompt">Prompt Init</a>
@@ -51,11 +51,11 @@
           <div class="metric-row" aria-label="Project stats">
             <div>
               <strong>3</strong>
-              <span data-i18n="metricPacks">starter workflow packs</span>
+              <span data-i18n="metricPacks">starter templates</span>
             </div>
             <div>
-              <strong>6</strong>
-              <span data-i18n="metricPlatforms">supported tools</span>
+              <strong>8</strong>
+              <span data-i18n="metricPlatforms">output targets</span>
             </div>
             <div>
               <strong>1</strong>
@@ -66,10 +66,10 @@
 
         <div class="hero-visual" aria-label="RecoWork package preview">
           <div class="visual-topline">
-            <span>rw init project --platform codex .</span>
+            <span>rw add project --target codex-project .</span>
             <div class="visual-actions">
               <a href="#prompt-mode" data-i18n="visualPrompt">Prompt</a>
-              <button type="button" data-copy="rw init project --platform codex .">Copy</button>
+              <button type="button" data-copy="rw add project --target codex-project .">Copy</button>
             </div>
           </div>
           <div class="package-map">
@@ -81,10 +81,10 @@
             </div>
             <div class="connector" aria-hidden="true"></div>
             <div class="map-column adapter-column">
-              <span class="map-label" data-i18n="visualUse">Pick a tool</span>
-              <strong>ChatGPT Mobile</strong>
-              <strong>Codex / Cursor</strong>
-              <strong>Notion / 飞书</strong>
+              <span class="map-label" data-i18n="visualUse">Pick a target</span>
+              <strong>ChatGPT Chat</strong>
+              <strong>Claude Code / Codex</strong>
+              <strong>Notion / Feishu</strong>
             </div>
           </div>
           <div class="visual-footer">
@@ -100,7 +100,7 @@
         <div class="strip-item">
           <span class="strip-index">01</span>
           <strong data-i18n="stripOneTitle">No prompt writing from scratch</strong>
-          <p data-i18n="stripOneText">Choose a ready workflow pack and export it for your tool.</p>
+          <p data-i18n="stripOneText">Choose a ready workflow template and combine it with a concrete output target.</p>
         </div>
         <div class="strip-item">
           <span class="strip-index">02</span>
@@ -110,14 +110,14 @@
         <div class="strip-item">
           <span class="strip-index">03</span>
           <strong data-i18n="stripThreeTitle">Keep using it when tools change</strong>
-          <p data-i18n="stripThreeText">The same scenario can generate ChatGPT, Codex, Cursor, or Feishu versions.</p>
+          <p data-i18n="stripThreeText">The same scenario can generate chat prompts, project files, or workspace documents.</p>
         </div>
       </section>
 
       <section class="section" id="packs">
         <div class="section-heading">
-          <p class="eyebrow" data-i18n="packsEyebrow">Starter workflow packs</p>
-          <h2 data-i18n="packsTitle">Start with the three most common AI work scenarios.</h2>
+          <p class="eyebrow" data-i18n="packsEyebrow">Starter workflow templates</p>
+          <h2 data-i18n="packsTitle">Start with three reusable AI work templates.</h2>
         </div>
         <div class="pack-grid">
           <article class="pack-card card-green">
@@ -154,32 +154,32 @@
 
       <section class="section platform-section" id="platforms">
         <div class="section-heading">
-          <p class="eyebrow" data-i18n="platformsEyebrow">Supported tools</p>
-          <h2 data-i18n="platformsTitle">Use your current tool. RecoWork generates the right version.</h2>
+          <p class="eyebrow" data-i18n="platformsEyebrow">Output targets</p>
+          <h2 data-i18n="platformsTitle">Choose where the workflow will actually be used.</h2>
         </div>
         <div class="platform-grid">
           <div class="platform-card">
-            <strong>ChatGPT Mobile</strong>
+            <strong>chatgpt-chat</strong>
             <span data-i18n="adapterMobile">Segmented prompts, task cards, and continuation memory.</span>
           </div>
           <div class="platform-card">
-            <strong>Claude Mobile</strong>
+            <strong>claude-chat</strong>
             <span data-i18n="adapterClaude">Project instructions, context boundaries, and deep task guidance.</span>
           </div>
           <div class="platform-card">
-            <strong>Kimi / 豆包</strong>
-            <span data-i18n="adapterKimi">Chinese mobile prompts, summaries, steps, and copyable templates.</span>
+            <strong>claude-code-project</strong>
+            <span data-i18n="adapterKimi">CLAUDE.md and project-scoped .claude/skills.</span>
           </div>
           <div class="platform-card">
-            <strong>Codex</strong>
+            <strong>codex-project</strong>
             <span data-i18n="adapterCodex">AGENTS.md, skills, knowledge, and project rules.</span>
           </div>
           <div class="platform-card">
-            <strong>Cursor</strong>
+            <strong>cursor-project</strong>
             <span data-i18n="adapterCursor">rules.md, project context, and coding collaboration rules.</span>
           </div>
           <div class="platform-card">
-            <strong>Notion / 飞书</strong>
+            <strong>notion-workspace / feishu-doc</strong>
             <span data-i18n="adapterNotion">Knowledge pages, task templates, reviews, and team SOPs.</span>
           </div>
         </div>
@@ -188,24 +188,24 @@
       <section class="section prompt-section" id="prompt-mode">
         <div class="section-heading">
           <p class="eyebrow" data-i18n="promptEyebrow">Prompt Init</p>
-          <h2 data-i18n="promptTitle">Ask AI to initialize the package for you.</h2>
+          <h2 data-i18n="promptTitle">Ask AI to run the CLI for you.</h2>
         </div>
         <div class="prompt-layout">
           <div class="prompt-steps">
             <div>
               <span>01</span>
-              <strong data-i18n="promptStepOneTitle">Copy the init prompt</strong>
-              <p data-i18n="promptStepOneText">Use the prompt template with the RecoWork repo already filled in, then choose the package, platform, and target location.</p>
+              <strong data-i18n="promptStepOneTitle">Copy the CLI prompt</strong>
+              <p data-i18n="promptStepOneText">Use the prompt template with the RecoWork repo filled in, then choose the template, output target, and destination.</p>
             </div>
             <div>
               <span>02</span>
               <strong data-i18n="promptStepTwoTitle">Paste it into an AI assistant</strong>
-              <p data-i18n="promptStepTwoText">Use Codex, ChatGPT, Claude, Cursor, or any AI that can create files or structured content.</p>
+              <p data-i18n="promptStepTwoText">Use Codex, Cursor, or any AI assistant that can run commands or create files.</p>
             </div>
             <div>
               <span>03</span>
               <strong data-i18n="promptStepThreeTitle">Review the generated package</strong>
-              <p data-i18n="promptStepThreeText">The AI should show the file tree, generated files, and the first step to use the package.</p>
+              <p data-i18n="promptStepThreeText">The AI should run npx first, then show the file tree and first step.</p>
             </div>
           </div>
           <div class="terminal prompt-terminal">
@@ -214,21 +214,24 @@
               <span></span>
               <span></span>
             </div>
-<pre id="promptPaths">You are a RecoWork package initializer.
+<pre id="promptPaths">You are initializing a RecoWork workflow template.
 
-Source repository:
+Repository:
 https://github.com/recoluan/recowork
 
-Package:
+Template:
 project-engineering
 
-Target platform:
-codex
+Target:
+codex-project
 
-Target location:
+Destination:
 current project
 
-Read the repository, locate packages/project-engineering, generate the files this package needs for Codex, include a README, show the file tree, and tell me the first step.</pre>
+Run:
+npx recowork add project-engineering --target codex-project .
+
+If npx is unavailable, use templates/project-engineering/ plus targets/codex-project/ from the repository. Show the file tree and first step.</pre>
             <button class="terminal-copy" type="button" data-copy-target="promptPaths" data-i18n="copyPrompt">Copy prompt</button>
           </div>
         </div>
@@ -237,7 +240,7 @@ Read the repository, locate packages/project-engineering, generate the files thi
       <section class="section cli-section" id="cli">
         <div class="section-heading">
           <p class="eyebrow" data-i18n="cliEyebrow">CLI</p>
-          <h2 data-i18n="cliTitle">Initialize workflow packs with RecoWork.</h2>
+          <h2 data-i18n="cliTitle">Initialize workflow templates with RecoWork.</h2>
         </div>
         <div class="cli-layout">
           <div class="terminal">
@@ -246,15 +249,20 @@ Read the repository, locate packages/project-engineering, generate the files thi
               <span></span>
               <span></span>
             </div>
-            <pre id="cliCommand">rw list
-rw platforms
-rw init project --platform codex .
-rw init general --platform chatgpt-mobile ./my-ai-workflow
-rw init learning -p notion ./langchain-study</pre>
+            <pre id="cliCommand">npx recowork list
+npx recowork targets
+npx recowork add project --target codex-project .
+npx recowork add project --target claude-code-project .
+npx recowork add general --target chatgpt-chat ./my-ai-workflow
+npx recowork add learning -t notion-workspace ./langchain-study
+
+rw list
+rw targets
+rw add project --target codex-project .</pre>
           </div>
           <div class="cli-copy">
             <h3 data-i18n="cliHowTitle">How it works</h3>
-            <p data-i18n="cliHowText">Choose a workflow pack, then choose your target tool. The CLI creates files you can copy into chat or drop into a project.</p>
+            <p data-i18n="cliHowText">Choose a workflow template, then choose where it will run. The CLI copies the template and applies the target output rules.</p>
             <button class="copy-button" type="button" data-copy-target="cliCommand" data-i18n="copyCommands">Copy commands</button>
           </div>
         </div>
@@ -263,20 +271,20 @@ rw init learning -p notion ./langchain-study</pre>
       <section class="section structure-section" id="structure">
         <div class="section-heading">
           <p class="eyebrow" data-i18n="structureEyebrow">For builders</p>
-          <h2 data-i18n="structureTitle">If you want to extend packs, the internal structure is simple.</h2>
+          <h2 data-i18n="structureTitle">Templates and targets evolve independently.</h2>
         </div>
         <div class="structure-grid">
           <div class="structure-card">
-            <span>pack.yaml</span>
-            <p data-i18n="structureYaml">Describes who the pack is for, what problem it solves, and which tools it supports.</p>
+            <span>templates/</span>
+            <p data-i18n="structureYaml">Stores scenario templates such as project work, learning, or daily AI use.</p>
           </div>
           <div class="structure-card">
             <span>core/</span>
-            <p data-i18n="structureCore">Stores the reusable method for the scenario, such as steps, principles, and checklists.</p>
+            <p data-i18n="structureCore">Stores reusable methods for a scenario, such as steps, principles, and checklists.</p>
           </div>
           <div class="structure-card">
-            <span>adapters/</span>
-            <p data-i18n="structureAdapters">Stores tool-specific versions for ChatGPT, Codex, Cursor, Feishu, and more.</p>
+            <span>targets/</span>
+            <p data-i18n="structureAdapters">Stores reusable output rules for chat, project, workspace, and document targets.</p>
           </div>
           <div class="structure-card">
             <span>examples/</span>
@@ -288,7 +296,7 @@ rw init learning -p notion ./langchain-study</pre>
 
     <footer class="site-footer">
       <span>RecoWork</span>
-      <span data-i18n="footerText">Open workflow packs for practical AI work.</span>
+      <span data-i18n="footerText">Open workflow templates for practical AI work.</span>
     </footer>
 
     <div class="toast" id="toast" role="status" aria-live="polite">Copied</div>

@@ -1,16 +1,19 @@
 {
   "name": "recowork",
   "version": "0.0.1",
-  "description": "Initialize RecoWork workflow packs for different AI platforms.",
+  "description": "Combine RecoWork workflow templates with reusable AI output targets.",
   "bin": {
     "rw": "bin/rw.js"
   },
   "files": [
     "README.md",
     "README.zh.md",
+    "AGENTS.md",
     "bin/",
     "cli/",
-    "packages/",
+    "specs/",
+    "templates/",
+    "targets/",
     "prompts/"
   ],
   "type": "commonjs",

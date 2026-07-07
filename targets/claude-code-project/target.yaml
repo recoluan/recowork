@@ -1,0 +1,7 @@
+id: claude-code-project
+name: Claude Code Project
+type: project
+description: Generates Claude Code project instructions and project-scoped skills.
+aliases:
+  - claude-code
+  - claude-project

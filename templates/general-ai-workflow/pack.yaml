@@ -1,0 +1,27 @@
+id: general-ai-workflow
+name: 通用 AI 工作流包
+description: 帮普通用户把任意 AI App 用成稳定的任务工作流，包含初始化、任务推进、续聊记忆和自审机制。
+audience:
+  - 普通 AI 用户
+  - ChatGPT Mobile 用户
+  - Claude Mobile 用户
+  - Kimi / 豆包用户
+supported_targets:
+  - chatgpt-chat
+  - claude-chat
+  - kimi-doubao-chat
+  - codex-project
+  - cursor-project
+  - notion-workspace
+  - feishu-doc
+default_target: chatgpt-chat
+aliases:
+  - general
+  - mobile
+  - ai
+outputs:
+  - init-prompt
+  - task-prompt
+  - memory-card
+  - checklist
+  - target-output

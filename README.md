@@ -1,166 +1,119 @@
 # RecoWork
 
-RecoWork is a toolkit for packaging practical AI workflows into reusable, platform-ready work systems.
+RecoWork turns practical AI workflows into reusable templates that can be initialized for the tool and environment a user actually uses.
 
-It is not a prompt collection. A RecoWork package gives users the prompts, project rules, knowledge templates, memory cards, and usage steps needed to use AI more consistently across different tools.
+It is not a prompt collection. A RecoWork template defines the work scenario; a target defines where the workflow will be used and what files or prompts should be generated. The CLI combines both into real output.
 
 ## Why
 
-Many people can access powerful AI tools, but using them well is still hard:
+Using AI well often fails for engineering reasons:
 
 - prompts are scattered and hard to reuse;
 - AI forgets context between sessions;
-- different tools require different formats;
+- every tool expects different files or prompt formats;
 - project knowledge is rarely captured;
-- users often need workflows, not just one-off answers.
+- users need repeatable workflows, not one-off answers.
 
-RecoWork solves this by turning repeatable AI work into workflow packs that can be initialized for the tool a user already uses.
+RecoWork keeps the workflow method in one place and keeps output rules reusable.
 
-## Packages
-
-The first three workflow packs are:
-
-| Package | Purpose | Typical users |
-| --- | --- | --- |
-| `general-ai-workflow` | Daily AI use with prompts, task cards, continuation memory, and review checklists. | ChatGPT Mobile, Claude Mobile, Kimi, Doubao users |
-| `project-engineering` | Project-level AI workflow with `AGENTS.md`, skills, knowledge folders, and quality gates. | Codex, Cursor, Claude Code, developer workflows |
-| `learning-engineering` | Structured learning workflow with roadmaps, chapters, exercises, feedback, and progress tracking. | learners, teachers, training workflows |
-
-Each package describes a work scenario. It can then be exported for a target platform such as ChatGPT Mobile, Codex, Cursor, or Notion / Feishu.
-
-## Supported Tools
-
-Current platform outputs include:
-
-- `chatgpt-mobile`
-- `claude-mobile`
-- `kimi-doubao`
-- `codex`
-- `cursor`
-- `notion-feishu`
-
-The same workflow pack can produce different files depending on the selected platform.
-
-## Two Ways to Use a Pack
-
-RecoWork supports both prompt-first users and project/CLI users.
-
-### 1. Prompt Init Mode
-
-Use this when you do not want to run a CLI. Copy one initialization prompt into an AI coding assistant or a chat AI, then tell it which package and platform you want.
-
-The prompt needs a source repository URL so the AI knows where to read the package from. After publishing this project to GitHub, replace the placeholder with your real repository URL.
-
-Prompt template:
-
-```text
-prompts/init-package.md
-```
-
-Typical flow:
-
-1. Open `prompts/init-package.md`.
-2. Replace the source repository URL, package, target platform, and target location.
-3. Paste the prompt into an AI assistant.
-4. The AI generates the needed files or copy-ready content.
-5. Review the generated file tree and start from the generated README.
-
-Prompt Init Mode is best for users who want the package initialized by an AI assistant without installing anything locally.
-
-If the AI assistant cannot access the GitHub repository, paste the relevant files from `packages/<pack>/` into the conversation and ask it to initialize from those files.
-
-### 2. CLI Init Mode
-
-Use this when you want RecoWork to create files for a project or workspace automatically. This is best for Codex, Cursor, Notion / Feishu, or structured local workflows.
-
-## Repository Structure
+## Architecture
 
 ```text
 .
-├── packages/
-│   ├── general-ai-workflow/
-│   ├── project-engineering/
-│   └── learning-engineering/
-├── cli/
-│   └── recowork/
-└── docs/
-    ├── index.html
-    ├── styles.css
-    └── app.js
+├── templates/        # scenario templates
+├── targets/          # reusable output targets
+├── cli/              # rw command implementation
+├── prompts/          # short prompts that ask AI to run the CLI
+├── docs/             # GitHub Pages static site
+├── specs/            # product and engineering specs
+├── AGENTS.md         # AI agent project guide
+└── package.json
 ```
 
-Package structure:
+Templates describe the work scenario:
 
-```text
-packages/<pack>/
-├── pack.yaml
-├── README.md
-├── core/
-├── adapters/
-└── examples/
-```
+| Template | Purpose |
+| --- | --- |
+| `general-ai-workflow` | Daily AI work with task prompts, memory, and review checklists. |
+| `project-engineering` | Project-level AI workflow with rules, knowledge capture, and quality gates. |
+| `learning-engineering` | Structured learning workflow with plans, chapters, feedback, and progress. |
 
-- `pack.yaml` describes who the pack is for, what it solves, and which tools it supports.
-- `core/` stores the reusable workflow method for the scenario.
-- `adapters/` stores tool-specific versions.
-- `examples/` stores real usage examples.
+The next architecture standard calls these reusable output definitions targets. Target IDs describe the output environment:
+
+- `chatgpt-chat`
+- `claude-chat`
+- `claude-code-project`
+- `codex-project`
+- `cursor-project`
+- `notion-workspace`
+- `feishu-doc`
+
+The target standard is documented in [specs/targets.md](./specs/targets.md).
 
 ## CLI Usage
 
-The CLI package is named `recowork`; the executable command is `rw`.
+The npm package name is `recowork`; the executable command is `rw`.
 
-Run it directly from this repository:
+Preferred usage:
+
+```bash
+npx recowork list
+npx recowork targets
+npx recowork add project --target codex-project .
+npx recowork add project --target claude-code-project .
+npx recowork add general --target chatgpt-chat ./my-ai-workflow
+```
+
+Legacy platform compatibility is still available for older commands:
 
 ```bash
 node cli/recowork/bin/rw.js list
-node cli/recowork/bin/rw.js platforms
-node cli/recowork/bin/rw.js show project
+node cli/recowork/bin/rw.js targets
+node cli/recowork/bin/rw.js add project --target codex-project .
 ```
 
-Initialize a workflow pack:
+`rw init` can remain as a compatibility alias for `rw add`.
 
-```bash
-node cli/recowork/bin/rw.js init general --platform chatgpt-mobile ./my-ai-workflow
-node cli/recowork/bin/rw.js init project --platform codex .
-node cli/recowork/bin/rw.js init learning -p notion ./langchain-study
-```
+## Prompt Usage
 
-If installed as a package later, the commands are intended to look like:
-
-```bash
-rw list
-rw platforms
-rw init project --platform codex .
-```
-
-## Website
-
-The static website lives in `docs/` and is designed for GitHub Pages.
-
-Open locally:
+Prompt mode should not ask AI to recreate the whole template in chat. It should ask AI to install or run the CLI first:
 
 ```text
-docs/index.html
+Please initialize RecoWork template `project-engineering` for target `codex-project`.
+Run:
+npx recowork add project-engineering --target codex-project .
+
+If npx is unavailable, use:
+https://github.com/recoluan/recowork
+templates/project-engineering/
+targets/codex-project/
 ```
 
-It introduces the project, the three starter workflow packs, supported tools, and CLI usage. The site supports English and Chinese.
+Full prompt templates:
 
-## Development Notes
+- `prompts/init-package.md`
+- `prompts/init-package.zh.md`
 
-Current validation commands:
+## Specs
+
+Product and engineering specs live in [specs](./specs/):
+
+- [Targets Standard](./specs/targets.md)
+- [Requirements Log](./specs/requirements.md)
+- [Architecture Decisions](./specs/decisions.md)
+
+Update these specs whenever a change introduces a new target, CLI behavior, template convention, or user-facing rule.
+
+## Development
+
+Validation commands:
 
 ```bash
 node --check cli/recowork/bin/rw.js
 node --check docs/app.js
 node cli/recowork/bin/rw.js list
-node cli/recowork/bin/rw.js platforms
-```
-
-Example initialization checks:
-
-```bash
-node cli/recowork/bin/rw.js init project --platform codex /private/tmp/recowork-project-test
-node cli/recowork/bin/rw.js init learning -p notion /private/tmp/recowork-learning-test
+node cli/recowork/bin/rw.js targets
+node cli/recowork/bin/rw.js add project --target codex-project /private/tmp/recowork-project-test
 ```
 
 ## License

@@ -1,0 +1,6 @@
+id: codex-project
+name: Codex Project
+type: project
+description: Generates project instructions, knowledge files, and reusable self-review assets for Codex-style project work.
+aliases:
+  - codex
