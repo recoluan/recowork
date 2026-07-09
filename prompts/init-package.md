@@ -1,6 +1,6 @@
-# RecoWork CLI Init Prompt
+# RecoWork Agent Initialization Prompt
 
-Copy this prompt into an AI coding assistant that can run shell commands or edit files. Replace the values in brackets.
+Copy this prompt into a command-capable AI agent such as Codex, Cursor, or Claude Code. Replace the values in brackets.
 
 ```text
 You are initializing a RecoWork workflow template.
@@ -21,9 +21,10 @@ Destination:
 [current project | ./folder-name]
 
 Do this:
-1. Prefer the CLI path. Run:
+1. Confirm this environment can execute commands. Run `node --version` and `npm --version` first.
+2. If Node.js or npm is missing, unavailable, or outdated, explain the situation and ask for my confirmation before installing the latest stable Node.js. Only install after I confirm, then verify both versions again.
+3. Run:
    npx recowork add <template> --target <target> --locale <locale> <destination>
-2. If `npx` is unavailable, inspect the repository and use `templates/<template>/`, `templates/<template>/locales/<locale>/` when available, plus `targets/<target>/` to create the same files manually.
-3. Do not regenerate the template from memory.
-4. After initialization, show the file tree, explain what was created, and tell me the first step.
+4. Do not regenerate the template from memory or silently substitute a mobile-chat workflow.
+5. After initialization, show the file tree, explain what was created, and tell me the first step.
 ```

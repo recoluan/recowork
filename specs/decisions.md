@@ -70,15 +70,20 @@ Reason:
 - Specs should be visible in the repository and easy to link from README or the site.
 - Keeping specs separate from website UI files avoids mixing product policy with presentation code.
 
-## 007. English Is the Default Public Language
+## 007. English README, Chinese Website Default
 
-Decision: Public documentation and website default to English, with Chinese versions where needed.
+Decision: The repository README defaults to English, while the GitHub Pages website defaults to Chinese. Both surfaces provide Chinese and English content.
 
 Reason:
 
-- The project is intended to be open-source and reusable by a broader audience.
-- Chinese content remains important for the original use case and local users.
+- An English README keeps the repository approachable for a broad open-source audience.
+- The website is currently oriented toward the project's primary Chinese-speaking users and should be immediately usable without a language switch.
 
+Implication:
+
+- `README.md` remains English and `README.zh.md` remains its Chinese counterpart.
+- `docs/index.html` starts with `zh-CN`, the Chinese toggle active, and Chinese metadata.
+- The language toggle must update visible text, page metadata, and copyable command examples.
 ## 008. Keep Project Engineering Workspace Concise
 
 Decision: The `project-engineering` template should use a concise `工作空间/` structure with five main sections:
@@ -195,3 +200,22 @@ Implication:
 - The learning mentor must diagnose before teaching and teach one validated unit at a time.
 - Templates must support code and non-code learning without assuming a specific file extension or technology stack.
 - The CLI cleans up known legacy learning-template files on re-initialization.
+
+## 013. Choose Initialization By Runtime Capability
+
+Decision: RecoWork initialization should distinguish runtime capability from the output target.
+
+- A command-capable local agent, including Codex, Cursor, and Claude Code, can initialize any target through an AI-guided CLI flow.
+- That flow checks Node.js and npm first; if either is missing, unavailable, or outdated, it asks the user before installing the latest stable Node.js.
+- A pure chat or mobile environment receives a direct chat bootstrap prompt and is restricted to chat targets. It must not be instructed to install Node.js or create local project files.
+
+Reason:
+
+- Codex, Cursor, and Claude Code can converse and run commands, so a chat-led initialization flow can still produce deterministic project files.
+- Mobile chat products do not have a shell or writable project directory; treating them as failed CLI environments produces unusable instructions.
+
+Implication:
+
+- Target describes the desired output surface; runtime capability describes how initialization can happen.
+- Website initialization controls must collect both values and change available paths accordingly.
+- Prompt templates for local agents must include runtime checks and confirmation before installing Node.js.

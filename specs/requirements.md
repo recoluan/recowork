@@ -89,17 +89,21 @@ npx recowork add <template> --target <target> --locale <locale> <destination>
 - If the template has localized content, fallback prompt mode should instruct AI to use `templates/<template>/locales/<locale>/`.
 - Chinese prompt templates should be written in Chinese.
 - Prompt templates must include the GitHub repository URL so AI knows where to read the source.
+- Initialization must distinguish a command-capable local agent from a pure chat/mobile environment.
+- A command-capable agent should check Node.js and npm first. If either is missing, unavailable, or outdated, it must ask for confirmation before installing the latest stable Node.js, then run the CLI.
+- A pure chat/mobile environment must not be asked to install Node.js or create local files. It should receive a direct, copyable chat bootstrap prompt with the selected workflow's role, working protocol, self-review, and continuation-memory rules.
 
 ## Documentation and Website Requirements
 
 - README defaults to English.
 - Chinese README filename: `README.zh.md`.
-- Website defaults to English.
+- Website defaults to Chinese.
 - Website supports English and Chinese.
 - Website is served from `docs/` for GitHub Pages.
 - Website should explain the project from a user's point of view, not from internal implementation details.
 - Website style should be modern, colorful, and vivid.
-- Website should explain both CLI usage and prompt usage.
+- Website should present AI-assisted initialization and CLI initialization as two selectable paths within one initialization area.
+- Website should let users select a workflow template, usage target, output locale, and runtime capability, then generate matching copyable CLI and prompt examples.
 - Website should avoid overlong or unclear main titles.
 
 ## Packaging and Publishing Requirements

@@ -48,6 +48,7 @@ Template structure changes must also update the generated template files, CLI cl
 - For `general-ai-workflow`, the role contract uses the same locations and its workspace is task-oriented: task brief, open questions, setup, output, thinking traces, and review/reuse.
 - For `learning-engineering`, the role contract uses the same locations and its learning space is organized around learner brief, roadmap, progress, course design, lessons/practice, project practice, questions/retrospectives, and knowledge capture.
 - Chat targets generate copyable prompts and should not create project tool directories.
+- Initialization must distinguish command-capable local agents from pure chat/mobile environments. Local agents should check Node.js and npm, then request confirmation before installing the latest stable Node.js when needed; pure chat/mobile flows must use direct chat bootstrap prompts and must not request local file creation.
 - Project targets must follow real tool conventions.
 - Claude Code project skills belong under `.claude/skills/<skill-name>/SKILL.md`.
 - Claude Code project instructions belong in `CLAUDE.md`.

@@ -1,30 +1,53 @@
 const translations = {
   zh: {
+    pageTitle: "RecoWork · AI 工作流模板",
+    pageDescription: "RecoWork 将 AI 工作流模板初始化到 ChatGPT、Claude、Codex、Cursor、Notion 和飞书等真实使用环境。",
     navPacks: "工作流模板",
-    navPlatforms: "输出目标",
-    navPrompt: "Prompt 用法",
-    navCli: "CLI 用法",
+    navEssence: "模板精髓",
+    navPlatforms: "使用位置",
+    navInitialize: "开始初始化",
     navStructure: "结构",
     heroEyebrow: "AI 工作流工具包",
     heroTitle: "给你的 AI 装上工作流。",
     heroText:
       "选择一个工作流模板，再选择你正在使用的 AI 工具。RecoWork 会组合两者，并生成你需要的文件。",
-    heroPrompt: "Prompt 用法",
-    heroPrimary: "CLI 用法",
+    heroInitialize: "开始初始化",
+    heroPrimary: "选择初始化方式",
     heroSecondary: "浏览三个包",
     metricPacks: "首批模板",
-    metricPlatforms: "输出目标",
+    metricPlatforms: "使用位置",
     metricCli: "本地脚手架",
+    visualCommand: "rw add project --target codex-project --locale zh .",
     visualChoose: "选择场景",
     visualGeneral: "日常 AI 使用",
     visualProject: "项目工程化",
     visualLearning: "系统学习",
-    visualUse: "选择 target",
-    visualPrompt: "Prompt 入口",
+    visualUse: "选择使用位置",
+    visualPrompt: "初始化",
     visualOutPrompt: "提示词",
     visualOutRules: "项目规则",
     visualOutKnowledge: "知识库模板",
     visualOutMemory: "续聊记忆",
+    copyCommand: "复制",
+    configTemplateLabel: "工作流",
+    configTargetLabel: "使用位置",
+    configLocaleLabel: "输出语言",
+    configTemplateGeneral: "日常 AI 使用",
+    configTemplateProject: "项目工程化",
+    configTemplateLearning: "系统学习",
+    configEnvironmentLabel: "运行环境",
+    environmentAgent: "本地智能体",
+    environmentChat: "纯聊天 / 手机端",
+    cliCommands: `npx recowork list
+npx recowork targets
+npx recowork add project --target codex-project --locale zh .
+npx recowork add project --target claude-code-project --locale zh .
+npx recowork add general --target chatgpt-chat --locale zh ./my-ai-workflow
+npx recowork add learning --target notion-workspace --locale zh ./my-learning-workflow
+
+rw list
+rw targets
+rw add project --target codex-project --locale zh .`,
     stripOneTitle: "不用从零写提示词",
     stripOneText: "直接选择现成的工作流模板，再组合具体输出目标。",
     stripTwoTitle: "不只是一段 prompt",
@@ -33,6 +56,12 @@ const translations = {
     stripThreeText: "同一个场景可以生成聊天 prompt、项目文件或工作区文档。",
     packsEyebrow: "首批工作流模板",
     packsTitle: "先从三个可复用的 AI 工作模板开始。",
+    essenceEyebrow: "模板精髓",
+    essenceTitle: "模板交付的是一套工作系统，不是一段 prompt。",
+    templateGeneral: "日常 AI 使用",
+    templateProject: "项目工程化",
+    templateLearning: "系统学习",
+    essenceIncluded: "初始化后包含",
     generalDesc:
       "让普通用户在手机或网页 AI App 中持续推进任务，包含角色设定、任务上下文、续聊记忆、自审和复盘沉淀。",
     generalOne: "适合 ChatGPT Mobile / Claude Mobile / Kimi",
@@ -45,17 +74,23 @@ const translations = {
       "把学习拆成诊断、课程路线、章节练习、项目实践、反馈、复盘和知识沉淀，适合系统掌握一个主题。",
     learningOne: "适合 LangChain、编程、产品、设计等学习项目",
     learningTwo: "逐单元练习、验证和复盘，而不是一次性灌答案",
-    platformsEyebrow: "输出目标",
+    platformsEyebrow: "使用位置",
     platformsTitle: "选择这个工作流真正要用在哪里。",
-    adapterMobile: "分段复制 prompt、任务卡、续聊记忆卡。",
-    adapterClaude: "Project instructions、上下文边界和深度任务说明。",
+    adapterMobile: "ChatGPT 网页或手机端的任务 prompt 和续聊记忆。",
+    adapterClaude: "Claude 网页或手机端的可复制工作说明和任务上下文。",
+    adapterKimiChat: "Kimi、豆包等中文 AI 的本地化 prompts 和续聊记忆。",
     adapterKimi: "CLAUDE.md 和项目级 .claude/skills。",
     adapterCodex: "AGENTS.md、skills、knowledge 和项目规则。",
     adapterCursor: "rules.md、项目上下文和代码协作规则。",
     adapterNotion: "知识库页面、任务模板、复盘和团队 SOP。",
-    promptEyebrow: "Prompt 用法",
-    promptTitle: "让 AI 帮你运行 CLI。",
-    promptStepOneTitle: "复制 CLI prompt",
+    adapterFeishu: "可复制到飞书文档的工作流页面、任务模板和复盘内容。",
+    targetKimiDoubao: "Kimi / 豆包",
+    targetFeishu: "飞书",
+    initializeEyebrow: "开始使用",
+    initializeTitle: "选择配置，再选择你习惯的初始化方式。",
+    initMethodAi: "让 AI 帮你初始化",
+    initMethodCli: "命令行初始化",
+    promptStepOneTitle: "复制初始化 Prompt",
     promptStepOneText: "使用已经填好 RecoWork 仓库地址的 prompt 模板，再选择模板、输出目标、语言和目标位置。",
     promptStepTwoTitle: "发给 AI 助手",
     promptStepTwoText: "可以用 Codex、Cursor，或任何能执行命令或创建文件的 AI 助手。",
@@ -94,35 +129,58 @@ npx recowork add project-engineering --target codex-project --locale zh .
     structureCore: "保存不同语言版本的工作方法、工作空间和说明文档。",
     structureAdapters: "保存 chat、project、workspace、doc 等 target 的可复用输出规则。",
     structureExamples: "保存真实场景样例，帮助用户快速理解怎么落地。",
-    footerText: "Open workflow templates for practical AI work.",
+    footerText: "面向真实 AI 工作的开源工作流模板。",
     copied: "已复制",
   },
   en: {
+    pageTitle: "RecoWork · AI Workflow Templates",
+    pageDescription: "RecoWork initializes AI workflow templates for real environments including ChatGPT, Claude, Codex, Cursor, Notion, and Feishu.",
     navPacks: "Packs",
+    navEssence: "What you get",
     navPlatforms: "Targets",
-    navPrompt: "Prompt Usage",
-    navCli: "CLI Usage",
+    navInitialize: "Initialize",
     navStructure: "Structure",
     heroEyebrow: "AI workflow toolkit",
     heroTitle: "Give your AI a workflow.",
     heroText:
       "Pick a workflow template, then pick the AI tool you already use. RecoWork combines the two and creates the files you need.",
-    heroPrompt: "Prompt Usage",
-    heroPrimary: "CLI usage",
+    heroInitialize: "Initialize",
+    heroPrimary: "Choose a method",
     heroSecondary: "Explore packs",
     metricPacks: "starter templates",
     metricPlatforms: "output targets",
     metricCli: "local scaffold",
+    visualCommand: "rw add project --target codex-project --locale en .",
     visualChoose: "Pick a scenario",
     visualGeneral: "Daily AI work",
     visualProject: "Project workflow",
     visualLearning: "Structured learning",
     visualUse: "Pick a target",
-    visualPrompt: "Prompt",
+    visualPrompt: "Initialize",
     visualOutPrompt: "Prompts",
     visualOutRules: "Project rules",
     visualOutKnowledge: "Knowledge templates",
     visualOutMemory: "Memory cards",
+    copyCommand: "Copy",
+    configTemplateLabel: "Workflow",
+    configTargetLabel: "Usage target",
+    configLocaleLabel: "Output language",
+    configTemplateGeneral: "Daily AI work",
+    configTemplateProject: "Project engineering",
+    configTemplateLearning: "Structured learning",
+    configEnvironmentLabel: "Runtime capability",
+    environmentAgent: "Local agent",
+    environmentChat: "Chat / mobile",
+    cliCommands: `npx recowork list
+npx recowork targets
+npx recowork add project --target codex-project --locale en .
+npx recowork add project --target claude-code-project --locale en .
+npx recowork add general --target chatgpt-chat --locale en ./my-ai-workflow
+npx recowork add learning --target notion-workspace --locale en ./my-learning-workflow
+
+rw list
+rw targets
+rw add project --target codex-project --locale en .`,
     stripOneTitle: "No prompt writing from scratch",
     stripOneText: "Choose a ready workflow template and combine it with a concrete output target.",
     stripTwoTitle: "More than one prompt",
@@ -131,6 +189,12 @@ npx recowork add project-engineering --target codex-project --locale zh .
     stripThreeText: "The same scenario can generate chat prompts, project files, or workspace documents.",
     packsEyebrow: "Starter workflow templates",
     packsTitle: "Start with three reusable AI work templates.",
+    essenceEyebrow: "Template essence",
+    essenceTitle: "A template gives AI a working system, not one prompt.",
+    templateGeneral: "Daily AI work",
+    templateProject: "Project engineering",
+    templateLearning: "Structured learning",
+    essenceIncluded: "Included after initialization",
     generalDesc:
       "Helps everyday users run tasks reliably in mobile or web AI apps with a role contract, task context, continuation memory, review, and reusable learning.",
     generalOne: "For ChatGPT Mobile / Claude Mobile / Kimi",
@@ -145,15 +209,21 @@ npx recowork add project-engineering --target codex-project --locale zh .
     learningTwo: "Validates one learning unit at a time instead of dumping answers",
     platformsEyebrow: "Output targets",
     platformsTitle: "Choose where the workflow will actually be used.",
-    adapterMobile: "Segmented prompts, task cards, and continuation memory.",
-    adapterClaude: "Project instructions, context boundaries, and deep task guidance.",
+    adapterMobile: "Task prompts and continuation memory for ChatGPT web or mobile.",
+    adapterClaude: "Copyable workflow instructions and task context for Claude web or mobile.",
+    adapterKimiChat: "Localized prompts and continuation memory for Kimi, Doubao, and similar Chinese AI tools.",
     adapterKimi: "CLAUDE.md and project-scoped .claude/skills.",
     adapterCodex: "AGENTS.md, skills, knowledge, and project rules.",
     adapterCursor: "rules.md, project context, and coding collaboration rules.",
     adapterNotion: "Knowledge pages, task templates, reviews, and team SOPs.",
-    promptEyebrow: "Prompt Init",
-    promptTitle: "Ask AI to run the CLI for you.",
-    promptStepOneTitle: "Copy the CLI prompt",
+    adapterFeishu: "Workflow pages, task templates, and retrospectives ready to copy into Feishu documents.",
+    targetKimiDoubao: "Kimi / Doubao",
+    targetFeishu: "Feishu",
+    initializeEyebrow: "Get started",
+    initializeTitle: "Choose a configuration, then choose how to initialize it.",
+    initMethodAi: "Let AI initialize it",
+    initMethodCli: "Initialize with CLI",
+    promptStepOneTitle: "Copy the initialization prompt",
     promptStepOneText: "Use the prompt template with the RecoWork repo filled in, then choose the template, output target, locale, and destination.",
     promptStepTwoTitle: "Paste it into an AI assistant",
     promptStepTwoText: "Use Codex, Cursor, or any AI assistant that can run commands or create files.",
@@ -197,24 +267,410 @@ If npx is unavailable, use templates/project-engineering/, templates/project-eng
   },
 };
 
-let currentLanguage = "en";
+const templateStructures = {
+  zh: {
+    general: {
+      eyebrow: "日常 AI 使用",
+      title: "让每次对话都能继续，而不是从头开始。",
+      description: "用角色设定、任务简报和续聊记忆，把手机或网页中的一次性对话变成可澄清、可复盘、可复用的任务流程。",
+      outcomes: [
+        "AI 工作角色、流程与自审清单",
+        "任务简报与待确认问题",
+        "任务准备、产出、过程留痕与复盘沉淀",
+      ],
+      tree: `工作方法/
+  角色设定.md
+  工作流程.md
+  检查清单.md
+  记忆卡模板.md
+工作空间/
+  任务简报.md
+  待确认问题.md
+  01-任务准备/
+  02-任务产出/
+  03-过程留痕/
+  04-复盘与沉淀/`,
+    },
+    project: {
+      eyebrow: "项目工程化",
+      title: "把 AI 协作变成可追溯的项目系统。",
+      description: "角色协议约束 AI 的工作方式，工作空间保留需求、方案、决策、过程和验收，让每次协作都能从已有共识继续。",
+      outcomes: [
+        "AI 角色设定与质量门禁",
+        "项目简报与待确认问题",
+        "需求、方案、计划、留痕和验证空间",
+      ],
+      tree: `工作方法/
+  角色设定.md
+  工作流程.md
+  质量门禁.md
+工作空间/
+  项目简报.md
+  待确认问题.md
+  01-需求与约束/
+  02-方案设计/
+  03-计划与决策/
+  04-过程留痕/
+  05-评审验证/`,
+    },
+    learning: {
+      eyebrow: "系统学习",
+      title: "把“想学”推进成可以验证的真实能力。",
+      description: "从学习者基础和目标出发，逐单元完成讲解、练习、项目实践与复盘，避免一次性灌输课程内容。",
+      outcomes: [
+        "学习导师角色、课程单元与评估规则",
+        "学习简报、课程路线与进度追踪",
+        "课程练习、项目实践、问题复盘与知识沉淀",
+      ],
+      tree: `工作方法/
+  角色设定.md
+  学习方法.md
+  课程单元模板.md
+  评估与复盘.md
+学习空间/
+  学习简报.md
+  课程路线.md
+  学习进度.md
+  01-课程设计/
+  02-课程与练习/
+  03-项目实践/
+  04-问题与复盘/
+  05-知识沉淀/`,
+    },
+  },
+  en: {
+    general: {
+      eyebrow: "Daily AI work",
+      title: "Continue each conversation instead of starting over.",
+      description: "A role contract, task brief, and continuation memory turn one-off mobile or web chats into a workflow that can clarify, review, and improve.",
+      outcomes: [
+        "AI role, workflow, and self-review checklist",
+        "Task brief and open questions",
+        "Task setup, output, thinking traces, and reusable learning",
+      ],
+      tree: `methods/
+  role-contract.md
+  workflow.md
+  quality-checklist.md
+  continuation-memory-template.md
+workspace/
+  task-brief.md
+  open-questions.md
+  01-task-setup/
+  02-task-output/
+  03-thinking-traces/
+  04-review-and-reuse/`,
+    },
+    project: {
+      eyebrow: "Project engineering",
+      title: "Turn AI collaboration into a traceable project system.",
+      description: "A role contract constrains how AI works, while the workspace preserves requirements, solutions, decisions, traces, and validation for the next collaboration.",
+      outcomes: [
+        "AI role contract and quality gates",
+        "Project brief and open questions",
+        "Spaces for requirements, solutions, plans, traces, and validation",
+      ],
+      tree: `methods/
+  role-contract.md
+  workflow.md
+  quality-gates.md
+workspace/
+  project-brief.md
+  open-questions.md
+  01-requirements-and-constraints/
+  02-solution-design/
+  03-plan-and-decisions/
+  04-thinking-traces/
+  05-review-and-validation/`,
+    },
+    learning: {
+      eyebrow: "Structured learning",
+      title: "Turn “I want to learn” into demonstrable capability.",
+      description: "Start from the learner's foundation and progress through lessons, practice, projects, and retrospectives instead of unloading a complete course at once.",
+      outcomes: [
+        "Learning mentor role, lesson units, and assessment rules",
+        "Learner brief, course roadmap, and progress tracker",
+        "Lessons, project practice, questions, retrospectives, and knowledge capture",
+      ],
+      tree: `methods/
+  role-contract.md
+  learning-method.md
+  lesson-template.md
+  assessment-and-retrospective.md
+learning-workspace/
+  learner-brief.md
+  course-roadmap.md
+  learning-progress.md
+  01-course-design/
+  02-lessons-and-practice/
+  03-project-practice/
+  04-questions-and-retrospectives/
+  05-knowledge-capture/`,
+    },
+  },
+};
+
+let currentLanguage = "zh";
+let currentTemplate = "project";
+let currentInitMethod = "ai";
+const generatorConfig = {
+  template: "project-engineering",
+  target: "codex-project",
+  locale: "zh",
+  environment: "agent",
+};
+let lastAgentTarget = "codex-project";
+
+const templateAliases = {
+  "general-ai-workflow": "general",
+  "project-engineering": "project",
+  "learning-engineering": "learning",
+};
+
+const chatTargets = new Set(["chatgpt-chat", "claude-chat", "kimi-doubao-chat"]);
+
+const chatBootstrapDetails = {
+  zh: {
+    "general-ai-workflow": {
+      role: "严谨的 AI 工作顾问",
+      focus: "先澄清真实目标、约束和完成标准；区分事实、推断和假设；重要任务结束后留下续聊记忆。",
+    },
+    "project-engineering": {
+      role: "资深项目负责人和技术规划顾问",
+      focus: "先澄清目标、范围、约束和风险；重要方向变化前先确认；记录关键决策、问题和验收依据。",
+    },
+    "learning-engineering": {
+      role: "资深课程设计师、领域导师和实践教练",
+      focus: "先诊断基础、目标和时间约束；一次只推进一个可验证单元；通过练习、反馈和复盘建立真实能力。",
+    },
+  },
+  en: {
+    "general-ai-workflow": {
+      role: "a rigorous AI work advisor",
+      focus: "Clarify goals, constraints, and completion criteria; separate facts, inferences, and assumptions; leave continuation memory after meaningful work.",
+    },
+    "project-engineering": {
+      role: "a senior project lead and technical planning advisor",
+      focus: "Clarify goals, scope, constraints, and risks; confirm material direction changes; record key decisions, questions, and acceptance evidence.",
+    },
+    "learning-engineering": {
+      role: "a senior curriculum designer, subject mentor, and practice coach",
+      focus: "Diagnose foundation, goals, and time constraints; advance one validated unit at a time; build real capability through practice, feedback, and retrospectives.",
+    },
+  },
+};
 
 function applyLanguage(language) {
   currentLanguage = language;
   document.documentElement.lang = language === "zh" ? "zh-CN" : "en";
+  document.title = translations[language].pageTitle;
+  document.querySelector('meta[name="description"]').content = translations[language].pageDescription;
 
   document.querySelectorAll("[data-i18n]").forEach((node) => {
     const key = node.dataset.i18n;
     node.textContent = translations[language][key] || node.textContent;
   });
 
-  const promptTemplate = document.querySelector("#promptPaths");
-  if (promptTemplate) {
-    promptTemplate.textContent = translations[language].promptTemplate;
-  }
+  renderTemplateStructure(currentTemplate);
+  renderGeneratorOutputs();
 
   document.querySelectorAll(".language-toggle").forEach((button) => {
     button.classList.toggle("active", button.dataset.lang === language);
+  });
+}
+
+function getGeneratorCommand(binary) {
+  const template = templateAliases[generatorConfig.template];
+  return `${binary} add ${template} --target ${generatorConfig.target} --locale ${generatorConfig.locale} .`;
+}
+
+function getGeneratorPrompt() {
+  const command = getGeneratorCommand("npx recowork");
+  const promptLocale = generatorConfig.locale;
+
+  if (generatorConfig.environment === "chat") {
+    const details = chatBootstrapDetails[promptLocale][generatorConfig.template];
+    if (promptLocale === "en") {
+      return `You are ${details.role}. This is a pure chat environment without a terminal or local file system.
+
+Do not ask me to install Node.js, run commands, clone repositories, or create local project files.
+
+Working protocol:
+- ${details.focus}
+- Do not present guesses as facts. State uncertainty and ask the smallest necessary clarifying questions.
+- Before a meaningful answer, give a short plan when the task is complex. Review the answer before presenting it as complete.
+- At the end of each meaningful response, include a short continuation memory with: confirmed goal, completed work, key conclusions, open questions, and next step.
+
+Start now by asking the most important questions needed to begin my ${generatorConfig.template} workflow for ${generatorConfig.target}.`;
+    }
+
+    return `你是${details.role}。当前是纯聊天环境，没有终端和本地文件系统。
+
+不要要求我安装 Node.js、执行命令、克隆仓库或创建本地项目文件。
+
+工作协议：
+- ${details.focus}
+- 不要把猜测当作事实；明确不确定性，只提出最必要的澄清问题。
+- 任务复杂时，先给出简短计划；输出前自审后再说明完成。
+- 每次重要回复结束时，给出一张简短续聊记忆卡：已确认目标、已完成内容、关键结论、待确认问题和下一步。
+
+现在先向我提出开始这个 ${generatorConfig.template} 工作流最重要的问题。使用位置是 ${generatorConfig.target}。`;
+  }
+
+  if (promptLocale === "en") {
+    return `You are initializing a RecoWork workflow template.
+
+Repository:
+https://github.com/recoluan/recowork
+
+Template:
+${generatorConfig.template}
+
+Usage target:
+${generatorConfig.target}
+
+Output locale:
+${generatorConfig.locale}
+
+Destination:
+current directory
+
+Do this:
+1. Confirm this environment can execute commands, then run \`node --version\` and \`npm --version\`.
+2. If Node.js or npm is unavailable or outdated, explain the situation and ask for my confirmation before installing the latest stable Node.js. After confirmation, install it using the platform's normal method and verify both versions.
+3. Run:
+   ${command}
+4. Do not substitute a mobile-chat workflow. After initialization, show the generated file tree, explain what was created, and tell me the first step.`;
+  }
+
+  return `你正在为我初始化一个 RecoWork 工作流模板。
+
+仓库地址：
+https://github.com/recoluan/recowork
+
+模板：
+${generatorConfig.template}
+
+使用位置：
+${generatorConfig.target}
+
+输出语言：
+${generatorConfig.locale}
+
+目标位置：
+当前目录
+
+请这样做：
+1. 先确认当前环境能执行命令，然后运行 \`node --version\` 和 \`npm --version\`。
+2. 如果 Node.js 或 npm 缺失、不可用或版本过旧，先说明情况，并向我确认是否安装最新版稳定版 Node.js。只有在我确认后才按当前系统的常规方式安装，并再次验证两个版本。
+3. 运行：
+   ${command}
+4. 不要改用手机端聊天流程。初始化后展示生成后的文件树，说明创建了什么，并告诉我第一步应该做什么。`;
+}
+
+function renderGeneratorOutputs() {
+  const prompt = document.querySelector("#promptPaths");
+  const cliCommand = document.querySelector("#cliCommand");
+  const visualCommand = document.querySelector("#visualCommand");
+  const selectedCommand = getGeneratorCommand("rw");
+  const isChatEnvironment = generatorConfig.environment === "chat";
+
+  prompt.textContent = getGeneratorPrompt();
+  cliCommand.textContent = `${getGeneratorCommand("npx recowork")}
+
+# ${currentLanguage === "zh" ? "安装后可使用" : "After installation"}
+${selectedCommand}`;
+  visualCommand.textContent = isChatEnvironment
+    ? `${currentLanguage === "zh" ? "聊天启动 Prompt" : "Chat bootstrap prompt"} · ${generatorConfig.target} · ${generatorConfig.locale}`
+    : selectedCommand;
+  const visualCopy = document.querySelector("#visualCopy");
+  visualCopy.dataset.copyTarget = isChatEnvironment ? "promptPaths" : "visualCommand";
+  visualCopy.textContent = isChatEnvironment
+    ? currentLanguage === "zh" ? "复制 Prompt" : "Copy prompt"
+    : translations[currentLanguage].copyCommand;
+
+  document.querySelector("#configTemplate").value = generatorConfig.template;
+  document.querySelectorAll(".config-locale").forEach((button) => {
+    const isActive = button.dataset.locale === generatorConfig.locale;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-pressed", String(isActive));
+  });
+
+  document.querySelectorAll(".config-environment").forEach((button) => {
+    const isActive = button.dataset.environment === generatorConfig.environment;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-pressed", String(isActive));
+  });
+
+  const selectedTargetOption = document.querySelector(
+    `.target-option[data-target="${generatorConfig.target}"]`,
+  );
+  const targetSelectBrand = document.querySelector("#targetSelectBrand");
+  const selectedTargetBrand = selectedTargetOption
+    .querySelector(".target-brand")
+    .cloneNode(true);
+  selectedTargetBrand.id = "targetSelectBrand";
+  targetSelectBrand.replaceWith(selectedTargetBrand);
+  document.querySelector("#targetSelectLabel").textContent = selectedTargetOption
+    .querySelector(".target-option-label")
+    .textContent;
+
+  document.querySelectorAll(".target-option").forEach((button) => {
+    const isActive = button.dataset.target === generatorConfig.target;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
+    button.disabled = isChatEnvironment && !chatTargets.has(button.dataset.target);
+  });
+
+  const cliTab = document.querySelector('[data-init-method="cli"]');
+  cliTab.hidden = isChatEnvironment;
+  cliTab.textContent = isChatEnvironment
+    ? ""
+    : translations[currentLanguage].initMethodCli;
+  document.querySelector('[data-init-method="ai"]').textContent = isChatEnvironment
+    ? currentLanguage === "zh" ? "复制聊天启动 Prompt" : "Copy chat bootstrap prompt"
+    : translations[currentLanguage].initMethodAi;
+
+  if (isChatEnvironment && currentInitMethod === "cli") {
+    renderInitMethod("ai");
+  }
+}
+
+function renderInitMethod(method) {
+  currentInitMethod = method;
+  document.querySelectorAll(".init-method-tab").forEach((button) => {
+    const isActive = button.dataset.initMethod === method;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
+  });
+  document.querySelectorAll(".init-method-panel").forEach((panel) => {
+    panel.hidden = panel.dataset.initPanel !== method;
+  });
+}
+
+function renderTemplateStructure(templateId) {
+  const structure = templateStructures[currentLanguage][templateId];
+  if (!structure) {
+    return;
+  }
+
+  currentTemplate = templateId;
+  document.querySelector("#templateStructureEyebrow").textContent = structure.eyebrow;
+  document.querySelector("#templateStructureTitle").textContent = structure.title;
+  document.querySelector("#templateStructureDescription").textContent = structure.description;
+  document.querySelector("#templateStructureTree").textContent = structure.tree;
+
+  const outcomes = document.querySelector("#templateStructureOutcomes");
+  outcomes.replaceChildren(...structure.outcomes.map((outcome) => {
+    const item = document.createElement("li");
+    item.textContent = outcome;
+    return item;
+  }));
+
+  document.querySelectorAll(".template-tab").forEach((button) => {
+    const isActive = button.dataset.template === templateId;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
   });
 }
 
@@ -245,6 +701,67 @@ document.querySelectorAll(".language-toggle").forEach((button) => {
   button.addEventListener("click", () => applyLanguage(button.dataset.lang));
 });
 
+document.querySelectorAll(".template-tab").forEach((button) => {
+  button.addEventListener("click", () => renderTemplateStructure(button.dataset.template));
+});
+
+document.querySelector("#configTemplate").addEventListener("change", (event) => {
+  generatorConfig.template = event.target.value;
+  renderGeneratorOutputs();
+});
+
+document.querySelectorAll(".target-option").forEach((button) => {
+  button.addEventListener("click", () => {
+    generatorConfig.target = button.dataset.target;
+    if (generatorConfig.environment === "agent") {
+      lastAgentTarget = generatorConfig.target;
+    }
+    document.querySelector("#targetSelectMenu").hidden = true;
+    document.querySelector("#targetSelectTrigger").setAttribute("aria-expanded", "false");
+    renderGeneratorOutputs();
+  });
+});
+
+document.querySelector("#targetSelectTrigger").addEventListener("click", () => {
+  const menu = document.querySelector("#targetSelectMenu");
+  menu.hidden = !menu.hidden;
+  document.querySelector("#targetSelectTrigger").setAttribute("aria-expanded", String(!menu.hidden));
+});
+
+document.addEventListener("click", (event) => {
+  const selector = document.querySelector(".target-select");
+  if (!selector.contains(event.target)) {
+    document.querySelector("#targetSelectMenu").hidden = true;
+    document.querySelector("#targetSelectTrigger").setAttribute("aria-expanded", "false");
+  }
+});
+
+document.querySelectorAll(".config-locale").forEach((button) => {
+  button.addEventListener("click", () => {
+    generatorConfig.locale = button.dataset.locale;
+    renderGeneratorOutputs();
+  });
+});
+
+document.querySelectorAll(".config-environment").forEach((button) => {
+  button.addEventListener("click", () => {
+    const environment = button.dataset.environment;
+    if (environment === "chat" && !chatTargets.has(generatorConfig.target)) {
+      lastAgentTarget = generatorConfig.target;
+      generatorConfig.target = "chatgpt-chat";
+    }
+    if (environment === "agent" && generatorConfig.environment === "chat") {
+      generatorConfig.target = lastAgentTarget;
+    }
+    generatorConfig.environment = environment;
+    renderGeneratorOutputs();
+  });
+});
+
+document.querySelectorAll(".init-method-tab").forEach((button) => {
+  button.addEventListener("click", () => renderInitMethod(button.dataset.initMethod));
+});
+
 document.querySelectorAll("[data-copy]").forEach((button) => {
   button.addEventListener("click", () => copyText(button.dataset.copy));
 });
@@ -257,3 +774,5 @@ document.querySelectorAll("[data-copy-target]").forEach((button) => {
 });
 
 applyLanguage(currentLanguage);
+renderInitMethod(currentInitMethod);
+window.lucide?.createIcons();

@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>RecoWork · AI Workflow Templates</title>
+    <title>RecoWork · AI 工作流模板</title>
     <meta
       name="description"
-      content="RecoWork combines AI workflow templates with concrete output targets for ChatGPT, Claude Code, Codex, Cursor, Notion, and Feishu."
+      content="RecoWork 将 AI 工作流模板初始化到 ChatGPT、Claude、Codex、Cursor、Notion 和飞书等真实使用环境。"
     />
     <link rel="stylesheet" href="./styles.css" />
   </head>
@@ -18,9 +18,9 @@
       </a>
       <nav class="main-nav" aria-label="Primary navigation">
         <a href="#packs" data-i18n="navPacks">Packs</a>
+        <a href="#template-structure" data-i18n="navEssence">What you get</a>
         <a href="#platforms" data-i18n="navPlatforms">Targets</a>
-        <a href="#prompt-mode" data-i18n="navPrompt">Prompt Usage</a>
-        <a href="#cli" data-i18n="navCli">CLI Usage</a>
+        <a href="#initialize" data-i18n="navInitialize">开始初始化</a>
         <a href="#structure" data-i18n="navStructure">Structure</a>
       </nav>
       <div class="header-actions">
@@ -30,8 +30,8 @@
           </svg>
           <span>GitHub</span>
         </a>
-        <button class="language-toggle active" type="button" data-lang="en">EN</button>
-        <button class="language-toggle" type="button" data-lang="zh">中</button>
+        <button class="language-toggle active" type="button" data-lang="zh">中</button>
+        <button class="language-toggle" type="button" data-lang="en">EN</button>
       </div>
     </header>
 
@@ -44,8 +44,8 @@
             Pick a workflow template, then pick the AI tool you already use. RecoWork combines the two and creates the files you need.
           </p>
           <div class="hero-actions">
-            <a class="primary-link" href="#prompt-mode" data-i18n="heroPrompt">Prompt Init</a>
-            <a class="secondary-link" href="#cli" data-i18n="heroPrimary">CLI usage</a>
+            <a class="primary-link" href="#initialize" data-i18n="heroInitialize">开始初始化</a>
+            <a class="secondary-link" href="#initialize" data-i18n="heroPrimary">选择初始化方式</a>
             <a class="secondary-link" href="#packs" data-i18n="heroSecondary">Explore packs</a>
           </div>
           <div class="metric-row" aria-label="Project stats">
@@ -66,10 +66,10 @@
 
         <div class="hero-visual" aria-label="RecoWork package preview">
           <div class="visual-topline">
-            <span>rw add project --target codex-project --locale en .</span>
+            <span id="visualCommand" data-i18n="visualCommand">rw add project --target codex-project --locale zh .</span>
             <div class="visual-actions">
-              <a href="#prompt-mode" data-i18n="visualPrompt">Prompt</a>
-              <button type="button" data-copy="rw add project --target codex-project --locale en .">Copy</button>
+              <a href="#initialize" data-i18n="visualPrompt">初始化</a>
+              <button id="visualCopy" type="button" data-copy-target="visualCommand" data-i18n="copyCommand">复制</button>
             </div>
           </div>
           <div class="package-map">
@@ -152,6 +152,50 @@
         </div>
       </section>
 
+      <section class="section template-essence-section" id="template-structure">
+        <div class="section-heading">
+          <p class="eyebrow" data-i18n="essenceEyebrow">Template essence</p>
+          <h2 data-i18n="essenceTitle">A template gives AI a working system, not one prompt.</h2>
+        </div>
+        <div class="template-tabs" role="tablist" aria-label="Template structures">
+          <button class="template-tab" type="button" role="tab" aria-selected="false" data-template="general" data-i18n="templateGeneral">Daily AI work</button>
+          <button class="template-tab active" type="button" role="tab" aria-selected="true" data-template="project" data-i18n="templateProject">Project engineering</button>
+          <button class="template-tab" type="button" role="tab" aria-selected="false" data-template="learning" data-i18n="templateLearning">Structured learning</button>
+        </div>
+        <div class="template-essence-layout">
+          <div class="template-essence-copy">
+            <p class="eyebrow" id="templateStructureEyebrow">项目工程化</p>
+            <h3 id="templateStructureTitle">把 AI 协作变成可追溯的项目系统。</h3>
+            <p id="templateStructureDescription">角色协议约束 AI 的工作方式，工作空间保留需求、方案、决策、过程和验收，让每次协作都能从已有共识继续。</p>
+            <strong data-i18n="essenceIncluded">初始化后包含</strong>
+            <ul id="templateStructureOutcomes">
+              <li>AI 角色设定与质量门禁</li>
+              <li>项目简报与待确认问题</li>
+              <li>需求、方案、计划、留痕和验证空间</li>
+            </ul>
+          </div>
+          <div class="terminal structure-terminal" aria-label="Generated template structure">
+            <div class="terminal-bar">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <pre id="templateStructureTree">工作方法/
+  角色设定.md
+  工作流程.md
+  质量门禁.md
+工作空间/
+  项目简报.md
+  待确认问题.md
+  01-需求与约束/
+  02-方案设计/
+  03-计划与决策/
+  04-过程留痕/
+  05-评审验证/</pre>
+          </div>
+        </div>
+      </section>
+
       <section class="section platform-section" id="platforms">
         <div class="section-heading">
           <p class="eyebrow" data-i18n="platformsEyebrow">Output targets</p>
@@ -159,38 +203,119 @@
         </div>
         <div class="platform-grid">
           <div class="platform-card">
-            <strong>chatgpt-chat</strong>
+            <div class="target-card-heading">
+              <span class="target-brand target-brand-text">GPT</span>
+              <div><strong>chatgpt-chat</strong><span class="target-device"><i data-lucide="smartphone" aria-hidden="true"></i> Mobile / Web</span></div>
+            </div>
             <span data-i18n="adapterMobile">Segmented prompts, task cards, and continuation memory.</span>
           </div>
           <div class="platform-card">
-            <strong>claude-chat</strong>
+            <div class="target-card-heading">
+              <span class="target-brand"><img src="https://cdn.simpleicons.org/anthropic" alt="" /></span>
+              <div><strong>claude-chat</strong><span class="target-device"><i data-lucide="smartphone" aria-hidden="true"></i> Mobile / Web</span></div>
+            </div>
             <span data-i18n="adapterClaude">Project instructions, context boundaries, and deep task guidance.</span>
           </div>
           <div class="platform-card">
-            <strong>claude-code-project</strong>
+            <div class="target-card-heading">
+              <span class="target-brand target-brand-text" aria-label="Kimi and Doubao">K / 豆</span>
+              <div><strong>kimi-doubao-chat</strong><span class="target-device"><i data-lucide="smartphone" aria-hidden="true"></i> Mobile / Web</span></div>
+            </div>
+            <span data-i18n="adapterKimiChat">Localized prompts and continuation memory for Kimi, Doubao, and similar Chinese AI tools.</span>
+          </div>
+          <div class="platform-card">
+            <div class="target-card-heading">
+              <span class="target-brand"><img src="https://cdn.simpleicons.org/anthropic" alt="" /></span>
+              <div><strong>claude-code-project</strong><span class="target-device"><i data-lucide="monitor" aria-hidden="true"></i> PC</span></div>
+            </div>
             <span data-i18n="adapterKimi">CLAUDE.md and project-scoped .claude/skills.</span>
           </div>
           <div class="platform-card">
-            <strong>codex-project</strong>
+            <div class="target-card-heading">
+              <span class="target-brand target-brand-text">CX</span>
+              <div><strong>codex-project</strong><span class="target-device"><i data-lucide="monitor" aria-hidden="true"></i> PC</span></div>
+            </div>
             <span data-i18n="adapterCodex">AGENTS.md, skills, knowledge, and project rules.</span>
           </div>
           <div class="platform-card">
-            <strong>cursor-project</strong>
+            <div class="target-card-heading">
+              <span class="target-brand"><img src="https://cdn.simpleicons.org/cursor" alt="" /></span>
+              <div><strong>cursor-project</strong><span class="target-device"><i data-lucide="monitor" aria-hidden="true"></i> PC</span></div>
+            </div>
             <span data-i18n="adapterCursor">rules.md, project context, and coding collaboration rules.</span>
           </div>
           <div class="platform-card">
-            <strong>notion-workspace / feishu-doc</strong>
+            <div class="target-card-heading">
+              <span class="target-brand"><img src="https://cdn.simpleicons.org/notion" alt="" /></span>
+              <div><strong>notion-workspace</strong><span class="target-device"><i data-lucide="monitor" aria-hidden="true"></i> PC / Web</span></div>
+            </div>
             <span data-i18n="adapterNotion">Knowledge pages, task templates, reviews, and team SOPs.</span>
+          </div>
+          <div class="platform-card">
+            <div class="target-card-heading">
+              <span class="target-brand"><img src="https://www.feishu.cn/favicon.ico" alt="" /></span>
+              <div><strong>feishu-doc</strong><span class="target-device"><i data-lucide="smartphone" aria-hidden="true"></i> Mobile / PC</span></div>
+            </div>
+            <span data-i18n="adapterFeishu">可复制到飞书文档的工作流页面、任务模板和复盘内容。</span>
           </div>
         </div>
       </section>
 
-      <section class="section prompt-section" id="prompt-mode">
+      <section class="section initialize-section" id="initialize">
         <div class="section-heading">
-          <p class="eyebrow" data-i18n="promptEyebrow">Prompt Init</p>
-          <h2 data-i18n="promptTitle">Ask AI to run the CLI for you.</h2>
+          <p class="eyebrow" data-i18n="initializeEyebrow">开始初始化</p>
+          <h2 data-i18n="initializeTitle">选择配置，再选择你习惯的初始化方式。</h2>
         </div>
-        <div class="prompt-layout">
+        <div class="workflow-config" aria-label="Workflow generator configuration">
+          <label class="config-field" for="configTemplate">
+            <span data-i18n="configTemplateLabel">工作流</span>
+            <select id="configTemplate">
+              <option value="general-ai-workflow" data-i18n="configTemplateGeneral">日常 AI 使用</option>
+              <option value="project-engineering" selected data-i18n="configTemplateProject">项目工程化</option>
+              <option value="learning-engineering" data-i18n="configTemplateLearning">系统学习</option>
+            </select>
+          </label>
+          <div class="config-field config-target-field">
+            <span data-i18n="configTargetLabel">使用位置</span>
+            <div class="target-select">
+              <button id="targetSelectTrigger" class="target-select-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+                <span id="targetSelectBrand" class="target-brand target-brand-text">CX</span>
+                <span id="targetSelectLabel">Codex</span>
+                <i data-lucide="chevron-down" aria-hidden="true"></i>
+              </button>
+              <div id="targetSelectMenu" class="target-select-menu" role="listbox" hidden>
+                <button class="target-option" type="button" role="option" data-target="chatgpt-chat"><span class="target-brand target-brand-text">GPT</span><span class="target-option-label">ChatGPT</span><i data-lucide="smartphone" aria-hidden="true"></i></button>
+                <button class="target-option" type="button" role="option" data-target="claude-chat"><span class="target-brand"><img src="https://cdn.simpleicons.org/anthropic" alt="" /></span><span class="target-option-label">Claude</span><i data-lucide="smartphone" aria-hidden="true"></i></button>
+                <button class="target-option" type="button" role="option" data-target="kimi-doubao-chat"><span class="target-brand target-brand-text">K / 豆</span><span class="target-option-label" data-i18n="targetKimiDoubao">Kimi / 豆包</span><i data-lucide="smartphone" aria-hidden="true"></i></button>
+                <button class="target-option" type="button" role="option" data-target="claude-code-project"><span class="target-brand"><img src="https://cdn.simpleicons.org/anthropic" alt="" /></span><span class="target-option-label">Claude Code</span><i data-lucide="monitor" aria-hidden="true"></i></button>
+                <button class="target-option" type="button" role="option" data-target="codex-project"><span class="target-brand target-brand-text">CX</span><span class="target-option-label">Codex</span><i data-lucide="monitor" aria-hidden="true"></i></button>
+                <button class="target-option" type="button" role="option" data-target="cursor-project"><span class="target-brand"><img src="https://cdn.simpleicons.org/cursor" alt="" /></span><span class="target-option-label">Cursor</span><i data-lucide="monitor" aria-hidden="true"></i></button>
+                <button class="target-option" type="button" role="option" data-target="notion-workspace"><span class="target-brand"><img src="https://cdn.simpleicons.org/notion" alt="" /></span><span class="target-option-label">Notion</span><i data-lucide="monitor" aria-hidden="true"></i></button>
+                <button class="target-option" type="button" role="option" data-target="feishu-doc"><span class="target-brand"><img src="https://www.feishu.cn/favicon.ico" alt="" /></span><span class="target-option-label" data-i18n="targetFeishu">飞书</span><i data-lucide="smartphone" aria-hidden="true"></i></button>
+              </div>
+            </div>
+          </div>
+          <div class="config-field">
+            <span data-i18n="configLocaleLabel">输出语言</span>
+            <div class="config-locales" role="group" aria-label="Output locale">
+              <button class="config-locale active" type="button" data-locale="zh" aria-pressed="true">中文</button>
+              <button class="config-locale" type="button" data-locale="en" aria-pressed="false">English</button>
+            </div>
+          </div>
+          <div class="config-field">
+            <span data-i18n="configEnvironmentLabel">运行环境</span>
+            <div class="config-environments" role="group" aria-label="Runtime capability">
+              <button class="config-environment active" type="button" data-environment="agent" aria-pressed="true"><i data-lucide="monitor" aria-hidden="true"></i><span data-i18n="environmentAgent">本地智能体</span></button>
+              <button class="config-environment" type="button" data-environment="chat" aria-pressed="false"><i data-lucide="smartphone" aria-hidden="true"></i><span data-i18n="environmentChat">纯聊天 / 手机端</span></button>
+            </div>
+          </div>
+        </div>
+        <div class="init-method-tabs" role="tablist" aria-label="Initialization methods">
+          <button class="init-method-tab active" type="button" role="tab" aria-selected="true" data-init-method="ai" data-i18n="initMethodAi">让 AI 帮你初始化</button>
+          <button class="init-method-tab" type="button" role="tab" aria-selected="false" data-init-method="cli" data-i18n="initMethodCli">命令行初始化</button>
+        </div>
+        <div class="init-method-panel" data-init-panel="ai">
+          <div class="prompt-layout">
           <div class="prompt-steps">
             <div>
               <span>01</span>
@@ -214,59 +339,49 @@
               <span></span>
               <span></span>
             </div>
-<pre id="promptPaths">You are initializing a RecoWork workflow template.
+<pre id="promptPaths">你正在为我初始化一个 RecoWork 工作流模板。
 
-Repository:
+仓库地址：
 https://github.com/recoluan/recowork
 
-Template:
+模板：
 project-engineering
 
-Target:
+使用位置：
 codex-project
 
-Locale:
-en
+语言：
+zh
 
-Destination:
-current project
+目标位置：
+当前目录
 
-Run:
-npx recowork add project-engineering --target codex-project --locale en .
+请运行：
+npx recowork add project-engineering --target codex-project --locale zh .
 
-If npx is unavailable, use templates/project-engineering/, templates/project-engineering/locales/en/, and targets/codex-project/ from the repository. Show the file tree and first step.</pre>
+如果当前环境不能使用 npx，请使用仓库里的 templates/project-engineering/、templates/project-engineering/locales/zh/ 和 targets/codex-project/ 手动创建同等文件。完成后展示文件树，并告诉我第一步应该做什么。</pre>
             <button class="terminal-copy" type="button" data-copy-target="promptPaths" data-i18n="copyPrompt">Copy prompt</button>
           </div>
+          </div>
         </div>
-      </section>
-
-      <section class="section cli-section" id="cli">
-        <div class="section-heading">
-          <p class="eyebrow" data-i18n="cliEyebrow">CLI</p>
-          <h2 data-i18n="cliTitle">Initialize workflow templates with RecoWork.</h2>
-        </div>
-        <div class="cli-layout">
+        <div class="init-method-panel" data-init-panel="cli" hidden>
+          <div class="cli-layout">
           <div class="terminal">
             <div class="terminal-bar">
               <span></span>
               <span></span>
               <span></span>
             </div>
-            <pre id="cliCommand">npx recowork list
-npx recowork targets
-npx recowork add project --target codex-project --locale en .
-npx recowork add project --target claude-code-project --locale zh .
-npx recowork add general --target chatgpt-chat --locale en ./my-ai-workflow
-npx recowork add learning -t notion-workspace ./langchain-study
+            <pre id="cliCommand">npx recowork add project --target codex-project --locale zh .
 
-rw list
-rw targets
-rw add project --target codex-project --locale en .</pre>
+# 安装后可使用
+rw add project --target codex-project --locale zh .</pre>
           </div>
           <div class="cli-copy">
             <h3 data-i18n="cliHowTitle">How it works</h3>
             <p data-i18n="cliHowText">Choose a workflow template, then choose where it will run. The CLI copies the template and applies the target output rules.</p>
             <button class="copy-button" type="button" data-copy-target="cliCommand" data-i18n="copyCommands">Copy commands</button>
+          </div>
           </div>
         </div>
       </section>
@@ -303,6 +418,7 @@ rw add project --target codex-project --locale en .</pre>
     </footer>
 
     <div class="toast" id="toast" role="status" aria-live="polite">Copied</div>
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
     <script src="./app.js"></script>
   </body>
 </html>
