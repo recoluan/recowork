@@ -1,10 +1,10 @@
-# Continuation Memory Card
+# {{chat_memory_title}}
 
-Template: `{{pack_id}}`
-Target: `{{target}}`
+{{chat_memory_template}}: `{{pack_id}}`
+{{chat_memory_target}}: `{{target}}`
 
-Current goal:
+{{chat_memory_goal}}
 
-What has been decided:
+{{chat_memory_decisions}}
 
-Next step:
+{{chat_memory_next}}

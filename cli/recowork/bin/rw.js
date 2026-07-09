@@ -176,6 +176,7 @@ function initTemplate(args) {
   copyDir(path.join(localizedTemplateDir, "methods"), path.join(targetDir, "methods"));
   copyDir(path.join(localizedTemplateDir, "core"), path.join(targetDir, "工作方法"));
   copyDir(path.join(templateDir, "examples"), path.join(targetDir, "examples"));
+  copyDir(path.join(localizedTemplateDir, "examples"), path.join(targetDir, "examples"));
   copyTemplateAssets(localizedTemplateDir, targetDir);
   renderTargetFiles(path.join(selectedTargetDir, "files"), targetDir, template, selectedTarget, selectedLocale);
   writeManifest(targetDir, template, selectedTarget, selectedLocale);
@@ -455,6 +456,31 @@ function copyTemplateAssets(templateDir, targetDir) {
 
 function cleanupLegacyTemplatePaths(templateId, targetDir) {
   const legacyFilesByTemplate = {
+    "general-ai-workflow": [
+      path.join("工作方法", "工作流程.md"),
+      path.join("工作方法", "检查清单.md"),
+      path.join("工作方法", "记忆卡.md"),
+      path.join("工作方法", "角色设定.md"),
+      path.join("工作方法", "记忆卡模板.md"),
+      path.join("工作空间", "index.md"),
+      path.join("工作空间", "任务简报.md"),
+      path.join("工作空间", "待确认问题.md"),
+      path.join("工作空间", "01-任务准备", "index.md"),
+      path.join("工作空间", "02-任务产出", "index.md"),
+      path.join("工作空间", "03-过程留痕", "index.md"),
+      path.join("工作空间", "04-复盘与沉淀", "index.md"),
+      path.join("methods", "workflow.md"),
+      path.join("methods", "quality-checklist.md"),
+      path.join("methods", "continuation-memory-template.md"),
+      path.join("methods", "role-contract.md"),
+      path.join("workspace", "index.md"),
+      path.join("workspace", "task-brief.md"),
+      path.join("workspace", "open-questions.md"),
+      path.join("workspace", "01-task-setup", "index.md"),
+      path.join("workspace", "02-task-output", "index.md"),
+      path.join("workspace", "03-thinking-traces", "index.md"),
+      path.join("workspace", "04-review-and-reuse", "index.md"),
+    ],
     "project-engineering": [
       path.join("工作空间", "project-brief.md"),
       path.join("工作空间", "open-questions.md"),
@@ -515,6 +541,20 @@ function cleanupLegacyTemplatePaths(templateId, targetDir) {
     ],
   };
   const legacyDirsByTemplate = {
+    "general-ai-workflow": [
+      path.join("工作方法"),
+      path.join("工作空间", "01-任务准备"),
+      path.join("工作空间", "02-任务产出"),
+      path.join("工作空间", "03-过程留痕"),
+      path.join("工作空间", "04-复盘与沉淀"),
+      path.join("工作空间"),
+      path.join("methods"),
+      path.join("workspace", "01-task-setup"),
+      path.join("workspace", "02-task-output"),
+      path.join("workspace", "03-thinking-traces"),
+      path.join("workspace", "04-review-and-reuse"),
+      path.join("workspace"),
+    ],
     "project-engineering": [
       path.join("工作方法"),
       path.join("工作空间", "01-需求与约束"),
@@ -592,7 +632,7 @@ function renderTargetFiles(from, to, template, target, locale) {
 }
 
 function renderTemplate(source, template, target, locale) {
-  const localePaths = getLocalePaths(locale);
+  const localePaths = getLocalePaths(locale, template);
   const localeStrings = getLocaleStrings(locale, template, target, localePaths);
   const localizedTemplate = getLocalizedTemplateMetadata(template, locale);
   const values = {
@@ -624,6 +664,24 @@ function renderTemplate(source, template, target, locale) {
     rule_keep_knowledge: localeStrings.ruleKeepKnowledge,
     rule_keep_scoped: localeStrings.ruleKeepScoped,
     rule_explain_verification: localeStrings.ruleExplainVerification,
+    chat_init_title: localeStrings.chatInitTitle,
+    chat_init_intro: localeStrings.chatInitIntro,
+    chat_init_instruction: localeStrings.chatInitInstruction,
+    chat_task_title: localeStrings.chatTaskTitle,
+    chat_task_intro: localeStrings.chatTaskIntro,
+    chat_task_field_task: localeStrings.chatTaskFieldTask,
+    chat_task_field_context: localeStrings.chatTaskFieldContext,
+    chat_task_field_constraints: localeStrings.chatTaskFieldConstraints,
+    chat_task_instruction: localeStrings.chatTaskInstruction,
+    chat_memory_title: localeStrings.chatMemoryTitle,
+    chat_memory_template: localeStrings.chatMemoryTemplate,
+    chat_memory_target: localeStrings.chatMemoryTarget,
+    chat_memory_goal: localeStrings.chatMemoryGoal,
+    chat_memory_decisions: localeStrings.chatMemoryDecisions,
+    chat_memory_next: localeStrings.chatMemoryNext,
+    claude_instructions_title: localeStrings.claudeInstructionsTitle,
+    claude_instructions_intro: localeStrings.claudeInstructionsIntro,
+    claude_instructions_rule: localeStrings.claudeInstructionsRule,
     outputs: formatList(localizedTemplate.outputs),
     audience: formatList(localizedTemplate.audience),
   };
@@ -652,6 +710,7 @@ function getLocalizedTemplateMetadata(template, locale) {
 }
 
 function getLocaleStrings(locale, template, target, localePaths) {
+  const isGeneralWorkflow = template.id === "general-ai-workflow";
   if (locale === "en") {
     return {
       targetIntro: `This project uses RecoWork template \`${template.id}\` for target \`${target.id}\` and locale \`${locale}\`.`,
@@ -660,14 +719,36 @@ function getLocaleStrings(locale, template, target, localePaths) {
       headingExpectedOutputs: "Expected Outputs",
       headingWorkingProtocol: "Working Protocol",
       headingRules: "Rules",
-      ruleReadProjectContext: `Read \`README.md\`, \`${localePaths.roleFile}\`, \`${localePaths.methodsDir}/\`, \`${localePaths.workspaceDir}/\`, and \`rw-manifest.json\` before making changes.`,
-      ruleCaptureKnowledge: "Capture durable project knowledge in `knowledge/`.",
+      ruleReadProjectContext: `Read \`README.md\`, \`${localePaths.roleFile}\`, \`${localePaths.methodsDir}/\`, \`${localePaths.workspaceDir}/\`, and \`rw-manifest.json\` before ${isGeneralWorkflow ? "starting or continuing meaningful work" : "making changes"}.`,
+      ruleCaptureKnowledge: isGeneralWorkflow
+        ? `Capture reusable task insights in \`${localePaths.workspaceDir}/04-review-and-reuse/\`.`
+        : "Capture durable project knowledge in `knowledge/`.",
       ruleReviewOutput: "Before returning work, review the result against the template purpose and expected outputs.",
       ruleConfirmLargeChanges: "Ask for confirmation before large scope changes or irreversible operations.",
       ruleUseClaudeSkills: "Use project-scoped skills from `.claude/skills/` when they match the task.",
-      ruleKeepKnowledge: "Keep durable project knowledge in the template-defined knowledge location.",
+      ruleKeepKnowledge: isGeneralWorkflow
+        ? `Keep useful task context in \`${localePaths.workspaceDir}/\` and leave a continuation memory after important work.`
+        : "Keep durable project knowledge in the template-defined knowledge location.",
       ruleKeepScoped: "Keep changes scoped to the current task.",
       ruleExplainVerification: "Explain verification steps after implementation.",
+      chatInitTitle: "RecoWork Initialization Prompt",
+      chatInitIntro: `You are helping me use the RecoWork template \`${template.id}\`.`,
+      chatInitInstruction: "Ask one concise question if the task is unclear. Otherwise, help me start the workflow, keep assumptions explicit, and leave a short continuation memory after meaningful work.",
+      chatTaskTitle: "Task Prompt",
+      chatTaskIntro: `Use the \`${template.id}\` workflow and its role contract.`,
+      chatTaskFieldTask: "Task",
+      chatTaskFieldContext: "Context",
+      chatTaskFieldConstraints: "Constraints",
+      chatTaskInstruction: "Before answering, restate the goal briefly. Separate facts, assumptions, and open questions. After answering, include a short memory card I can paste into the next chat.",
+      chatMemoryTitle: "Continuation Memory Card",
+      chatMemoryTemplate: "Template",
+      chatMemoryTarget: "Target",
+      chatMemoryGoal: "Current goal:",
+      chatMemoryDecisions: "Confirmed decisions:",
+      chatMemoryNext: "Next step:",
+      claudeInstructionsTitle: "Claude Workflow Instructions",
+      claudeInstructionsIntro: `Use RecoWork template \`${template.id}\` and its role contract.`,
+      claudeInstructionsRule: "Work in small steps, keep assumptions explicit, ask before material direction changes, and summarize durable context after each milestone.",
     };
   }
 
@@ -678,25 +759,67 @@ function getLocaleStrings(locale, template, target, localePaths) {
     headingExpectedOutputs: "预期产物",
     headingWorkingProtocol: "工作协议",
     headingRules: "规则",
-    ruleReadProjectContext: `改动前先读取 \`README.md\`、\`${localePaths.roleFile}\`、\`${localePaths.methodsDir}/\`、\`${localePaths.workspaceDir}/\` 和 \`rw-manifest.json\`。`,
-    ruleCaptureKnowledge: "把长期有效的项目知识沉淀到 `knowledge/`。",
+    ruleReadProjectContext: `在${isGeneralWorkflow ? "开始或续接重要任务" : "改动"}前先读取 \`README.md\`、\`${localePaths.roleFile}\`、\`${localePaths.methodsDir}/\`、\`${localePaths.workspaceDir}/\` 和 \`rw-manifest.json\`。`,
+    ruleCaptureKnowledge: isGeneralWorkflow
+      ? `把可复用的任务经验沉淀到 \`${localePaths.workspaceDir}/04-复盘与沉淀/\`。`
+      : "把长期有效的项目知识沉淀到 `knowledge/`。",
     ruleReviewOutput: "返回结果前，对照模板用途和预期产物自审。",
     ruleConfirmLargeChanges: "大范围变更或不可逆操作前，先向用户确认。",
     ruleUseClaudeSkills: "当任务匹配时，使用 `.claude/skills/` 下的项目级 skills。",
-    ruleKeepKnowledge: "把长期项目知识放在模板定义的知识位置。",
+    ruleKeepKnowledge: isGeneralWorkflow
+      ? `把有效任务上下文放在 \`${localePaths.workspaceDir}/\`，重要任务结束后留下续聊记忆。`
+      : "把长期项目知识放在模板定义的知识位置。",
     ruleKeepScoped: "保持改动聚焦在当前任务范围内。",
     ruleExplainVerification: "实现后说明验证步骤。",
+    chatInitTitle: "RecoWork 初始化 Prompt",
+    chatInitIntro: `你正在使用 RecoWork 模板 \`${template.id}\`。`,
+    chatInitInstruction: "如果任务不清晰，先问一个最必要的问题。否则帮助我启动工作流，明确标注假设，并在重要任务结束后留下可复制的续聊记忆。",
+    chatTaskTitle: "任务 Prompt",
+    chatTaskIntro: `请按 \`${template.id}\` 工作流及其角色设定推进。`,
+    chatTaskFieldTask: "任务",
+    chatTaskFieldContext: "背景",
+    chatTaskFieldConstraints: "约束",
+    chatTaskInstruction: "回答前先简要复述目标，区分事实、假设和待确认问题。回答后给出一张可复制到下一轮对话的简短记忆卡。",
+    chatMemoryTitle: "续聊记忆卡",
+    chatMemoryTemplate: "模板",
+    chatMemoryTarget: "目标环境",
+    chatMemoryGoal: "当前目标：",
+    chatMemoryDecisions: "已确认结论：",
+    chatMemoryNext: "下一步：",
+    claudeInstructionsTitle: "Claude 工作流说明",
+    claudeInstructionsIntro: `请使用 RecoWork 模板 \`${template.id}\` 及其角色设定。`,
+    claudeInstructionsRule: "分小步推进，明确标注假设，重大方向变化前先确认，并在每个阶段结束后总结可持续使用的上下文。",
   };
 }
 
-function getLocalePaths(locale) {
+function getLocalePaths(locale, template) {
+  const isGeneralWorkflow = template && template.id === "general-ai-workflow";
   if (locale === "en") {
+    if (isGeneralWorkflow) {
+      return {
+        methodsDir: "methods",
+        workspaceDir: "workspace",
+        briefFile: "task-brief.md",
+        questionsFile: "open-questions.md",
+        roleFile: "methods/role-contract.md",
+      };
+    }
     return {
       methodsDir: "methods",
       workspaceDir: "workspace",
       briefFile: "project-brief.md",
       questionsFile: "open-questions.md",
       roleFile: "methods/role-contract.md",
+    };
+  }
+
+  if (isGeneralWorkflow) {
+    return {
+      methodsDir: "工作方法",
+      workspaceDir: "工作空间",
+      briefFile: "任务简报.md",
+      questionsFile: "待确认问题.md",
+      roleFile: "工作方法/角色设定.md",
     };
   }
 

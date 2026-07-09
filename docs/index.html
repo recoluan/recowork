@@ -123,10 +123,10 @@
           <article class="pack-card card-green">
             <div class="card-chip">general</div>
             <h3>general-ai-workflow</h3>
-            <p data-i18n="generalDesc">Helps everyday users run tasks reliably in mobile or web AI apps with init prompts, task prompts, memory cards, and review checklists.</p>
+            <p data-i18n="generalDesc">Helps everyday users run tasks reliably in mobile or web AI apps with a role contract, task context, continuation memory, review, and reusable learning.</p>
             <ul>
               <li data-i18n="generalOne">For ChatGPT Mobile / Claude Mobile / Kimi</li>
-              <li data-i18n="generalTwo">Reduces context loss and inconsistent outputs</li>
+              <li data-i18n="generalTwo">Keeps context, quality standards, and proven methods reusable</li>
             </ul>
           </article>
 
@@ -256,7 +256,7 @@ If npx is unavailable, use templates/project-engineering/, templates/project-eng
 npx recowork targets
 npx recowork add project --target codex-project --locale en .
 npx recowork add project --target claude-code-project --locale zh .
-npx recowork add general --target chatgpt-chat ./my-ai-workflow
+npx recowork add general --target chatgpt-chat --locale en ./my-ai-workflow
 npx recowork add learning -t notion-workspace ./langchain-study
 
 rw list

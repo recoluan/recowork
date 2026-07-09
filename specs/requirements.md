@@ -20,6 +20,7 @@ This document records product and engineering requirements established during th
 - Project workspace outputs should live in `工作空间/`, not `workspace/`.
 - Templates and targets must evolve independently.
 - Localized template content should live under `templates/<template>/locales/<locale>/` when a template supports multiple languages.
+- Localized examples that contain user-facing language should live under the corresponding locale directory and be copied with that locale.
 - Avoid duplicating platform-specific output inside every template.
 - The CLI should compose a template, target, and locale into files.
 - Prompt usage should be a lightweight entry point that asks AI to run the CLI first.
@@ -28,7 +29,7 @@ This document records product and engineering requirements established during th
 
 The first templates are:
 
-- `general-ai-workflow`: daily AI usage with task prompts, memory, and review.
+- `general-ai-workflow`: daily AI usage with a role contract, task context, continuation memory, review, and reusable learning.
 - `project-engineering`: project-level AI workflow with rules, knowledge capture, and quality gates.
 - `learning-engineering`: structured learning workflow with plans, chapters, feedback, and progress.
 
@@ -197,6 +198,56 @@ The English locale should also generate:
 methods/
 └── role-contract.md
 ```
+
+## General AI Workflow Workspace Requirements
+
+The `general-ai-workflow` template should remain lightweight for everyday chat and mobile users, while still preserving task context and reusable learning.
+
+The Chinese locale should generate:
+
+```text
+工作方法/
+├── 角色设定.md
+├── 工作流程.md
+├── 检查清单.md
+└── 记忆卡模板.md
+
+工作空间/
+├── index.md
+├── 任务简报.md
+├── 待确认问题.md
+├── 01-任务准备/
+├── 02-任务产出/
+├── 03-过程留痕/
+└── 04-复盘与沉淀/
+```
+
+The English locale should generate the equivalent structure:
+
+```text
+methods/
+├── role-contract.md
+├── workflow.md
+├── quality-checklist.md
+└── continuation-memory-template.md
+
+workspace/
+├── index.md
+├── task-brief.md
+├── open-questions.md
+├── 01-task-setup/
+├── 02-task-output/
+├── 03-thinking-traces/
+└── 04-review-and-reuse/
+```
+
+Responsibilities:
+
+- The role contract defines a rigorous AI work advisor role, explicit uncertainty handling, confirmation behavior, and continuous improvement rules.
+- The task brief stores the stable agreement for the current task; it is not a long process log.
+- Open questions store gaps AI must not silently assume.
+- Task setup, output, thinking traces, and review/reuse keep preparation, deliverables, process, and durable learning separate.
+- The template must stay lighter than `project-engineering`; simple tasks should only capture context that helps the next task.
 
 ## Naming Requirements
 

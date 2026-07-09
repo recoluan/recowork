@@ -1,11 +1,11 @@
-# Task Prompt
+# {{chat_task_title}}
 
-Use the `{{pack_id}}` workflow.
+{{chat_task_intro}}
 
-Task:
+## {{chat_task_field_task}}
 
-Context:
+## {{chat_task_field_context}}
 
-Constraints:
+## {{chat_task_field_constraints}}
 
-Before answering, restate the goal briefly. After answering, include a short memory card I can paste into the next chat.
+{{chat_task_instruction}}

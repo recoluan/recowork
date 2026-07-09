@@ -1,11 +1,18 @@
 id: general-ai-workflow
 name: 通用 AI 工作流包
-description: 帮普通用户把任意 AI App 用成稳定的任务工作流，包含初始化、任务推进、续聊记忆和自审机制。
+name_en: General AI Workflow Template
+description: 帮普通用户把任意 AI App 用成可持续的任务工作流，包含角色协议、任务上下文、续聊记忆、自审和复盘沉淀。
+description_en: Turn any AI app into a durable task workflow with a role contract, task context, continuation memory, self-review, and reusable learning.
 audience:
   - 普通 AI 用户
   - ChatGPT Mobile 用户
   - Claude Mobile 用户
   - Kimi / 豆包用户
+audience_en:
+  - Everyday AI users
+  - ChatGPT mobile users
+  - Claude mobile users
+  - Kimi / Doubao users
 supported_targets:
   - chatgpt-chat
   - claude-chat
@@ -15,13 +22,32 @@ supported_targets:
   - notion-workspace
   - feishu-doc
 default_target: chatgpt-chat
+default_locale: zh
+locales:
+  - zh
+  - en
 aliases:
   - general
   - mobile
   - ai
 outputs:
-  - init-prompt
-  - task-prompt
-  - memory-card
-  - checklist
-  - target-output
+  - 本地化工作方法目录
+  - 角色设定
+  - 本地化工作空间目录
+  - 初始化和任务 prompts
+  - 续聊记忆模板
+  - 自审与复盘清单
+outputs_zh:
+  - 本地化工作方法目录
+  - 角色设定
+  - 本地化工作空间目录
+  - 初始化和任务 prompts
+  - 续聊记忆模板
+  - 自审与复盘清单
+outputs_en:
+  - localized methods directory
+  - role contract
+  - localized workspace directory
+  - initialization and task prompts
+  - continuation memory template
+  - self-review and retrospective checklist

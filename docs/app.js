@@ -34,9 +34,9 @@ const translations = {
     packsEyebrow: "首批工作流模板",
     packsTitle: "先从三个可复用的 AI 工作模板开始。",
     generalDesc:
-      "让普通用户在手机或网页 AI App 中稳定推进任务，包含初始化 prompt、任务 prompt、续聊记忆卡和自审清单。",
+      "让普通用户在手机或网页 AI App 中持续推进任务，包含角色设定、任务上下文、续聊记忆、自审和复盘沉淀。",
     generalOne: "适合 ChatGPT Mobile / Claude Mobile / Kimi",
-    generalTwo: "解决上下文丢失和输出不稳定",
+    generalTwo: "让上下文、质量标准和有效方法持续积累",
     projectDesc:
       "为 AI 辅助项目建立 AGENTS.md、项目 skills、knowledge 目录、质量门禁和持续沉淀机制。",
     projectOne: "适合 Codex、Cursor、Claude Code",
@@ -132,9 +132,9 @@ npx recowork add project-engineering --target codex-project --locale zh .
     packsEyebrow: "Starter workflow templates",
     packsTitle: "Start with three reusable AI work templates.",
     generalDesc:
-      "Helps everyday users run tasks reliably in mobile or web AI apps with init prompts, task prompts, memory cards, and review checklists.",
+      "Helps everyday users run tasks reliably in mobile or web AI apps with a role contract, task context, continuation memory, review, and reusable learning.",
     generalOne: "For ChatGPT Mobile / Claude Mobile / Kimi",
-    generalTwo: "Reduces context loss and inconsistent outputs",
+    generalTwo: "Keeps context, quality standards, and proven methods reusable",
     projectDesc:
       "Sets up AGENTS.md, project skills, knowledge folders, quality gates, and durable capture for AI-assisted projects.",
     projectOne: "For Codex, Cursor, and Claude Code",

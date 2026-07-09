@@ -34,7 +34,7 @@ Templates describe the work scenario:
 
 | Template | Purpose |
 | --- | --- |
-| `general-ai-workflow` | Daily AI work with task prompts, memory, and review checklists. |
+| `general-ai-workflow` | Daily AI work with a role contract, task context, continuation memory, review, and reusable learning. |
 | `project-engineering` | Project-level AI workflow with rules, knowledge capture, and quality gates. |
 | `learning-engineering` | Structured learning workflow with plans, chapters, feedback, and progress. |
 
@@ -61,7 +61,7 @@ npx recowork list
 npx recowork targets
 npx recowork add project --target codex-project --locale en .
 npx recowork add project --target claude-code-project --locale zh .
-npx recowork add general --target chatgpt-chat ./my-ai-workflow
+npx recowork add general --target chatgpt-chat --locale en ./my-ai-workflow
 ```
 
 Legacy platform compatibility is still available for older commands:

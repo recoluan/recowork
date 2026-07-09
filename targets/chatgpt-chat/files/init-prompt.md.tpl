@@ -1,14 +1,14 @@
-# RecoWork Init Prompt
+# {{chat_init_title}}
 
-You are helping me use RecoWork template `{{pack_id}}`.
+{{chat_init_intro}}
 
-Purpose:
+## {{heading_purpose}}
 {{pack_description}}
 
-Audience:
+## {{heading_audience}}
 {{audience}}
 
-Expected outputs:
+## {{heading_expected_outputs}}
 {{outputs}}
 
-Ask one concise question if the target is unclear. Otherwise, help me start the workflow and keep a continuation memory at the end of each major answer.
+{{chat_init_instruction}}

@@ -153,3 +153,24 @@ Implication:
 - Generated project rules should instruct AI to read the role contract before project work.
 - The role contract should be maintained like other working methods when user feedback changes expected behavior.
 - Avoid vague role claims; specify responsibilities, principles, prohibited behavior, and iteration rules.
+
+## 011. Engineer General AI Workflows Around Tasks, Not Projects
+
+Decision: `general-ai-workflow` uses the same durable principles as `project-engineering` but a lighter task-oriented structure.
+
+- `zh`: `工作方法/` and `工作空间/`
+- `en`: `methods/` and `workspace/`
+- The workspace separates task setup, output, thinking traces, and review/reuse.
+- Both locales include a role contract, workflow, quality checklist, and continuation memory template.
+
+Reason:
+
+- Everyday chat and mobile AI users need continuity and quality controls without adopting a full project-management workspace.
+- A task brief and open-question list make AI clarification behavior visible and reusable.
+- Separating final output from traces prevents chats from becoming one unstructured, hard-to-resume record.
+
+Implication:
+
+- `general-ai-workflow` supports `zh` and `en`, with localized names and examples.
+- CLI re-initialization cleans up known legacy general-workflow files and empty directories.
+- Chat prompts must render in the selected locale and refer users to the role contract.

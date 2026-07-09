@@ -1,11 +1,11 @@
-# Claude Project Instructions
+# {{claude_instructions_title}}
 
-Use RecoWork template `{{pack_id}}`.
+{{claude_instructions_intro}}
 
-Purpose:
+## {{heading_purpose}}
 {{pack_description}}
 
-Expected outputs:
+## {{heading_expected_outputs}}
 {{outputs}}
 
-Work in small steps, keep assumptions explicit, and summarize durable context after each milestone.
+{{claude_instructions_rule}}

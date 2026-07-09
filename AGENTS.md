@@ -43,8 +43,9 @@ Template structure changes must also update the generated template files, CLI cl
 - Use `--locale <locale>` for language selection when a template supports multiple locales.
 - Keep locale-specific template content under `templates/<template>/locales/<locale>/`.
 - Locale changes may translate user-facing directories and documents, but must not translate convention-driven filenames such as `AGENTS.md`, `CLAUDE.md`, `SKILL.md`, `README.md`, and `index.md`.
-- Project-oriented templates should include a localized role contract that defines the AI's working role, principles, prohibited behavior, and iteration rules.
+- Templates that govern ongoing work should include a localized role contract that defines the AI's working role, principles, prohibited behavior, and iteration rules.
 - For `project-engineering`, the role contract lives at `工作方法/角色设定.md` for `zh` and `methods/role-contract.md` for `en`.
+- For `general-ai-workflow`, the role contract uses the same locations and its workspace is task-oriented: task brief, open questions, setup, output, thinking traces, and review/reuse.
 - Chat targets generate copyable prompts and should not create project tool directories.
 - Project targets must follow real tool conventions.
 - Claude Code project skills belong under `.claude/skills/<skill-name>/SKILL.md`.
@@ -75,6 +76,8 @@ node cli/recowork/bin/rw.js list
 node cli/recowork/bin/rw.js targets
 node cli/recowork/bin/rw.js add project --target codex-project --locale zh /private/tmp/recowork-zh-test
 node cli/recowork/bin/rw.js add project --target codex-project --locale en /private/tmp/recowork-en-test
+node cli/recowork/bin/rw.js add general --target chatgpt-chat --locale zh /private/tmp/recowork-general-zh-test
+node cli/recowork/bin/rw.js add general --target chatgpt-chat --locale en /private/tmp/recowork-general-en-test
 ```
 
 For initialization tests, use `/private/tmp/...` or another temporary directory outside the repository root.
