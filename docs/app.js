@@ -42,9 +42,9 @@ const translations = {
     projectOne: "适合 Codex、Cursor、Claude Code",
     projectTwo: "让项目从第一天就有 AI 工作协议",
     learningDesc:
-      "把学习拆成路线图、章节、练习、作业反馈、复盘和进度追踪，适合系统学习一个主题。",
+      "把学习拆成诊断、课程路线、章节练习、项目实践、反馈、复盘和知识沉淀，适合系统掌握一个主题。",
     learningOne: "适合 LangChain、编程、产品、设计等学习项目",
-    learningTwo: "让 AI 按章节教学，而不是一次性灌答案",
+    learningTwo: "逐单元练习、验证和复盘，而不是一次性灌答案",
     platformsEyebrow: "输出目标",
     platformsTitle: "选择这个工作流真正要用在哪里。",
     adapterMobile: "分段复制 prompt、任务卡、续聊记忆卡。",
@@ -140,9 +140,9 @@ npx recowork add project-engineering --target codex-project --locale zh .
     projectOne: "For Codex, Cursor, and Claude Code",
     projectTwo: "Gives a project an AI working protocol from day one",
     learningDesc:
-      "Turns learning into roadmaps, chapters, exercises, homework feedback, reviews, and progress tracking.",
+      "Turns learning into diagnosis, roadmaps, lessons, practice, projects, feedback, retrospectives, and durable knowledge capture.",
     learningOne: "For LangChain, coding, product, design, and more",
-    learningTwo: "Teaches chapter by chapter instead of dumping answers",
+    learningTwo: "Validates one learning unit at a time instead of dumping answers",
     platformsEyebrow: "Output targets",
     platformsTitle: "Choose where the workflow will actually be used.",
     adapterMobile: "Segmented prompts, task cards, and continuation memory.",

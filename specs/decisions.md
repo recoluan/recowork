@@ -174,3 +174,24 @@ Implication:
 - `general-ai-workflow` supports `zh` and `en`, with localized names and examples.
 - CLI re-initialization cleans up known legacy general-workflow files and empty directories.
 - Chat prompts must render in the selected locale and refer users to the role contract.
+
+## 012. Engineer Learning Around Validated Units And Throughline Practice
+
+Decision: `learning-engineering` should use a localized role contract and a dedicated learning workspace, informed by the LangChain TypeScript learning project.
+
+- `zh`: `工作方法/` and `学习空间/`
+- `en`: `methods/` and `learning-workspace/`
+- Root learning documents are learner brief, roadmap, and progress.
+- Learning work is separated into course design, lessons/practice, project practice, questions/retrospectives, and knowledge capture.
+
+Reason:
+
+- A study plan alone does not demonstrate mastery; each unit needs practice, verification, and a learner-owned explanation.
+- A throughline project gives otherwise isolated concepts a concrete application and an evolving acceptance surface.
+- Recording actual commands, results, errors, and reasoning makes technical learning reproducible rather than performative.
+
+Implication:
+
+- The learning mentor must diagnose before teaching and teach one validated unit at a time.
+- Templates must support code and non-code learning without assuming a specific file extension or technology stack.
+- The CLI cleans up known legacy learning-template files on re-initialization.

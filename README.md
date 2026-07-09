@@ -36,7 +36,7 @@ Templates describe the work scenario:
 | --- | --- |
 | `general-ai-workflow` | Daily AI work with a role contract, task context, continuation memory, review, and reusable learning. |
 | `project-engineering` | Project-level AI workflow with rules, knowledge capture, and quality gates. |
-| `learning-engineering` | Structured learning workflow with plans, chapters, feedback, and progress. |
+| `learning-engineering` | Structured learning with learner diagnosis, a roadmap, lessons, practice, projects, feedback, and durable learning records. |
 
 The next architecture standard calls these reusable output definitions targets. Target IDs describe the output environment:
 
@@ -62,6 +62,7 @@ npx recowork targets
 npx recowork add project --target codex-project --locale en .
 npx recowork add project --target claude-code-project --locale zh .
 npx recowork add general --target chatgpt-chat --locale en ./my-ai-workflow
+npx recowork add learning --target chatgpt-chat --locale en ./my-learning-workflow
 ```
 
 Legacy platform compatibility is still available for older commands:

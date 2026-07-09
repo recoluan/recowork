@@ -456,6 +456,39 @@ function copyTemplateAssets(templateDir, targetDir) {
 
 function cleanupLegacyTemplatePaths(templateId, targetDir) {
   const legacyFilesByTemplate = {
+    "learning-engineering": [
+      path.join("工作方法", "工作流程.md"),
+      path.join("工作方法", "章节模板.md"),
+      path.join("工作方法", "进度追踪.md"),
+      path.join("工作方法", "角色设定.md"),
+      path.join("工作方法", "学习方法.md"),
+      path.join("工作方法", "课程单元模板.md"),
+      path.join("工作方法", "评估与复盘.md"),
+      path.join("学习空间", "index.md"),
+      path.join("学习空间", "学习简报.md"),
+      path.join("学习空间", "课程路线.md"),
+      path.join("学习空间", "学习进度.md"),
+      path.join("学习空间", "01-课程设计", "index.md"),
+      path.join("学习空间", "02-课程与练习", "index.md"),
+      path.join("学习空间", "02-课程与练习", "课程单元模板.md"),
+      path.join("学习空间", "03-项目实践", "index.md"),
+      path.join("学习空间", "04-问题与复盘", "index.md"),
+      path.join("学习空间", "05-知识沉淀", "index.md"),
+      path.join("methods", "role-contract.md"),
+      path.join("methods", "learning-method.md"),
+      path.join("methods", "lesson-template.md"),
+      path.join("methods", "assessment-and-retrospective.md"),
+      path.join("learning-workspace", "index.md"),
+      path.join("learning-workspace", "learner-brief.md"),
+      path.join("learning-workspace", "course-roadmap.md"),
+      path.join("learning-workspace", "learning-progress.md"),
+      path.join("learning-workspace", "01-course-design", "index.md"),
+      path.join("learning-workspace", "02-lessons-and-practice", "index.md"),
+      path.join("learning-workspace", "02-lessons-and-practice", "lesson-unit-template.md"),
+      path.join("learning-workspace", "03-project-practice", "index.md"),
+      path.join("learning-workspace", "04-questions-and-retrospectives", "index.md"),
+      path.join("learning-workspace", "05-knowledge-capture", "index.md"),
+    ],
     "general-ai-workflow": [
       path.join("工作方法", "工作流程.md"),
       path.join("工作方法", "检查清单.md"),
@@ -541,6 +574,22 @@ function cleanupLegacyTemplatePaths(templateId, targetDir) {
     ],
   };
   const legacyDirsByTemplate = {
+    "learning-engineering": [
+      path.join("工作方法"),
+      path.join("学习空间", "01-课程设计"),
+      path.join("学习空间", "02-课程与练习"),
+      path.join("学习空间", "03-项目实践"),
+      path.join("学习空间", "04-问题与复盘"),
+      path.join("学习空间", "05-知识沉淀"),
+      path.join("学习空间"),
+      path.join("methods"),
+      path.join("learning-workspace", "01-course-design"),
+      path.join("learning-workspace", "02-lessons-and-practice"),
+      path.join("learning-workspace", "03-project-practice"),
+      path.join("learning-workspace", "04-questions-and-retrospectives"),
+      path.join("learning-workspace", "05-knowledge-capture"),
+      path.join("learning-workspace"),
+    ],
     "general-ai-workflow": [
       path.join("工作方法"),
       path.join("工作空间", "01-任务准备"),
@@ -711,22 +760,27 @@ function getLocalizedTemplateMetadata(template, locale) {
 
 function getLocaleStrings(locale, template, target, localePaths) {
   const isGeneralWorkflow = template.id === "general-ai-workflow";
+  const isLearningWorkflow = template.id === "learning-engineering";
   if (locale === "en") {
     return {
-      targetIntro: `This project uses RecoWork template \`${template.id}\` for target \`${target.id}\` and locale \`${locale}\`.`,
+      targetIntro: `This workflow uses RecoWork template \`${template.id}\` for target \`${target.id}\` and locale \`${locale}\`.`,
       headingPurpose: "Purpose",
       headingAudience: "Audience",
       headingExpectedOutputs: "Expected Outputs",
       headingWorkingProtocol: "Working Protocol",
       headingRules: "Rules",
-      ruleReadProjectContext: `Read \`README.md\`, \`${localePaths.roleFile}\`, \`${localePaths.methodsDir}/\`, \`${localePaths.workspaceDir}/\`, and \`rw-manifest.json\` before ${isGeneralWorkflow ? "starting or continuing meaningful work" : "making changes"}.`,
-      ruleCaptureKnowledge: isGeneralWorkflow
+      ruleReadProjectContext: `Read \`README.md\`, \`${localePaths.roleFile}\`, \`${localePaths.methodsDir}/\`, \`${localePaths.workspaceDir}/\`, and \`rw-manifest.json\` before ${isLearningWorkflow ? "starting or continuing a learning unit" : isGeneralWorkflow ? "starting or continuing meaningful work" : "making changes"}.`,
+      ruleCaptureKnowledge: isLearningWorkflow
+        ? `Capture reusable learning insights in \`${localePaths.workspaceDir}/05-knowledge-capture/\`.`
+        : isGeneralWorkflow
         ? `Capture reusable task insights in \`${localePaths.workspaceDir}/04-review-and-reuse/\`.`
         : "Capture durable project knowledge in `knowledge/`.",
       ruleReviewOutput: "Before returning work, review the result against the template purpose and expected outputs.",
       ruleConfirmLargeChanges: "Ask for confirmation before large scope changes or irreversible operations.",
       ruleUseClaudeSkills: "Use project-scoped skills from `.claude/skills/` when they match the task.",
-      ruleKeepKnowledge: isGeneralWorkflow
+      ruleKeepKnowledge: isLearningWorkflow
+        ? `Keep the learner brief, roadmap, progress, and retrospectives in \`${localePaths.workspaceDir}/\`; teach one validated unit at a time.`
+        : isGeneralWorkflow
         ? `Keep useful task context in \`${localePaths.workspaceDir}/\` and leave a continuation memory after important work.`
         : "Keep durable project knowledge in the template-defined knowledge location.",
       ruleKeepScoped: "Keep changes scoped to the current task.",
@@ -753,20 +807,24 @@ function getLocaleStrings(locale, template, target, localePaths) {
   }
 
   return {
-    targetIntro: `本项目使用 RecoWork 模板 \`${template.id}\`，target 为 \`${target.id}\`，locale 为 \`${locale}\`。`,
+    targetIntro: `当前工作流使用 RecoWork 模板 \`${template.id}\`，target 为 \`${target.id}\`，locale 为 \`${locale}\`。`,
     headingPurpose: "用途",
     headingAudience: "适用对象",
     headingExpectedOutputs: "预期产物",
     headingWorkingProtocol: "工作协议",
     headingRules: "规则",
-    ruleReadProjectContext: `在${isGeneralWorkflow ? "开始或续接重要任务" : "改动"}前先读取 \`README.md\`、\`${localePaths.roleFile}\`、\`${localePaths.methodsDir}/\`、\`${localePaths.workspaceDir}/\` 和 \`rw-manifest.json\`。`,
-    ruleCaptureKnowledge: isGeneralWorkflow
+    ruleReadProjectContext: `在${isLearningWorkflow ? "开始或续接一个学习单元" : isGeneralWorkflow ? "开始或续接重要任务" : "改动"}前先读取 \`README.md\`、\`${localePaths.roleFile}\`、\`${localePaths.methodsDir}/\`、\`${localePaths.workspaceDir}/\` 和 \`rw-manifest.json\`。`,
+    ruleCaptureKnowledge: isLearningWorkflow
+      ? `把可复用的学习结论沉淀到 \`${localePaths.workspaceDir}/05-知识沉淀/\`。`
+      : isGeneralWorkflow
       ? `把可复用的任务经验沉淀到 \`${localePaths.workspaceDir}/04-复盘与沉淀/\`。`
       : "把长期有效的项目知识沉淀到 `knowledge/`。",
     ruleReviewOutput: "返回结果前，对照模板用途和预期产物自审。",
     ruleConfirmLargeChanges: "大范围变更或不可逆操作前，先向用户确认。",
     ruleUseClaudeSkills: "当任务匹配时，使用 `.claude/skills/` 下的项目级 skills。",
-    ruleKeepKnowledge: isGeneralWorkflow
+    ruleKeepKnowledge: isLearningWorkflow
+      ? `把学习简报、课程路线、进度和复盘放在 \`${localePaths.workspaceDir}/\`，一次只推进一个经过验证的学习单元。`
+      : isGeneralWorkflow
       ? `把有效任务上下文放在 \`${localePaths.workspaceDir}/\`，重要任务结束后留下续聊记忆。`
       : "把长期项目知识放在模板定义的知识位置。",
     ruleKeepScoped: "保持改动聚焦在当前任务范围内。",
@@ -794,7 +852,17 @@ function getLocaleStrings(locale, template, target, localePaths) {
 
 function getLocalePaths(locale, template) {
   const isGeneralWorkflow = template && template.id === "general-ai-workflow";
+  const isLearningWorkflow = template && template.id === "learning-engineering";
   if (locale === "en") {
+    if (isLearningWorkflow) {
+      return {
+        methodsDir: "methods",
+        workspaceDir: "learning-workspace",
+        briefFile: "learner-brief.md",
+        questionsFile: "learning-workspace/04-questions-and-retrospectives/",
+        roleFile: "methods/role-contract.md",
+      };
+    }
     if (isGeneralWorkflow) {
       return {
         methodsDir: "methods",
@@ -819,6 +887,16 @@ function getLocalePaths(locale, template) {
       workspaceDir: "工作空间",
       briefFile: "任务简报.md",
       questionsFile: "待确认问题.md",
+      roleFile: "工作方法/角色设定.md",
+    };
+  }
+
+  if (isLearningWorkflow) {
+    return {
+      methodsDir: "工作方法",
+      workspaceDir: "学习空间",
+      briefFile: "学习简报.md",
+      questionsFile: "学习空间/04-问题与复盘/",
       roleFile: "工作方法/角色设定.md",
     };
   }

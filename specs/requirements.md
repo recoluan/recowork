@@ -31,7 +31,7 @@ The first templates are:
 
 - `general-ai-workflow`: daily AI usage with a role contract, task context, continuation memory, review, and reusable learning.
 - `project-engineering`: project-level AI workflow with rules, knowledge capture, and quality gates.
-- `learning-engineering`: structured learning workflow with plans, chapters, feedback, and progress.
+- `learning-engineering`: structured learning workflow with learner diagnosis, a roadmap, lessons, practice, projects, feedback, and durable learning records.
 
 Template content quality is intentionally deferred. The architecture should support better, more differentiated templates later.
 
@@ -248,6 +248,55 @@ Responsibilities:
 - Open questions store gaps AI must not silently assume.
 - Task setup, output, thinking traces, and review/reuse keep preparation, deliverables, process, and durable learning separate.
 - The template must stay lighter than `project-engineering`; simple tasks should only capture context that helps the next task.
+
+## Learning Engineering Workspace Requirements
+
+The `learning-engineering` template should turn learning into a validated progression of diagnosis, units, practice, projects, retrospectives, and reusable knowledge. It should not generate a complete course as one long answer.
+
+The Chinese locale should generate:
+
+```text
+工作方法/
+├── 角色设定.md
+├── 学习方法.md
+├── 课程单元模板.md
+└── 评估与复盘.md
+
+学习空间/
+├── index.md
+├── 学习简报.md
+├── 课程路线.md
+├── 学习进度.md
+├── 01-课程设计/
+├── 02-课程与练习/
+├── 03-项目实践/
+├── 04-问题与复盘/
+└── 05-知识沉淀/
+```
+
+The English locale should generate the equivalent structure under `methods/` and `learning-workspace/`:
+
+```text
+learning-workspace/
+├── index.md
+├── learner-brief.md
+├── course-roadmap.md
+├── learning-progress.md
+├── 01-course-design/
+├── 02-lessons-and-practice/
+├── 03-project-practice/
+├── 04-questions-and-retrospectives/
+└── 05-knowledge-capture/
+```
+
+Responsibilities:
+
+- The role contract defines a curriculum designer, subject mentor, and practice coach role.
+- The learner brief captures the learner's foundation, target ability, constraints, preferences, and completion criteria.
+- The roadmap records unit dependencies, practice output, acceptance criteria, and a throughline project.
+- Each learning unit should include a goal, a minimal experiment, practice, feedback, verification, and learner-owned explanation.
+- Code or operational courses should show the problem, key change, actual verification, and data-flow reasoning; they must not claim unrun work succeeded.
+- The workspace separates course design, lessons, project work, questions/retrospectives, and validated knowledge capture.
 
 ## Naming Requirements
 
