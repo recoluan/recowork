@@ -1,10 +1,16 @@
 id: project-engineering
 name: 项目工程化工作流包
+name_en: Project Engineering Workflow Template
 description: 为 AI 辅助项目建立工作协议、项目知识库、自审流程、项目级 skills 和持续沉淀机制。
+description_en: Establish AI working rules, durable project knowledge, self-review, project-level skills, and continuous capture for AI-assisted projects.
 audience:
   - 开发者
   - 独立产品开发者
   - Codex / Cursor 用户
+audience_en:
+  - Developers
+  - Indie builders
+  - Codex / Cursor users
 supported_targets:
   - chatgpt-chat
   - claude-chat
@@ -15,13 +21,34 @@ supported_targets:
   - notion-workspace
   - feishu-doc
 default_target: codex-project
+default_locale: zh
+locales:
+  - zh
+  - en
 aliases:
   - project
   - codex
   - engineering
 outputs:
   - AGENTS.md
-  - project-skills
-  - knowledge-base
-  - review-checklist
-  - project-brief
+  - localized methods directory
+  - localized workspace directory
+  - project-level skills
+  - knowledge files
+  - review and acceptance rules
+outputs_zh:
+  - AGENTS.md
+  - 本地化工作方法目录
+  - 角色设定
+  - 本地化工作空间目录
+  - 项目级 skills
+  - 知识文件
+  - 自审和验收规则
+outputs_en:
+  - AGENTS.md
+  - localized methods directory
+  - role contract
+  - localized workspace directory
+  - project-level skills
+  - knowledge files
+  - review and acceptance rules

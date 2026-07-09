@@ -19,6 +19,7 @@ Architecture:
 
 - `templates/`: what workflow scenario to initialize.
 - `targets/`: where and how the workflow should be generated.
+- `locale`: which language and user-facing folder/file names should be generated when a template supports multiple languages.
 
 ## Source of Truth
 
@@ -30,6 +31,8 @@ Read these specs before changing product behavior, CLI behavior, template struct
 
 When a change introduces a new target, template convention, CLI option, generated file location, or user-facing rule, update the relevant spec in the same change.
 
+Template structure changes must also update the generated template files, CLI cleanup/compatibility behavior, website/README usage text when relevant, and the specs that describe the convention. Do not rely on chat history as the only record of a new rule.
+
 ## Important Rules
 
 - Keep `docs/` focused on the GitHub Pages website.
@@ -37,10 +40,29 @@ When a change introduces a new target, template convention, CLI option, generate
 - Do not leave generated workflow output in the repository root after testing.
 - Do not use brand-only target names such as `claude`, `chatgpt`, or `codex`.
 - Use concrete target names such as `claude-chat`, `claude-code-project`, `codex-project`, or `chatgpt-chat`.
+- Use `--locale <locale>` for language selection when a template supports multiple locales.
+- Keep locale-specific template content under `templates/<template>/locales/<locale>/`.
+- Locale changes may translate user-facing directories and documents, but must not translate convention-driven filenames such as `AGENTS.md`, `CLAUDE.md`, `SKILL.md`, `README.md`, and `index.md`.
+- Project-oriented templates should include a localized role contract that defines the AI's working role, principles, prohibited behavior, and iteration rules.
+- For `project-engineering`, the role contract lives at `工作方法/角色设定.md` for `zh` and `methods/role-contract.md` for `en`.
 - Chat targets generate copyable prompts and should not create project tool directories.
 - Project targets must follow real tool conventions.
 - Claude Code project skills belong under `.claude/skills/<skill-name>/SKILL.md`.
 - Claude Code project instructions belong in `CLAUDE.md`.
+- For `project-engineering`, keep the generated `工作空间/` concise and user-facing:
+  - `工作方法/角色设定.md`
+  - `项目简报.md`
+  - `待确认问题.md`
+  - `01-需求与约束/`
+  - `02-方案设计/`
+  - `03-计划与决策/`
+  - `04-过程留痕/`
+  - `05-评审验证/`
+- Do not reintroduce the old split of `00-项目总览/`, `01-需求分析/`, `02-分析评估/`, `03-技术设计/`, `04-项目规划/`, `05-决策记录/`, `06-思考留痕/`, and `07-评审验证/` unless the spec is explicitly changed first.
+- Keep convention-driven filenames unchanged, including `AGENTS.md`, `CLAUDE.md`, `SKILL.md`, `README.md`, and `index.md`. Chinese user-facing folder names and document content are allowed when the template is Chinese-oriented.
+- When user feedback changes the expected AI role, working style, confirmation behavior, or quality bar, consider updating the role contract or related working methods.
+- After changing generated templates, run a real initialization test into `/private/tmp/...` and inspect the generated output for stale structure or outdated wording.
+- When changing localized templates, validate every supported locale that the change affects.
 
 ## Validation
 
@@ -51,6 +73,8 @@ node --check cli/recowork/bin/rw.js
 node --check docs/app.js
 node cli/recowork/bin/rw.js list
 node cli/recowork/bin/rw.js targets
+node cli/recowork/bin/rw.js add project --target codex-project --locale zh /private/tmp/recowork-zh-test
+node cli/recowork/bin/rw.js add project --target codex-project --locale en /private/tmp/recowork-en-test
 ```
 
 For initialization tests, use `/private/tmp/...` or another temporary directory outside the repository root.

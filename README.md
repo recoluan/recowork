@@ -2,7 +2,7 @@
 
 RecoWork turns practical AI workflows into reusable templates that can be initialized for the tool and environment a user actually uses.
 
-It is not a prompt collection. A RecoWork template defines the work scenario; a target defines where the workflow will be used and what files or prompts should be generated. The CLI combines both into real output.
+It is not a prompt collection. A RecoWork template defines the work scenario; a target defines where the workflow will be used; a locale defines the generated language. The CLI combines them into real output.
 
 ## Why
 
@@ -59,8 +59,8 @@ Preferred usage:
 ```bash
 npx recowork list
 npx recowork targets
-npx recowork add project --target codex-project .
-npx recowork add project --target claude-code-project .
+npx recowork add project --target codex-project --locale en .
+npx recowork add project --target claude-code-project --locale zh .
 npx recowork add general --target chatgpt-chat ./my-ai-workflow
 ```
 
@@ -69,10 +69,12 @@ Legacy platform compatibility is still available for older commands:
 ```bash
 node cli/recowork/bin/rw.js list
 node cli/recowork/bin/rw.js targets
-node cli/recowork/bin/rw.js add project --target codex-project .
+node cli/recowork/bin/rw.js add project --target codex-project --locale en .
 ```
 
 `rw init` can remain as a compatibility alias for `rw add`.
+
+Use `--locale zh` or `--locale en` when a template supports multiple languages. If omitted, the template default is used.
 
 ## Prompt Usage
 
@@ -81,7 +83,7 @@ Prompt mode should not ask AI to recreate the whole template in chat. It should 
 ```text
 Please initialize RecoWork template `project-engineering` for target `codex-project`.
 Run:
-npx recowork add project-engineering --target codex-project .
+npx recowork add project-engineering --target codex-project --locale en .
 
 If npx is unavailable, use:
 https://github.com/recoluan/recowork
@@ -113,7 +115,7 @@ node --check cli/recowork/bin/rw.js
 node --check docs/app.js
 node cli/recowork/bin/rw.js list
 node cli/recowork/bin/rw.js targets
-node cli/recowork/bin/rw.js add project --target codex-project /private/tmp/recowork-project-test
+node cli/recowork/bin/rw.js add project --target codex-project --locale en /private/tmp/recowork-project-test
 ```
 
 ## License

@@ -1,22 +1,22 @@
 # {{pack_name}}
 
-This project uses RecoWork template `{{template_id}}` for target `{{target}}`.
+{{target_intro}}
 
-## Purpose
+## {{heading_purpose}}
 
 {{pack_description}}
 
-## Audience
+## {{heading_audience}}
 
 {{audience}}
 
-## Expected Outputs
+## {{heading_expected_outputs}}
 
 {{outputs}}
 
-## Working Protocol
+## {{heading_working_protocol}}
 
-- Read `README.md`, `core/`, and `rw-manifest.json` before making changes.
-- Capture durable project knowledge in `knowledge/`.
-- Before returning work, review the result against the template purpose and expected outputs.
-- Ask for confirmation before large scope changes or irreversible operations.
+- {{rule_read_project_context}}
+- {{rule_capture_knowledge}}
+- {{rule_review_output}}
+- {{rule_confirm_large_changes}}

@@ -56,7 +56,7 @@ const translations = {
     promptEyebrow: "Prompt 用法",
     promptTitle: "让 AI 帮你运行 CLI。",
     promptStepOneTitle: "复制 CLI prompt",
-    promptStepOneText: "使用已经填好 RecoWork 仓库地址的 prompt 模板，再选择模板、输出目标和目标位置。",
+    promptStepOneText: "使用已经填好 RecoWork 仓库地址的 prompt 模板，再选择模板、输出目标、语言和目标位置。",
     promptStepTwoTitle: "发给 AI 助手",
     promptStepTwoText: "可以用 Codex、Cursor，或任何能执行命令或创建文件的 AI 助手。",
     promptStepThreeTitle: "检查生成结果",
@@ -72,23 +72,26 @@ project-engineering
 Target：
 codex-project
 
+语言：
+zh
+
 目标位置：
 当前项目
 
 请运行：
-npx recowork add project-engineering --target codex-project .
+npx recowork add project-engineering --target codex-project --locale zh .
 
-如果当前环境不能使用 npx，请使用仓库里的 templates/project-engineering/ 和 targets/codex-project/ 手动创建同等文件。完成后展示文件树，并告诉我第一步应该做什么。`,
+如果当前环境不能使用 npx，请使用仓库里的 templates/project-engineering/、templates/project-engineering/locales/zh/ 和 targets/codex-project/ 手动创建同等文件。完成后展示文件树，并告诉我第一步应该做什么。`,
     copyPrompt: "复制 prompt",
     cliEyebrow: "CLI 用法",
     cliTitle: "用 RecoWork 初始化工作流模板。",
     cliHowTitle: "怎么用",
-    cliHowText: "选择一个工作流模板，再选择它要运行的地方。CLI 会复制模板并套用 target 输出规则。",
+    cliHowText: "选择一个工作流模板、运行位置和语言。CLI 会复制模板并套用 target 输出规则。",
     copyCommands: "复制命令",
     structureEyebrow: "开发者视角",
     structureTitle: "模板和 target 可以独立演进。",
     structureYaml: "保存项目、学习、日常 AI 使用等场景模板。",
-    structureCore: "保存这个场景的通用方法，比如流程、原则和检查清单。",
+    structureCore: "保存不同语言版本的工作方法、工作空间和说明文档。",
     structureAdapters: "保存 chat、project、workspace、doc 等 target 的可复用输出规则。",
     structureExamples: "保存真实场景样例，帮助用户快速理解怎么落地。",
     footerText: "Open workflow templates for practical AI work.",
@@ -151,7 +154,7 @@ npx recowork add project-engineering --target codex-project .
     promptEyebrow: "Prompt Init",
     promptTitle: "Ask AI to run the CLI for you.",
     promptStepOneTitle: "Copy the CLI prompt",
-    promptStepOneText: "Use the prompt template with the RecoWork repo filled in, then choose the template, output target, and destination.",
+    promptStepOneText: "Use the prompt template with the RecoWork repo filled in, then choose the template, output target, locale, and destination.",
     promptStepTwoTitle: "Paste it into an AI assistant",
     promptStepTwoText: "Use Codex, Cursor, or any AI assistant that can run commands or create files.",
     promptStepThreeTitle: "Review the generated package",
@@ -167,23 +170,26 @@ project-engineering
 Target:
 codex-project
 
+Locale:
+en
+
 Destination:
 current project
 
 Run:
-npx recowork add project-engineering --target codex-project .
+npx recowork add project-engineering --target codex-project --locale en .
 
-If npx is unavailable, use templates/project-engineering/ plus targets/codex-project/ from the repository. Show the file tree and first step.`,
+If npx is unavailable, use templates/project-engineering/, templates/project-engineering/locales/en/, and targets/codex-project/ from the repository. Show the file tree and first step.`,
     copyPrompt: "Copy prompt",
     cliEyebrow: "CLI Usage",
     cliTitle: "Initialize workflow templates with RecoWork.",
     cliHowTitle: "How it works",
-    cliHowText: "Choose a workflow template, then choose where it will run. The CLI copies the template and applies the target output rules.",
+    cliHowText: "Choose a workflow template, where it will run, and the output language. The CLI copies the template and applies the target output rules.",
     copyCommands: "Copy commands",
     structureEyebrow: "For builders",
     structureTitle: "Templates and targets evolve independently.",
     structureYaml: "Stores scenario templates such as project work, learning, or daily AI use.",
-    structureCore: "Stores the reusable method for the scenario, such as steps, principles, and checklists.",
+    structureCore: "Stores localized methods, workspaces, and documentation for each supported language.",
     structureAdapters: "Stores reusable output rules for chat, project, workspace, and document targets.",
     structureExamples: "Stores real scenarios so users can understand how to apply the pack.",
     footerText: "Open workflow templates for practical AI work.",

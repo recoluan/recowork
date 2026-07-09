@@ -15,9 +15,13 @@ This document records product and engineering requirements established during th
 
 - A reusable work scenario should be represented as a template.
 - A target should represent a concrete output environment and usage surface.
+- A locale should represent the generated language and user-facing naming convention.
+- Reusable template methodology should live in `工作方法/`, not `core/` or `method/`.
+- Project workspace outputs should live in `工作空间/`, not `workspace/`.
 - Templates and targets must evolve independently.
+- Localized template content should live under `templates/<template>/locales/<locale>/` when a template supports multiple languages.
 - Avoid duplicating platform-specific output inside every template.
-- The CLI should compose a template and a target into files.
+- The CLI should compose a template, target, and locale into files.
 - Prompt usage should be a lightweight entry point that asks AI to run the CLI first.
 
 ## Initial Templates
@@ -52,10 +56,17 @@ Template content quality is intentionally deferred. The architecture should supp
 rw add <template> --target <target> <destination>
 ```
 
+- Language-specific output should use:
+
+```bash
+rw add <template> --target <target> --locale <locale> <destination>
+```
+
 - `rw init` can remain as a compatibility alias if needed.
 - CLI initialization should be deterministic file copy/render, not AI-generated long-form reconstruction.
-- CLI should list templates and targets.
+- CLI should list templates and targets, and `rw show <template>` should show supported locales.
 - CLI should support aliases only when they are unambiguous.
+- If a requested locale is not supported by the template, the CLI should fail with supported locales.
 
 ## Prompt Requirements
 
@@ -67,7 +78,14 @@ rw add <template> --target <target> <destination>
 npx recowork add <template> --target <target> <destination>
 ```
 
+- When language matters, prompt mode should tell AI to run:
+
+```bash
+npx recowork add <template> --target <target> --locale <locale> <destination>
+```
+
 - If the environment cannot run `npx`, the prompt may instruct AI to read the GitHub repository and manually compose `templates/<template>/` with `targets/<target>/`.
+- If the template has localized content, fallback prompt mode should instruct AI to use `templates/<template>/locales/<locale>/`.
 - Chinese prompt templates should be written in Chinese.
 - Prompt templates must include the GitHub repository URL so AI knows where to read the source.
 
@@ -99,10 +117,86 @@ npx recowork add <template> --target <target> <destination>
 ## Project Workflow Requirements
 
 - Durable decisions and requirements should be recorded in repo docs, not left only in chat.
+- When discussion establishes a new convention, update `AGENTS.md` and the relevant file under `specs/` in the same change.
+- Template changes must keep source templates, CLI compatibility cleanup, README/site usage text, and specs consistent.
+- Convention-driven filenames must not be translated. Keep names such as `AGENTS.md`, `CLAUDE.md`, `SKILL.md`, `README.md`, and `index.md` unchanged.
+- Chinese can be used in user-facing folder names and document content when the template is Chinese-oriented.
+- English locale output should use English user-facing folders and documents, such as `methods/`, `workspace/`, `project-brief.md`, and `open-questions.md`.
+- Chinese locale output should use Chinese user-facing folders and documents, such as `工作方法/`, `工作空间/`, `项目简报.md`, and `待确认问题.md`.
+- Project-oriented templates should include a role contract that defines the AI role, working principles, core capabilities, prohibited behavior, and iteration rules.
+- Role contracts should be localized with the template content. For `project-engineering`, use `工作方法/角色设定.md` in `zh` and `methods/role-contract.md` in `en`.
+- Generated project rules should explicitly tell AI to read the role contract before planning or executing project work.
 - AI-generated changes should be reviewed before being presented as complete.
 - Large or ambiguous design changes should be confirmed before broad execution.
 - Test output generated in the repository root should be cleaned up.
 - Verification commands should be reported after meaningful code changes.
+
+## Project Engineering Workspace Requirements
+
+The `project-engineering` template should generate a concise Chinese-oriented `工作空间/` structure:
+
+```text
+工作空间/
+├── index.md
+├── 项目简报.md
+├── 待确认问题.md
+├── 01-需求与约束/
+├── 02-方案设计/
+├── 03-计划与决策/
+├── 04-过程留痕/
+└── 05-评审验证/
+```
+
+The Chinese locale should also generate:
+
+```text
+工作方法/
+└── 角色设定.md
+```
+
+Responsibilities:
+
+- `项目简报.md`: project background, problem, goals, scope, non-goals, current status, and constraints.
+- `待确认问题.md`: questions that AI must not silently assume.
+- `01-需求与约束/`: requirements, user scenarios, constraints, assumptions, and clarifications.
+- `02-方案设计/`: tradeoff analysis, feasibility, architecture, technical design, and implementation path.
+- `03-计划与决策/`: phases, milestones, execution plan, and durable decisions.
+- `04-过程留痕/`: brainstorming, intermediate reasoning, discussion summaries, and process traces.
+- `05-评审验证/`: review notes, validation results, acceptance checks, and follow-up items.
+
+The old seven-part split must not be generated by default:
+
+- `00-项目总览/`
+- `01-需求分析/`
+- `02-分析评估/`
+- `03-技术设计/`
+- `04-项目规划/`
+- `05-决策记录/`
+- `06-思考留痕/`
+- `07-评审验证/`
+
+`index.md` filenames remain unchanged because they are navigation conventions. User-facing folder names and content can be Chinese.
+
+The English locale should generate the same structure in English-oriented names:
+
+```text
+workspace/
+├── index.md
+├── project-brief.md
+├── open-questions.md
+├── 01-requirements-and-constraints/
+├── 02-solution-design/
+├── 03-plan-and-decisions/
+├── 04-thinking-traces/
+└── 05-review-and-validation/
+```
+
+The English locale should also generate:
+
+```text
+methods/
+└── role-contract.md
+```
 
 ## Naming Requirements
 

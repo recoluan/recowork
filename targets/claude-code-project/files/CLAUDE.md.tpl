@@ -1,22 +1,22 @@
 # {{template_name}}
 
-This project uses RecoWork template `{{template_id}}` for target `{{target}}`.
+{{target_intro}}
 
-## Purpose
+## {{heading_purpose}}
 
 {{template_description}}
 
-## Audience
+## {{heading_audience}}
 
 {{audience}}
 
-## Expected Outputs
+## {{heading_expected_outputs}}
 
 {{outputs}}
 
-## Working Protocol
+## {{heading_working_protocol}}
 
-- Read `README.md`, `core/`, and `rw-manifest.json` before making changes.
-- Use project-scoped skills from `.claude/skills/` when they match the task.
-- Keep durable project knowledge in the template-defined knowledge location.
-- Review output against the user request before returning.
+- {{rule_read_project_context}}
+- {{rule_use_claude_skills}}
+- {{rule_keep_knowledge}}
+- {{rule_review_output}}

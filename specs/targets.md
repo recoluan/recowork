@@ -7,11 +7,12 @@ A target is not just a platform brand. It is a concrete output environment with 
 ## Core Model
 
 ```text
-template + target = initialized workflow
+template + target + locale = initialized workflow
 ```
 
 - `template` answers: what work scenario is this for?
 - `target` answers: where will the user use it, and what files or copyable content should be generated?
+- `locale` answers: which language and user-facing naming convention should be generated?
 
 Examples:
 
@@ -21,6 +22,8 @@ project-engineering + claude-code-project = CLAUDE.md, .claude/skills, project i
 project-engineering + claude-chat = copyable Claude instructions
 learning-engineering + notion-workspace = markdown workspace pages
 general-ai-workflow + chatgpt-chat = copyable prompts and memory cards
+project-engineering + codex-project + en = English project workflow files
+project-engineering + codex-project + zh = Chinese project workflow files
 ```
 
 ## Target Naming
@@ -95,6 +98,10 @@ Files ending with `.tpl` are rendered and written without the `.tpl` suffix.
 ## Placement Rules
 
 Targets must follow real platform conventions. Do not invent hidden directories or file locations because they look tidy.
+
+Convention-driven filenames must stay unchanged. Do not translate names such as `AGENTS.md`, `CLAUDE.md`, `SKILL.md`, `README.md`, or `index.md`.
+
+Reusable template methodology should be referenced as `工作方法/`.
 
 Project targets:
 
@@ -184,7 +191,7 @@ Do not create local project configuration directories for this target.
 Preferred command:
 
 ```bash
-rw add <template> --target <target> <destination>
+rw add <template> --target <target> [--locale <locale>] <destination>
 ```
 
 Compatibility command:
@@ -198,8 +205,8 @@ Legacy `platform` names should map to targets only when the mapping is unambiguo
 Examples:
 
 ```bash
-rw add project --target codex-project .
-rw add project --target claude-code-project .
+rw add project --target codex-project --locale en .
+rw add project --target claude-code-project --locale zh .
 rw add project --target claude-chat ./claude-prompts
 rw add learning --target notion-workspace ./learning
 rw add general --target chatgpt-chat ./chat-prompts

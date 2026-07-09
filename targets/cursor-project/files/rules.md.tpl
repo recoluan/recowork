@@ -1,16 +1,17 @@
 # RecoWork Cursor Rules
 
 Template: `{{pack_id}}`
+Locale: `{{locale}}`
 
-Purpose:
+{{heading_purpose}}:
 {{pack_description}}
 
-Expected outputs:
+{{heading_expected_outputs}}:
 {{outputs}}
 
-Rules:
+{{heading_rules}}:
 
-- Read the template README and `core/` files before editing.
-- Keep changes scoped to the current task.
-- Capture reusable project knowledge when a pattern or decision becomes durable.
-- Explain verification steps after implementation.
+- {{rule_read_project_context}}
+- {{rule_keep_scoped}}
+- {{rule_capture_knowledge}}
+- {{rule_explain_verification}}

@@ -2,7 +2,7 @@
 
 RecoWork 把实用 AI 工作流做成可复用模板，并初始化到用户真实使用的工具和环境里。
 
-它不是提示词合集。RecoWork 的模板负责描述工作场景，target 负责描述这个工作流要输出到哪里、应该生成哪些文件或 prompt。CLI 会把两者组合成真实产物。
+它不是提示词合集。RecoWork 的模板负责描述工作场景，target 负责描述这个工作流要输出到哪里、应该生成哪些文件或 prompt，locale 负责描述生成语言。CLI 会把三者组合成真实产物。
 
 ## 为什么做
 
@@ -59,8 +59,8 @@ npm 包名是 `recowork`，可执行命令是 `rw`。
 ```bash
 npx recowork list
 npx recowork targets
-npx recowork add project --target codex-project .
-npx recowork add project --target claude-code-project .
+npx recowork add project --target codex-project --locale zh .
+npx recowork add project --target claude-code-project --locale en .
 npx recowork add general --target chatgpt-chat ./my-ai-workflow
 ```
 
@@ -69,10 +69,12 @@ npx recowork add general --target chatgpt-chat ./my-ai-workflow
 ```bash
 node cli/recowork/bin/rw.js list
 node cli/recowork/bin/rw.js targets
-node cli/recowork/bin/rw.js add project --target codex-project .
+node cli/recowork/bin/rw.js add project --target codex-project --locale zh .
 ```
 
 `rw init` 会保留为 `rw add` 的别名。
+
+当模板支持多语言时，可以通过 `--locale zh` 或 `--locale en` 选择生成语言。不传时使用模板默认语言。
 
 ## Prompt 用法
 
@@ -81,7 +83,7 @@ Prompt 模式不应该让 AI 在聊天里重写完整模板，而是优先让 AI
 ```text
 请为当前项目初始化 RecoWork 模板 `project-engineering`，target 是 `codex-project`。
 请运行：
-npx recowork add project-engineering --target codex-project .
+npx recowork add project-engineering --target codex-project --locale zh .
 
 如果当前环境不能使用 npx，请使用：
 https://github.com/recoluan/recowork
@@ -109,7 +111,7 @@ node --check cli/recowork/bin/rw.js
 node --check docs/app.js
 node cli/recowork/bin/rw.js list
 node cli/recowork/bin/rw.js targets
-node cli/recowork/bin/rw.js add project --target codex-project /private/tmp/recowork-project-test
+node cli/recowork/bin/rw.js add project --target codex-project --locale zh /private/tmp/recowork-project-test
 ```
 
 ## License

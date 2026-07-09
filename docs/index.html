@@ -66,10 +66,10 @@
 
         <div class="hero-visual" aria-label="RecoWork package preview">
           <div class="visual-topline">
-            <span>rw add project --target codex-project .</span>
+            <span>rw add project --target codex-project --locale en .</span>
             <div class="visual-actions">
               <a href="#prompt-mode" data-i18n="visualPrompt">Prompt</a>
-              <button type="button" data-copy="rw add project --target codex-project .">Copy</button>
+              <button type="button" data-copy="rw add project --target codex-project --locale en .">Copy</button>
             </div>
           </div>
           <div class="package-map">
@@ -225,13 +225,16 @@ project-engineering
 Target:
 codex-project
 
+Locale:
+en
+
 Destination:
 current project
 
 Run:
-npx recowork add project-engineering --target codex-project .
+npx recowork add project-engineering --target codex-project --locale en .
 
-If npx is unavailable, use templates/project-engineering/ plus targets/codex-project/ from the repository. Show the file tree and first step.</pre>
+If npx is unavailable, use templates/project-engineering/, templates/project-engineering/locales/en/, and targets/codex-project/ from the repository. Show the file tree and first step.</pre>
             <button class="terminal-copy" type="button" data-copy-target="promptPaths" data-i18n="copyPrompt">Copy prompt</button>
           </div>
         </div>
@@ -251,14 +254,14 @@ If npx is unavailable, use templates/project-engineering/ plus targets/codex-pro
             </div>
             <pre id="cliCommand">npx recowork list
 npx recowork targets
-npx recowork add project --target codex-project .
-npx recowork add project --target claude-code-project .
+npx recowork add project --target codex-project --locale en .
+npx recowork add project --target claude-code-project --locale zh .
 npx recowork add general --target chatgpt-chat ./my-ai-workflow
 npx recowork add learning -t notion-workspace ./langchain-study
 
 rw list
 rw targets
-rw add project --target codex-project .</pre>
+rw add project --target codex-project --locale en .</pre>
           </div>
           <div class="cli-copy">
             <h3 data-i18n="cliHowTitle">How it works</h3>
@@ -279,8 +282,8 @@ rw add project --target codex-project .</pre>
             <p data-i18n="structureYaml">Stores scenario templates such as project work, learning, or daily AI use.</p>
           </div>
           <div class="structure-card">
-            <span>core/</span>
-            <p data-i18n="structureCore">Stores reusable methods for a scenario, such as steps, principles, and checklists.</p>
+            <span>locales/</span>
+            <p data-i18n="structureCore">Stores reusable working methods for a scenario, such as steps, principles, and checklists.</p>
           </div>
           <div class="structure-card">
             <span>targets/</span>
