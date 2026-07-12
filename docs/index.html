@@ -10,18 +10,18 @@
     />
     <link rel="stylesheet" href="./styles.css" />
   </head>
-  <body>
+  <body data-page="home">
     <header class="site-header">
       <a class="brand" href="#top" aria-label="RecoWork home">
         <span class="brand-mark" aria-hidden="true">RW</span>
         <span>RecoWork</span>
       </a>
       <nav class="main-nav" aria-label="Primary navigation">
-        <a href="#packs" data-i18n="navPacks">Packs</a>
-        <a href="#template-structure" data-i18n="navEssence">What you get</a>
-        <a href="#platforms" data-i18n="navPlatforms">Targets</a>
-        <a href="#initialize" data-i18n="navInitialize">开始初始化</a>
-        <a href="#structure" data-i18n="navStructure">Structure</a>
+        <a class="active" href="./index.html" data-zh="首页" data-en="Home">首页</a>
+        <a href="./usage.html" data-zh="使用说明" data-en="Usage">使用说明</a>
+        <a href="./cases.html" data-zh="案例" data-en="Cases">案例</a>
+        <a href="./philosophy.html" data-zh="设计理念" data-en="Philosophy">设计理念</a>
+        <a href="./releases.html" data-zh="发布记录" data-en="Releases">发布记录</a>
       </nav>
       <div class="header-actions">
         <a class="github-link" href="https://github.com/recoluan/recowork" target="_blank" rel="noreferrer">
@@ -36,55 +36,48 @@
     </header>
 
     <main id="top">
-      <section class="hero">
+      <section class="hero product-hero">
         <div class="hero-copy">
           <p class="eyebrow" data-i18n="heroEyebrow">AI workflow toolkit</p>
-          <h1 data-i18n="heroTitle">Give your AI a workflow.</h1>
+          <h1 data-i18n="heroTitle">让 AI 用工程化的方式聪明地工作。</h1>
           <p class="hero-text" data-i18n="heroText">
-            Pick a workflow template, then pick the AI tool you already use. RecoWork combines the two and creates the files you need.
+            RecoWork 把可重复的 AI 使用方式沉淀成模板，再按真实工具环境生成 Prompt、项目规则、知识空间和续聊机制。
           </p>
           <div class="hero-actions">
-            <a class="primary-link" href="#initialize" data-i18n="heroInitialize">开始初始化</a>
-            <a class="secondary-link" href="#initialize" data-i18n="heroPrimary">选择初始化方式</a>
-            <a class="secondary-link" href="#packs" data-i18n="heroSecondary">Explore packs</a>
+            <a class="primary-link" href="./usage.html#initialize" data-i18n="heroInitialize">开始初始化</a>
+            <a class="secondary-link" href="./usage.html" data-i18n="heroPrimary">阅读使用说明</a>
+            <a class="secondary-link" href="./cases.html" data-i18n="heroSecondary">查看案例</a>
           </div>
-          <div class="metric-row" aria-label="Project stats">
-            <div>
-              <strong>3</strong>
-              <span data-i18n="metricPacks">starter templates</span>
-            </div>
-            <div>
-              <strong>8</strong>
-              <span data-i18n="metricPlatforms">output targets</span>
-            </div>
-            <div>
-              <strong>1</strong>
-              <span data-i18n="metricCli">local scaffold</span>
-            </div>
+          <div class="value-points" aria-label="RecoWork value points">
+            <span data-zh="不从零写 Prompt" data-en="No prompt writing from scratch">不从零写 Prompt</span>
+            <span data-zh="按真实工具生成" data-en="Generated for real tools">按真实工具生成</span>
+            <span data-zh="保留上下文和质量标准" data-en="Keeps context and quality standards">保留上下文和质量标准</span>
           </div>
         </div>
 
-        <div class="hero-visual" aria-label="RecoWork package preview">
+        <div class="hero-visual" aria-label="RecoWork workflow preview">
           <div class="visual-topline">
             <span id="visualCommand" data-i18n="visualCommand">rw add project --target codex-project --locale zh .</span>
             <div class="visual-actions">
-              <a href="#initialize" data-i18n="visualPrompt">初始化</a>
+              <a href="./usage.html#initialize" data-i18n="visualPrompt">初始化</a>
               <button id="visualCopy" type="button" data-copy-target="visualCommand" data-i18n="copyCommand">复制</button>
             </div>
           </div>
-          <div class="package-map">
-            <div class="map-column core-column">
-              <span class="map-label" data-i18n="visualChoose">Pick a scenario</span>
-              <strong data-i18n="visualGeneral">Daily AI work</strong>
-              <strong data-i18n="visualProject">Project workflow</strong>
-              <strong data-i18n="visualLearning">Structured learning</strong>
+          <div class="product-flow">
+            <div>
+              <span>Template</span>
+              <strong data-zh="工作场景" data-en="Work scenario">工作场景</strong>
+              <p data-zh="项目、学习、日常 AI 任务" data-en="Projects, learning, daily AI tasks">项目、学习、日常 AI 任务</p>
             </div>
-            <div class="connector" aria-hidden="true"></div>
-            <div class="map-column adapter-column">
-              <span class="map-label" data-i18n="visualUse">Pick a target</span>
-              <strong>ChatGPT Chat</strong>
-              <strong>Claude Code / Codex</strong>
-              <strong>Notion / Feishu</strong>
+            <div>
+              <span>Target</span>
+              <strong data-zh="使用位置" data-en="Usage target">使用位置</strong>
+              <p data-zh="Codex、Claude、ChatGPT、Notion" data-en="Codex, Claude, ChatGPT, Notion">Codex、Claude、ChatGPT、Notion</p>
+            </div>
+            <div>
+              <span>Output</span>
+              <strong data-zh="可用资产" data-en="Ready assets">可用资产</strong>
+              <p data-zh="规则、Prompt、知识库、记忆卡" data-en="Rules, prompts, knowledge, memory">规则、Prompt、知识库、记忆卡</p>
             </div>
           </div>
           <div class="visual-footer">
@@ -96,319 +89,115 @@
         </div>
       </section>
 
-      <section class="section strip">
-        <div class="strip-item">
-          <span class="strip-index">01</span>
-          <strong data-i18n="stripOneTitle">No prompt writing from scratch</strong>
-          <p data-i18n="stripOneText">Choose a ready workflow template and combine it with a concrete output target.</p>
+      <section class="section problem-solution-section">
+        <div class="section-heading">
+          <p class="eyebrow" data-zh="为什么需要" data-en="Why it matters">为什么需要</p>
+          <h2 data-zh="AI 很强，但多数使用方式并不稳定。" data-en="AI is powerful, but most usage patterns are not stable.">AI 很强，但多数使用方式并不稳定。</h2>
         </div>
-        <div class="strip-item">
-          <span class="strip-index">02</span>
-          <strong data-i18n="stripTwoTitle">More than one prompt</strong>
-          <p data-i18n="stripTwoText">Get steps, checklists, memory cards, and project templates together.</p>
-        </div>
-        <div class="strip-item">
-          <span class="strip-index">03</span>
-          <strong data-i18n="stripThreeTitle">Keep using it when tools change</strong>
-          <p data-i18n="stripThreeText">The same scenario can generate chat prompts, project files, or workspace documents.</p>
+        <div class="comparison-grid">
+          <article class="comparison-card before">
+            <span data-zh="现在常见的问题" data-en="Common problems">现在常见的问题</span>
+            <h3 data-zh="每次都重新解释背景、标准和偏好。" data-en="You keep explaining context, standards, and preferences again.">每次都重新解释背景、标准和偏好。</h3>
+            <ul>
+              <li data-zh="Prompt 越写越长，但质量仍然不稳定。" data-en="Prompts get longer, but quality remains inconsistent.">Prompt 越写越长，但质量仍然不稳定。</li>
+              <li data-zh="聊天结束后，决策和经验很难沉淀。" data-en="Decisions and lessons are hard to preserve after chat ends.">聊天结束后，决策和经验很难沉淀。</li>
+              <li data-zh="换工具后，原来的工作方式又要重搭。" data-en="Changing tools means rebuilding the workflow again.">换工具后，原来的工作方式又要重搭。</li>
+            </ul>
+          </article>
+          <article class="comparison-card after">
+            <span data-zh="RecoWork 的做法" data-en="RecoWork approach">RecoWork 的做法</span>
+            <h3 data-zh="把工作方式初始化成可复用资产。" data-en="Initialize the way of working as reusable assets.">把工作方式初始化成可复用资产。</h3>
+            <ul>
+              <li data-zh="用模板定义角色、流程、检查和记忆。" data-en="Templates define roles, workflow, checks, and memory.">用模板定义角色、流程、检查和记忆。</li>
+              <li data-zh="按 target 生成真实工具能用的文件或 Prompt。" data-en="Targets generate files or prompts that real tools can use.">按 target 生成真实工具能用的文件或 Prompt。</li>
+              <li data-zh="用 locale 控制语言和用户可见命名。" data-en="Locales control language and user-facing naming.">用 locale 控制语言和用户可见命名。</li>
+            </ul>
+          </article>
         </div>
       </section>
 
-      <section class="section" id="packs">
+      <section class="section audience-section">
         <div class="section-heading">
-          <p class="eyebrow" data-i18n="packsEyebrow">Starter workflow templates</p>
-          <h2 data-i18n="packsTitle">Start with three reusable AI work templates.</h2>
+          <p class="eyebrow" data-zh="适合谁" data-en="Who it is for">适合谁</p>
+          <h2 data-zh="从聊天用户到本地 Agent，都能用同一套方法。" data-en="The same method works from chat users to local agents.">从聊天用户到本地 Agent，都能用同一套方法。</h2>
         </div>
-        <div class="pack-grid">
+        <div class="audience-grid">
+          <article class="audience-card">
+            <strong data-zh="日常 AI 用户" data-en="Everyday AI users">日常 AI 用户</strong>
+            <p data-zh="在 ChatGPT、Claude、Kimi 或豆包里做写作、总结、计划、分析，希望下一次对话能接上。" data-en="Write, summarize, plan, and analyze in ChatGPT, Claude, Kimi, or Doubao while keeping continuity.">在 ChatGPT、Claude、Kimi 或豆包里做写作、总结、计划、分析，希望下一次对话能接上。</p>
+            <a href="./cases.html" data-zh="看聊天案例" data-en="See chat cases">看聊天案例</a>
+          </article>
+          <article class="audience-card">
+            <strong data-zh="项目开发者" data-en="Project builders">项目开发者</strong>
+            <p data-zh="用 Codex、Cursor 或 Claude Code 做项目，希望 AI 先读规则、按计划执行、留下验证记录。" data-en="Use Codex, Cursor, or Claude Code and want AI to read rules, plan work, and leave validation records.">用 Codex、Cursor 或 Claude Code 做项目，希望 AI 先读规则、按计划执行、留下验证记录。</p>
+            <a href="./usage.html#initialize" data-zh="初始化项目" data-en="Initialize a project">初始化项目</a>
+          </article>
+          <article class="audience-card">
+            <strong data-zh="学习者和培训者" data-en="Learners and trainers">学习者和培训者</strong>
+            <p data-zh="把学习主题拆成诊断、路线、章节、练习、项目实践和复盘，而不是一次性拿一堆资料。" data-en="Turn topics into diagnosis, roadmap, lessons, practice, project work, and retrospectives instead of a content dump.">把学习主题拆成诊断、路线、章节、练习、项目实践和复盘，而不是一次性拿一堆资料。</p>
+            <a href="./cases.html" data-zh="看学习案例" data-en="See learning cases">看学习案例</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="section workflow-section highlight-band">
+        <div class="section-heading">
+          <p class="eyebrow" data-zh="如何工作" data-en="How it works">如何工作</p>
+          <h2 data-zh="三个选择，生成一套可运行的 AI 工作流。" data-en="Three choices generate a runnable AI workflow.">三个选择，生成一套可运行的 AI 工作流。</h2>
+        </div>
+        <div class="workflow-steps">
+          <div><span>01</span><strong>Template</strong><p data-zh="选择要工程化的工作场景：日常任务、项目协作或系统学习。" data-en="Choose the work scenario: daily tasks, project collaboration, or structured learning.">选择要工程化的工作场景：日常任务、项目协作或系统学习。</p></div>
+          <div><span>02</span><strong>Target</strong><p data-zh="选择真实使用位置：聊天窗口、本地项目、文档工作区。" data-en="Choose the real output surface: chat, local project, or document workspace.">选择真实使用位置：聊天窗口、本地项目、文档工作区。</p></div>
+          <div><span>03</span><strong>Locale</strong><p data-zh="选择输出语言和用户可见命名，保留工具约定文件名。" data-en="Choose output language and user-facing naming while preserving tool conventions.">选择输出语言和用户可见命名，保留工具约定文件名。</p></div>
+          <div><span>04</span><strong>Use</strong><p data-zh="通过 AI Prompt 或 CLI 初始化，然后在实际工具里继续协作。" data-en="Initialize through an AI prompt or CLI, then keep working in the actual tool.">通过 AI Prompt 或 CLI 初始化，然后在实际工具里继续协作。</p></div>
+        </div>
+      </section>
+
+      <section class="section template-overview-section">
+        <div class="section-heading">
+          <p class="eyebrow" data-zh="内置模板" data-en="Built-in templates">内置模板</p>
+          <h2 data-zh="先覆盖三类最常见的 AI 工作。" data-en="Start with three common AI work modes.">先覆盖三类最常见的 AI 工作。</h2>
+        </div>
+        <div class="pack-grid compact">
           <article class="pack-card card-green">
             <div class="card-chip">general</div>
             <h3>general-ai-workflow</h3>
-            <p data-i18n="generalDesc">Helps everyday users run tasks reliably in mobile or web AI apps with a role contract, task context, continuation memory, review, and reusable learning.</p>
-            <ul>
-              <li data-i18n="generalOne">For ChatGPT Mobile / Claude Mobile / Kimi</li>
-              <li data-i18n="generalTwo">Keeps context, quality standards, and proven methods reusable</li>
-            </ul>
+            <p data-i18n="generalDesc">让普通用户在手机或网页 AI App 中持续推进任务，包含角色设定、任务上下文、续聊记忆、自审和复盘沉淀。</p>
           </article>
-
           <article class="pack-card card-pink">
             <div class="card-chip">project</div>
             <h3>project-engineering</h3>
-            <p data-i18n="projectDesc">Sets up AGENTS.md, a document standard, progressive retrieval, quality gates, and durable capture for AI-assisted projects.</p>
-            <ul>
-              <li data-i18n="projectOne">For Codex, Cursor, and Claude Code</li>
-              <li data-i18n="projectTwo">Gives a project an AI working protocol from day one</li>
-            </ul>
+            <p data-i18n="projectDesc">为 AI 辅助项目建立 AGENTS.md、文档规范、按需获取、质量门禁和持续沉淀机制。</p>
           </article>
-
           <article class="pack-card card-blue">
             <div class="card-chip">learning</div>
             <h3>learning-engineering</h3>
-            <p data-i18n="learningDesc">Turns learning into diagnosis, roadmaps, lessons, practice, projects, feedback, retrospectives, and durable knowledge capture.</p>
-            <ul>
-              <li data-i18n="learningOne">For LangChain, coding, product, design, and more</li>
-              <li data-i18n="learningTwo">Validates one learning unit at a time instead of dumping answers</li>
-            </ul>
+            <p data-i18n="learningDesc">把学习拆成诊断、课程路线、章节练习、项目实践、反馈、复盘和知识沉淀。</p>
           </article>
         </div>
       </section>
 
-      <section class="section template-essence-section" id="template-structure">
+      <section class="section site-routes-section">
         <div class="section-heading">
-          <p class="eyebrow" data-i18n="essenceEyebrow">Template essence</p>
-          <h2 data-i18n="essenceTitle">A template gives AI a working system, not one prompt.</h2>
+          <p class="eyebrow" data-zh="下一步" data-en="Next steps">下一步</p>
+          <h2 data-zh="快速开始，或者先了解细节。" data-en="Start quickly, or read the details first.">快速开始，或者先了解细节。</h2>
         </div>
-        <div class="template-tabs" role="tablist" aria-label="Template structures">
-          <button class="template-tab" type="button" role="tab" aria-selected="false" data-template="general" data-i18n="templateGeneral">Daily AI work</button>
-          <button class="template-tab active" type="button" role="tab" aria-selected="true" data-template="project" data-i18n="templateProject">Project engineering</button>
-          <button class="template-tab" type="button" role="tab" aria-selected="false" data-template="learning" data-i18n="templateLearning">Structured learning</button>
-        </div>
-        <div class="template-essence-layout">
-          <div class="template-essence-copy">
-            <p class="eyebrow" id="templateStructureEyebrow">项目工程化</p>
-            <h3 id="templateStructureTitle">把 AI 协作变成可追溯的项目系统。</h3>
-            <p id="templateStructureDescription">角色协议约束 AI 的工作方式，工作空间保留需求、方案、决策、过程和验收，让每次协作都能从已有共识继续。</p>
-            <strong data-i18n="essenceIncluded">初始化后包含</strong>
-            <ul id="templateStructureOutcomes">
-              <li>AI 角色设定、文档规范与质量门禁</li>
-              <li>项目简报与待确认问题</li>
-              <li>需求、方案、计划、留痕和验证空间</li>
-            </ul>
-          </div>
-          <div class="terminal structure-terminal" aria-label="Generated template structure">
-            <div class="terminal-bar">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-            <pre id="templateStructureTree">工作方法/
-  角色设定.md
-  文档规范.md
-  工作流程.md
-  质量门禁.md
-工作空间/
-  项目简报.md
-  待确认问题.md
-  01-需求与约束/
-  02-方案设计/
-  03-计划与决策/
-  04-过程留痕/
-  05-评审验证/</pre>
-          </div>
-        </div>
-      </section>
-
-      <section class="section platform-section" id="platforms">
-        <div class="section-heading">
-          <p class="eyebrow" data-i18n="platformsEyebrow">Output targets</p>
-          <h2 data-i18n="platformsTitle">Choose where the workflow will actually be used.</h2>
-        </div>
-        <div class="platform-grid">
-          <div class="platform-card">
-            <div class="target-card-heading">
-              <span class="target-brand target-brand-text">GPT</span>
-              <div><strong>chatgpt-chat</strong><span class="target-device"><i data-lucide="smartphone" aria-hidden="true"></i> Mobile / Web</span></div>
-            </div>
-            <span data-i18n="adapterMobile">Segmented prompts, task cards, and continuation memory.</span>
-          </div>
-          <div class="platform-card">
-            <div class="target-card-heading">
-              <span class="target-brand"><img src="https://cdn.simpleicons.org/anthropic" alt="" /></span>
-              <div><strong>claude-chat</strong><span class="target-device"><i data-lucide="smartphone" aria-hidden="true"></i> Mobile / Web</span></div>
-            </div>
-            <span data-i18n="adapterClaude">Project instructions, context boundaries, and deep task guidance.</span>
-          </div>
-          <div class="platform-card">
-            <div class="target-card-heading">
-              <span class="target-brand target-brand-text" aria-label="Kimi and Doubao">K / 豆</span>
-              <div><strong>kimi-doubao-chat</strong><span class="target-device"><i data-lucide="smartphone" aria-hidden="true"></i> Mobile / Web</span></div>
-            </div>
-            <span data-i18n="adapterKimiChat">Localized prompts and continuation memory for Kimi, Doubao, and similar Chinese AI tools.</span>
-          </div>
-          <div class="platform-card">
-            <div class="target-card-heading">
-              <span class="target-brand"><img src="https://cdn.simpleicons.org/anthropic" alt="" /></span>
-              <div><strong>claude-code-project</strong><span class="target-device"><i data-lucide="monitor" aria-hidden="true"></i> PC</span></div>
-            </div>
-            <span data-i18n="adapterKimi">CLAUDE.md and project-scoped .claude/skills.</span>
-          </div>
-          <div class="platform-card">
-            <div class="target-card-heading">
-              <span class="target-brand target-brand-text">CX</span>
-              <div><strong>codex-project</strong><span class="target-device"><i data-lucide="monitor" aria-hidden="true"></i> PC</span></div>
-            </div>
-            <span data-i18n="adapterCodex">AGENTS.md, skills, knowledge, and project rules.</span>
-          </div>
-          <div class="platform-card">
-            <div class="target-card-heading">
-              <span class="target-brand"><img src="https://cdn.simpleicons.org/cursor" alt="" /></span>
-              <div><strong>cursor-project</strong><span class="target-device"><i data-lucide="monitor" aria-hidden="true"></i> PC</span></div>
-            </div>
-            <span data-i18n="adapterCursor">rules.md, project context, and coding collaboration rules.</span>
-          </div>
-          <div class="platform-card">
-            <div class="target-card-heading">
-              <span class="target-brand"><img src="https://cdn.simpleicons.org/notion" alt="" /></span>
-              <div><strong>notion-workspace</strong><span class="target-device"><i data-lucide="monitor" aria-hidden="true"></i> PC / Web</span></div>
-            </div>
-            <span data-i18n="adapterNotion">Knowledge pages, task templates, reviews, and team SOPs.</span>
-          </div>
-          <div class="platform-card">
-            <div class="target-card-heading">
-              <span class="target-brand"><img src="https://www.feishu.cn/favicon.ico" alt="" /></span>
-              <div><strong>feishu-doc</strong><span class="target-device"><i data-lucide="smartphone" aria-hidden="true"></i> Mobile / PC</span></div>
-            </div>
-            <span data-i18n="adapterFeishu">可复制到飞书文档的工作流页面、任务模板和复盘内容。</span>
-          </div>
-        </div>
-      </section>
-
-      <section class="section initialize-section" id="initialize">
-        <div class="section-heading">
-          <p class="eyebrow" data-i18n="initializeEyebrow">开始初始化</p>
-          <h2 data-i18n="initializeTitle">选择配置，再选择你习惯的初始化方式。</h2>
-        </div>
-        <div class="workflow-config" aria-label="Workflow generator configuration">
-          <label class="config-field" for="configTemplate">
-            <span data-i18n="configTemplateLabel">工作流</span>
-            <select id="configTemplate">
-              <option value="general-ai-workflow" data-i18n="configTemplateGeneral">日常 AI 使用</option>
-              <option value="project-engineering" selected data-i18n="configTemplateProject">项目工程化</option>
-              <option value="learning-engineering" data-i18n="configTemplateLearning">系统学习</option>
-            </select>
-          </label>
-          <div class="config-field config-target-field">
-            <span data-i18n="configTargetLabel">使用位置</span>
-            <div class="target-select">
-              <button id="targetSelectTrigger" class="target-select-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
-                <span id="targetSelectBrand" class="target-brand target-brand-text">CX</span>
-                <span id="targetSelectLabel">Codex</span>
-                <i data-lucide="chevron-down" aria-hidden="true"></i>
-              </button>
-              <div id="targetSelectMenu" class="target-select-menu" role="listbox" hidden>
-                <button class="target-option" type="button" role="option" data-target="chatgpt-chat"><span class="target-brand target-brand-text">GPT</span><span class="target-option-label">ChatGPT</span><i data-lucide="smartphone" aria-hidden="true"></i></button>
-                <button class="target-option" type="button" role="option" data-target="claude-chat"><span class="target-brand"><img src="https://cdn.simpleicons.org/anthropic" alt="" /></span><span class="target-option-label">Claude</span><i data-lucide="smartphone" aria-hidden="true"></i></button>
-                <button class="target-option" type="button" role="option" data-target="kimi-doubao-chat"><span class="target-brand target-brand-text">K / 豆</span><span class="target-option-label" data-i18n="targetKimiDoubao">Kimi / 豆包</span><i data-lucide="smartphone" aria-hidden="true"></i></button>
-                <button class="target-option" type="button" role="option" data-target="claude-code-project"><span class="target-brand"><img src="https://cdn.simpleicons.org/anthropic" alt="" /></span><span class="target-option-label">Claude Code</span><i data-lucide="monitor" aria-hidden="true"></i></button>
-                <button class="target-option" type="button" role="option" data-target="codex-project"><span class="target-brand target-brand-text">CX</span><span class="target-option-label">Codex</span><i data-lucide="monitor" aria-hidden="true"></i></button>
-                <button class="target-option" type="button" role="option" data-target="cursor-project"><span class="target-brand"><img src="https://cdn.simpleicons.org/cursor" alt="" /></span><span class="target-option-label">Cursor</span><i data-lucide="monitor" aria-hidden="true"></i></button>
-                <button class="target-option" type="button" role="option" data-target="notion-workspace"><span class="target-brand"><img src="https://cdn.simpleicons.org/notion" alt="" /></span><span class="target-option-label">Notion</span><i data-lucide="monitor" aria-hidden="true"></i></button>
-                <button class="target-option" type="button" role="option" data-target="feishu-doc"><span class="target-brand"><img src="https://www.feishu.cn/favicon.ico" alt="" /></span><span class="target-option-label" data-i18n="targetFeishu">飞书</span><i data-lucide="smartphone" aria-hidden="true"></i></button>
-              </div>
-            </div>
-          </div>
-          <div class="config-field">
-            <span data-i18n="configLocaleLabel">输出语言</span>
-            <div class="config-locales" role="group" aria-label="Output locale">
-              <button class="config-locale active" type="button" data-locale="zh" aria-pressed="true">中文</button>
-              <button class="config-locale" type="button" data-locale="en" aria-pressed="false">English</button>
-            </div>
-          </div>
-          <div class="config-field">
-            <span data-i18n="configEnvironmentLabel">运行环境</span>
-            <div class="config-environments" role="group" aria-label="Runtime capability">
-              <button class="config-environment active" type="button" data-environment="agent" aria-pressed="true"><i data-lucide="monitor" aria-hidden="true"></i><span data-i18n="environmentAgent">本地智能体</span></button>
-              <button class="config-environment" type="button" data-environment="chat" aria-pressed="false"><i data-lucide="smartphone" aria-hidden="true"></i><span data-i18n="environmentChat">纯聊天 / 手机端</span></button>
-            </div>
-          </div>
-        </div>
-        <div class="init-method-tabs" role="tablist" aria-label="Initialization methods">
-          <button class="init-method-tab active" type="button" role="tab" aria-selected="true" data-init-method="ai" data-i18n="initMethodAi">让 AI 帮你初始化</button>
-          <button class="init-method-tab" type="button" role="tab" aria-selected="false" data-init-method="cli" data-i18n="initMethodCli">命令行初始化</button>
-        </div>
-        <div class="init-method-panel" data-init-panel="ai">
-          <div class="prompt-layout">
-          <div class="prompt-steps">
-            <div>
-              <span>01</span>
-              <strong data-i18n="promptStepOneTitle">Copy the CLI prompt</strong>
-              <p data-i18n="promptStepOneText">Use the prompt template with the RecoWork repo filled in, then choose the template, output target, and destination.</p>
-            </div>
-            <div>
-              <span>02</span>
-              <strong data-i18n="promptStepTwoTitle">Paste it into an AI assistant</strong>
-              <p data-i18n="promptStepTwoText">Use Codex, Cursor, or any AI assistant that can run commands or create files.</p>
-            </div>
-            <div>
-              <span>03</span>
-              <strong data-i18n="promptStepThreeTitle">Review the generated package</strong>
-              <p data-i18n="promptStepThreeText">The AI should run npx first, then show the file tree and first step.</p>
-            </div>
-          </div>
-          <div class="terminal prompt-terminal">
-            <div class="terminal-bar">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-<pre id="promptPaths">你正在为我初始化一个 RecoWork 工作流模板。
-
-仓库地址：
-https://github.com/recoluan/recowork
-
-模板：
-project-engineering
-
-使用位置：
-codex-project
-
-语言：
-zh
-
-目标位置：
-当前目录
-
-请运行：
-npx recowork add project-engineering --target codex-project --locale zh .
-
-如果当前环境不能使用 npx，请使用仓库里的 templates/project-engineering/locales/zh/、targets/codex-project/files/ 和 targets/codex-project/locales/zh/files/ 手动创建同等文件。完成后展示文件树，并告诉我第一步应该做什么。</pre>
-            <button class="terminal-copy" type="button" data-copy-target="promptPaths" data-i18n="copyPrompt">Copy prompt</button>
-          </div>
-          </div>
-        </div>
-        <div class="init-method-panel" data-init-panel="cli" hidden>
-          <div class="cli-layout">
-          <div class="terminal">
-            <div class="terminal-bar">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-            <pre id="cliCommand">npx recowork add project --target codex-project --locale zh .
-
-# 安装后可使用
-rw add project --target codex-project --locale zh .</pre>
-          </div>
-          <div class="cli-copy">
-            <h3 data-i18n="cliHowTitle">How it works</h3>
-            <p data-i18n="cliHowText">Choose a workflow template, then choose where it will run. The CLI copies the template and applies the target output rules.</p>
-            <button class="copy-button" type="button" data-copy-target="cliCommand" data-i18n="copyCommands">Copy commands</button>
-          </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section structure-section" id="structure">
-        <div class="section-heading">
-          <p class="eyebrow" data-i18n="structureEyebrow">For builders</p>
-          <h2 data-i18n="structureTitle">Templates and targets evolve independently.</h2>
-        </div>
-        <div class="structure-grid">
-          <div class="structure-card">
-            <span>templates/</span>
-            <p data-i18n="structureYaml">Stores scenario templates such as project work, learning, or daily AI use.</p>
-          </div>
-          <div class="structure-card">
-            <span>locales/</span>
-            <p data-i18n="structureCore">Stores reusable working methods for a scenario, such as steps, principles, and checklists.</p>
-          </div>
-          <div class="structure-card">
-            <span>targets/</span>
-            <p data-i18n="structureAdapters">Stores reusable output rules for chat, project, workspace, and document targets.</p>
-          </div>
-          <div class="structure-card">
-            <span>examples/</span>
-            <p data-i18n="structureExamples">Stores real scenarios so users can understand how to apply the pack.</p>
-          </div>
+        <div class="site-route-grid">
+          <a class="site-route-card" href="./usage.html#initialize">
+            <span class="number-badge">01</span>
+            <h3 data-zh="开始初始化" data-en="Initialize">开始初始化</h3>
+            <p data-zh="选择模板、target、locale 和运行环境，复制 AI 初始化 Prompt 或 CLI 命令。" data-en="Choose template, target, locale, and runtime, then copy the AI prompt or CLI command.">选择模板、target、locale 和运行环境，复制 AI 初始化 Prompt 或 CLI 命令。</p>
+          </a>
+          <a class="site-route-card" href="./usage.html">
+            <span class="number-badge">02</span>
+            <h3 data-zh="阅读使用说明" data-en="Read the guide">阅读使用说明</h3>
+            <p data-zh="了解如何选择 target、如何判断运行环境，以及初始化后应该检查什么。" data-en="Learn how to choose targets, runtime capability, and what to verify after initialization.">了解如何选择 target、如何判断运行环境，以及初始化后应该检查什么。</p>
+          </a>
+          <a class="site-route-card" href="./philosophy.html">
+            <span class="number-badge">03</span>
+            <h3 data-zh="理解设计理念" data-en="Understand the philosophy">理解设计理念</h3>
+            <p data-zh="理解为什么 RecoWork 不是 Prompt 集合，以及为什么要拆分 template、target 和 locale。" data-en="Understand why RecoWork is not a prompt collection and why it separates templates, targets, and locales.">理解为什么 RecoWork 不是 Prompt 集合，以及为什么要拆分 template、target 和 locale。</p>
+          </a>
         </div>
       </section>
     </main>
@@ -416,6 +205,7 @@ rw add project --target codex-project --locale zh .</pre>
     <footer class="site-footer">
       <span>RecoWork</span>
       <span data-i18n="footerText">Open workflow templates for practical AI work.</span>
+      <a href="./releases.html" data-zh="发布记录" data-en="Releases">发布记录</a>
     </footer>
 
     <div class="toast" id="toast" role="status" aria-live="polite">Copied</div>

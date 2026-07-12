@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RecoWork · 发布记录</title>
+    <meta name="description" content="查看 RecoWork 的版本变更、兼容性说明与发布记录。" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body
+    data-page="releases"
+    data-title-zh="RecoWork · 发布记录"
+    data-title-en="RecoWork · Releases"
+    data-description-zh="查看 RecoWork 的版本变更、兼容性说明与发布记录。"
+    data-description-en="Review RecoWork versions, compatibility notes, and release history."
+  >
+    <header class="site-header">
+      <a class="brand" href="./index.html" aria-label="RecoWork home">
+        <span class="brand-mark" aria-hidden="true">RW</span>
+        <span>RecoWork</span>
+      </a>
+      <nav class="main-nav" aria-label="Primary navigation">
+        <a href="./index.html" data-zh="首页" data-en="Home">首页</a>
+        <a href="./usage.html" data-zh="使用说明" data-en="Usage">使用说明</a>
+        <a href="./cases.html" data-zh="案例" data-en="Cases">案例</a>
+        <a href="./philosophy.html" data-zh="设计理念" data-en="Philosophy">设计理念</a>
+        <a class="active" href="./releases.html" data-zh="发布记录" data-en="Releases">发布记录</a>
+      </nav>
+      <div class="header-actions">
+        <a class="github-link" href="https://github.com/recoluan/recowork" target="_blank" rel="noreferrer">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.1 3.3 9.4 7.9 10.9.58.1.8-.25.8-.56v-2.1c-3.22.7-3.9-1.38-3.9-1.38-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.7.08-.7 1.17.08 1.8 1.2 1.8 1.2 1.04 1.78 2.73 1.27 3.4.97.1-.76.4-1.27.74-1.56-2.57-.3-5.27-1.28-5.27-5.73 0-1.27.45-2.3 1.2-3.12-.12-.3-.52-1.5.12-3.08 0 0 .98-.31 3.2 1.2A11.1 11.1 0 0 1 12 5.94c.98 0 1.96.13 2.88.39 2.22-1.5 3.2-1.2 3.2-1.2.64 1.58.24 2.78.12 3.08.75.82 1.2 1.85 1.2 3.12 0 4.46-2.7 5.43-5.28 5.72.42.36.8 1.08.8 2.18v3.11c0 .31.2.67.8.56a11.5 11.5 0 0 0-3.72-22.4Z" />
+          </svg>
+          <span>GitHub</span>
+        </a>
+        <button class="language-toggle active" type="button" data-lang="zh">中</button>
+        <button class="language-toggle" type="button" data-lang="en">EN</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero release-hero">
+        <p class="eyebrow" data-zh="发布记录" data-en="Release notes">发布记录</p>
+        <h1 data-zh="每次版本变化，都能找到原因和影响。" data-en="Every version explains its reason and impact.">每次版本变化，都能找到原因和影响。</h1>
+        <p class="hero-text" data-zh="这里同步 npm 发布版本、兼容性说明和未发布变更。详细 Markdown 记录保存在仓库的 CHANGELOG.md 与 CHANGELOG.zh.md。" data-en="This page tracks published npm versions, compatibility notes, and unreleased changes. The full Markdown sources live in CHANGELOG.md and CHANGELOG.zh.md.">这里同步 npm 发布版本、兼容性说明和未发布变更。详细 Markdown 记录保存在仓库的 CHANGELOG.md 与 CHANGELOG.zh.md。</p>
+        <div class="page-actions">
+          <a class="page-link primary" href="https://github.com/recoluan/recowork/blob/main/CHANGELOG.zh.md" target="_blank" rel="noreferrer" data-zh="查看中文更新日志" data-en="View Chinese changelog">查看中文更新日志</a>
+          <a class="page-link" href="https://github.com/recoluan/recowork/blob/main/CHANGELOG.md" target="_blank" rel="noreferrer" data-zh="查看英文更新日志" data-en="View English changelog">查看英文更新日志</a>
+        </div>
+      </section>
+
+      <section class="section release-summary">
+        <div class="release-summary-card latest-release">
+          <span data-zh="最新已发布" data-en="Latest published">最新已发布</span>
+          <strong>0.2.2</strong>
+          <p data-zh="2026-07-09 · 修复 npx 直接执行入口" data-en="2026-07-09 · Fixed direct npx execution">2026-07-09 · 修复 npx 直接执行入口</p>
+        </div>
+        <div class="release-summary-card next-release">
+          <span data-zh="下一版本" data-en="Next release">下一版本</span>
+          <strong data-zh="未发布" data-en="Unreleased">未发布</strong>
+          <p data-zh="Target 本地化、文档规范和提交规范已进入待发布变更。" data-en="Target localization, document standards, and commit rules are queued for release.">Target 本地化、文档规范和提交规范已进入待发布变更。</p>
+        </div>
+      </section>
+
+      <section class="section release-list" aria-label="Release history">
+        <article class="release-card release-card-unreleased">
+          <div class="release-card-heading">
+            <div>
+              <span class="release-kicker" data-zh="下一版本" data-en="Next release">下一版本</span>
+              <h2 data-zh="未发布" data-en="Unreleased">未发布</h2>
+            </div>
+            <span class="release-badge badge-pink" data-zh="开发中" data-en="In progress">开发中</span>
+          </div>
+          <div class="release-columns">
+            <div>
+              <h3 data-zh="新增" data-en="Added">新增</h3>
+              <ul>
+                <li data-zh="Target 按 locale 输出用户可见路径和静态内容。" data-en="Targets localize user-facing paths and static content by locale.">Target 按 locale 输出用户可见路径和静态内容。</li>
+                <li data-zh="三套工作流加入文档规范、索引优先读取和索引维护。" data-en="All workflow templates gain document standards, index-first retrieval, and index maintenance.">三套工作流加入文档规范、索引优先读取和索引维护。</li>
+                <li data-zh="贡献者和 AI 智能体采用 Conventional Commits。" data-en="Contributors and AI agents now use Conventional Commits.">贡献者和 AI 智能体采用 Conventional Commits。</li>
+              </ul>
+            </div>
+            <div>
+              <h3 data-zh="兼容性" data-en="Compatibility">兼容性</h3>
+              <p data-zh="中文 Codex 输出使用 知识库/，英文使用 knowledge/。重新初始化同一 target 时，RecoWork 只清理可安全替换的上一语言生成文件。" data-en="Chinese Codex output uses 知识库/ while English uses knowledge/. Reinitializing the same target removes only previous-locale generated files that are safe to replace.">中文 Codex 输出使用 知识库/，英文使用 knowledge/。重新初始化同一 target 时，RecoWork 只清理可安全替换的上一语言生成文件。</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="release-card">
+          <div class="release-card-heading">
+            <div>
+              <span class="release-kicker">2026-07-09</span>
+              <h2>0.2.2</h2>
+            </div>
+            <span class="release-badge badge-green" data-zh="已发布" data-en="Published">已发布</span>
+          </div>
+          <div class="release-columns single">
+            <div>
+              <h3 data-zh="修复" data-en="Fixed">修复</h3>
+              <p data-zh="增加 recowork 可执行别名，确保 npx recowork ... 可以解析并运行。" data-en="Added the recowork executable alias so npx recowork ... resolves and runs correctly.">增加 recowork 可执行别名，确保 npx recowork ... 可以解析并运行。</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="release-card">
+          <div class="release-card-heading">
+            <div>
+              <span class="release-kicker">2026-07-09</span>
+              <h2>0.2.1</h2>
+            </div>
+            <span class="release-badge badge-green" data-zh="已发布" data-en="Published">已发布</span>
+          </div>
+          <div class="release-columns single">
+            <div>
+              <h3 data-zh="修复" data-en="Fixed">修复</h3>
+              <p data-zh="发布包含 CLI 入口、模板和 targets 的根目录 npm 包。" data-en="Published the root npm package containing the CLI entry point, templates, and targets.">发布包含 CLI 入口、模板和 targets 的根目录 npm 包。</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="release-card release-card-muted">
+          <div class="release-card-heading">
+            <div>
+              <span class="release-kicker">2026-07-09</span>
+              <h2>0.2.0</h2>
+            </div>
+            <span class="release-badge badge-gray" data-zh="已弃用" data-en="Deprecated">已弃用</span>
+          </div>
+          <div class="release-columns single">
+            <div>
+              <h3 data-zh="说明" data-en="Note">说明</h3>
+              <p data-zh="该版本缺少必要的可执行入口，请使用 0.2.2 或更高版本。" data-en="This version lacked the required executable entry point. Use 0.2.2 or later.">该版本缺少必要的可执行入口，请使用 0.2.2 或更高版本。</p>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>RecoWork</span>
+      <span data-zh="每个版本都有可追溯的发布记录。" data-en="Every version has a traceable release record.">每个版本都有可追溯的发布记录。</span>
+    </footer>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

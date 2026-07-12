@@ -5,15 +5,14 @@ const translations = {
     navPacks: "工作流模板",
     navEssence: "模板精髓",
     navPlatforms: "使用位置",
-    navInitialize: "开始初始化",
     navStructure: "结构",
     heroEyebrow: "AI 工作流工具包",
-    heroTitle: "给你的 AI 装上工作流。",
+    heroTitle: "让 AI 用工程化的方式聪明地工作。",
     heroText:
-      "选择一个工作流模板，再选择你正在使用的 AI 工具。RecoWork 会组合两者，并生成你需要的文件。",
+      "RecoWork 把可重复的 AI 使用方式沉淀成模板，再按真实工具环境生成 Prompt、项目规则、知识空间和续聊机制。",
     heroInitialize: "开始初始化",
-    heroPrimary: "选择初始化方式",
-    heroSecondary: "浏览三个包",
+    heroPrimary: "阅读使用说明",
+    heroSecondary: "查看案例",
     metricPacks: "首批模板",
     metricPlatforms: "使用位置",
     metricCli: "本地脚手架",
@@ -138,15 +137,14 @@ npx recowork add project-engineering --target codex-project --locale zh .
     navPacks: "Packs",
     navEssence: "What you get",
     navPlatforms: "Targets",
-    navInitialize: "Initialize",
     navStructure: "Structure",
     heroEyebrow: "AI workflow toolkit",
-    heroTitle: "Give your AI a workflow.",
+    heroTitle: "Let AI work smarter through engineered workflows.",
     heroText:
-      "Pick a workflow template, then pick the AI tool you already use. RecoWork combines the two and creates the files you need.",
+      "RecoWork turns repeatable AI usage into templates, then generates prompts, project rules, knowledge spaces, and continuation memory for real tools.",
     heroInitialize: "Initialize",
-    heroPrimary: "Choose a method",
-    heroSecondary: "Explore packs",
+    heroPrimary: "Read the guide",
+    heroSecondary: "View cases",
     metricPacks: "starter templates",
     metricPlatforms: "output targets",
     metricCli: "local scaffold",
@@ -465,16 +463,83 @@ const chatBootstrapDetails = {
 function applyLanguage(language) {
   currentLanguage = language;
   document.documentElement.lang = language === "zh" ? "zh-CN" : "en";
-  document.title = translations[language].pageTitle;
-  document.querySelector('meta[name="description"]').content = translations[language].pageDescription;
+  if (document.body.dataset.titleZh && document.body.dataset.titleEn) {
+    document.title = language === "zh" ? document.body.dataset.titleZh : document.body.dataset.titleEn;
+    const description = document.querySelector('meta[name="description"]');
+    if (description && document.body.dataset.descriptionZh && document.body.dataset.descriptionEn) {
+      description.content = language === "zh"
+        ? document.body.dataset.descriptionZh
+        : document.body.dataset.descriptionEn;
+    }
+  } else if (document.body.dataset.page === "home") {
+    document.title = translations[language].pageTitle;
+    document.querySelector('meta[name="description"]').content = translations[language].pageDescription;
+  }
 
   document.querySelectorAll("[data-i18n]").forEach((node) => {
     const key = node.dataset.i18n;
     node.textContent = translations[language][key] || node.textContent;
   });
 
-  renderTemplateStructure(currentTemplate);
-  renderGeneratorOutputs();
+  document.querySelectorAll("[data-zh][data-en]").forEach((node) => {
+    node.textContent = node.dataset[language];
+  });
+
+  if (document.querySelector("#templateStructureTree")) {
+    renderTemplateStructure(currentTemplate);
+  }
+
+  if (document.querySelector("#promptPaths")) {
+    renderGeneratorOutputs();
+  }
+
+  const usageCommands = document.querySelector("#usageCommands");
+  if (usageCommands) {
+    usageCommands.textContent = language === "zh"
+      ? `npx recowork list
+npx recowork targets
+npx recowork add project --target codex-project --locale zh .
+npx recowork add general --target chatgpt-chat --locale zh ./my-ai-workflow
+npx recowork add learning --target notion-workspace --locale zh ./my-learning-workflow`
+      : `npx recowork list
+npx recowork targets
+npx recowork add project --target codex-project --locale en .
+npx recowork add general --target chatgpt-chat --locale en ./my-ai-workflow
+npx recowork add learning --target notion-workspace --locale en ./my-learning-workflow`;
+  }
+
+  const cliReference = document.querySelector("#cliReference");
+  if (cliReference) {
+    cliReference.textContent = language === "zh"
+      ? `# 查看模板
+npx recowork list
+
+# 查看 targets
+npx recowork targets
+
+# 初始化项目工作流到当前目录
+npx recowork add project --target codex-project --locale zh .
+
+# 初始化聊天工作流到新目录
+npx recowork add general --target chatgpt-chat --locale zh ./my-ai-workflow
+
+# 初始化学习工作流到 Notion 文档工作区
+npx recowork add learning --target notion-workspace --locale zh ./my-learning-workflow`
+      : `# List templates
+npx recowork list
+
+# List targets
+npx recowork targets
+
+# Initialize a project workflow in the current directory
+npx recowork add project --target codex-project --locale en .
+
+# Initialize a chat workflow in a new directory
+npx recowork add general --target chatgpt-chat --locale en ./my-ai-workflow
+
+# Initialize a learning workflow for a Notion workspace
+npx recowork add learning --target notion-workspace --locale en ./my-learning-workflow`;
+  }
 
   document.querySelectorAll(".language-toggle").forEach((button) => {
     button.classList.toggle("active", button.dataset.lang === language);
@@ -574,6 +639,9 @@ function renderGeneratorOutputs() {
   const prompt = document.querySelector("#promptPaths");
   const cliCommand = document.querySelector("#cliCommand");
   const visualCommand = document.querySelector("#visualCommand");
+  if (!prompt || !cliCommand || !visualCommand) {
+    return;
+  }
   const selectedCommand = getGeneratorCommand("rw");
   const isChatEnvironment = generatorConfig.environment === "chat";
 
@@ -639,6 +707,9 @@ ${selectedCommand}`;
 }
 
 function renderInitMethod(method) {
+  if (!document.querySelector(".init-method-tab")) {
+    return;
+  }
   currentInitMethod = method;
   document.querySelectorAll(".init-method-tab").forEach((button) => {
     const isActive = button.dataset.initMethod === method;
@@ -657,6 +728,9 @@ function renderTemplateStructure(templateId) {
   }
 
   currentTemplate = templateId;
+  if (!document.querySelector("#templateStructureTree")) {
+    return;
+  }
   document.querySelector("#templateStructureEyebrow").textContent = structure.eyebrow;
   document.querySelector("#templateStructureTitle").textContent = structure.title;
   document.querySelector("#templateStructureDescription").textContent = structure.description;
@@ -707,7 +781,7 @@ document.querySelectorAll(".template-tab").forEach((button) => {
   button.addEventListener("click", () => renderTemplateStructure(button.dataset.template));
 });
 
-document.querySelector("#configTemplate").addEventListener("change", (event) => {
+document.querySelector("#configTemplate")?.addEventListener("change", (event) => {
   generatorConfig.template = event.target.value;
   renderGeneratorOutputs();
 });
@@ -724,7 +798,7 @@ document.querySelectorAll(".target-option").forEach((button) => {
   });
 });
 
-document.querySelector("#targetSelectTrigger").addEventListener("click", () => {
+document.querySelector("#targetSelectTrigger")?.addEventListener("click", () => {
   const menu = document.querySelector("#targetSelectMenu");
   menu.hidden = !menu.hidden;
   document.querySelector("#targetSelectTrigger").setAttribute("aria-expanded", String(!menu.hidden));
@@ -732,7 +806,7 @@ document.querySelector("#targetSelectTrigger").addEventListener("click", () => {
 
 document.addEventListener("click", (event) => {
   const selector = document.querySelector(".target-select");
-  if (!selector.contains(event.target)) {
+  if (selector && !selector.contains(event.target)) {
     document.querySelector("#targetSelectMenu").hidden = true;
     document.querySelector("#targetSelectTrigger").setAttribute("aria-expanded", "false");
   }

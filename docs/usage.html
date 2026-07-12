@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RecoWork · 使用说明</title>
+    <meta
+      name="description"
+      content="了解如何选择 RecoWork 模板、target、locale，并通过 AI Prompt 或 CLI 初始化工作流。"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body
+    data-page="usage"
+    data-title-zh="RecoWork · 使用说明"
+    data-title-en="RecoWork · Usage Guide"
+    data-description-zh="了解如何选择 RecoWork 模板、target、locale，并通过 AI Prompt 或 CLI 初始化工作流。"
+    data-description-en="Learn how to choose a RecoWork template, target, locale, and initialize workflows through AI prompts or the CLI."
+  >
+    <header class="site-header">
+      <a class="brand" href="./index.html" aria-label="RecoWork home">
+        <span class="brand-mark" aria-hidden="true">RW</span>
+        <span>RecoWork</span>
+      </a>
+      <nav class="main-nav" aria-label="Primary navigation">
+        <a href="./index.html" data-zh="首页" data-en="Home">首页</a>
+        <a class="active" href="./usage.html" data-zh="使用说明" data-en="Usage">使用说明</a>
+        <a href="./cases.html" data-zh="案例" data-en="Cases">案例</a>
+        <a href="./philosophy.html" data-zh="设计理念" data-en="Philosophy">设计理念</a>
+        <a href="./releases.html" data-zh="发布记录" data-en="Releases">发布记录</a>
+      </nav>
+      <div class="header-actions">
+        <a class="github-link" href="https://github.com/recoluan/recowork" target="_blank" rel="noreferrer">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.1 3.3 9.4 7.9 10.9.58.1.8-.25.8-.56v-2.1c-3.22.7-3.9-1.38-3.9-1.38-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.7.08-.7 1.17.08 1.8 1.2 1.8 1.2 1.04 1.78 2.73 1.27 3.4.97.1-.76.4-1.27.74-1.56-2.57-.3-5.27-1.28-5.27-5.73 0-1.27.45-2.3 1.2-3.12-.12-.3-.52-1.5.12-3.08 0 0 .98-.31 3.2 1.2A11.1 11.1 0 0 1 12 5.94c.98 0 1.96.13 2.88.39 2.22-1.5 3.2-1.2 3.2-1.2.64 1.58.24 2.78.12 3.08.75.82 1.2 1.85 1.2 3.12 0 4.46-2.7 5.43-5.28 5.72.42.36.8 1.08.8 2.18v3.11c0 .31.2.67.8.56a11.5 11.5 0 0 0-3.72-22.4Z" />
+          </svg>
+          <span>GitHub</span>
+        </a>
+        <button class="language-toggle active" type="button" data-lang="zh">中</button>
+        <button class="language-toggle" type="button" data-lang="en">EN</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <p class="eyebrow" data-zh="使用说明" data-en="Usage guide">使用说明</p>
+        <h1 data-zh="从选择模板到生成文件，一次讲清楚。" data-en="From choosing a template to generating files.">从选择模板到生成文件，一次讲清楚。</h1>
+        <p class="hero-text" data-zh="RecoWork 的核心公式是 template + target + locale。你先选择要解决的工作场景，再选择真实使用位置，最后选择输出语言。" data-en="RecoWork is built around template + target + locale. Choose the work scenario, the real output environment, and the output language.">RecoWork 的核心公式是 template + target + locale。你先选择要解决的工作场景，再选择真实使用位置，最后选择输出语言。</p>
+        <div class="page-actions">
+          <a class="page-link primary" href="#initialize" data-zh="选择初始化方式" data-en="Choose initialization method">选择初始化方式</a>
+          <a class="page-link" href="#commands" data-zh="查看 CLI 命令" data-en="View CLI commands">查看 CLI 命令</a>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow" data-zh="四步使用" data-en="Four steps">四步使用</p>
+          <h2 data-zh="把选择过程拆成稳定决策。" data-en="Break initialization into stable decisions.">把选择过程拆成稳定决策。</h2>
+        </div>
+        <div class="content-grid four path-grid">
+          <article class="path-card">
+            <span class="number-badge">01</span>
+            <h3 data-zh="选择模板" data-en="Choose a template">选择模板</h3>
+            <p data-zh="模板描述你要工程化的工作场景：日常 AI 使用、项目协作，或系统学习。" data-en="A template describes the work scenario: daily AI work, project collaboration, or structured learning.">模板描述你要工程化的工作场景：日常 AI 使用、项目协作，或系统学习。</p>
+          </article>
+          <article class="path-card">
+            <span class="number-badge">02</span>
+            <h3 data-zh="选择 target" data-en="Choose a target">选择 target</h3>
+            <p data-zh="Target 不是品牌名，而是具体使用位置，例如 codex-project、claude-chat 或 notion-workspace。" data-en="A target is not a brand name. It is the actual output environment, such as codex-project, claude-chat, or notion-workspace.">Target 不是品牌名，而是具体使用位置，例如 codex-project、claude-chat 或 notion-workspace。</p>
+          </article>
+          <article class="path-card">
+            <span class="number-badge">03</span>
+            <h3 data-zh="选择语言" data-en="Choose locale">选择语言</h3>
+            <p data-zh="Locale 控制用户可见的文件夹、文档和正文语言；AGENTS.md、CLAUDE.md 等约定文件名不会被翻译。" data-en="Locale controls user-facing folders, documents, and text. Convention filenames such as AGENTS.md and CLAUDE.md stay unchanged.">Locale 控制用户可见的文件夹、文档和正文语言；AGENTS.md、CLAUDE.md 等约定文件名不会被翻译。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow" data-zh="选择矩阵" data-en="Selection matrix">选择矩阵</p>
+          <h2 data-zh="先判断你在哪里使用 AI，再选择 target。" data-en="First decide where AI will be used, then choose the target.">先判断你在哪里使用 AI，再选择 target。</h2>
+        </div>
+        <div class="matrix-table" role="table" aria-label="Target selection matrix">
+          <div role="row">
+            <strong role="columnheader" data-zh="使用环境" data-en="Environment">使用环境</strong>
+            <strong role="columnheader" data-zh="推荐 target" data-en="Recommended target">推荐 target</strong>
+            <strong role="columnheader" data-zh="生成内容" data-en="Generated assets">生成内容</strong>
+          </div>
+          <div role="row">
+            <span data-zh="ChatGPT / Claude 网页或手机端" data-en="ChatGPT / Claude web or mobile">ChatGPT / Claude 网页或手机端</span>
+            <code>chatgpt-chat / claude-chat</code>
+            <span data-zh="可复制 Prompt、任务说明、续聊记忆" data-en="Copyable prompts, task instructions, continuation memory">可复制 Prompt、任务说明、续聊记忆</span>
+          </div>
+          <div role="row">
+            <span data-zh="Codex / Cursor 本地项目" data-en="Codex / Cursor local project">Codex / Cursor 本地项目</span>
+            <code>codex-project / cursor-project</code>
+            <span data-zh="项目规则、工作空间、知识库、质量检查" data-en="Project rules, workspace, knowledge files, quality checks">项目规则、工作空间、知识库、质量检查</span>
+          </div>
+          <div role="row">
+            <span data-zh="Claude Code 本地项目" data-en="Claude Code local project">Claude Code 本地项目</span>
+            <code>claude-code-project</code>
+            <span data-zh="CLAUDE.md 和 .claude/skills" data-en="CLAUDE.md and .claude/skills">CLAUDE.md 和 .claude/skills</span>
+          </div>
+          <div role="row">
+            <span data-zh="Notion / 飞书文档协作" data-en="Notion / Feishu documentation">Notion / 飞书文档协作</span>
+            <code>notion-workspace / feishu-doc</code>
+            <span data-zh="页面模板、工作区结构、复盘文档" data-en="Page templates, workspace structure, retrospective documents">页面模板、工作区结构、复盘文档</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="commands">
+        <div class="section-heading">
+          <p class="eyebrow" data-zh="CLI 命令" data-en="CLI commands">CLI 命令</p>
+          <h2 data-zh="recowork CLI 负责把模板确定性地生成到目标位置。" data-en="The recowork CLI deterministically generates templates into a target destination.">recowork CLI 负责把模板确定性地生成到目标位置。</h2>
+        </div>
+        <div class="content-grid three">
+          <article class="content-card">
+            <span class="number-badge">01</span>
+            <h3><code>list</code></h3>
+            <p data-zh="查看当前可用的工作流模板，例如 project、general、learning。" data-en="List available workflow templates such as project, general, and learning.">查看当前可用的工作流模板，例如 project、general、learning。</p>
+            <pre class="mini-code">npx recowork list</pre>
+          </article>
+          <article class="content-card">
+            <span class="number-badge">02</span>
+            <h3><code>targets</code></h3>
+            <p data-zh="查看可生成到哪些真实使用位置，例如 codex-project、chatgpt-chat、notion-workspace。" data-en="List real output environments such as codex-project, chatgpt-chat, and notion-workspace.">查看可生成到哪些真实使用位置，例如 codex-project、chatgpt-chat、notion-workspace。</p>
+            <pre class="mini-code">npx recowork targets</pre>
+          </article>
+          <article class="content-card">
+            <span class="number-badge">03</span>
+            <h3><code>add</code></h3>
+            <p data-zh="把一个模板按 target 和 locale 初始化到指定目录。" data-en="Initialize a template into a destination using a target and locale.">把一个模板按 target 和 locale 初始化到指定目录。</p>
+            <pre class="mini-code">npx recowork add project --target codex-project --locale zh .</pre>
+          </article>
+        </div>
+        <div class="terminal command-terminal">
+          <div class="terminal-bar"><span></span><span></span><span></span></div>
+          <pre id="cliReference"># 查看模板
+npx recowork list
+
+# 查看 targets
+npx recowork targets
+
+# 初始化项目工作流到当前目录
+npx recowork add project --target codex-project --locale zh .
+
+# 初始化聊天工作流到新目录
+npx recowork add general --target chatgpt-chat --locale zh ./my-ai-workflow
+
+# 初始化学习工作流到 Notion 文档工作区
+npx recowork add learning --target notion-workspace --locale zh ./my-learning-workflow</pre>
+          <button class="terminal-copy" type="button" data-copy-target="cliReference" data-i18n="copyCommands">复制命令</button>
+        </div>
+      </section>
+
+      <section class="section initialize-section highlight-band" id="initialize">
+        <div class="section-heading">
+          <p class="eyebrow" data-i18n="initializeEyebrow">开始初始化</p>
+          <h2 data-i18n="initializeTitle">选择配置，再选择你习惯的初始化方式。</h2>
+        </div>
+        <div class="init-workbench">
+        <div class="workflow-config" aria-label="Workflow generator configuration">
+          <label class="config-field" for="configTemplate">
+            <span data-i18n="configTemplateLabel">工作流</span>
+            <select id="configTemplate">
+              <option value="general-ai-workflow" data-i18n="configTemplateGeneral">日常 AI 使用</option>
+              <option value="project-engineering" selected data-i18n="configTemplateProject">项目工程化</option>
+              <option value="learning-engineering" data-i18n="configTemplateLearning">系统学习</option>
+            </select>
+          </label>
+          <div class="config-field config-target-field">
+            <span data-i18n="configTargetLabel">使用位置</span>
+            <div class="target-select">
+              <button id="targetSelectTrigger" class="target-select-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+                <span id="targetSelectBrand" class="target-brand target-brand-text">CX</span>
+                <span id="targetSelectLabel">Codex</span>
+                <i data-lucide="chevron-down" aria-hidden="true"></i>
+              </button>
+              <div id="targetSelectMenu" class="target-select-menu" role="listbox" hidden>
+                <button class="target-option" type="button" role="option" data-target="chatgpt-chat"><span class="target-brand target-brand-text">GPT</span><span class="target-option-label">ChatGPT</span><i data-lucide="smartphone" aria-hidden="true"></i></button>
+                <button class="target-option" type="button" role="option" data-target="claude-chat"><span class="target-brand"><img src="https://cdn.simpleicons.org/anthropic" alt="" /></span><span class="target-option-label">Claude</span><i data-lucide="smartphone" aria-hidden="true"></i></button>
+                <button class="target-option" type="button" role="option" data-target="kimi-doubao-chat"><span class="target-brand target-brand-text">K / 豆</span><span class="target-option-label" data-i18n="targetKimiDoubao">Kimi / 豆包</span><i data-lucide="smartphone" aria-hidden="true"></i></button>
+                <button class="target-option" type="button" role="option" data-target="claude-code-project"><span class="target-brand"><img src="https://cdn.simpleicons.org/anthropic" alt="" /></span><span class="target-option-label">Claude Code</span><i data-lucide="monitor" aria-hidden="true"></i></button>
+                <button class="target-option" type="button" role="option" data-target="codex-project"><span class="target-brand target-brand-text">CX</span><span class="target-option-label">Codex</span><i data-lucide="monitor" aria-hidden="true"></i></button>
+                <button class="target-option" type="button" role="option" data-target="cursor-project"><span class="target-brand"><img src="https://cdn.simpleicons.org/cursor" alt="" /></span><span class="target-option-label">Cursor</span><i data-lucide="monitor" aria-hidden="true"></i></button>
+                <button class="target-option" type="button" role="option" data-target="notion-workspace"><span class="target-brand"><img src="https://cdn.simpleicons.org/notion" alt="" /></span><span class="target-option-label">Notion</span><i data-lucide="monitor" aria-hidden="true"></i></button>
+                <button class="target-option" type="button" role="option" data-target="feishu-doc"><span class="target-brand"><img src="https://www.feishu.cn/favicon.ico" alt="" /></span><span class="target-option-label" data-i18n="targetFeishu">飞书</span><i data-lucide="smartphone" aria-hidden="true"></i></button>
+              </div>
+            </div>
+          </div>
+          <div class="config-field">
+            <span data-i18n="configLocaleLabel">输出语言</span>
+            <div class="config-locales" role="group" aria-label="Output locale">
+              <button class="config-locale active" type="button" data-locale="zh" aria-pressed="true">中文</button>
+              <button class="config-locale" type="button" data-locale="en" aria-pressed="false">English</button>
+            </div>
+          </div>
+          <div class="config-field">
+            <span data-i18n="configEnvironmentLabel">运行环境</span>
+            <div class="config-environments" role="group" aria-label="Runtime capability">
+              <button class="config-environment active" type="button" data-environment="agent" aria-pressed="true"><i data-lucide="monitor" aria-hidden="true"></i><span data-i18n="environmentAgent">本地智能体</span></button>
+              <button class="config-environment" type="button" data-environment="chat" aria-pressed="false"><i data-lucide="smartphone" aria-hidden="true"></i><span data-i18n="environmentChat">纯聊天 / 手机端</span></button>
+            </div>
+          </div>
+        </div>
+        <div class="init-method-tabs" role="tablist" aria-label="Initialization methods">
+          <button class="init-method-tab active" type="button" role="tab" aria-selected="true" data-init-method="ai" data-i18n="initMethodAi">让 AI 帮你初始化</button>
+          <button class="init-method-tab" type="button" role="tab" aria-selected="false" data-init-method="cli" data-i18n="initMethodCli">命令行初始化</button>
+        </div>
+        <div class="init-method-panel" data-init-panel="ai">
+          <div class="prompt-layout">
+            <div class="prompt-steps">
+              <div>
+                <span>01</span>
+                <strong data-i18n="promptStepOneTitle">复制初始化 Prompt</strong>
+                <p data-i18n="promptStepOneText">使用已经填好 RecoWork 仓库地址的 prompt 模板，再选择模板、输出目标、语言和目标位置。</p>
+              </div>
+              <div>
+                <span>02</span>
+                <strong data-i18n="promptStepTwoTitle">发给 AI 助手</strong>
+                <p data-i18n="promptStepTwoText">可以用 Codex、Cursor，或任何能执行命令或创建文件的 AI 助手。</p>
+              </div>
+              <div>
+                <span>03</span>
+                <strong data-i18n="promptStepThreeTitle">检查生成结果</strong>
+                <p data-i18n="promptStepThreeText">AI 应该优先运行 npx，然后展示文件树和第一步怎么使用。</p>
+              </div>
+            </div>
+            <div class="terminal prompt-terminal">
+              <div class="terminal-bar">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+<pre id="promptPaths">你正在为我初始化一个 RecoWork 工作流模板。
+
+仓库地址：
+https://github.com/recoluan/recowork
+
+模板：
+project-engineering
+
+使用位置：
+codex-project
+
+语言：
+zh
+
+目标位置：
+当前目录
+
+请运行：
+npx recowork add project-engineering --target codex-project --locale zh .
+
+如果当前环境不能使用 npx，请使用仓库里的 templates/project-engineering/locales/zh/、targets/codex-project/files/ 和 targets/codex-project/locales/zh/files/ 手动创建同等文件。完成后展示文件树，并告诉我第一步应该做什么。</pre>
+              <button class="terminal-copy" type="button" data-copy-target="promptPaths" data-i18n="copyPrompt">复制 prompt</button>
+            </div>
+          </div>
+        </div>
+        <div class="init-method-panel" data-init-panel="cli" hidden>
+          <div class="cli-layout">
+            <div class="terminal">
+              <div class="terminal-bar">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <pre id="cliCommand">npx recowork add project --target codex-project --locale zh .
+
+# 安装后可使用
+rw add project --target codex-project --locale zh .</pre>
+            </div>
+            <div class="cli-copy">
+              <h3 data-i18n="cliHowTitle">怎么用</h3>
+              <p data-i18n="cliHowText">选择一个工作流模板、运行位置和语言。CLI 会复制模板并套用 target 输出规则。</p>
+              <button class="copy-button" type="button" data-copy-target="cliCommand" data-i18n="copyCommands">复制命令</button>
+            </div>
+          </div>
+        </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow" data-zh="初始化方式" data-en="Initialization modes">初始化方式</p>
+          <h2 data-zh="同一个配置，可以通过两条路径落地。" data-en="The same configuration can be initialized in two ways.">同一个配置，可以通过两条路径落地。</h2>
+        </div>
+        <div class="content-grid two">
+          <article class="content-card">
+            <h3 data-zh="让 AI 帮你初始化" data-en="Let AI initialize it">让 AI 帮你初始化</h3>
+            <p data-zh="适合 Codex、Cursor、Claude Code 等能运行命令的本地智能体。Prompt 会要求 AI 先检查 Node.js 和 npm，再运行 npx recowork。" data-en="Best for command-capable local agents such as Codex, Cursor, or Claude Code. The prompt asks AI to check Node.js and npm before running npx recowork.">适合 Codex、Cursor、Claude Code 等能运行命令的本地智能体。Prompt 会要求 AI 先检查 Node.js 和 npm，再运行 npx recowork。</p>
+          </article>
+          <article class="content-card">
+            <h3 data-zh="纯聊天 / 手机端" data-en="Pure chat or mobile">纯聊天 / 手机端</h3>
+            <p data-zh="适合没有终端和文件系统的环境。RecoWork 会生成可复制的聊天启动 Prompt，而不会要求用户安装 Node.js 或创建本地文件。" data-en="For environments without a terminal or file system. RecoWork generates copyable chat bootstrap prompts instead of asking users to install Node.js or create local files.">适合没有终端和文件系统的环境。RecoWork 会生成可复制的聊天启动 Prompt，而不会要求用户安装 Node.js 或创建本地文件。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow" data-zh="验收结果" data-en="What to verify">验收结果</p>
+          <h2 data-zh="初始化完成后，检查这些东西是否真的生成。" data-en="After initialization, verify that these assets were created.">初始化完成后，检查这些东西是否真的生成。</h2>
+        </div>
+        <div class="content-grid three">
+          <article class="content-card">
+            <h3 data-zh="规则文件" data-en="Rule files">规则文件</h3>
+            <p data-zh="项目 target 应有 AGENTS.md、CLAUDE.md 或工具对应的规则文件；聊天 target 不应该生成项目工具目录。" data-en="Project targets should produce AGENTS.md, CLAUDE.md, or equivalent rule files. Chat targets should not generate project tool directories.">项目 target 应有 AGENTS.md、CLAUDE.md 或工具对应的规则文件；聊天 target 不应该生成项目工具目录。</p>
+          </article>
+          <article class="content-card">
+            <h3 data-zh="工作方法" data-en="Working methods">工作方法</h3>
+            <p data-zh="检查角色设定、文档规范、工作流程、质量检查是否与所选模板和语言一致。" data-en="Check that role contract, document standard, workflow, and quality checks match the selected template and locale.">检查角色设定、文档规范、工作流程、质量检查是否与所选模板和语言一致。</p>
+          </article>
+          <article class="content-card">
+            <h3 data-zh="工作空间" data-en="Workspace">工作空间</h3>
+            <p data-zh="项目和学习模板应生成可持续维护的工作空间或学习空间，并包含 index.md 导航。" data-en="Project and learning templates should generate maintainable workspaces with index.md navigation.">项目和学习模板应生成可持续维护的工作空间或学习空间，并包含 index.md 导航。</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>RecoWork</span>
+      <span data-i18n="footerText">面向真实 AI 工作的开源工作流模板。</span>
+    </footer>
+    <div class="toast" id="toast" role="status" aria-live="polite">已复制</div>
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

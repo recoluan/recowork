@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RecoWork · 设计理念</title>
+    <meta name="description" content="理解 RecoWork 为什么用模板、target 和 locale 来工程化 AI 工作流。" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body
+    data-page="philosophy"
+    data-title-zh="RecoWork · 设计理念"
+    data-title-en="RecoWork · Design Philosophy"
+    data-description-zh="理解 RecoWork 为什么用模板、target 和 locale 来工程化 AI 工作流。"
+    data-description-en="Understand why RecoWork uses templates, targets, and locales to engineer AI workflows."
+  >
+    <header class="site-header">
+      <a class="brand" href="./index.html" aria-label="RecoWork home"><span class="brand-mark" aria-hidden="true">RW</span><span>RecoWork</span></a>
+      <nav class="main-nav" aria-label="Primary navigation">
+        <a href="./index.html" data-zh="首页" data-en="Home">首页</a>
+        <a href="./usage.html" data-zh="使用说明" data-en="Usage">使用说明</a>
+        <a href="./cases.html" data-zh="案例" data-en="Cases">案例</a>
+        <a class="active" href="./philosophy.html" data-zh="设计理念" data-en="Philosophy">设计理念</a>
+        <a href="./releases.html" data-zh="发布记录" data-en="Releases">发布记录</a>
+      </nav>
+      <div class="header-actions">
+        <a class="github-link" href="https://github.com/recoluan/recowork" target="_blank" rel="noreferrer">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.1 3.3 9.4 7.9 10.9.58.1.8-.25.8-.56v-2.1c-3.22.7-3.9-1.38-3.9-1.38-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.7.08-.7 1.17.08 1.8 1.2 1.8 1.2 1.04 1.78 2.73 1.27 3.4.97.1-.76.4-1.27.74-1.56-2.57-.3-5.27-1.28-5.27-5.73 0-1.27.45-2.3 1.2-3.12-.12-.3-.52-1.5.12-3.08 0 0 .98-.31 3.2 1.2A11.1 11.1 0 0 1 12 5.94c.98 0 1.96.13 2.88.39 2.22-1.5 3.2-1.2 3.2-1.2.64 1.58.24 2.78.12 3.08.75.82 1.2 1.85 1.2 3.12 0 4.46-2.7 5.43-5.28 5.72.42.36.8 1.08.8 2.18v3.11c0 .31.2.67.8.56a11.5 11.5 0 0 0-3.72-22.4Z" /></svg>
+          <span>GitHub</span>
+        </a>
+        <button class="language-toggle active" type="button" data-lang="zh">中</button>
+        <button class="language-toggle" type="button" data-lang="en">EN</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <p class="eyebrow" data-zh="设计理念" data-en="Design philosophy">设计理念</p>
+        <h1 data-zh="让 AI 用工程化的方式聪明地工作。" data-en="Let AI work smarter through engineered workflows.">让 AI 用工程化的方式聪明地工作。</h1>
+        <p class="hero-text" data-zh="RecoWork 不把 AI 当成一次性聊天窗口，而是把角色、流程、知识、质量和使用位置组合成可复用系统。" data-en="RecoWork does not treat AI as a one-off chat window. It combines role, process, knowledge, quality, and output environment into a reusable system.">RecoWork 不把 AI 当成一次性聊天窗口，而是把角色、流程、知识、质量和使用位置组合成可复用系统。</p>
+      </section>
+
+      <section class="section">
+        <div class="principle-grid">
+          <article class="principle-card">
+            <h3 data-zh="不是 Prompt 集合" data-en="Not a prompt collection">不是 Prompt 集合</h3>
+            <p data-zh="Prompt 只是入口。真正可复用的是角色协议、工作流程、文档规范、检查清单和续聊记忆。" data-en="Prompts are only the entry point. The reusable assets are role contracts, workflows, document standards, checklists, and continuation memory.">Prompt 只是入口。真正可复用的是角色协议、工作流程、文档规范、检查清单和续聊记忆。</p>
+          </article>
+          <article class="principle-card">
+            <h3 data-zh="模板和 target 分离" data-en="Separate templates and targets">模板和 target 分离</h3>
+            <p data-zh="模板描述工作方法，target 描述输出位置。这样同一个项目工程化模板可以生成 Codex、Claude Code 或 Notion 所需资产。" data-en="Templates describe the work method; targets describe the output environment. The same project workflow can generate assets for Codex, Claude Code, or Notion.">模板描述工作方法，target 描述输出位置。这样同一个项目工程化模板可以生成 Codex、Claude Code 或 Notion 所需资产。</p>
+          </article>
+          <article class="principle-card">
+            <h3 data-zh="尊重真实工具约定" data-en="Respect real tool conventions">尊重真实工具约定</h3>
+            <p data-zh="Claude Code 使用 CLAUDE.md 和 .claude/skills；Codex 使用 AGENTS.md。RecoWork 不发明看起来整齐但工具并不认识的目录。" data-en="Claude Code uses CLAUDE.md and .claude/skills; Codex uses AGENTS.md. RecoWork does not invent tidy folders that tools do not understand.">Claude Code 使用 CLAUDE.md 和 .claude/skills；Codex 使用 AGENTS.md。RecoWork 不发明看起来整齐但工具并不认识的目录。</p>
+          </article>
+          <article class="principle-card">
+            <h3 data-zh="面向持续协作" data-en="Built for continuity">面向持续协作</h3>
+            <p data-zh="AI 不应该每次从零猜上下文。索引、工作空间和记忆卡让下一次协作从已有事实继续。" data-en="AI should not guess context from scratch every time. Indexes, workspaces, and memory cards let the next session continue from recorded facts.">AI 不应该每次从零猜上下文。索引、工作空间和记忆卡让下一次协作从已有事实继续。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section highlight-band">
+        <div class="section-heading">
+          <p class="eyebrow" data-zh="核心模型" data-en="Core model">核心模型</p>
+          <h2 data-zh="template + target + locale = initialized workflow" data-en="template + target + locale = initialized workflow">template + target + locale = initialized workflow</h2>
+        </div>
+        <div class="content-grid three">
+          <article class="content-card">
+            <h3 data-zh="Template" data-en="Template">Template</h3>
+            <p data-zh="回答：要工程化什么工作场景？例如项目协作、系统学习、日常 AI 使用。" data-en="Answers: what work scenario should be engineered? For example project collaboration, structured learning, or daily AI use.">回答：要工程化什么工作场景？例如项目协作、系统学习、日常 AI 使用。</p>
+          </article>
+          <article class="content-card">
+            <h3 data-zh="Target" data-en="Target">Target</h3>
+            <p data-zh="回答：这些资产要放到哪里使用？例如聊天窗口、本地代码项目、Notion 工作区或飞书文档。" data-en="Answers: where will the assets be used? For example a chat window, local code project, Notion workspace, or Feishu document.">回答：这些资产要放到哪里使用？例如聊天窗口、本地代码项目、Notion 工作区或飞书文档。</p>
+          </article>
+          <article class="content-card">
+            <h3 data-zh="Locale" data-en="Locale">Locale</h3>
+            <p data-zh="回答：用户看到的语言和文件夹命名是什么？语言可以本地化，但约定文件名保持稳定。" data-en="Answers: what language and user-facing naming should be generated? User-facing text can be localized, while convention filenames stay stable.">回答：用户看到的语言和文件夹命名是什么？语言可以本地化，但约定文件名保持稳定。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow" data-zh="反模式" data-en="Anti-patterns">反模式</p>
+          <h2 data-zh="RecoWork 有意避免这些 AI 使用方式。" data-en="RecoWork intentionally avoids these AI usage patterns.">RecoWork 有意避免这些 AI 使用方式。</h2>
+        </div>
+        <div class="content-grid two">
+          <article class="content-card danger-card">
+            <h3 data-zh="每次重新解释背景" data-en="Explaining context from scratch">每次重新解释背景</h3>
+            <p data-zh="聊天窗口里的临时说明很难持续维护。RecoWork 用工作空间、index.md 和续聊记忆把上下文沉淀下来。" data-en="Temporary chat instructions are hard to maintain. RecoWork preserves context through workspaces, index.md navigation, and continuation memory.">聊天窗口里的临时说明很难持续维护。RecoWork 用工作空间、index.md 和续聊记忆把上下文沉淀下来。</p>
+          </article>
+          <article class="content-card danger-card">
+            <h3 data-zh="把品牌名当 target" data-en="Using brand names as targets">把品牌名当 target</h3>
+            <p data-zh="Claude Chat 和 Claude Code 的使用方式完全不同。RecoWork 使用具体 target，避免把聊天说明和项目配置混在一起。" data-en="Claude Chat and Claude Code are different surfaces. RecoWork uses concrete targets to avoid mixing chat instructions with project configuration.">Claude Chat 和 Claude Code 的使用方式完全不同。RecoWork 使用具体 target，避免把聊天说明和项目配置混在一起。</p>
+          </article>
+          <article class="content-card danger-card">
+            <h3 data-zh="只追求更长 Prompt" data-en="Only making prompts longer">只追求更长 Prompt</h3>
+            <p data-zh="长 Prompt 不等于稳定工作。稳定来自明确角色、边界、检查标准、文档结构和可恢复的记忆。" data-en="Long prompts do not guarantee stable work. Stability comes from roles, boundaries, quality standards, document structure, and recoverable memory.">长 Prompt 不等于稳定工作。稳定来自明确角色、边界、检查标准、文档结构和可恢复的记忆。</p>
+          </article>
+          <article class="content-card danger-card">
+            <h3 data-zh="发明工具不认识的目录" data-en="Inventing unsupported tool folders">发明工具不认识的目录</h3>
+            <p data-zh="项目 target 必须遵守真实工具约定。看起来整齐但工具不会读取的目录，会制造伪工程化。" data-en="Project targets must follow real tool conventions. Tidy folders that tools do not read create fake engineering.">项目 target 必须遵守真实工具约定。看起来整齐但工具不会读取的目录，会制造伪工程化。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow" data-zh="设计取舍" data-en="Tradeoffs">设计取舍</p>
+          <h2 data-zh="RecoWork 优先选择可持续，而不是一次性惊艳。" data-en="RecoWork optimizes for continuity, not one-off impressiveness.">RecoWork 优先选择可持续，而不是一次性惊艳。</h2>
+        </div>
+        <div class="timeline-list">
+          <div>
+            <span>01</span>
+            <strong data-zh="少一点魔法，多一点可检查" data-en="Less magic, more inspection">少一点魔法，多一点可检查</strong>
+            <p data-zh="初始化结果是文件和 Prompt，用户可以打开、审阅、修改和提交。" data-en="Initialization creates files and prompts that users can inspect, edit, and commit.">初始化结果是文件和 Prompt，用户可以打开、审阅、修改和提交。</p>
+          </div>
+          <div>
+            <span>02</span>
+            <strong data-zh="先支持真实使用面" data-en="Support real surfaces first">先支持真实使用面</strong>
+            <p data-zh="Target ID 描述具体使用面：chat、project、workspace 或 doc，而不是泛泛的平台品牌。" data-en="Target IDs describe concrete surfaces: chat, project, workspace, or doc, not vague platform brands.">Target ID 描述具体使用面：chat、project、workspace 或 doc，而不是泛泛的平台品牌。</p>
+          </div>
+          <div>
+            <span>03</span>
+            <strong data-zh="让模板内容持续演进" data-en="Let templates evolve">让模板内容持续演进</strong>
+            <p data-zh="模板只描述工作方法；target 负责输出约定。二者分离后，新增工具不需要复制所有模板。" data-en="Templates describe working methods; targets handle output conventions. Separating them avoids copying every template for every tool.">模板只描述工作方法；target 负责输出约定。二者分离后，新增工具不需要复制所有模板。</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>RecoWork</span>
+      <span data-i18n="footerText">面向真实 AI 工作的开源工作流模板。</span>
+    </footer>
+    <div class="toast" id="toast" role="status" aria-live="polite">已复制</div>
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
