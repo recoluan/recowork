@@ -107,6 +107,10 @@ Product and engineering specs live in [specs](./specs/):
 
 Update these specs whenever a change introduces a new target, CLI behavior, template convention, or user-facing rule.
 
+## Changelog
+
+Release history is available in [CHANGELOG.md](./CHANGELOG.md) and [CHANGELOG.zh.md](./CHANGELOG.zh.md). The same bilingual record is published on the [release notes page](https://recoluan.github.io/recowork/releases.html).
+
 ## Development
 
 Validation commands:

@@ -255,3 +255,36 @@ Implication:
 - Shared target files are reserved for convention-driven or locale-neutral output.
 - Keep `AGENTS.md`, `CLAUDE.md`, `SKILL.md`, `.claude/`, and `rw-manifest.json` unchanged.
 - When an existing RecoWork target is re-initialized in another locale, remove previous locale-specific generated files that do not exist in the selected locale.
+
+## 016. Use Conventional Commits With Structured Large-Change Bodies
+
+Decision: RecoWork uses Conventional Commits and requires structured commit bodies for broad or compatibility-relevant changes.
+
+Reason:
+
+- Commit history is part of the durable engineering record and must be useful to people and AI agents.
+- A short title alone cannot explain a change that crosses templates, targets, CLI behavior, generated output, and specifications.
+- Explicit compatibility and validation notes make upgrades and regressions easier to assess.
+
+Implication:
+
+- Commit titles use `<type>(<scope>): <summary>`.
+- Broad changes include `Why`, `Changes`, `Compatibility`, and `Validation` in the commit body.
+- Incompatible changes include a `BREAKING CHANGE:` footer.
+- `CONTRIBUTING.md` is the detailed contributor-facing source; `AGENTS.md` applies the same standard to AI agents.
+
+## 017. Treat The Changelog As A Release Artifact
+
+Decision: every RecoWork release updates bilingual changelog sources and the bilingual website release record before publication.
+
+Reason:
+
+- npm versions alone do not explain behavioral changes, migration needs, or known compatibility limits.
+- Repository readers and website visitors need the same release facts in their preferred language.
+- Keeping release notes as a required artifact prevents version history from becoming dependent on chat or commit archaeology.
+
+Implication:
+
+- `CHANGELOG.md` is the English release source and `CHANGELOG.zh.md` is its Chinese counterpart.
+- `docs/releases.html` presents the same release history in Chinese and English.
+- A release must move entries out of `Unreleased`, state compatibility or migration notes, and update all three surfaces before `npm publish`.

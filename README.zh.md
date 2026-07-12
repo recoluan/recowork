@@ -105,6 +105,10 @@ targets/codex-project/
 - `specs/requirements.md`
 - `specs/decisions.md`
 
+## 更新日志
+
+发布记录见 [CHANGELOG.md](./CHANGELOG.md) 和 [CHANGELOG.zh.md](./CHANGELOG.zh.md)。站点同步提供[中英文发布记录](https://recoluan.github.io/recowork/releases.html)。
+
 校验命令：
 
 ```bash

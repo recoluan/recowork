@@ -88,3 +88,12 @@ node cli/recowork/bin/rw.js add learning --target chatgpt-chat --locale en /priv
 ```
 
 For initialization tests, use `/private/tmp/...` or another temporary directory outside the repository root.
+
+## Commit Rules
+
+- Follow [CONTRIBUTING.md](./CONTRIBUTING.md) and use Conventional Commits: `<type>(<scope>): <summary>`.
+- Use a specific scope such as `cli`, `targets`, `templates`, `project-engineering`, `general-ai-workflow`, `learning-engineering`, `docs`, `specs`, or `release`.
+- For multi-surface, migration, generated-output, or otherwise non-obvious changes, include `Why`, `Changes`, `Compatibility`, and `Validation` in the commit body.
+- Use a `BREAKING CHANGE:` footer when an existing command, generated path, file format, or workflow contract becomes incompatible.
+- Inspect staged files before committing; never stage unrelated user changes, generated test output, npm cache, or package tarballs.
+- Before publishing, update `CHANGELOG.md`, `CHANGELOG.zh.md`, and `docs/releases.html` in both languages. Do not publish a version without a release record.

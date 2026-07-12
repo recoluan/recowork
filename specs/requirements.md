@@ -116,9 +116,12 @@ npx recowork add <template> --target <target> --locale <locale> <destination>
   - `targets/`
   - `prompts/`
   - README files
+  - changelog files
 - npm package must not include npm cache, generated tgz files, local test output, or generated project output.
 - `.npm-cache/`, `node_modules/`, and `*.tgz` should be ignored.
 - Publishing requires npm authentication that supports package publish, including 2FA or a granular access token with publish permission when required by npm.
+- Every published version must move completed items from `Unreleased` into a dated version section in both `CHANGELOG.md` and `CHANGELOG.zh.md`.
+- Every published version must also have a matching Chinese and English entry on the GitHub Pages release record at `docs/releases.html`.
 
 ## Project Workflow Requirements
 
@@ -141,6 +144,9 @@ npx recowork add <template> --target <target> --locale <locale> <destination>
 - Except for `index.md`, substantial workspace documents use metadata, a conclusion-first summary, structured body, relative references, and a change log; each document covers one topic.
 - `index.md` is navigation only: one-line entries, relative links, status, and last-updated state, without copied body content.
 - Agents start from the relevant root index, retrieve focused documents progressively, and update affected indexes after material work.
+- Commits must follow Conventional Commits using `<type>(<scope>): <summary>`; the full contributor guidance lives in `CONTRIBUTING.md`.
+- Commits that span multiple surfaces, introduce migrations, alter generated output, or are otherwise non-obvious require `Why`, `Changes`, `Compatibility`, and `Validation` sections in the body.
+- Incompatible command, generated-path, file-format, or workflow-contract changes require a `BREAKING CHANGE:` footer.
 
 ## Project Engineering Workspace Requirements
 
