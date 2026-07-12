@@ -219,3 +219,21 @@ Implication:
 - Target describes the desired output surface; runtime capability describes how initialization can happen.
 - Website initialization controls must collect both values and change available paths accordingly.
 - Prompt templates for local agents must include runtime checks and confirmation before installing Node.js.
+
+## 014. Treat Document Conventions As A First-Class Working Method
+
+Decision: every RecoWork template with a durable workspace includes a localized document standard separate from workflow steps and quality gates.
+
+- `zh`: `工作方法/文档规范.md`
+- `en`: `methods/document-standard.md`
+
+Reason:
+
+- Workflow describes when work happens; quality gates check whether work is ready; neither defines how durable project knowledge is structured, linked, retrieved, and maintained.
+- A fixed document shape makes conclusions discoverable and lets AI retrieve only the context needed for the current task.
+
+Implication:
+
+- Non-index documents use metadata, conclusion-first summary, structured body, relative references, and a change log.
+- `index.md` files remain lightweight navigation only, with one-line entries, relative links, status, and last-updated state.
+- Agents navigate from indexes, retrieve focused documents progressively, and update affected indexes after material work.

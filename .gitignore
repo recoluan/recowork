@@ -1,3 +1,5 @@
 **/.npm-cache/
 node_modules/
 *.tgz
+/marketing
+.DS_Store

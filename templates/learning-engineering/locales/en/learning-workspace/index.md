@@ -1,22 +1,34 @@
+---
+title: Learning Workspace Index
+version: 1.0
+date: 2026-07-12
+status: Final
+---
+
 # Learning Workspace Index
 
-This is the entry point for the learning system. Keep it short so the learner and AI can recover the current goal, progress, and next step.
+This is the root navigation for the learning system. Start here to recover the goal, progress, and next step, then enter the relevant unit only as needed; do not repeat lesson bodies in this index.
 
-## Key Documents
+## Directory
 
-- `learner-brief.md`: background, goals, use cases, constraints, and completion criteria.
-- `course-roadmap.md`: units, dependencies, throughline project, and stage goals.
-- `learning-progress.md`: status, evidence, questions, and next step for each unit.
+| Path | Summary | Status | Last updated |
+| --- | --- | --- | --- |
+| [Learner Brief](./learner-brief.md) | Background, goals, use cases, constraints, and completion criteria. | Update as learning changes | Created at initialization |
+| [Course Roadmap](./course-roadmap.md) | Units, dependencies, throughline project, and stage goals. | Update as learning changes | Created at initialization |
+| [Learning Progress](./learning-progress.md) | Unit status, evidence, questions, and next step. | Update after each session | Created at initialization |
+| [01 Course Design](./01-course-design/index.md) | Diagnosis, resource selection, course design, and adjustments. | To populate | Created at initialization |
+| [02 Lessons And Practice](./02-lessons-and-practice/index.md) | Lesson notes, exercises, answers, and unit records. | To populate | Created at initialization |
+| [03 Project Practice](./03-project-practice/index.md) | Throughline projects, practice tasks, and validation. | To populate | Created at initialization |
+| [04 Questions And Retrospectives](./04-questions-and-retrospectives/index.md) | Mistakes, open questions, summaries, and reviews. | To populate | Created at initialization |
+| [05 Knowledge Capture](./05-knowledge-capture/index.md) | Validated explanations, patterns, and personal learning methods. | To populate | Created at initialization |
 
-## Sections
+## Related References
 
-- `01-course-design/`: diagnosis, resource selection, course design, and adjustments.
-- `02-lessons-and-practice/`: lesson notes, exercises, answers, and unit records.
-- `03-project-practice/`: throughline projects, practice tasks, and validation.
-- `04-questions-and-retrospectives/`: mistakes, open questions, discussion summaries, and reviews.
-- `05-knowledge-capture/`: validated explanations, patterns, and personal learning methods.
+- [Document Standard](../methods/document-standard.md)
+- [Learning Method](../methods/learning-method.md)
 
-## Usage Rules
+## Change Log
 
-- Use this index only for navigation; do not repeat detailed content.
-- Update progress and next step after every completed or adjusted unit.
+| Date | Version | Change |
+| --- | --- | --- |
+| 2026-07-12 | 1.0 | Established index-first learning navigation with visible status. |

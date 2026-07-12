@@ -19,3 +19,4 @@
 - Which problems repeat, and what is their root cause?
 - Does the roadmap, pace, or project need adjustment?
 - Which conclusions belong in `05-knowledge-capture/`?
+- Do new or substantially revised learning documents follow the [Document Standard](./document-standard.md), and have their parent indexes been updated?

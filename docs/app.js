@@ -67,7 +67,7 @@ rw add project --target codex-project --locale zh .`,
     generalOne: "适合 ChatGPT Mobile / Claude Mobile / Kimi",
     generalTwo: "让上下文、质量标准和有效方法持续积累",
     projectDesc:
-      "为 AI 辅助项目建立 AGENTS.md、项目 skills、knowledge 目录、质量门禁和持续沉淀机制。",
+      "为 AI 辅助项目建立 AGENTS.md、文档规范、按需获取、质量门禁和持续沉淀机制。",
     projectOne: "适合 Codex、Cursor、Claude Code",
     projectTwo: "让项目从第一天就有 AI 工作协议",
     learningDesc:
@@ -200,7 +200,7 @@ rw add project --target codex-project --locale en .`,
     generalOne: "For ChatGPT Mobile / Claude Mobile / Kimi",
     generalTwo: "Keeps context, quality standards, and proven methods reusable",
     projectDesc:
-      "Sets up AGENTS.md, project skills, knowledge folders, quality gates, and durable capture for AI-assisted projects.",
+      "Sets up AGENTS.md, a document standard, progressive retrieval, quality gates, and durable capture for AI-assisted projects.",
     projectOne: "For Codex, Cursor, and Claude Code",
     projectTwo: "Gives a project an AI working protocol from day one",
     learningDesc:
@@ -294,14 +294,15 @@ const templateStructures = {
     project: {
       eyebrow: "项目工程化",
       title: "把 AI 协作变成可追溯的项目系统。",
-      description: "角色协议约束 AI 的工作方式，工作空间保留需求、方案、决策、过程和验收，让每次协作都能从已有共识继续。",
+      description: "角色协议与文档规范约束 AI 的工作方式；它先从索引按需读取资料，再将需求、方案、决策、过程和验收沉淀为可追溯的项目事实。",
       outcomes: [
-        "AI 角色设定与质量门禁",
+        "AI 角色设定、文档规范与质量门禁",
         "项目简报与待确认问题",
         "需求、方案、计划、留痕和验证空间",
       ],
       tree: `工作方法/
   角色设定.md
+  文档规范.md
   工作流程.md
   质量门禁.md
 工作空间/
@@ -364,14 +365,15 @@ workspace/
     project: {
       eyebrow: "Project engineering",
       title: "Turn AI collaboration into a traceable project system.",
-      description: "A role contract constrains how AI works, while the workspace preserves requirements, solutions, decisions, traces, and validation for the next collaboration.",
+      description: "A role contract and document standard constrain how AI works. The agent navigates indexes and reads focused documents on demand while the workspace preserves traceable project facts for the next collaboration.",
       outcomes: [
-        "AI role contract and quality gates",
+        "AI role contract, document standard, and quality gates",
         "Project brief and open questions",
         "Spaces for requirements, solutions, plans, traces, and validation",
       ],
       tree: `methods/
   role-contract.md
+  document-standard.md
   workflow.md
   quality-gates.md
 workspace/

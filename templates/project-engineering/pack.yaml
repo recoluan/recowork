@@ -1,8 +1,8 @@
 id: project-engineering
 name: 项目工程化工作流包
 name_en: Project Engineering Workflow Template
-description: 为 AI 辅助项目建立工作协议、项目知识库、自审流程、项目级 skills 和持续沉淀机制。
-description_en: Establish AI working rules, durable project knowledge, self-review, project-level skills, and continuous capture for AI-assisted projects.
+description: 为 AI 辅助项目建立工作协议、文档规范、项目知识库、自审流程、项目级 skills 和持续沉淀机制。
+description_en: Establish AI working rules, document standards, durable project knowledge, self-review, project-level skills, and continuous capture for AI-assisted projects.
 audience:
   - 开发者
   - 独立产品开发者
@@ -40,6 +40,7 @@ outputs_zh:
   - AGENTS.md
   - 本地化工作方法目录
   - 角色设定
+  - 文档规范与按需获取
   - 本地化工作空间目录
   - 项目级 skills
   - 知识文件
@@ -48,6 +49,7 @@ outputs_en:
   - AGENTS.md
   - localized methods directory
   - role contract
+  - document standard and progressive retrieval
   - localized workspace directory
   - project-level skills
   - knowledge files

@@ -135,6 +135,10 @@ npx recowork add <template> --target <target> --locale <locale> <destination>
 - Large or ambiguous design changes should be confirmed before broad execution.
 - Test output generated in the repository root should be cleaned up.
 - Verification commands should be reported after meaningful code changes.
+- Every template with a durable workspace must generate localized document conventions: `工作方法/文档规范.md` for `zh` and `methods/document-standard.md` for `en`.
+- Except for `index.md`, substantial workspace documents use metadata, a conclusion-first summary, structured body, relative references, and a change log; each document covers one topic.
+- `index.md` is navigation only: one-line entries, relative links, status, and last-updated state, without copied body content.
+- Agents start from the relevant root index, retrieve focused documents progressively, and update affected indexes after material work.
 
 ## Project Engineering Workspace Requirements
 
@@ -158,6 +162,8 @@ The Chinese locale should also generate:
 工作方法/
 └── 角色设定.md
 ```
+
+The Chinese locale must also generate `工作方法/文档规范.md`; the English locale must generate `methods/document-standard.md`. This working method defines a five-part document structure (metadata, conclusion first, body, relative references, and change log), one-topic granularity, index-only navigation rules, progressive retrieval, and index-status maintenance after work.
 
 Responsibilities:
 
