@@ -116,7 +116,7 @@ zh
 请运行：
 npx recowork add project-engineering --target codex-project --locale zh .
 
-如果当前环境不能使用 npx，请使用仓库里的 templates/project-engineering/、templates/project-engineering/locales/zh/ 和 targets/codex-project/ 手动创建同等文件。完成后展示文件树，并告诉我第一步应该做什么。`,
+如果当前环境不能使用 npx，请使用仓库里的 templates/project-engineering/locales/zh/、targets/codex-project/files/ 和 targets/codex-project/locales/zh/files/ 手动创建同等文件。完成后展示文件树，并告诉我第一步应该做什么。`,
     copyPrompt: "复制 prompt",
     cliEyebrow: "CLI 用法",
     cliTitle: "用 RecoWork 初始化工作流模板。",
@@ -249,7 +249,7 @@ current project
 Run:
 npx recowork add project-engineering --target codex-project --locale en .
 
-If npx is unavailable, use templates/project-engineering/, templates/project-engineering/locales/en/, and targets/codex-project/ from the repository. Show the file tree and first step.`,
+If npx is unavailable, use templates/project-engineering/locales/en/, targets/codex-project/files/, and targets/codex-project/locales/en/files/ from the repository. Show the file tree and first step.`,
     copyPrompt: "Copy prompt",
     cliEyebrow: "CLI Usage",
     cliTitle: "Initialize workflow templates with RecoWork.",

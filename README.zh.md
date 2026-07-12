@@ -2,7 +2,7 @@
 
 RecoWork 把实用 AI 工作流做成可复用模板，并初始化到用户真实使用的工具和环境里。
 
-它不是提示词合集。RecoWork 的模板负责描述工作场景，target 负责描述这个工作流要输出到哪里、应该生成哪些文件或 prompt，locale 负责描述生成语言。CLI 会把三者组合成真实产物。
+它不是提示词合集。RecoWork 的模板负责描述工作场景，target 负责描述这个工作流要输出到哪里、应该生成哪些文件或 prompt，locale 负责描述生成语言和用户可见路径。CLI 会把三者组合成真实产物。
 
 ## 为什么做
 
@@ -75,7 +75,7 @@ node cli/recowork/bin/rw.js add project --target codex-project --locale zh .
 
 `rw init` 会保留为 `rw add` 的别名。
 
-当模板支持多语言时，可以通过 `--locale zh` 或 `--locale en` 选择生成语言。不传时使用模板默认语言。
+当模板支持多语言时，可以通过 `--locale zh` 或 `--locale en` 选择生成语言。locale 同时决定用户可见的模板和 target 文件路径，例如中文 `知识库/` 与英文 `knowledge/`。不传时使用模板默认语言。
 
 ## Prompt 用法
 

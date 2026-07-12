@@ -42,6 +42,7 @@ Template structure changes must also update the generated template files, CLI cl
 - Use concrete target names such as `claude-chat`, `claude-code-project`, `codex-project`, or `chatgpt-chat`.
 - Use `--locale <locale>` for language selection when a template supports multiple locales.
 - Keep locale-specific template content under `templates/<template>/locales/<locale>/`.
+- Keep locale-specific target content under `targets/<target>/locales/<locale>/files/`; use shared `targets/<target>/files/` only for convention-driven or locale-neutral output.
 - Locale changes may translate user-facing directories and documents, but must not translate convention-driven filenames such as `AGENTS.md`, `CLAUDE.md`, `SKILL.md`, `README.md`, and `index.md`.
 - Templates that govern ongoing work should include a localized role contract that defines the AI's working role, principles, prohibited behavior, and iteration rules.
 - For `project-engineering`, the role contract lives at `工作方法/角色设定.md` for `zh` and `methods/role-contract.md` for `en`.

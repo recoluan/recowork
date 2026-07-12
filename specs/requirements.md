@@ -20,6 +20,7 @@ This document records product and engineering requirements established during th
 - Project workspace outputs should live in `工作空间/`, not `workspace/`.
 - Templates and targets must evolve independently.
 - Localized template content should live under `templates/<template>/locales/<locale>/` when a template supports multiple languages.
+- Localized target content should live under `targets/<target>/locales/<locale>/files/`. Shared target files are reserved for convention-driven or locale-neutral output.
 - Localized examples that contain user-facing language should live under the corresponding locale directory and be copied with that locale.
 - Avoid duplicating platform-specific output inside every template.
 - The CLI should compose a template, target, and locale into files.
@@ -128,6 +129,7 @@ npx recowork add <template> --target <target> --locale <locale> <destination>
 - Chinese can be used in user-facing folder names and document content when the template is Chinese-oriented.
 - English locale output should use English user-facing folders and documents, such as `methods/`, `workspace/`, `project-brief.md`, and `open-questions.md`.
 - Chinese locale output should use Chinese user-facing folders and documents, such as `工作方法/`, `工作空间/`, `项目简报.md`, and `待确认问题.md`.
+- Locale applies to user-facing target paths and static target text as well as template content. For example, Chinese Codex output uses `知识库/`, while English output uses `knowledge/`.
 - Project-oriented templates should include a role contract that defines the AI role, working principles, core capabilities, prohibited behavior, and iteration rules.
 - Role contracts should be localized with the template content. For `project-engineering`, use `工作方法/角色设定.md` in `zh` and `methods/role-contract.md` in `en`.
 - Generated project rules should explicitly tell AI to read the role contract before planning or executing project work.

@@ -171,14 +171,27 @@ function initTemplate(args) {
 
   fs.mkdirSync(targetDir, { recursive: true });
   cleanupLegacyTemplatePaths(template.id, targetDir);
+  cleanupLocalizedExampleOutputs(templateDir, template, selectedLocale, targetDir);
   copyIfExists(path.join(localizedTemplateDir, "README.md"), path.join(targetDir, "README.md"));
   copyDir(path.join(localizedTemplateDir, "工作方法"), path.join(targetDir, "工作方法"));
   copyDir(path.join(localizedTemplateDir, "methods"), path.join(targetDir, "methods"));
   copyDir(path.join(localizedTemplateDir, "core"), path.join(targetDir, "工作方法"));
-  copyDir(path.join(templateDir, "examples"), path.join(targetDir, "examples"));
-  copyDir(path.join(localizedTemplateDir, "examples"), path.join(targetDir, "examples"));
+  const exampleDirName = selectedLocale === "zh" ? "示例" : "examples";
+  copyDir(path.join(templateDir, "examples"), path.join(targetDir, exampleDirName));
+  copyDir(
+    path.join(localizedTemplateDir, "examples"),
+    path.join(targetDir, exampleDirName),
+  );
   copyTemplateAssets(localizedTemplateDir, targetDir);
+  cleanupTargetLocaleOutputs(selectedTargetDir, selectedTarget, selectedLocale, targetDir);
   renderTargetFiles(path.join(selectedTargetDir, "files"), targetDir, template, selectedTarget, selectedLocale);
+  renderTargetFiles(
+    path.join(selectedTargetDir, "locales", selectedLocale, "files"),
+    targetDir,
+    template,
+    selectedTarget,
+    selectedLocale,
+  );
   writeManifest(targetDir, template, selectedTarget, selectedLocale);
 
   console.log(`Initialized ${template.id} for ${selectedTarget.id} (${selectedLocale})`);
@@ -658,6 +671,37 @@ function cleanupLegacyTemplatePaths(templateId, targetDir) {
   }
 }
 
+function cleanupLocalizedExampleOutputs(templateDir, template, locale, outputDir) {
+  const manifestPath = path.join(outputDir, "rw-manifest.json");
+  if (!fs.existsSync(manifestPath)) {
+    return;
+  }
+
+  try {
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+    if (manifest.template !== template.id) {
+      return;
+    }
+  } catch {
+    return;
+  }
+
+  const previousExampleDir = locale === "zh" ? "examples" : "示例";
+  const sourceDirs = [
+    path.join(templateDir, "examples"),
+    path.join(templateDir, "locales", "zh", "examples"),
+  ];
+  for (const sourceDir of sourceDirs) {
+    for (const relativePath of getRenderedTargetPaths(sourceDir)) {
+      const outputPath = path.join(outputDir, previousExampleDir, relativePath);
+      if (fs.existsSync(outputPath) && fs.statSync(outputPath).isFile()) {
+        fs.rmSync(outputPath);
+        removeEmptyParentDirectories(path.dirname(outputPath), outputDir);
+      }
+    }
+  }
+}
+
 function renderTargetFiles(from, to, template, target, locale) {
   if (!fs.existsSync(from)) {
     return;
@@ -680,6 +724,78 @@ function renderTargetFiles(from, to, template, target, locale) {
   }
 }
 
+function cleanupTargetLocaleOutputs(targetDir, target, locale, outputDir) {
+  const manifestPath = path.join(outputDir, "rw-manifest.json");
+  if (!fs.existsSync(manifestPath)) {
+    return;
+  }
+
+  try {
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+    if (manifest.target !== target.id) {
+      return;
+    }
+  } catch {
+    return;
+  }
+
+  const localesDir = path.join(targetDir, "locales");
+  if (!fs.existsSync(localesDir)) {
+    return;
+  }
+
+  const selectedFiles = new Set(
+    getRenderedTargetPaths(path.join(localesDir, locale, "files")),
+  );
+  for (const entry of fs.readdirSync(localesDir, { withFileTypes: true })) {
+    if (!entry.isDirectory() || entry.name === locale) {
+      continue;
+    }
+
+    for (const relativePath of getRenderedTargetPaths(path.join(localesDir, entry.name, "files"))) {
+      if (selectedFiles.has(relativePath)) {
+        continue;
+      }
+      const outputPath = path.join(outputDir, relativePath);
+      if (fs.existsSync(outputPath) && fs.statSync(outputPath).isFile()) {
+        fs.rmSync(outputPath);
+        removeEmptyParentDirectories(path.dirname(outputPath), outputDir);
+      }
+    }
+  }
+}
+
+function getRenderedTargetPaths(directory, prefix = "") {
+  if (!fs.existsSync(directory)) {
+    return [];
+  }
+
+  const paths = [];
+  for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+    const outputName = entry.name.endsWith(".tpl")
+      ? entry.name.slice(0, -4)
+      : entry.name;
+    const relativePath = path.join(prefix, outputName);
+    if (entry.isDirectory()) {
+      paths.push(...getRenderedTargetPaths(path.join(directory, entry.name), relativePath));
+    } else {
+      paths.push(relativePath);
+    }
+  }
+  return paths;
+}
+
+function removeEmptyParentDirectories(directory, stopAt) {
+  let current = directory;
+  while (current.startsWith(stopAt) && current !== stopAt && fs.existsSync(current)) {
+    if (fs.readdirSync(current).length) {
+      return;
+    }
+    fs.rmdirSync(current);
+    current = path.dirname(current);
+  }
+}
+
 function renderTemplate(source, template, target, locale) {
   const localePaths = getLocalePaths(locale, template);
   const localeStrings = getLocaleStrings(locale, template, target, localePaths);
@@ -699,6 +815,7 @@ function renderTemplate(source, template, target, locale) {
     brief_file: localePaths.briefFile,
     questions_file: localePaths.questionsFile,
     role_file: localePaths.roleFile,
+    knowledge_dir: localePaths.knowledgeDir,
     target_intro: localeStrings.targetIntro,
     heading_purpose: localeStrings.headingPurpose,
     heading_audience: localeStrings.headingAudience,
@@ -773,8 +890,8 @@ function getLocaleStrings(locale, template, target, localePaths) {
       ruleCaptureKnowledge: isLearningWorkflow
         ? `Capture reusable learning insights in \`${localePaths.workspaceDir}/05-knowledge-capture/\`.`
         : isGeneralWorkflow
-        ? `Capture reusable task insights in \`${localePaths.workspaceDir}/04-review-and-reuse/\`.`
-        : "Capture durable project knowledge in `knowledge/`.",
+          ? `Capture reusable task insights in \`${localePaths.workspaceDir}/04-review-and-reuse/\`.`
+        : `Capture durable project knowledge in \`${localePaths.knowledgeDir}/\`.`,
       ruleReviewOutput: "Before returning work, review the result against the template purpose and expected outputs.",
       ruleConfirmLargeChanges: "Ask for confirmation before large scope changes or irreversible operations.",
       ruleUseClaudeSkills: "Use project-scoped skills from `.claude/skills/` when they match the task.",
@@ -817,8 +934,8 @@ function getLocaleStrings(locale, template, target, localePaths) {
     ruleCaptureKnowledge: isLearningWorkflow
       ? `把可复用的学习结论沉淀到 \`${localePaths.workspaceDir}/05-知识沉淀/\`。`
       : isGeneralWorkflow
-      ? `把可复用的任务经验沉淀到 \`${localePaths.workspaceDir}/04-复盘与沉淀/\`。`
-      : "把长期有效的项目知识沉淀到 `knowledge/`。",
+        ? `把可复用的任务经验沉淀到 \`${localePaths.workspaceDir}/04-复盘与沉淀/\`。`
+        : `把长期有效的项目知识沉淀到 \`${localePaths.knowledgeDir}/\`。`,
     ruleReviewOutput: "返回结果前，对照模板用途和预期产物自审。",
     ruleConfirmLargeChanges: "大范围变更或不可逆操作前，先向用户确认。",
     ruleUseClaudeSkills: "当任务匹配时，使用 `.claude/skills/` 下的项目级 skills。",
@@ -861,6 +978,7 @@ function getLocalePaths(locale, template) {
         briefFile: "learner-brief.md",
         questionsFile: "learning-workspace/04-questions-and-retrospectives/",
         roleFile: "methods/role-contract.md",
+        knowledgeDir: "knowledge",
       };
     }
     if (isGeneralWorkflow) {
@@ -870,6 +988,7 @@ function getLocalePaths(locale, template) {
         briefFile: "task-brief.md",
         questionsFile: "open-questions.md",
         roleFile: "methods/role-contract.md",
+        knowledgeDir: "knowledge",
       };
     }
     return {
@@ -878,6 +997,7 @@ function getLocalePaths(locale, template) {
       briefFile: "project-brief.md",
       questionsFile: "open-questions.md",
       roleFile: "methods/role-contract.md",
+      knowledgeDir: "knowledge",
     };
   }
 
@@ -888,6 +1008,7 @@ function getLocalePaths(locale, template) {
       briefFile: "任务简报.md",
       questionsFile: "待确认问题.md",
       roleFile: "工作方法/角色设定.md",
+      knowledgeDir: "知识库",
     };
   }
 
@@ -898,6 +1019,7 @@ function getLocalePaths(locale, template) {
       briefFile: "学习简报.md",
       questionsFile: "学习空间/04-问题与复盘/",
       roleFile: "工作方法/角色设定.md",
+      knowledgeDir: "知识库",
     };
   }
 
@@ -907,6 +1029,7 @@ function getLocalePaths(locale, template) {
     briefFile: "项目简报.md",
     questionsFile: "待确认问题.md",
     roleFile: "工作方法/角色设定.md",
+    knowledgeDir: "知识库",
   };
 }
 

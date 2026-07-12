@@ -237,3 +237,21 @@ Implication:
 - Non-index documents use metadata, conclusion-first summary, structured body, relative references, and a change log.
 - `index.md` files remain lightweight navigation only, with one-line entries, relative links, status, and last-updated state.
 - Agents navigate from indexes, retrieve focused documents progressively, and update affected indexes after material work.
+
+## 015. Localize Target Outputs, Not Only Templates
+
+Decision: targets support locale-specific output files under `targets/<target>/locales/<locale>/files/`.
+
+Reason:
+
+- Templates already localize their working methods and workspaces, but target-level paths and static content are also user-visible.
+- Leaving targets language-neutral caused Chinese initialization to generate English paths such as `knowledge/` and English prompt or document filenames.
+- Tool conventions and user-facing content need different treatment.
+
+Implication:
+
+- The CLI renders shared target files first, then selected localized target files.
+- Localized target files may translate user-facing paths, filenames, and static content.
+- Shared target files are reserved for convention-driven or locale-neutral output.
+- Keep `AGENTS.md`, `CLAUDE.md`, `SKILL.md`, `.claude/`, and `rw-manifest.json` unchanged.
+- When an existing RecoWork target is re-initialized in another locale, remove previous locale-specific generated files that do not exist in the selected locale.

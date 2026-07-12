@@ -26,5 +26,6 @@ Do this:
 3. Run:
    npx recowork add <template> --target <target> --locale <locale> <destination>
 4. Do not regenerate the template from memory or silently substitute a mobile-chat workflow.
-5. After initialization, show the file tree, explain what was created, and tell me the first step.
+5. If the CLI cannot run, read `templates/<template>/locales/<locale>/`, shared `targets/<target>/files/`, and `targets/<target>/locales/<locale>/files/` from the repository before manually composing equivalent output.
+6. After initialization, show the file tree, explain what was created, and tell me the first step.
 ```

@@ -2,7 +2,7 @@
 
 RecoWork turns practical AI workflows into reusable templates that can be initialized for the tool and environment a user actually uses.
 
-It is not a prompt collection. A RecoWork template defines the work scenario; a target defines where the workflow will be used; a locale defines the generated language. The CLI combines them into real output.
+It is not a prompt collection. A RecoWork template defines the work scenario; a target defines where the workflow will be used; a locale defines the generated language and user-facing paths. The CLI combines them into real output.
 
 ## Why
 
@@ -75,7 +75,7 @@ node cli/recowork/bin/rw.js add project --target codex-project --locale en .
 
 `rw init` can remain as a compatibility alias for `rw add`.
 
-Use `--locale zh` or `--locale en` when a template supports multiple languages. If omitted, the template default is used.
+Use `--locale zh` or `--locale en` when a template supports multiple languages. Locale applies to user-facing template and target files, such as Chinese `知识库/` or English `knowledge/`. If omitted, the template default is used.
 
 ## Prompt Usage
 

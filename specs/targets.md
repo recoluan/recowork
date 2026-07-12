@@ -63,7 +63,7 @@ The type controls where files are allowed to go.
 
 ## Directory Contract
 
-Each target should use this structure:
+Each target must include `target.yaml` and may use shared files when it has convention-driven or locale-neutral output:
 
 ```text
 targets/<target-id>/
@@ -71,6 +71,19 @@ targets/<target-id>/
 └── files/
     └── ...
 ```
+
+Targets may also localize user-facing output paths and static content:
+
+```text
+targets/<target-id>/
+├── target.yaml
+├── files/                     # optional: convention-driven or locale-neutral output only
+└── locales/
+    ├── en/files/
+    └── zh/files/
+```
+
+The CLI renders shared `files/` first, then renders `locales/<locale>/files/`. Use localized target files for user-facing filenames, directories, and static text such as prompts, workspace templates, and knowledge documents. Keep tool conventions and machine files unchanged, including `AGENTS.md`, `CLAUDE.md`, `SKILL.md`, `.claude/`, and `rw-manifest.json`.
 
 `target.yaml`:
 

@@ -26,5 +26,6 @@ Target：
 3. 运行：
    npx recowork add <模板> --target <target> --locale <语言> <目标位置>
 4. 不要凭记忆重写模板，也不要擅自改用手机端聊天流程。
-5. 初始化后展示文件树，说明创建了什么，并告诉我第一步怎么用。
+5. 如果 CLI 无法运行，先读取仓库中的 `templates/<模板>/locales/<语言>/`、共享 `targets/<target>/files/` 和 `targets/<target>/locales/<语言>/files/`，再手动创建等效产物。
+6. 初始化后展示文件树，说明创建了什么，并告诉我第一步怎么用。
 ```
