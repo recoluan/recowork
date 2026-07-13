@@ -52,24 +52,24 @@
       <section class="section release-summary">
         <div class="release-summary-card latest-release">
           <span data-zh="最新已发布" data-en="Latest published">最新已发布</span>
-          <strong>0.2.2</strong>
-          <p data-zh="2026-07-09 · 修复 npx 直接执行入口" data-en="2026-07-09 · Fixed direct npx execution">2026-07-09 · 修复 npx 直接执行入口</p>
+          <strong>0.3.0</strong>
+          <p data-zh="2026-07-12 · 受控升级、双语输出与工作流规范" data-en="2026-07-12 · Controlled upgrades, localized output, and workflow standards">2026-07-12 · 受控升级、双语输出与工作流规范</p>
         </div>
         <div class="release-summary-card next-release">
           <span data-zh="下一版本" data-en="Next release">下一版本</span>
           <strong data-zh="未发布" data-en="Unreleased">未发布</strong>
-          <p data-zh="Target 本地化、文档规范、提交规范和保守升级机制已进入待发布变更。" data-en="Target localization, document standards, commit rules, and conservative upgrades are queued for release.">Target 本地化、文档规范、提交规范和保守升级机制已进入待发布变更。</p>
+          <p data-zh="当前没有待发布变更。" data-en="No changes are currently queued for release.">当前没有待发布变更。</p>
         </div>
       </section>
 
       <section class="section release-list" aria-label="Release history">
-        <article class="release-card release-card-unreleased">
+        <article class="release-card">
           <div class="release-card-heading">
             <div>
-              <span class="release-kicker" data-zh="下一版本" data-en="Next release">下一版本</span>
-              <h2 data-zh="未发布" data-en="Unreleased">未发布</h2>
+              <span class="release-kicker">2026-07-12</span>
+              <h2>0.3.0</h2>
             </div>
-            <span class="release-badge badge-pink" data-zh="开发中" data-en="In progress">开发中</span>
+            <span class="release-badge badge-green" data-zh="已发布" data-en="Published">已发布</span>
           </div>
           <div class="release-columns">
             <div>
@@ -83,7 +83,7 @@
             </div>
             <div>
               <h3 data-zh="兼容性" data-en="Compatibility">兼容性</h3>
-              <p data-zh="中文 Codex 输出使用 知识库/，英文使用 knowledge/。重新初始化同一 target 时，RecoWork 只清理可安全替换的上一语言生成文件。升级时，已有工作空间文件始终保留，新增模板须显式确认才会补齐。" data-en="Chinese Codex output uses 知识库/ while English uses knowledge/. Reinitializing the same target removes only previous-locale generated files that are safe to replace. During upgrades, existing workspace files are always preserved and new templates require explicit opt-in.">中文 Codex 输出使用 知识库/，英文使用 knowledge/。重新初始化同一 target 时，RecoWork 只清理可安全替换的上一语言生成文件。升级时，已有工作空间文件始终保留，新增模板须显式确认才会补齐。</p>
+              <p data-zh="旧项目需先执行 rw upgrade --adopt . 建立升级基线。升级时，已有工作空间文件始终保留；新增模板须显式使用 --scope workspace --add-missing，报告写入 .recowork/upgrade-reports/。" data-en="Legacy projects must first run rw upgrade --adopt . to establish an upgrade baseline. Existing workspace files are always preserved; new templates require --scope workspace --add-missing, and reports are written to .recowork/upgrade-reports/.">旧项目需先执行 rw upgrade --adopt . 建立升级基线。升级时，已有工作空间文件始终保留；新增模板须显式使用 --scope workspace --add-missing，报告写入 .recowork/upgrade-reports/。</p>
             </div>
           </div>
         </article>
