@@ -958,9 +958,12 @@ h3 {
 }
 
 .content-grid.two,
-.case-grid,
 .principle-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.case-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
 }
 
 .content-grid.three,
@@ -973,6 +976,7 @@ h3 {
 .principle-card,
 .path-card,
 .site-route-card {
+  min-width: 0;
   padding: 22px;
 }
 
@@ -1109,12 +1113,14 @@ h3 {
 }
 
 .case-meta span {
+  max-width: 100%;
   padding: 6px 8px;
   color: #fff;
   background: var(--ink);
   border-radius: 6px;
   font-size: 12px;
   font-weight: 900;
+  overflow-wrap: anywhere;
 }
 
 .case-output {
@@ -1126,6 +1132,7 @@ h3 {
   border-radius: 8px;
   font-weight: 850;
   line-height: 1.55;
+  overflow-wrap: anywhere;
 }
 
 .danger-card {
@@ -1816,6 +1823,7 @@ pre {
   .site-header {
     align-items: flex-start;
     flex-direction: column;
+    gap: 14px;
   }
 
   .hero,
@@ -1841,7 +1849,6 @@ pre {
     grid-template-columns: 1fr;
   }
 
-
   .hero {
     min-height: auto;
   }
@@ -1855,27 +1862,100 @@ pre {
 }
 
 @media (max-width: 640px) {
+  body {
+    background:
+      linear-gradient(135deg, rgba(255, 216, 77, 0.36), transparent 24%),
+      var(--paper);
+  }
+
+  .site-header {
+    position: sticky;
+    gap: 12px;
+    padding: 12px 14px;
+  }
+
+  .brand {
+    font-size: 17px;
+  }
+
+  .brand-mark {
+    width: 34px;
+    height: 34px;
+    box-shadow: 4px 4px 0 var(--yellow);
+  }
+
   .main-nav {
+    width: 100%;
     justify-content: flex-start;
+    flex-wrap: nowrap;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 2px 2px 8px;
+    scrollbar-width: none;
+  }
+
+  .main-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .main-nav a {
+    flex: 0 0 auto;
+    padding: 7px 10px;
+    background: rgba(255, 255, 255, 0.76);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 13px;
+  }
+
+  .main-nav a.active {
+    color: #fff;
+    background: var(--ink);
+    text-decoration: none;
   }
 
   .header-actions {
     width: 100%;
+    flex-wrap: nowrap;
+    padding: 4px;
   }
 
   .github-link {
-    flex: 1 1 100%;
+    flex: 1 1 auto;
+    min-width: 0;
   }
 
   .language-toggle {
-    flex: 1;
+    flex: 0 0 48px;
   }
 
   .hero,
   .page-hero,
   .section {
-    padding-top: 48px;
-    padding-bottom: 48px;
+    padding: 38px 16px;
+  }
+
+  .product-hero {
+    padding-top: 34px;
+  }
+
+  h1,
+  .page-hero h1 {
+    font-size: clamp(38px, 13vw, 54px);
+    line-height: 1;
+  }
+
+  h2 {
+    font-size: clamp(28px, 10vw, 40px);
+    line-height: 1.05;
+  }
+
+  h3 {
+    font-size: 20px;
+  }
+
+  .hero-text {
+    font-size: 16px;
+    line-height: 1.65;
   }
 
   .page-actions,
@@ -1884,6 +1964,54 @@ pre {
   .visual-topline,
   .site-footer {
     flex-direction: column;
+  }
+
+  .page-link,
+  .hero-actions a {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .value-points {
+    gap: 6px;
+  }
+
+  .value-points span {
+    font-size: 12px;
+  }
+
+  .hero-visual,
+  .terminal,
+  .init-workbench,
+  .comparison-card,
+  .site-route-card,
+  .audience-card,
+  .content-card,
+  .case-card,
+  .principle-card,
+  .path-card,
+  .platform-card,
+  .pack-card,
+  .structure-card,
+  .release-card,
+  .release-summary-card {
+    box-shadow: 5px 5px 0 rgba(18, 19, 22, 0.14);
+  }
+
+  .home-intro-copy {
+    padding: 22px;
+    box-shadow: 6px 6px 0 var(--yellow);
+  }
+
+  .comparison-card,
+  .content-card,
+  .case-card,
+  .principle-card,
+  .path-card,
+  .site-route-card,
+  .audience-card,
+  .release-card {
+    padding: 18px;
   }
 
   .visual-actions {
@@ -1904,12 +2032,40 @@ pre {
     grid-template-columns: 1fr;
   }
 
+  .platform-card,
+  .pack-card,
+  .audience-card,
+  .workflow-steps div {
+    min-height: auto;
+  }
+
+  .workflow-steps div {
+    padding: 18px;
+  }
+
+  .workflow-steps span {
+    margin-bottom: 14px;
+  }
+
+  .release-card-heading {
+    flex-direction: column;
+  }
+
+  .release-card-heading h2 {
+    font-size: 34px;
+  }
+
   .target-select-menu {
+    position: static;
     grid-template-columns: 1fr;
+    width: 100%;
+    margin-top: 8px;
+    box-shadow: none;
   }
 
   .init-workbench {
-    padding: 14px;
+    padding: 12px;
+    box-shadow: 5px 5px 0 rgba(18, 19, 22, 0.14);
   }
 
   .init-method-tabs {
@@ -1922,13 +2078,25 @@ pre {
     white-space: normal;
   }
 
+  .config-locales,
+  .config-environments {
+    width: 100%;
+  }
+
+  .config-locale,
+  .config-environment {
+    flex: 1;
+    justify-content: center;
+  }
+
   .matrix-table > div,
   .timeline-list div {
     grid-template-columns: 1fr;
   }
 
   .matrix-table > div {
-    padding: 12px 0;
+    gap: 0;
+    padding: 10px 0;
   }
 
   .matrix-table > div:first-child {
@@ -1943,12 +2111,86 @@ pre {
   }
 
   .hero-visual {
-    box-shadow: 10px 10px 0 var(--violet);
+    padding: 12px;
+    box-shadow: 7px 7px 0 var(--violet);
   }
 
   .product-flow div,
   .product-flow div:nth-child(2),
   .product-flow div:nth-child(3) {
     margin-left: 0;
+  }
+
+  .visual-topline {
+    align-items: stretch;
+    font-size: 12px;
+  }
+
+  pre {
+    padding: 16px;
+    font-size: 12px;
+    line-height: 1.65;
+  }
+
+  .terminal-copy {
+    position: static;
+    width: calc(100% - 24px);
+    margin: 0 12px 12px;
+  }
+
+  .prompt-terminal {
+    box-shadow: 6px 6px 0 var(--orange);
+  }
+
+  .command-terminal,
+  .structure-terminal {
+    box-shadow: 6px 6px 0 var(--blue);
+  }
+
+  .site-footer {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 380px) {
+  .site-header {
+    padding: 10px 12px;
+  }
+
+  .hero,
+  .page-hero,
+  .section {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .github-link span {
+    display: none;
+  }
+
+  .github-link {
+    flex: 0 0 42px;
+    min-width: 42px;
+    padding: 0;
+  }
+
+  .language-toggle {
+    flex-basis: 44px;
+  }
+
+  .target-select-trigger,
+  .target-option {
+    min-height: 42px;
+    font-size: 13px;
+  }
+
+  .init-method-tab {
+    font-size: 13px;
+  }
+
+  .matrix-table strong,
+  .matrix-table span,
+  .matrix-table code {
+    padding: 10px 12px;
   }
 }

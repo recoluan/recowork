@@ -1,4 +1,5 @@
 id: codex-project
+version: 1.0.0
 name: Codex Project
 type: project
 description: Generates project instructions, knowledge files, and reusable self-review assets for Codex-style project work.

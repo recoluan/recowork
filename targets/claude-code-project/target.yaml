@@ -1,4 +1,5 @@
 id: claude-code-project
+version: 1.0.0
 name: Claude Code Project
 type: project
 description: Generates Claude Code project instructions and project-scoped skills.

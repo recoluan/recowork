@@ -524,7 +524,16 @@ npx recowork add project --target codex-project --locale zh .
 npx recowork add general --target chatgpt-chat --locale zh ./my-ai-workflow
 
 # 初始化学习工作流到 Notion 文档工作区
-npx recowork add learning --target notion-workspace --locale zh ./my-learning-workflow`
+npx recowork add learning --target notion-workspace --locale zh ./my-learning-workflow
+
+# 只读检查已有工作流的更新建议
+npx recowork upgrade --check .
+
+# 安全更新未改动的工作方法和 target 文件
+npx recowork upgrade --apply .
+
+# 仅补齐新版新增且当前缺失的工作空间文件
+npx recowork upgrade --apply --scope workspace --add-missing .`
       : `# List templates
 npx recowork list
 
@@ -538,7 +547,16 @@ npx recowork add project --target codex-project --locale en .
 npx recowork add general --target chatgpt-chat --locale en ./my-ai-workflow
 
 # Initialize a learning workflow for a Notion workspace
-npx recowork add learning --target notion-workspace --locale en ./my-learning-workflow`;
+npx recowork add learning --target notion-workspace --locale en ./my-learning-workflow
+
+# Read-only check for workflow update suggestions
+npx recowork upgrade --check .
+
+# Safely update unchanged methods and target files
+npx recowork upgrade --apply .
+
+# Add only newly introduced, currently missing workspace files
+npx recowork upgrade --apply --scope workspace --add-missing .`;
   }
 
   document.querySelectorAll(".language-toggle").forEach((button) => {

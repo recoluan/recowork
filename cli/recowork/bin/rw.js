@@ -2,6 +2,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 
 const ROOT = path.resolve(__dirname, "../../..");
 const TEMPLATES_DIR = path.join(ROOT, "templates");
@@ -64,6 +65,16 @@ function main() {
     return;
   }
 
+  if (command === "status") {
+    upgradeWorkflow(["--check", ...args.slice(1)]);
+    return;
+  }
+
+  if (command === "upgrade") {
+    upgradeWorkflow(args.slice(1));
+    return;
+  }
+
   if (command === "init" || command === "add") {
     initTemplate(args.slice(1));
     return;
@@ -82,6 +93,9 @@ Usage:
   rw show-target <target>
   rw add <template> --target <target> [--locale <locale>] <destination>
   rw init <template> --target <target> [--locale <locale>] <destination>
+  rw status <destination>
+  rw upgrade [--check|--plan|--apply] [--scope <methods,target,workspace>] [--add-missing] <destination>
+  rw upgrade --adopt <destination>
 
 Compatibility:
   rw platforms
@@ -92,6 +106,8 @@ Examples:
   rw add project --target codex-project --locale zh .
   rw add project --target claude-code-project --locale en .
   rw add learning -t notion-workspace ./langchain-study
+  rw upgrade --check .
+  rw upgrade --plan .
 `);
 }
 
@@ -196,6 +212,325 @@ function initTemplate(args) {
 
   console.log(`Initialized ${template.id} for ${selectedTarget.id} (${selectedLocale})`);
   console.log(`Target: ${targetDir}`);
+}
+
+function upgradeWorkflow(args) {
+  const targetArg = readDestination(args);
+  const targetDir = path.resolve(process.cwd(), targetArg || ".");
+  const manifestPath = path.join(targetDir, "rw-manifest.json");
+  if (!fs.existsSync(manifestPath)) {
+    fail(`No rw-manifest.json found in: ${targetDir}`);
+  }
+
+  const manifest = readManifest(manifestPath);
+  if (args.includes("--adopt")) {
+    adoptWorkflow(targetDir, manifest);
+    return;
+  }
+
+  if (manifest.schema_version !== 2 || !manifest.files) {
+    console.log("This workflow uses a legacy RecoWork manifest and has no upgrade baseline.");
+    console.log("Run `rw upgrade --adopt <destination>` to record the current files without overwriting them.");
+    return;
+  }
+
+  const template = resolveTemplate(manifest.template);
+  const target = resolveTarget(manifest.target);
+  const locale = resolveRequestedLocale(manifest.locale, template);
+  const mode = args.includes("--apply") ? "apply" : args.includes("--plan") ? "plan" : "check";
+  const scopes = parseUpgradeScopes(readOption(args, "scope", "s"));
+  const plan = buildUpgradePlan(targetDir, manifest, template, target, locale);
+
+  printUpgradePlan(plan, manifest, mode, scopes);
+
+  if (mode !== "apply") {
+    return;
+  }
+
+  const addMissing = args.includes("--add-missing");
+  const applied = applyUpgradePlan(targetDir, manifest, plan, scopes, addMissing);
+  const hasWorkspaceScope = scopes.has("workspace");
+  const hasWorkspaceItems = plan.items.some((item) => item.ownership === "workspace");
+  const reportPath = hasWorkspaceScope && hasWorkspaceItems
+    ? writeUpgradeReport(targetDir, template, locale, plan, applied)
+    : null;
+  refreshAppliedVersions(targetDir, manifest, template, target, locale);
+  fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+  console.log(`\nApplied ${applied.updated} update(s) and added ${applied.added} missing file(s).`);
+  if (reportPath) {
+    console.log(`Upgrade report: ${reportPath}`);
+  }
+}
+
+function readManifest(manifestPath) {
+  try {
+    return JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+  } catch {
+    fail(`Cannot read manifest: ${manifestPath}`);
+  }
+}
+
+function parseUpgradeScopes(value) {
+  const supported = new Set(["methods", "target", "workspace"]);
+  if (!value) {
+    return new Set(["methods", "target"]);
+  }
+  const scopes = new Set(value.split(",").map((item) => item.trim()).filter(Boolean));
+  for (const scope of scopes) {
+    if (!supported.has(scope)) {
+      fail(`Unknown upgrade scope: ${scope}. Supported scopes: methods, target, workspace`);
+    }
+  }
+  return scopes;
+}
+
+function adoptWorkflow(targetDir, previousManifest) {
+  const template = resolveTemplate(previousManifest.template);
+  const target = resolveTarget(previousManifest.target);
+  const locale = resolveRequestedLocale(previousManifest.locale, template);
+  const desiredFiles = collectDesiredFiles(template, target, locale);
+  const files = {};
+
+  for (const [relativePath, desired] of Object.entries(desiredFiles)) {
+    const outputPath = path.join(targetDir, relativePath);
+    if (!fs.existsSync(outputPath) || !fs.statSync(outputPath).isFile()) {
+      continue;
+    }
+    const currentHash = hashFile(outputPath);
+    files[relativePath] = {
+      ownership: desired.ownership,
+      source_hash: desired.hash,
+      baseline_hash: currentHash,
+      user_modified: desired.ownership === "workspace" || currentHash !== desired.hash,
+    };
+  }
+
+  const manifest = createManifest(template, target, locale, files, previousManifest.generated_at);
+  fs.writeFileSync(
+    path.join(targetDir, "rw-manifest.json"),
+    `${JSON.stringify(manifest, null, 2)}\n`,
+  );
+  console.log(`Adopted ${Object.keys(files).length} existing RecoWork file(s) without changing project files.`);
+}
+
+function buildUpgradePlan(targetDir, manifest, template, target, locale) {
+  const desiredFiles = collectDesiredFiles(template, target, locale);
+  const items = [];
+  const trackedPaths = new Set(Object.keys(manifest.files));
+
+  for (const [relativePath, desired] of Object.entries(desiredFiles)) {
+    const tracked = manifest.files[relativePath];
+    const outputPath = path.join(targetDir, relativePath);
+    const exists = fs.existsSync(outputPath) && fs.statSync(outputPath).isFile();
+    const currentHash = exists ? hashFile(outputPath) : null;
+
+    if (!tracked) {
+      items.push({
+        relativePath,
+        ownership: desired.ownership,
+        state: exists ? "untracked" : desired.ownership === "workspace" ? "workspace-missing" : "missing",
+        action: exists ? "preserve" : desired.ownership === "workspace" ? "suggest-add" : "add",
+        upstreamChanged: true,
+        desired,
+      });
+      continue;
+    }
+
+    const upstreamChanged = tracked.source_hash !== desired.hash;
+    const userChanged = currentHash !== tracked.baseline_hash
+      || (tracked.user_modified && desired.ownership !== "workspace");
+    if (!upstreamChanged && !userChanged) {
+      continue;
+    }
+
+    if (desired.ownership === "workspace") {
+      items.push({
+        relativePath,
+        ownership: desired.ownership,
+        state: userChanged ? "workspace-user-changed" : "workspace-template-changed",
+        action: "suggest-review",
+        upstreamChanged,
+        desired,
+      });
+      continue;
+    }
+
+    if (upstreamChanged && !userChanged) {
+      items.push({
+        relativePath,
+        ownership: desired.ownership,
+        state: "safe-update",
+        action: "update",
+        upstreamChanged,
+        desired,
+      });
+      continue;
+    }
+
+    items.push({
+      relativePath,
+      ownership: desired.ownership,
+      state: userChanged && upstreamChanged ? "conflict" : "user-changed",
+      action: "preserve",
+      upstreamChanged,
+      desired,
+    });
+  }
+
+  for (const [relativePath, tracked] of Object.entries(manifest.files)) {
+    if (!desiredFiles[relativePath]) {
+      items.push({
+        relativePath,
+        ownership: tracked.ownership,
+        state: "retired-upstream-file",
+        action: "preserve",
+        upstreamChanged: true,
+      });
+    }
+  }
+
+  return { desiredFiles, items };
+}
+
+function applyUpgradePlan(targetDir, manifest, plan, scopes, addMissing) {
+  const applied = { updated: 0, added: 0 };
+  for (const item of plan.items) {
+    const scope = item.ownership === "template" ? "methods" : item.ownership;
+    if (!scopes.has(scope)) {
+      continue;
+    }
+    const canUpdate = item.action === "update";
+    const canAdd = item.action === "add" || (item.action === "suggest-add" && addMissing);
+    if (!canUpdate && !canAdd) {
+      continue;
+    }
+
+    const outputPath = path.join(targetDir, item.relativePath);
+    fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+    fs.writeFileSync(outputPath, item.desired.content);
+    manifest.files[item.relativePath] = {
+      ownership: item.ownership,
+      source_hash: item.desired.hash,
+      baseline_hash: item.desired.hash,
+      user_modified: item.ownership === "workspace",
+    };
+    if (canUpdate) {
+      applied.updated += 1;
+    } else {
+      applied.added += 1;
+    }
+  }
+  manifest.last_upgraded_at = new Date().toISOString();
+  return applied;
+}
+
+function refreshAppliedVersions(targetDir, manifest, template, target, locale) {
+  const remainingPlan = buildUpgradePlan(targetDir, manifest, template, target, locale);
+  const hasPendingChanges = (ownerships) => remainingPlan.items.some((item) => {
+    return ownerships.has(item.ownership) && item.upstreamChanged;
+  });
+
+  manifest.recowork_version = getCliVersion();
+  manifest.detected_template_version = getTemplateVersion(template);
+  manifest.detected_target_version = getTargetVersion(target);
+  if (!hasPendingChanges(new Set(["methods", "template", "workspace"]))) {
+    manifest.template_version = getTemplateVersion(template);
+  }
+  if (!hasPendingChanges(new Set(["target"]))) {
+    manifest.target_version = getTargetVersion(target);
+  }
+}
+
+function printUpgradePlan(plan, manifest, mode, scopes) {
+  const scopedItems = plan.items.filter((item) => {
+    const scope = item.ownership === "template" ? "methods" : item.ownership;
+    return scopes.has(scope);
+  });
+  const grouped = new Map();
+  for (const item of scopedItems) {
+    const key = item.state;
+    grouped.set(key, [...(grouped.get(key) || []), item]);
+  }
+  console.log(`RecoWork upgrade ${mode}`);
+  console.log(`Current: template ${manifest.template_version || "unknown"}, target ${manifest.target_version || "unknown"}`);
+  console.log(`Available: template ${getTemplateVersion(resolveTemplate(manifest.template))}, target ${getTargetVersion(resolveTarget(manifest.target))}`);
+  console.log(`Scopes: ${[...scopes].join(", ")}`);
+
+  if (!scopedItems.length) {
+    console.log("\nNo generated-file changes detected.");
+    return;
+  }
+
+  for (const [state, items] of grouped) {
+    console.log(`\n${formatUpgradeState(state)} (${items.length})`);
+    for (const item of items) {
+      console.log(`  - ${item.relativePath}`);
+    }
+  }
+
+  if (mode !== "apply") {
+    console.log("\nNo files were changed. Use `rw upgrade --apply` for safe methods/target updates.");
+    console.log("Use `--scope workspace --add-missing` only to create missing workspace additions; existing workspace files are never overwritten.");
+  }
+}
+
+function formatUpgradeState(state) {
+  return {
+    "safe-update": "Safe updates",
+    missing: "Missing generated files",
+    "workspace-missing": "New missing workspace templates",
+    untracked: "Existing untracked files",
+    "workspace-template-changed": "Workspace template changes requiring review",
+    "workspace-user-changed": "User-owned workspace files requiring review",
+    conflict: "Files changed by both you and RecoWork",
+    "user-changed": "User-modified files preserved",
+    "retired-upstream-file": "Files no longer emitted by the current template",
+  }[state] || state;
+}
+
+function writeUpgradeReport(targetDir, template, locale, plan, applied) {
+  const reportDir = path.join(targetDir, ".recowork", "upgrade-reports");
+  const reportFile = locale === "zh"
+    ? `${new Date().toISOString().slice(0, 10)}-工作空间升级建议.md`
+    : `${new Date().toISOString().slice(0, 10)}-workspace-upgrade-report.md`;
+  const workspaceItems = plan.items.filter((item) => item.ownership === "workspace");
+  const title = locale === "zh" ? "工作空间升级建议" : "Workspace Upgrade Report";
+  const conclusion = locale === "zh"
+    ? "本报告只列出新版工作空间模板与当前项目之间的差异。RecoWork 未覆盖、移动或删除任何已有工作空间文件。"
+    : "This report lists differences between the current project and newer workspace templates. RecoWork did not overwrite, move, or delete existing workspace files.";
+  const body = workspaceItems.length
+    ? workspaceItems.map((item) => `- \`${item.relativePath}\`：${describeWorkspaceAction(item, locale)}`).join("\n")
+    : locale === "zh" ? "- 未检测到需要人工处理的工作空间变化。" : "- No workspace changes need manual review.";
+  const nextSteps = locale === "zh"
+    ? [
+      "1. 对照每项建议确认当前项目是否已有等价内容。",
+      "2. 新增文件可使用 `rw upgrade --apply --scope workspace --add-missing .` 补齐；该命令不会修改已有工作空间文件。",
+      "3. 涉及已有文档时，先人工或让 AI 按本报告合并，并更新相关 `index.md`。",
+    ]
+    : [
+      "1. Check whether the current project already has equivalent content for each suggestion.",
+      "2. Use `rw upgrade --apply --scope workspace --add-missing .` only to add missing files; it never changes existing workspace files.",
+      "3. Merge changes to existing documents manually or with an AI, then update the affected `index.md` files.",
+    ];
+  const manifestReference = path.relative(reportDir, path.join(targetDir, "rw-manifest.json")).split(path.sep).join("/");
+  const content = `# ${title}\n\n${locale === "zh" ? `- 版本：${getCliVersion()}\n- 日期：${new Date().toISOString().slice(0, 10)}\n- 状态：待评审` : `- Version: ${getCliVersion()}\n- Date: ${new Date().toISOString().slice(0, 10)}\n- Status: Review required`}\n\n## ${locale === "zh" ? "结论" : "Conclusion"}\n\n${conclusion}\n\n## ${locale === "zh" ? "需要处理的变化" : "Changes To Review"}\n\n${body}\n\n## ${locale === "zh" ? "建议操作" : "Suggested Actions"}\n\n${nextSteps.join("\n")}\n\n## ${locale === "zh" ? "关联引用" : "Related References"}\n\n- [rw-manifest.json](${manifestReference})\n\n## ${locale === "zh" ? "本次自动操作" : "Automatic Actions"}\n\n- ${locale === "zh" ? `更新 ${applied.updated} 个文件，新增 ${applied.added} 个缺失文件。` : `Updated ${applied.updated} file(s) and added ${applied.added} missing file(s).`}\n\n## ${locale === "zh" ? "变更记录" : "Change Log"}\n\n| ${locale === "zh" ? "日期" : "Date"} | ${locale === "zh" ? "变更" : "Change"} |\n| --- | --- |\n| ${new Date().toISOString().slice(0, 10)} | ${locale === "zh" ? "由 RecoWork 升级顾问生成" : "Generated by the RecoWork upgrade advisor"} |\n`;
+  fs.mkdirSync(reportDir, { recursive: true });
+  const outputPath = path.join(reportDir, reportFile);
+  fs.writeFileSync(outputPath, content);
+  return path.relative(targetDir, outputPath);
+}
+
+function describeWorkspaceAction(item, locale) {
+  const messages = locale === "zh"
+    ? {
+      "suggest-add": "新版新增的模板；可选择补齐，现有文件不会被修改。",
+      "suggest-review": "已有工作空间内容需要人工比对和合并；不会自动覆盖。",
+    }
+    : {
+      "suggest-add": "A newly added template file; you may add it without changing existing files.",
+      "suggest-review": "Existing workspace content needs manual comparison and merge; it will not be overwritten automatically.",
+    };
+  return messages[item.action] || item.action;
 }
 
 function getTemplates() {
@@ -418,9 +753,12 @@ function readOption(args, longName, shortName) {
 function readDestination(args) {
   const skipped = new Set([0]);
   for (let index = 0; index < args.length; index += 1) {
-    if (["--platform", "-p", "--target", "-t", "--locale", "-l"].includes(args[index])) {
+    if (["--platform", "-p", "--target", "-t", "--locale", "-l", "--scope", "-s"].includes(args[index])) {
       skipped.add(index);
       skipped.add(index + 1);
+    }
+    if (["--check", "--plan", "--apply", "--add-missing", "--adopt"].includes(args[index])) {
+      skipped.add(index);
     }
   }
 
@@ -465,6 +803,82 @@ function copyTemplateAssets(templateDir, targetDir) {
       fs.copyFileSync(source, destination);
     }
   }
+}
+
+function collectDesiredFiles(template, target, locale) {
+  const templateDir = path.join(TEMPLATES_DIR, template.id);
+  const localizedTemplateDir = resolveTemplateContentDir(templateDir, locale);
+  const localePaths = getLocalePaths(locale, template);
+  const files = {};
+  const addFile = (relativePath, content, ownership) => {
+    const normalizedPath = relativePath.split(path.sep).join("/");
+    files[normalizedPath] = { content, hash: hashContent(content), ownership };
+  };
+  const addDirectory = (sourceDir, outputPrefix, ownership, render = false) => {
+    if (!fs.existsSync(sourceDir)) {
+      return;
+    }
+    for (const entry of fs.readdirSync(sourceDir, { withFileTypes: true })) {
+      const sourcePath = path.join(sourceDir, entry.name);
+      const outputName = render && entry.name.endsWith(".tpl") ? entry.name.slice(0, -4) : entry.name;
+      const outputPath = path.join(outputPrefix, outputName);
+      if (entry.isDirectory()) {
+        addDirectory(sourcePath, outputPath, ownership, render);
+      } else {
+        const source = fs.readFileSync(sourcePath, "utf8");
+        addFile(outputPath, render ? renderTemplate(source, template, target, locale) : source, ownership);
+      }
+    }
+  };
+
+  if (fs.existsSync(path.join(localizedTemplateDir, "README.md"))) {
+    addFile("README.md", fs.readFileSync(path.join(localizedTemplateDir, "README.md"), "utf8"), "template");
+  }
+  addDirectory(path.join(localizedTemplateDir, "工作方法"), "工作方法", "methods");
+  addDirectory(path.join(localizedTemplateDir, "methods"), "methods", "methods");
+  addDirectory(path.join(localizedTemplateDir, "core"), "工作方法", "methods");
+
+  const exampleDirName = locale === "zh" ? "示例" : "examples";
+  addDirectory(path.join(templateDir, "examples"), exampleDirName, "template");
+  addDirectory(path.join(localizedTemplateDir, "examples"), exampleDirName, "template");
+
+  const reserved = new Set(["pack.yaml", "README.md", "工作方法", "methods", "core", "examples", "locales"]);
+  for (const entry of fs.readdirSync(localizedTemplateDir, { withFileTypes: true })) {
+    if (!reserved.has(entry.name)) {
+      const ownership = entry.name === localePaths.workspaceDir ? "workspace" : "template";
+      const sourcePath = path.join(localizedTemplateDir, entry.name);
+      if (entry.isDirectory()) {
+        addDirectory(sourcePath, entry.name, ownership);
+      } else {
+        addFile(entry.name, fs.readFileSync(sourcePath, "utf8"), ownership);
+      }
+    }
+  }
+
+  const targetDir = path.join(TARGETS_DIR, target.id);
+  addDirectory(path.join(targetDir, "files"), "", "target", true);
+  addDirectory(path.join(targetDir, "locales", locale, "files"), "", "target", true);
+  return files;
+}
+
+function hashContent(content) {
+  return crypto.createHash("sha256").update(content).digest("hex");
+}
+
+function hashFile(filePath) {
+  return crypto.createHash("sha256").update(fs.readFileSync(filePath)).digest("hex");
+}
+
+function getCliVersion() {
+  return JSON.parse(fs.readFileSync(path.join(ROOT, "package.json"), "utf8")).version;
+}
+
+function getTemplateVersion(template) {
+  return template.version || "0.0.0";
+}
+
+function getTargetVersion(target) {
+  return target.version || "0.0.0";
 }
 
 function cleanupLegacyTemplatePaths(templateId, targetDir) {
@@ -1041,18 +1455,41 @@ function formatList(items) {
 }
 
 function writeManifest(targetDir, template, target, locale) {
-  const manifest = {
-    tool: "RecoWork",
-    template: template.id,
-    target: target.id,
-    locale,
-    generated_at: new Date().toISOString(),
-  };
+  const desiredFiles = collectDesiredFiles(template, target, locale);
+  const files = {};
+  for (const [relativePath, desired] of Object.entries(desiredFiles)) {
+    const outputPath = path.join(targetDir, relativePath);
+    if (!fs.existsSync(outputPath) || !fs.statSync(outputPath).isFile()) {
+      continue;
+    }
+    files[relativePath] = {
+      ownership: desired.ownership,
+      source_hash: desired.hash,
+      baseline_hash: hashFile(outputPath),
+      user_modified: desired.ownership === "workspace",
+    };
+  }
+  const manifest = createManifest(template, target, locale, files);
 
   fs.writeFileSync(
     path.join(targetDir, "rw-manifest.json"),
     `${JSON.stringify(manifest, null, 2)}\n`,
   );
+}
+
+function createManifest(template, target, locale, files, generatedAt = new Date().toISOString()) {
+  return {
+    tool: "RecoWork",
+    schema_version: 2,
+    recowork_version: getCliVersion(),
+    template: template.id,
+    template_version: getTemplateVersion(template),
+    target: target.id,
+    target_version: getTargetVersion(target),
+    locale,
+    generated_at: generatedAt,
+    files,
+  };
 }
 
 function fail(message) {

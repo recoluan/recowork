@@ -1,4 +1,5 @@
 id: claude-chat
+version: 1.0.0
 name: Claude Chat
 type: chat
 description: Generates copyable Claude project instructions and chat prompts.

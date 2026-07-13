@@ -1,4 +1,5 @@
 id: project-engineering
+version: 1.0.0
 name: 项目工程化工作流包
 name_en: Project Engineering Workflow Template
 description: 为 AI 辅助项目建立工作协议、文档规范、项目知识库、自审流程、项目级 skills 和持续沉淀机制。

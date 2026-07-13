@@ -1,4 +1,5 @@
 id: kimi-doubao-chat
+version: 1.0.0
 name: Kimi / Doubao Chat
 type: chat
 description: Generates concise Chinese prompts for Kimi, Doubao, and similar Chinese chat AI tools.

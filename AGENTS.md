@@ -69,6 +69,8 @@ Template structure changes must also update the generated template files, CLI cl
 - When user feedback changes the expected AI role, working style, confirmation behavior, or quality bar, consider updating the role contract or related working methods.
 - After changing generated templates, run a real initialization test into `/private/tmp/...` and inspect the generated output for stale structure or outdated wording.
 - When changing localized templates, validate every supported locale that the change affects.
+- RecoWork upgrades must treat generated workspaces as user-owned: never automatically overwrite, move, delete, or recreate a tracked workspace file. `rw upgrade` may safely update only unmodified working-method or target files; workspace changes are reported for review and missing newly introduced workspace files require explicit `--scope workspace --add-missing`.
+- New initializations write `rw-manifest.json` schema version 2 with template/target versions and generated-file hashes. Legacy manifests require `rw upgrade --adopt <destination>` before upgrade checks can establish a baseline.
 
 ## Validation
 

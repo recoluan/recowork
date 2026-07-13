@@ -52,6 +52,29 @@ rw add learning --target notion-workspace --locale en ./langchain-study
 
 `rw init` is a compatibility alias for `rw add`.
 
+## Upgrade An Existing Workflow
+
+New workflows include a versioned `rw-manifest.json` that records generated-file baselines.
+
+```bash
+rw status .
+rw upgrade --check .
+rw upgrade --plan .
+rw upgrade --apply .
+```
+
+Checks and plans are read-only and respect `--scope`. Apply updates only unchanged methods and target files. Workspace documents are user-owned and are never overwritten, moved, deleted, or restored. To add a newly introduced workspace file that is missing, opt in explicitly:
+
+```bash
+rw upgrade --apply --scope workspace --add-missing .
+```
+
+This writes an upgrade report under `.recowork/upgrade-reports/` for manual review without modifying the workspace. For a legacy workflow, establish a baseline without changing files:
+
+```bash
+rw upgrade --adopt .
+```
+
 ## Templates
 
 | ID | Alias | Use case |
@@ -112,6 +135,9 @@ rw show <template>
 rw show-target <target>
 rw add <template> --target <target> [--locale <locale>] <destination>
 rw init <template> --target <target> [--locale <locale>] <destination>
+rw status <destination>
+rw upgrade [--check|--plan|--apply] [--scope <methods,target,workspace>] [--add-missing] <destination>
+rw upgrade --adopt <destination>
 rw platforms
 ```
 

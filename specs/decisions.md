@@ -288,3 +288,26 @@ Implication:
 - `CHANGELOG.md` is the English release source and `CHANGELOG.zh.md` is its Chinese counterpart.
 - `docs/releases.html` presents the same release history in Chinese and English.
 - A release must move entries out of `Unreleased`, state compatibility or migration notes, and update all three surfaces before `npm publish`.
+
+## 018. Upgrade Generated Assets Without Taking Ownership Of User Workspaces
+
+Decision: RecoWork uses a versioned generated-file manifest and a conservative upgrade advisor.
+
+- New initializations write `rw-manifest.json` schema version 2 with RecoWork, template, and target versions plus source and baseline hashes for generated files.
+- `rw status` and `rw upgrade --check` are read-only. `rw upgrade --plan` shows the same per-file recommendations in detail.
+- `rw upgrade --apply` may update only an unchanged working-method or target file. If a user changed a file, it remains untouched and is reported.
+- Workspaces are user-owned. RecoWork never automatically overwrites, moves, deletes, or recreates an existing/tracked workspace document.
+- `rw upgrade --apply --scope workspace --add-missing` may create only a newly introduced workspace template that is absent. When the workspace scope is explicitly selected, it writes a localized upgrade report under `.recowork/upgrade-reports/` for the user or AI to review.
+- Older manifests require `rw upgrade --adopt` to record the present state without modifying project files.
+
+Reason:
+
+- Working methods and tool conventions benefit from controlled updates, while project briefs, decisions, traces, and learning records are the user's durable assets.
+- Re-initialization cannot distinguish template evolution from intentional project work, and therefore is unsafe as an upgrade mechanism.
+- Hash baselines make the upgrade decision explicit instead of relying on timestamps or best-effort text merges.
+
+Implication:
+
+- Templates and targets declare a semantic `version` in their manifests and increment it when their generated contract changes.
+- New template workspace files are surfaced as recommendations, not silently inserted into a working project.
+- Workspace migrations require user confirmation and should use the generated report as a scoped task brief for a human or AI assistant.

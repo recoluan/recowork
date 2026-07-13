@@ -69,6 +69,11 @@ rw add <template> --target <target> --locale <locale> <destination>
 - CLI should list templates and targets, and `rw show <template>` should show supported locales.
 - CLI should support aliases only when they are unambiguous.
 - If a requested locale is not supported by the template, the CLI should fail with supported locales.
+- New initializations must write a versioned `rw-manifest.json` with generated-file hashes and ownership metadata.
+- `rw status <destination>` and `rw upgrade --check <destination>` must be read-only and explain available template/target updates, user modifications, missing files, and workspace items needing review. When `--scope` is provided, their output must be filtered to that scope.
+- `rw upgrade --apply <destination>` may update only unchanged working-method or target files within the selected scope. It must preserve user-modified files.
+- Generated workspaces are user-owned. Upgrade must never overwrite, move, delete, restore, or add reports within an existing/tracked workspace file tree. It may add a newly introduced missing workspace file only with both `--scope workspace` and `--add-missing`; upgrade reports live under `.recowork/upgrade-reports/`.
+- Legacy manifests without a generated-file baseline must require explicit `rw upgrade --adopt <destination>`; adoption records state without changing project files.
 
 ## Prompt Requirements
 
@@ -147,6 +152,7 @@ npx recowork add <template> --target <target> --locale <locale> <destination>
 - Commits must follow Conventional Commits using `<type>(<scope>): <summary>`; the full contributor guidance lives in `CONTRIBUTING.md`.
 - Commits that span multiple surfaces, introduce migrations, alter generated output, or are otherwise non-obvious require `Why`, `Changes`, `Compatibility`, and `Validation` sections in the body.
 - Incompatible command, generated-path, file-format, or workflow-contract changes require a `BREAKING CHANGE:` footer.
+- Template and target manifests must declare semantic versions. A meaningful generated-content change increments its owning template or target version and is described in the release record.
 
 ## Project Engineering Workspace Requirements
 

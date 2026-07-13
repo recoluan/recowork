@@ -115,7 +115,7 @@
           <p class="eyebrow" data-zh="CLI 命令" data-en="CLI commands">CLI 命令</p>
           <h2 data-zh="recowork CLI 负责把模板确定性地生成到目标位置。" data-en="The recowork CLI deterministically generates templates into a target destination.">recowork CLI 负责把模板确定性地生成到目标位置。</h2>
         </div>
-        <div class="content-grid three">
+        <div class="content-grid two">
           <article class="content-card">
             <span class="number-badge">01</span>
             <h3><code>list</code></h3>
@@ -134,6 +134,12 @@
             <p data-zh="把一个模板按 target 和 locale 初始化到指定目录。" data-en="Initialize a template into a destination using a target and locale.">把一个模板按 target 和 locale 初始化到指定目录。</p>
             <pre class="mini-code">npx recowork add project --target codex-project --locale zh .</pre>
           </article>
+          <article class="content-card">
+            <span class="number-badge">04</span>
+            <h3><code>upgrade</code></h3>
+            <p data-zh="先检查模板更新和工作空间建议；只更新未改动的方法和 target 文件。" data-en="Check template updates and workspace suggestions before updating only unchanged methods and target files.">先检查模板更新和工作空间建议；只更新未改动的方法和 target 文件。</p>
+            <pre class="mini-code">npx recowork upgrade --check .</pre>
+          </article>
         </div>
         <div class="terminal command-terminal">
           <div class="terminal-bar"><span></span><span></span><span></span></div>
@@ -150,7 +156,16 @@ npx recowork add project --target codex-project --locale zh .
 npx recowork add general --target chatgpt-chat --locale zh ./my-ai-workflow
 
 # 初始化学习工作流到 Notion 文档工作区
-npx recowork add learning --target notion-workspace --locale zh ./my-learning-workflow</pre>
+npx recowork add learning --target notion-workspace --locale zh ./my-learning-workflow
+
+# 只读检查已有工作流的更新建议
+npx recowork upgrade --check .
+
+# 安全更新未改动的工作方法和 target 文件
+npx recowork upgrade --apply .
+
+# 仅补齐新版新增且当前缺失的工作空间文件
+npx recowork upgrade --apply --scope workspace --add-missing .</pre>
           <button class="terminal-copy" type="button" data-copy-target="cliReference" data-i18n="copyCommands">复制命令</button>
         </div>
       </section>

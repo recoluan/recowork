@@ -1,4 +1,5 @@
 id: cursor-project
+version: 1.0.0
 name: Cursor Project
 type: project
 description: Generates lightweight project rules for Cursor-style AI coding workflows.

@@ -9,11 +9,13 @@ All notable changes to RecoWork are documented here. This project follows [Keep 
 - Localized target output paths and static content for Chinese and English initialization.
 - Document standards, index-first retrieval, and index maintenance across durable workflow templates.
 - Conventional Commit guidance for contributors and AI agents.
+- A conservative workflow upgrade advisor with versioned manifests, read-only checks, safe updates, and workspace review reports.
 
 ### Changed
 
 - Chinese initialization now generates user-facing paths such as `知识库/` and `示例/` while preserving tool convention files.
 - Target locale changes remove stale generated files from the previous locale when they are safe to replace.
+- Workspaces are now explicitly user-owned during upgrades: existing workspace content is never overwritten, moved, deleted, or restored.
 
 ## [0.2.2] - 2026-07-09
 
@@ -32,4 +34,3 @@ All notable changes to RecoWork are documented here. This project follows [Keep 
 ### Deprecated
 
 - This version was published without the required executable entry point. Use `0.2.2` or later.
-

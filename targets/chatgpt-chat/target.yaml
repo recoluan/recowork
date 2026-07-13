@@ -1,4 +1,5 @@
 id: chatgpt-chat
+version: 1.0.0
 name: ChatGPT Chat
 type: chat
 description: Generates copyable prompts and continuation memory for ChatGPT web or mobile chat.

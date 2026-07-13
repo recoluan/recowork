@@ -58,7 +58,7 @@
         <div class="release-summary-card next-release">
           <span data-zh="下一版本" data-en="Next release">下一版本</span>
           <strong data-zh="未发布" data-en="Unreleased">未发布</strong>
-          <p data-zh="Target 本地化、文档规范和提交规范已进入待发布变更。" data-en="Target localization, document standards, and commit rules are queued for release.">Target 本地化、文档规范和提交规范已进入待发布变更。</p>
+          <p data-zh="Target 本地化、文档规范、提交规范和保守升级机制已进入待发布变更。" data-en="Target localization, document standards, commit rules, and conservative upgrades are queued for release.">Target 本地化、文档规范、提交规范和保守升级机制已进入待发布变更。</p>
         </div>
       </section>
 
@@ -78,11 +78,12 @@
                 <li data-zh="Target 按 locale 输出用户可见路径和静态内容。" data-en="Targets localize user-facing paths and static content by locale.">Target 按 locale 输出用户可见路径和静态内容。</li>
                 <li data-zh="三套工作流加入文档规范、索引优先读取和索引维护。" data-en="All workflow templates gain document standards, index-first retrieval, and index maintenance.">三套工作流加入文档规范、索引优先读取和索引维护。</li>
                 <li data-zh="贡献者和 AI 智能体采用 Conventional Commits。" data-en="Contributors and AI agents now use Conventional Commits.">贡献者和 AI 智能体采用 Conventional Commits。</li>
+                <li data-zh="加入工作流升级顾问：版本化清单、只读检查、安全更新和工作空间升级报告。" data-en="Added a workflow upgrade advisor with versioned manifests, read-only checks, safe updates, and workspace upgrade reports.">加入工作流升级顾问：版本化清单、只读检查、安全更新和工作空间升级报告。</li>
               </ul>
             </div>
             <div>
               <h3 data-zh="兼容性" data-en="Compatibility">兼容性</h3>
-              <p data-zh="中文 Codex 输出使用 知识库/，英文使用 knowledge/。重新初始化同一 target 时，RecoWork 只清理可安全替换的上一语言生成文件。" data-en="Chinese Codex output uses 知识库/ while English uses knowledge/. Reinitializing the same target removes only previous-locale generated files that are safe to replace.">中文 Codex 输出使用 知识库/，英文使用 knowledge/。重新初始化同一 target 时，RecoWork 只清理可安全替换的上一语言生成文件。</p>
+              <p data-zh="中文 Codex 输出使用 知识库/，英文使用 knowledge/。重新初始化同一 target 时，RecoWork 只清理可安全替换的上一语言生成文件。升级时，已有工作空间文件始终保留，新增模板须显式确认才会补齐。" data-en="Chinese Codex output uses 知识库/ while English uses knowledge/. Reinitializing the same target removes only previous-locale generated files that are safe to replace. During upgrades, existing workspace files are always preserved and new templates require explicit opt-in.">中文 Codex 输出使用 知识库/，英文使用 knowledge/。重新初始化同一 target 时，RecoWork 只清理可安全替换的上一语言生成文件。升级时，已有工作空间文件始终保留，新增模板须显式确认才会补齐。</p>
             </div>
           </div>
         </article>

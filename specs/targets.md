@@ -89,6 +89,7 @@ The CLI renders shared `files/` first, then renders `locales/<locale>/files/`. U
 
 ```yaml
 id: claude-code-project
+version: 1.0.0
 name: Claude Code Project
 type: project
 description: Generates Claude Code project instructions and project-scoped skills.
@@ -107,6 +108,8 @@ Template variables allowed in `files/`:
 - `{{outputs}}`
 
 Files ending with `.tpl` are rendered and written without the `.tpl` suffix.
+
+`version` identifies the target's generated-output contract. Increment it when a target changes generated paths, files, or behavior in a user-visible way. RecoWork records this version and file hashes in `rw-manifest.json` so later upgrade checks can distinguish safe target updates from user modifications.
 
 ## Placement Rules
 
@@ -224,6 +227,24 @@ rw add project --target claude-chat ./claude-prompts
 rw add learning --target notion-workspace ./learning
 rw add general --target chatgpt-chat ./chat-prompts
 ```
+
+## Upgrade Contract
+
+New initialization writes `rw-manifest.json` schema version 2. It records the RecoWork, template, and target versions plus hashes and ownership for generated files.
+
+```bash
+rw status .
+rw upgrade --check .
+rw upgrade --plan .
+rw upgrade --apply .
+rw upgrade --apply --scope workspace --add-missing .
+```
+
+- `status`, `--check`, and `--plan` do not write files.
+- `--apply` updates only unchanged working-method and target files by default.
+- Workspace files are user-owned. Existing or tracked workspace content is never overwritten, moved, deleted, or restored. The explicit workspace command can create only a newly introduced file that is currently absent.
+- An apply operation that explicitly selects the `workspace` scope writes a localized upgrade report under `.recowork/upgrade-reports/`, outside the user-owned workspace tree.
+- Older manifests require `rw upgrade --adopt .` to create a baseline without modifying project files.
 
 ## Acceptance Checklist
 

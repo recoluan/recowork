@@ -77,6 +77,29 @@ node cli/recowork/bin/rw.js add project --target codex-project --locale zh .
 
 当模板支持多语言时，可以通过 `--locale zh` 或 `--locale en` 选择生成语言。locale 同时决定用户可见的模板和 target 文件路径，例如中文 `知识库/` 与英文 `knowledge/`。不传时使用模板默认语言。
 
+## 更新已有工作流
+
+新初始化的工作流会包含带版本的 `rw-manifest.json`，让 RecoWork 能识别生成文件的变化，同时不接管用户的项目内容。
+
+```bash
+npx recowork status .
+npx recowork upgrade --check .
+npx recowork upgrade --plan .
+npx recowork upgrade --apply .
+```
+
+`--check` 和 `--plan` 都是只读操作，并会遵循 `--scope`。`--apply` 只更新未被用户改动的工作方法和 target 文件。工作空间文档始终归用户所有，RecoWork 不会覆盖、移动、删除或恢复它们。若要补齐新版新增且当前缺失的工作空间模板，必须显式执行下面命令；它会在 `.recowork/upgrade-reports/` 生成一份供人工处理的升级报告，不会改动工作空间。
+
+```bash
+npx recowork upgrade --apply --scope workspace --add-missing .
+```
+
+旧项目使用的是旧版清单，需要先建立基线，且不会改动项目文件：
+
+```bash
+npx recowork upgrade --adopt .
+```
+
 ## Prompt 用法
 
 Prompt 模式不应该让 AI 在聊天里重写完整模板，而是优先让 AI 安装或运行 CLI：

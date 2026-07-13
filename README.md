@@ -77,6 +77,29 @@ node cli/recowork/bin/rw.js add project --target codex-project --locale en .
 
 Use `--locale zh` or `--locale en` when a template supports multiple languages. Locale applies to user-facing template and target files, such as Chinese `知识库/` or English `knowledge/`. If omitted, the template default is used.
 
+## Upgrade An Existing Workflow
+
+New workflows include a versioned `rw-manifest.json` so RecoWork can identify generated-file changes without taking ownership of project work.
+
+```bash
+npx recowork status .
+npx recowork upgrade --check .
+npx recowork upgrade --plan .
+npx recowork upgrade --apply .
+```
+
+`--check` and `--plan` are read-only and respect `--scope`. `--apply` updates only unchanged working-method and target files. Workspace documents are always user-owned: RecoWork never overwrites, moves, deletes, or restores them. To add a newly introduced, currently missing workspace template, use the explicit opt-in below; it creates an upgrade report under `.recowork/upgrade-reports/` for manual review without modifying the workspace.
+
+```bash
+npx recowork upgrade --apply --scope workspace --add-missing .
+```
+
+Older workflows use a legacy manifest. Record a baseline first without changing project files:
+
+```bash
+npx recowork upgrade --adopt .
+```
+
 ## Prompt Usage
 
 Prompt mode should not ask AI to recreate the whole template in chat. It should ask AI to install or run the CLI first:
