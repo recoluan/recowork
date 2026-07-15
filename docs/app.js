@@ -657,7 +657,7 @@ function renderGeneratorOutputs() {
   const prompt = document.querySelector("#promptPaths");
   const cliCommand = document.querySelector("#cliCommand");
   const visualCommand = document.querySelector("#visualCommand");
-  if (!prompt || !cliCommand || !visualCommand) {
+  if (!prompt || !cliCommand) {
     return;
   }
   const selectedCommand = getGeneratorCommand("rw");
@@ -668,14 +668,18 @@ function renderGeneratorOutputs() {
 
 # ${currentLanguage === "zh" ? "安装后可使用" : "After installation"}
 ${selectedCommand}`;
-  visualCommand.textContent = isChatEnvironment
-    ? `${currentLanguage === "zh" ? "聊天启动 Prompt" : "Chat bootstrap prompt"} · ${generatorConfig.target} · ${generatorConfig.locale}`
-    : selectedCommand;
+  if (visualCommand) {
+    visualCommand.textContent = isChatEnvironment
+      ? `${currentLanguage === "zh" ? "聊天启动 Prompt" : "Chat bootstrap prompt"} · ${generatorConfig.target} · ${generatorConfig.locale}`
+      : selectedCommand;
+  }
   const visualCopy = document.querySelector("#visualCopy");
-  visualCopy.dataset.copyTarget = isChatEnvironment ? "promptPaths" : "visualCommand";
-  visualCopy.textContent = isChatEnvironment
-    ? currentLanguage === "zh" ? "复制 Prompt" : "Copy prompt"
-    : translations[currentLanguage].copyCommand;
+  if (visualCopy) {
+    visualCopy.dataset.copyTarget = isChatEnvironment ? "promptPaths" : "visualCommand";
+    visualCopy.textContent = isChatEnvironment
+      ? currentLanguage === "zh" ? "复制 Prompt" : "Copy prompt"
+      : translations[currentLanguage].copyCommand;
+  }
 
   document.querySelector("#configTemplate").value = generatorConfig.template;
   document.querySelectorAll(".config-locale").forEach((button) => {
