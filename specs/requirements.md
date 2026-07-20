@@ -181,6 +181,7 @@ The Chinese locale must also generate `工作方法/文档规范.md`; the Englis
 
 Responsibilities:
 
+- Project initialization has a mandatory confirmation gate: clarify the project, present a concise project agreement, and wait for explicit user confirmation before generating or changing a complete solution, plan, or implementation. An explicitly confirmed local task may proceed without repeated confirmation.
 - `项目简报.md`: project background, problem, goals, scope, non-goals, current status, and constraints.
 - `待确认问题.md`: questions that AI must not silently assume.
 - `01-需求与约束/`: requirements, user scenarios, constraints, assumptions, and clarifications.

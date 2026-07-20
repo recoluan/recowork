@@ -66,7 +66,7 @@ rw add project --target codex-project --locale zh .`,
     generalOne: "适合 ChatGPT Mobile / Claude Mobile / Kimi",
     generalTwo: "让上下文、质量标准和有效方法持续积累",
     projectDesc:
-      "为 AI 辅助项目建立 AGENTS.md、文档规范、按需获取、质量门禁和持续沉淀机制。",
+      "先澄清并确认项目约定，再建立 AGENTS.md、文档规范、质量门禁和持续沉淀机制。",
     projectOne: "适合 Codex、Cursor、Claude Code",
     projectTwo: "让项目从第一天就有 AI 工作协议",
     learningDesc:
@@ -198,7 +198,7 @@ rw add project --target codex-project --locale en .`,
     generalOne: "For ChatGPT Mobile / Claude Mobile / Kimi",
     generalTwo: "Keeps context, quality standards, and proven methods reusable",
     projectDesc:
-      "Sets up AGENTS.md, a document standard, progressive retrieval, quality gates, and durable capture for AI-assisted projects.",
+      "Confirms a project agreement before setting up AGENTS.md, a document standard, quality gates, and durable capture for AI-assisted projects.",
     projectOne: "For Codex, Cursor, and Claude Code",
     projectTwo: "Gives a project an AI working protocol from day one",
     learningDesc:

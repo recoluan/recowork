@@ -1292,6 +1292,7 @@ function getLocalizedTemplateMetadata(template, locale) {
 function getLocaleStrings(locale, template, target, localePaths) {
   const isGeneralWorkflow = template.id === "general-ai-workflow";
   const isLearningWorkflow = template.id === "learning-engineering";
+  const isProjectWorkflow = template.id === "project-engineering";
   if (locale === "en") {
     return {
       targetIntro: `This workflow uses RecoWork template \`${template.id}\` for target \`${target.id}\` and locale \`${locale}\`.`,
@@ -1309,19 +1310,23 @@ function getLocaleStrings(locale, template, target, localePaths) {
       ruleReviewOutput: "Before returning work, review the result against the template purpose and expected outputs.",
       ruleConfirmLargeChanges: isLearningWorkflow
         ? "Before creating or changing a roadmap, lesson content, practice plan, or project plan, present a learning agreement and wait for the learner's explicit confirmation. Also ask before large scope changes or irreversible operations."
+        : isProjectWorkflow
+          ? "Before generating a complete solution, plan, or implementation change, present a project agreement and wait for the user's explicit confirmation. Also ask before large scope changes or irreversible operations."
         : "Ask for confirmation before large scope changes or irreversible operations.",
       ruleUseClaudeSkills: "Use project-scoped skills from `.claude/skills/` when they match the task.",
       ruleKeepKnowledge: isLearningWorkflow
         ? `Keep the learner brief, roadmap, progress, and retrospectives in \`${localePaths.workspaceDir}/\`. Before creating or changing a roadmap, lesson, practice plan, or project plan, present a learning agreement and wait for the learner's explicit confirmation; then teach one validated unit at a time.`
         : isGeneralWorkflow
-        ? `Keep useful task context in \`${localePaths.workspaceDir}/\` and leave a continuation memory after important work.`
-        : "Keep durable project knowledge in the template-defined knowledge location.",
+          ? `Keep useful task context in \`${localePaths.workspaceDir}/\` and leave a continuation memory after important work.`
+          : `Keep durable project knowledge in \`${localePaths.workspaceDir}/\` and the template-defined knowledge location. Before creating a complete solution, plan, or implementation change, present a project agreement and wait for explicit user confirmation.`,
       ruleKeepScoped: "Keep changes scoped to the current task.",
       ruleExplainVerification: "Explain verification steps after implementation.",
       chatInitTitle: "RecoWork Initialization Prompt",
       chatInitIntro: `You are helping me use the RecoWork template \`${template.id}\`.`,
       chatInitInstruction: isLearningWorkflow
         ? "Start with a focused learning diagnosis. Restate the goal, background, constraints, preferences, completion criteria, assumptions, and open questions as a short learning agreement, then wait for my explicit confirmation. Until I confirm, do not generate a roadmap, lesson content, practice plan, or project plan. After confirmation, teach one validated unit at a time and leave a short continuation memory after meaningful work."
+        : isProjectWorkflow
+          ? "Start with focused project discovery. Restate the goal, scope, constraints, risks, success criteria, assumptions, and open questions as a short project agreement, then wait for my explicit confirmation. Until I confirm, only maintain a draft project brief and open questions; do not generate a complete solution, plan, or implementation change. After confirmation, work in small, verified steps and capture durable decisions."
         : "Ask one concise question if the task is unclear. Otherwise, help me start the workflow, keep assumptions explicit, and leave a short continuation memory after meaningful work.",
       chatTaskTitle: "Task Prompt",
       chatTaskIntro: `Use the \`${template.id}\` workflow and its role contract.`,
@@ -1330,6 +1335,8 @@ function getLocaleStrings(locale, template, target, localePaths) {
       chatTaskFieldConstraints: "Constraints",
       chatTaskInstruction: isLearningWorkflow
         ? "First determine whether this learning scope has been explicitly confirmed. If it has not, run the focused diagnosis and wait for my confirmation before generating learning content. If it has, restate the unit goal briefly, separate facts, assumptions, and open questions, and advance only that validated unit. After meaningful work, include a short memory card I can paste into the next chat."
+        : isProjectWorkflow
+          ? "First determine whether this project scope has been explicitly confirmed. If it has not, form a short project agreement and wait for my confirmation before generating a complete solution, plan, or implementation change. If it has, restate the local task goal briefly, separate facts, assumptions, and open questions, then work only within that confirmed scope. After meaningful work, include a short memory card I can paste into the next chat."
         : "Before answering, restate the goal briefly. Separate facts, assumptions, and open questions. After answering, include a short memory card I can paste into the next chat.",
       chatMemoryTitle: "Continuation Memory Card",
       chatMemoryTemplate: "Template",
@@ -1341,6 +1348,8 @@ function getLocaleStrings(locale, template, target, localePaths) {
       claudeInstructionsIntro: `Use RecoWork template \`${template.id}\` and its role contract.`,
       claudeInstructionsRule: isLearningWorkflow
         ? "Start with a focused diagnosis and present a learning agreement. Wait for explicit learner confirmation before generating a roadmap, lesson content, practice plan, or project plan. After confirmation, work in one validated unit at a time, keep assumptions explicit, and summarize durable context after each milestone."
+        : isProjectWorkflow
+          ? "Start with focused project discovery and present a project agreement. Wait for explicit user confirmation before generating a complete solution, plan, or implementation change. After confirmation, work in small, verified steps, keep assumptions explicit, and summarize durable context after each milestone."
         : "Work in small steps, keep assumptions explicit, ask before material direction changes, and summarize durable context after each milestone.",
     };
   }
@@ -1361,19 +1370,23 @@ function getLocaleStrings(locale, template, target, localePaths) {
     ruleReviewOutput: "返回结果前，对照模板用途和预期产物自审。",
     ruleConfirmLargeChanges: isLearningWorkflow
       ? "生成或变更课程路线、章节内容、练习计划或项目方案前，先给出学习约定并等待学习者明确确认；大范围变更或不可逆操作前也必须先确认。"
+      : isProjectWorkflow
+        ? "生成完整方案、计划或实施改动前，先给出项目约定并等待用户明确确认；大范围变更或不可逆操作前也必须先确认。"
       : "大范围变更或不可逆操作前，先向用户确认。",
     ruleUseClaudeSkills: "当任务匹配时，使用 `.claude/skills/` 下的项目级 skills。",
     ruleKeepKnowledge: isLearningWorkflow
       ? `把学习简报、课程路线、进度和复盘放在 \`${localePaths.workspaceDir}/\`。生成或变更课程路线、章节内容、练习计划或项目方案前，先给出学习约定并等待学习者明确确认；确认后一次只推进一个经过验证的学习单元。`
       : isGeneralWorkflow
       ? `把有效任务上下文放在 \`${localePaths.workspaceDir}/\`，重要任务结束后留下续聊记忆。`
-      : "把长期项目知识放在模板定义的知识位置。",
+      : `把长期项目知识放在 \`${localePaths.workspaceDir}/\` 和模板定义的知识位置。生成完整方案、计划或实施改动前，先给出项目约定并等待用户明确确认。`,
     ruleKeepScoped: "保持改动聚焦在当前任务范围内。",
     ruleExplainVerification: "实现后说明验证步骤。",
     chatInitTitle: "RecoWork 初始化 Prompt",
     chatInitIntro: `你正在使用 RecoWork 模板 \`${template.id}\`。`,
     chatInitInstruction: isLearningWorkflow
       ? "先进行聚焦的学习诊断。将目标、基础、约束、偏好、完成标准、假设和待确认问题整理为简短的学习约定，并等待我明确确认。在确认前，不要生成课程路线、章节内容、练习计划或项目方案。确认后一次只推进一个经过验证的学习单元，并在重要工作结束后留下可复制的续聊记忆。"
+      : isProjectWorkflow
+        ? "先进行聚焦的项目澄清。将目标、范围、约束、风险、成功标准、假设和待确认问题整理为简短的项目约定，并等待我明确确认。在确认前，只维护项目简报草稿和待确认问题；不要生成完整方案、计划或实施改动。确认后分小步推进、验证结果并沉淀长期决策。"
       : "如果任务不清晰，先问一个最必要的问题。否则帮助我启动工作流，明确标注假设，并在重要任务结束后留下可复制的续聊记忆。",
     chatTaskTitle: "任务 Prompt",
     chatTaskIntro: `请按 \`${template.id}\` 工作流及其角色设定推进。`,
@@ -1382,6 +1395,8 @@ function getLocaleStrings(locale, template, target, localePaths) {
     chatTaskFieldConstraints: "约束",
     chatTaskInstruction: isLearningWorkflow
       ? "先判断当前学习范围是否已经获得明确确认。尚未确认时，先完成聚焦诊断并等待我确认，再生成学习内容；已确认时，简要复述单元目标，区分事实、假设和待确认问题，并且只推进这个经过验证的单元。重要工作结束后给出一张可复制到下一轮对话的简短记忆卡。"
+      : isProjectWorkflow
+        ? "先判断当前项目范围是否已经获得明确确认。尚未确认时，先形成简短的项目约定并等待我确认，再生成完整方案、计划或实施改动；已确认时，简要复述局部任务目标，区分事实、假设和待确认问题，并且只在这个确认范围内推进。重要工作结束后给出一张可复制到下一轮对话的简短记忆卡。"
       : "回答前先简要复述目标，区分事实、假设和待确认问题。回答后给出一张可复制到下一轮对话的简短记忆卡。",
     chatMemoryTitle: "续聊记忆卡",
     chatMemoryTemplate: "模板",
@@ -1393,6 +1408,8 @@ function getLocaleStrings(locale, template, target, localePaths) {
     claudeInstructionsIntro: `请使用 RecoWork 模板 \`${template.id}\` 及其角色设定。`,
     claudeInstructionsRule: isLearningWorkflow
       ? "先进行聚焦诊断并给出学习约定。在学习者明确确认前，不要生成课程路线、章节内容、练习计划或项目方案；确认后一次只推进一个经过验证的学习单元，明确标注假设，并在每个阶段结束后总结可持续使用的上下文。"
+      : isProjectWorkflow
+        ? "先进行聚焦的项目澄清并给出项目约定。在用户明确确认前，不要生成完整方案、计划或实施改动；确认后分小步推进、明确标注假设，并在每个阶段结束后总结可持续使用的上下文。"
       : "分小步推进，明确标注假设，重大方向变化前先确认，并在每个阶段结束后总结可持续使用的上下文。",
   };
 }

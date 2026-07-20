@@ -112,6 +112,7 @@ Implication:
 - The CLI should clean up known old workspace files and empty old directories when re-initializing `project-engineering`.
 - User-facing Chinese template content should avoid leftover English scaffold terms such as `Purpose`, `Documents`, and `TBD`.
 - Future template structure changes must update the source template, CLI cleanup rules, and specs together.
+- The project mentor must present a concise project agreement and wait for explicit confirmation before generating a complete solution, plan, or implementation change; explicitly confirmed local tasks may proceed without repeated confirmation.
 
 ## 009. Add Locale as a First-Class Initialization Option
 

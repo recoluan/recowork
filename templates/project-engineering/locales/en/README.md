@@ -1,6 +1,6 @@
 # Project Engineering Workflow Template
 
-Use this template at the beginning of a project to establish AI working rules, reduce intent drift, and keep durable project knowledge.
+Use this template at the beginning of a project to establish AI working rules. It clarifies and waits for user confirmation of a project agreement before generating a solution, plan, or implementation change, reducing intent drift and preserving durable project knowledge.
 
 Good fit:
 
