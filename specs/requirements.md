@@ -316,6 +316,7 @@ learning-workspace/
 Responsibilities:
 
 - The role contract defines a curriculum designer, subject mentor, and practice coach role.
+- Learning initialization has a mandatory confirmation gate: diagnose the learner, present a concise learning agreement, and wait for explicit confirmation before generating or changing a roadmap, lesson content, practice plan, or project plan. An explicitly confirmed local unit may proceed without repeated confirmation.
 - The learner brief captures the learner's foundation, target ability, constraints, preferences, and completion criteria.
 - The roadmap records unit dependencies, practice output, acceptance criteria, and a throughline project.
 - Each learning unit should include a goal, a minimal experiment, practice, feedback, verification, and learner-owned explanation.

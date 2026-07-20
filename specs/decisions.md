@@ -197,7 +197,7 @@ Reason:
 
 Implication:
 
-- The learning mentor must diagnose before teaching and teach one validated unit at a time.
+- The learning mentor must diagnose before teaching, present a concise learning agreement, and wait for explicit confirmation before generating course design; it then teaches one validated unit at a time.
 - Templates must support code and non-code learning without assuming a specific file extension or technology stack.
 - The CLI cleans up known legacy learning-template files on re-initialization.
 

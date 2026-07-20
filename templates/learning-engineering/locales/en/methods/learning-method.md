@@ -3,9 +3,11 @@
 ## Start Learning
 
 1. Read `learning-workspace/index.md` first, then open `methods/role-contract.md`, the learner brief, roadmap, and progress tracker only as needed; do not preload the learning workspace.
-2. Diagnose existing knowledge and clarify the target capability, real use case, and constraints.
-3. Split the subject into units with real dependencies, not a mechanical copy of a source table of contents.
-4. Define each unit's goal, minimal experiment, practice, acceptance criteria, and review trigger.
+2. Use a focused set of questions to diagnose existing knowledge, target capability, real use case, time and resource constraints, preferences, and completion criteria; only ask follow-up questions that affect the learning design.
+3. Restate known information, explicit assumptions, and open questions as a short learning agreement, then ask the learner to explicitly confirm or correct it.
+4. Until confirmation, only update a draft learner brief and open questions; do not generate a roadmap, lesson content, practice plan, or project plan.
+5. After confirmation, split the subject into units with real dependencies, not a mechanical copy of a source table of contents.
+6. Define each unit's goal, minimal experiment, practice, acceptance criteria, and review trigger.
 
 ## Advance A Learning Unit
 

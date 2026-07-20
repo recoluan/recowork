@@ -1307,10 +1307,12 @@ function getLocaleStrings(locale, template, target, localePaths) {
           ? `Capture reusable task insights in \`${localePaths.workspaceDir}/04-review-and-reuse/\`.`
         : `Capture durable project knowledge in \`${localePaths.knowledgeDir}/\`.`,
       ruleReviewOutput: "Before returning work, review the result against the template purpose and expected outputs.",
-      ruleConfirmLargeChanges: "Ask for confirmation before large scope changes or irreversible operations.",
+      ruleConfirmLargeChanges: isLearningWorkflow
+        ? "Before creating or changing a roadmap, lesson content, practice plan, or project plan, present a learning agreement and wait for the learner's explicit confirmation. Also ask before large scope changes or irreversible operations."
+        : "Ask for confirmation before large scope changes or irreversible operations.",
       ruleUseClaudeSkills: "Use project-scoped skills from `.claude/skills/` when they match the task.",
       ruleKeepKnowledge: isLearningWorkflow
-        ? `Keep the learner brief, roadmap, progress, and retrospectives in \`${localePaths.workspaceDir}/\`; teach one validated unit at a time.`
+        ? `Keep the learner brief, roadmap, progress, and retrospectives in \`${localePaths.workspaceDir}/\`. Before creating or changing a roadmap, lesson, practice plan, or project plan, present a learning agreement and wait for the learner's explicit confirmation; then teach one validated unit at a time.`
         : isGeneralWorkflow
         ? `Keep useful task context in \`${localePaths.workspaceDir}/\` and leave a continuation memory after important work.`
         : "Keep durable project knowledge in the template-defined knowledge location.",
@@ -1318,13 +1320,17 @@ function getLocaleStrings(locale, template, target, localePaths) {
       ruleExplainVerification: "Explain verification steps after implementation.",
       chatInitTitle: "RecoWork Initialization Prompt",
       chatInitIntro: `You are helping me use the RecoWork template \`${template.id}\`.`,
-      chatInitInstruction: "Ask one concise question if the task is unclear. Otherwise, help me start the workflow, keep assumptions explicit, and leave a short continuation memory after meaningful work.",
+      chatInitInstruction: isLearningWorkflow
+        ? "Start with a focused learning diagnosis. Restate the goal, background, constraints, preferences, completion criteria, assumptions, and open questions as a short learning agreement, then wait for my explicit confirmation. Until I confirm, do not generate a roadmap, lesson content, practice plan, or project plan. After confirmation, teach one validated unit at a time and leave a short continuation memory after meaningful work."
+        : "Ask one concise question if the task is unclear. Otherwise, help me start the workflow, keep assumptions explicit, and leave a short continuation memory after meaningful work.",
       chatTaskTitle: "Task Prompt",
       chatTaskIntro: `Use the \`${template.id}\` workflow and its role contract.`,
       chatTaskFieldTask: "Task",
       chatTaskFieldContext: "Context",
       chatTaskFieldConstraints: "Constraints",
-      chatTaskInstruction: "Before answering, restate the goal briefly. Separate facts, assumptions, and open questions. After answering, include a short memory card I can paste into the next chat.",
+      chatTaskInstruction: isLearningWorkflow
+        ? "First determine whether this learning scope has been explicitly confirmed. If it has not, run the focused diagnosis and wait for my confirmation before generating learning content. If it has, restate the unit goal briefly, separate facts, assumptions, and open questions, and advance only that validated unit. After meaningful work, include a short memory card I can paste into the next chat."
+        : "Before answering, restate the goal briefly. Separate facts, assumptions, and open questions. After answering, include a short memory card I can paste into the next chat.",
       chatMemoryTitle: "Continuation Memory Card",
       chatMemoryTemplate: "Template",
       chatMemoryTarget: "Target",
@@ -1333,7 +1339,9 @@ function getLocaleStrings(locale, template, target, localePaths) {
       chatMemoryNext: "Next step:",
       claudeInstructionsTitle: "Claude Workflow Instructions",
       claudeInstructionsIntro: `Use RecoWork template \`${template.id}\` and its role contract.`,
-      claudeInstructionsRule: "Work in small steps, keep assumptions explicit, ask before material direction changes, and summarize durable context after each milestone.",
+      claudeInstructionsRule: isLearningWorkflow
+        ? "Start with a focused diagnosis and present a learning agreement. Wait for explicit learner confirmation before generating a roadmap, lesson content, practice plan, or project plan. After confirmation, work in one validated unit at a time, keep assumptions explicit, and summarize durable context after each milestone."
+        : "Work in small steps, keep assumptions explicit, ask before material direction changes, and summarize durable context after each milestone.",
     };
   }
 
@@ -1351,10 +1359,12 @@ function getLocaleStrings(locale, template, target, localePaths) {
         ? `把可复用的任务经验沉淀到 \`${localePaths.workspaceDir}/04-复盘与沉淀/\`。`
         : `把长期有效的项目知识沉淀到 \`${localePaths.knowledgeDir}/\`。`,
     ruleReviewOutput: "返回结果前，对照模板用途和预期产物自审。",
-    ruleConfirmLargeChanges: "大范围变更或不可逆操作前，先向用户确认。",
+    ruleConfirmLargeChanges: isLearningWorkflow
+      ? "生成或变更课程路线、章节内容、练习计划或项目方案前，先给出学习约定并等待学习者明确确认；大范围变更或不可逆操作前也必须先确认。"
+      : "大范围变更或不可逆操作前，先向用户确认。",
     ruleUseClaudeSkills: "当任务匹配时，使用 `.claude/skills/` 下的项目级 skills。",
     ruleKeepKnowledge: isLearningWorkflow
-      ? `把学习简报、课程路线、进度和复盘放在 \`${localePaths.workspaceDir}/\`，一次只推进一个经过验证的学习单元。`
+      ? `把学习简报、课程路线、进度和复盘放在 \`${localePaths.workspaceDir}/\`。生成或变更课程路线、章节内容、练习计划或项目方案前，先给出学习约定并等待学习者明确确认；确认后一次只推进一个经过验证的学习单元。`
       : isGeneralWorkflow
       ? `把有效任务上下文放在 \`${localePaths.workspaceDir}/\`，重要任务结束后留下续聊记忆。`
       : "把长期项目知识放在模板定义的知识位置。",
@@ -1362,13 +1372,17 @@ function getLocaleStrings(locale, template, target, localePaths) {
     ruleExplainVerification: "实现后说明验证步骤。",
     chatInitTitle: "RecoWork 初始化 Prompt",
     chatInitIntro: `你正在使用 RecoWork 模板 \`${template.id}\`。`,
-    chatInitInstruction: "如果任务不清晰，先问一个最必要的问题。否则帮助我启动工作流，明确标注假设，并在重要任务结束后留下可复制的续聊记忆。",
+    chatInitInstruction: isLearningWorkflow
+      ? "先进行聚焦的学习诊断。将目标、基础、约束、偏好、完成标准、假设和待确认问题整理为简短的学习约定，并等待我明确确认。在确认前，不要生成课程路线、章节内容、练习计划或项目方案。确认后一次只推进一个经过验证的学习单元，并在重要工作结束后留下可复制的续聊记忆。"
+      : "如果任务不清晰，先问一个最必要的问题。否则帮助我启动工作流，明确标注假设，并在重要任务结束后留下可复制的续聊记忆。",
     chatTaskTitle: "任务 Prompt",
     chatTaskIntro: `请按 \`${template.id}\` 工作流及其角色设定推进。`,
     chatTaskFieldTask: "任务",
     chatTaskFieldContext: "背景",
     chatTaskFieldConstraints: "约束",
-    chatTaskInstruction: "回答前先简要复述目标，区分事实、假设和待确认问题。回答后给出一张可复制到下一轮对话的简短记忆卡。",
+    chatTaskInstruction: isLearningWorkflow
+      ? "先判断当前学习范围是否已经获得明确确认。尚未确认时，先完成聚焦诊断并等待我确认，再生成学习内容；已确认时，简要复述单元目标，区分事实、假设和待确认问题，并且只推进这个经过验证的单元。重要工作结束后给出一张可复制到下一轮对话的简短记忆卡。"
+      : "回答前先简要复述目标，区分事实、假设和待确认问题。回答后给出一张可复制到下一轮对话的简短记忆卡。",
     chatMemoryTitle: "续聊记忆卡",
     chatMemoryTemplate: "模板",
     chatMemoryTarget: "目标环境",
@@ -1377,7 +1391,9 @@ function getLocaleStrings(locale, template, target, localePaths) {
     chatMemoryNext: "下一步：",
     claudeInstructionsTitle: "Claude 工作流说明",
     claudeInstructionsIntro: `请使用 RecoWork 模板 \`${template.id}\` 及其角色设定。`,
-    claudeInstructionsRule: "分小步推进，明确标注假设，重大方向变化前先确认，并在每个阶段结束后总结可持续使用的上下文。",
+    claudeInstructionsRule: isLearningWorkflow
+      ? "先进行聚焦诊断并给出学习约定。在学习者明确确认前，不要生成课程路线、章节内容、练习计划或项目方案；确认后一次只推进一个经过验证的学习单元，明确标注假设，并在每个阶段结束后总结可持续使用的上下文。"
+      : "分小步推进，明确标注假设，重大方向变化前先确认，并在每个阶段结束后总结可持续使用的上下文。",
   };
 }
 

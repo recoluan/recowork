@@ -1,6 +1,6 @@
 # Learning Engineering Workflow Template
 
-This template turns “I want to learn a topic” into a durable course and practice system. It does not try to dump all knowledge at once; it builds real capability through diagnosis, lessons, practice, projects, and retrospectives.
+This template turns “I want to learn a topic” into a durable course and practice system. It starts with diagnosis and waits for the learner to confirm a learning agreement, then builds real capability through lessons, practice, projects, and retrospectives instead of dumping all knowledge at once.
 
 Good fit:
 
