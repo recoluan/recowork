@@ -21,6 +21,14 @@
   ],
   "type": "commonjs",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/recoluan/recowork.git"
+  },
+  "homepage": "https://recowork.recoluan.com",
+  "bugs": {
+    "url": "https://github.com/recoluan/recowork/issues"
+  },
   "keywords": [
     "ai",
     "workflow",

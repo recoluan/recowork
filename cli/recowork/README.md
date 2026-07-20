@@ -4,6 +4,15 @@
 
 A template defines the work scenario. A target defines the AI product or output location. A locale defines the generated language.
 
+## Documentation
+
+- [Website and guided setup](https://recoluan.github.io/recowork/)
+- [GitHub repository](https://github.com/recoluan/recowork)
+- [Complete project README](https://github.com/recoluan/recowork#readme)
+- [Release notes](https://recoluan.github.io/recowork/releases.html)
+
+This document is the command reference for the bundled CLI. The root README is the product-level source of truth for workflow concepts, targets, prompts, and development guidance.
+
 ## Run
 
 Use `npx` without a global install:
@@ -51,6 +60,22 @@ rw add learning --target notion-workspace --locale en ./langchain-study
 ```
 
 `rw init` is a compatibility alias for `rw add`.
+
+## Initialize Through AI
+
+For Codex, Cursor, Claude Code, or another command-capable assistant, ask the AI to run the CLI rather than recreating workflow files by hand:
+
+```text
+Please initialize RecoWork template `project-engineering` for target `codex-project`.
+
+Repository:
+https://github.com/recoluan/recowork
+
+Run:
+npx recowork add project-engineering --target codex-project --locale en .
+```
+
+For mobile or web chat use, initialize a chat target and paste the generated prompt into the selected AI product. The [website setup guide](https://recoluan.github.io/recowork/usage.html) lets users compose the matching command or initialization prompt.
 
 ## Upgrade An Existing Workflow
 
