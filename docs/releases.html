@@ -52,8 +52,8 @@
       <section class="section release-summary">
         <div class="release-summary-card latest-release">
           <span data-zh="最新已发布" data-en="Latest published">最新已发布</span>
-          <strong>0.3.0</strong>
-          <p data-zh="2026-07-12 · 受控升级、双语输出与工作流规范" data-en="2026-07-12 · Controlled upgrades, localized output, and workflow standards">2026-07-12 · 受控升级、双语输出与工作流规范</p>
+          <strong>0.4.0</strong>
+          <p data-zh="2026-07-20 · 学习与项目确认门禁、npm 包入口" data-en="2026-07-20 · Learning and project confirmation gates, npm package links">2026-07-20 · 学习与项目确认门禁、npm 包入口</p>
         </div>
         <div class="release-summary-card next-release">
           <span data-zh="下一版本" data-en="Next release">下一版本</span>
@@ -63,6 +63,30 @@
       </section>
 
       <section class="section release-list" aria-label="Release history">
+        <article class="release-card">
+          <div class="release-card-heading">
+            <div>
+              <span class="release-kicker">2026-07-20</span>
+              <h2>0.4.0</h2>
+            </div>
+            <span class="release-badge badge-green" data-zh="已发布" data-en="Published">已发布</span>
+          </div>
+          <div class="release-columns">
+            <div>
+              <h3 data-zh="新增" data-en="Added">新增</h3>
+              <ul>
+                <li data-zh="学习模板会先形成学习约定并等待确认，再生成课程路线、章节、练习或项目方案。" data-en="Learning templates now wait for a confirmed learning agreement before creating roadmaps, lessons, practice plans, or project plans.">学习模板会先形成学习约定并等待确认，再生成课程路线、章节、练习或项目方案。</li>
+                <li data-zh="项目模板会先形成项目约定并等待确认，再生成完整方案、计划或实施改动。" data-en="Project templates now wait for a confirmed project agreement before creating a complete solution, plan, or implementation change.">项目模板会先形成项目约定并等待确认，再生成完整方案、计划或实施改动。</li>
+                <li data-zh="npm 页面现在展示仓库、官网和问题反馈链接；CLI 说明增加完整文档与 AI 初始化入口。" data-en="The npm page now shows repository, website, and issue links; the CLI reference adds complete documentation and AI initialization entry points.">npm 页面现在展示仓库、官网和问题反馈链接；CLI 说明增加完整文档与 AI 初始化入口。</li>
+              </ul>
+            </div>
+            <div>
+              <h3 data-zh="兼容性" data-en="Compatibility">兼容性</h3>
+              <p data-zh="已有工作流不会自动改动。可运行 rw upgrade --plan . 查看更新；新初始化仅在大范围学习或项目设计前等待确认，已确认的局部任务可直接推进。" data-en="Existing workflows are never changed automatically. Run rw upgrade --plan . to review updates; new workflows pause only before broad learning or project design work, while confirmed local tasks continue directly.">已有工作流不会自动改动。可运行 rw upgrade --plan . 查看更新；新初始化仅在大范围学习或项目设计前等待确认，已确认的局部任务可直接推进。</p>
+            </div>
+          </div>
+        </article>
+
         <article class="release-card">
           <div class="release-card-heading">
             <div>

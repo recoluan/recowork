@@ -4,6 +4,24 @@ All notable changes to RecoWork are documented here. This project follows [Keep 
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-07-20
+
+### Added
+
+- Learning workflows now require a confirmed learning agreement before generating or changing a roadmap, lesson, practice plan, or project plan.
+- Project workflows now require a confirmed project agreement before generating or changing a complete solution, plan, or implementation.
+- Confirmation gates are included in localized role contracts, working methods, chat prompts, and project instructions.
+
+### Changed
+
+- `learning-engineering` and `project-engineering` templates are now version `1.1.0`.
+- The published npm package now exposes repository, homepage, and issue-tracker links; the bundled CLI reference links to guided setup, source, releases, and AI-led initialization.
+
+### Compatibility
+
+- Existing workflows are not changed automatically. Run `rw upgrade --plan .` to review available method and target updates; apply only updates that remain unmodified in the user project.
+- New initializations pause for explicit confirmation only before broad learning or project design work. Explicitly confirmed local tasks can proceed without repeated confirmation.
+
 ## [0.3.0] - 2026-07-12
 
 ### Added
