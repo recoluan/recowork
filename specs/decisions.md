@@ -238,6 +238,7 @@ Implication:
 - Non-index documents use metadata, conclusion-first summary, structured body, relative references, and a change log.
 - `index.md` files remain lightweight navigation only, with one-line entries, relative links, status, and last-updated state.
 - Agents navigate from indexes, retrieve focused documents progressively, and update affected indexes after material work.
+- Every durable template also has a localized artifact freshness standard. It separates canonical facts from traces, defines current and historical lifecycle states, and requires a consolidation sweep at meaningful completion points without automatically deleting user documents.
 
 ## 015. Localize Target Outputs, Not Only Templates
 

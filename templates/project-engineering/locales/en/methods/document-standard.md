@@ -1,7 +1,7 @@
 # Document Standard
 
-> Version: 1.0
-> Date: 2026-07-12
+> Version: 1.1
+> Date: 2026-07-21
 > Status: Final
 
 ## Conclusion First
@@ -14,7 +14,7 @@ Project documents are durable facts that the AI and team can reuse; they are not
 
 Except for `index.md`, every project document uses this order:
 
-1. **Metadata header**: title, version, date, and status (Draft / In review / Final). Owner or scope may be added, but do not replace the required fields.
+1. **Metadata header**: title, version, date, and status (Draft / In review / Current / Superseded / Archived). Owner, scope, and freshness metadata may be added, but do not replace the required fields. See the [Artifact Freshness Standard](./artifact-freshness-standard.md) for lifecycle semantics.
 2. **Conclusion first**: 3–5 sentences covering the conclusion, scope, key constraint, or next step so readers can decide whether to continue.
 3. **Body**: use heading levels for facts, decisions, evidence, or records; distinguish facts, inferences, and open questions.
 4. **Related references**: link to other project documents with relative Markdown paths, such as `[Project Brief](../project-brief.md)`; do not use bare filenames or absolute paths.
@@ -42,6 +42,7 @@ Except for `index.md`, every project document uses this order:
 
 - [Workflow](./workflow.md): defines when to navigate, execute work, and capture knowledge.
 - [Quality Gates](./quality-gates.md): verifies delivery and durable knowledge capture.
+- [Artifact Freshness Standard](./artifact-freshness-standard.md): defines canonical facts, traces, replacement relationships, and archival handling.
 - [Role Contract](./role-contract.md): defines agent judgment, confirmation, and iteration responsibilities.
 - [Workspace Index](../workspace/index.md): root navigation for project facts.
 
@@ -49,4 +50,5 @@ Except for `index.md`, every project document uses this order:
 
 | Date | Version | Change |
 | --- | --- | --- |
+| 2026-07-21 | 1.1 | Unified document lifecycle states and linked the artifact freshness standard. |
 | 2026-07-12 | 1.0 | Established document structure, granularity, indexing, and progressive retrieval rules. |

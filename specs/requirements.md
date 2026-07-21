@@ -146,9 +146,11 @@ npx recowork add <template> --target <target> --locale <locale> <destination>
 - Test output generated in the repository root should be cleaned up.
 - Verification commands should be reported after meaningful code changes.
 - Every template with a durable workspace must generate localized document conventions: `工作方法/文档规范.md` for `zh` and `methods/document-standard.md` for `en`.
+- Every template with a durable workspace must also generate a localized artifact freshness standard: `工作方法/产物保鲜规范.md` for `zh` and `methods/artifact-freshness-standard.md` for `en`.
 - Except for `index.md`, substantial workspace documents use metadata, a conclusion-first summary, structured body, relative references, and a change log; each document covers one topic.
 - `index.md` is navigation only: one-line entries, relative links, status, and last-updated state, without copied body content.
 - Agents start from the relevant root index, retrieve focused documents progressively, and update affected indexes after material work.
+- Artifact freshness uses `草稿` / `评审中` / `当前有效` / `已替代` / `已归档` (`Draft` / `In review` / `Current` / `Superseded` / `Archived`). A topic and scope has one current default source; process traces must be consolidated, linked, or marked historical at meaningful task, unit, or milestone completion. Agents never delete user-owned documents automatically.
 - Commits must follow Conventional Commits using `<type>(<scope>): <summary>`; the full contributor guidance lives in `CONTRIBUTING.md`.
 - Commits that span multiple surfaces, introduce migrations, alter generated output, or are otherwise non-obvious require `Why`, `Changes`, `Compatibility`, and `Validation` sections in the body.
 - Incompatible command, generated-path, file-format, or workflow-contract changes require a `BREAKING CHANGE:` footer.

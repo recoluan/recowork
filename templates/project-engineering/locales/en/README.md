@@ -17,6 +17,7 @@ Core outputs:
 - project-level skills
 - `methods/role-contract.md`
 - `methods/document-standard.md`
+- `methods/artifact-freshness-standard.md`
 - `project-brief.md`
 - `open-questions.md`
 - review and acceptance rules

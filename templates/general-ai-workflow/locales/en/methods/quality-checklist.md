@@ -10,6 +10,7 @@
 - Is the output direct, usable, and aligned with the user's language and style?
 - Do new or substantially revised documents follow the [Document Standard](./document-standard.md), including one topic, relative links, and the five-part structure?
 - Do affected `index.md` files have current links, summaries, statuses, and dates?
+- For important tasks, were traces consolidated and marked according to the [Artifact Freshness Standard](./artifact-freshness-standard.md), without competing current versions?
 
 ## After Completion
 

@@ -13,10 +13,12 @@
 2. Keep useful discussion summaries, attempts, and direction changes in `03-thinking-traces/` following the [Document Standard](./document-standard.md).
 3. Review against `quality-checklist.md` before presenting output.
 4. Update continuation memory and record reusable learning in `04-review-and-reuse/`; update affected `index.md` links, statuses, and dates.
+5. For important tasks, run the [artifact freshness sweep](./artifact-freshness-standard.md): consolidate valid conclusions into canonical documents, mark the destination of traces, and make indexes point to current content by default.
 
 ## Usage Rules
 
 - Simple tasks do not need lengthy documents. Only capture what will help a future task.
 - `index.md` files are for navigation, not repeated body text.
 - Use the [Document Standard](./document-standard.md) for document structure, single-topic granularity, relative links, and index maintenance.
+- Use the [Artifact Freshness Standard](./artifact-freshness-standard.md) for trace status, replacement relationships, archival proposals, and version consolidation.
 - When direction changes, update the brief or open questions before continuing.

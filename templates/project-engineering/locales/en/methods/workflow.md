@@ -25,12 +25,14 @@ Navigate with indexes first, then read project documents only as needed; do not 
 4. Implement the change.
 5. Validate the result.
 6. Update relevant `workspace/` documents and decision records according to the [Document Standard](./document-standard.md), then update affected `index.md` statuses.
-7. Summarize changes and risks.
+7. Run the [artifact freshness sweep](./artifact-freshness-standard.md): consolidate valid conclusions into canonical facts, mark traces and superseded versions, and update current and historical index entries.
+8. Summarize changes and risks.
 
 ## Related References
 
 - [Document Standard](./document-standard.md)
 - [Quality Gates](./quality-gates.md)
+- [Artifact Freshness Standard](./artifact-freshness-standard.md)
 - [Workspace Index](../workspace/index.md)
 
 ## Change Log

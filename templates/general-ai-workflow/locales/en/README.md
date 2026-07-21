@@ -11,7 +11,7 @@ Good fit:
 
 Core outputs:
 
-- `methods/`: stable working rules, role contract, and review standards.
+- `methods/`: stable working rules, role contract, review standards, and artifact freshness rules.
 - `workspace/`: context, outputs, traces, and retrospectives for the current task.
 - `methods/role-contract.md`: the AI role, boundaries, and iteration rules.
 - `task-brief.md`, `open-questions.md`, and a continuation memory template.

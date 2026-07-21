@@ -34,9 +34,9 @@ Templates describe the work scenario:
 
 | Template | Purpose |
 | --- | --- |
-| `general-ai-workflow` | Daily AI work with a role contract, task context, continuation memory, review, and reusable learning. |
-| `project-engineering` | Project-level AI workflow with rules, a document standard, progressive retrieval, knowledge capture, and quality gates. |
-| `learning-engineering` | Structured learning with learner diagnosis, a roadmap, lessons, practice, projects, feedback, and durable learning records. |
+| `general-ai-workflow` | Daily AI work with a role contract, task context, continuation memory, review, and fresh reusable task records. |
+| `project-engineering` | Project-level AI workflow with rules, document and artifact freshness standards, progressive retrieval, knowledge capture, and quality gates. |
+| `learning-engineering` | Structured learning with learner diagnosis, a roadmap, lessons, practice, projects, feedback, and fresh durable learning records. |
 
 The next architecture standard calls these reusable output definitions targets. Target IDs describe the output environment:
 

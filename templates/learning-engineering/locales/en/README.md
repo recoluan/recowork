@@ -10,7 +10,7 @@ Good fit:
 
 Core outputs:
 
-- `methods/`: learning mentor role, teaching method, lesson unit, and assessment rules.
+- `methods/`: learning mentor role, teaching method, lesson unit, assessment rules, and artifact freshness standard.
 - `learning-workspace/`: learner brief, roadmap, progress, lessons, practice, and knowledge capture.
 - `learner-brief.md`, `course-roadmap.md`, and `learning-progress.md`.
 - Reusable templates for lesson units, project practice, and retrospectives.

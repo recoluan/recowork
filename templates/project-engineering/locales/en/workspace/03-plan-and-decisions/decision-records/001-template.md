@@ -1,17 +1,45 @@
+---
+title: Decision Record: To fill
+version: 0.1
+date: To fill
+status: Draft
+last_confirmed: To fill
+supersedes: None
+superseded_by: None
+review_trigger: Recheck when relevant constraints, evidence, or goals change
+---
+
 # Decision Record Template
 
-## Status
+## Conclusion First
 
-Proposed
+To fill: the current decision, scope, key rationale, and next step. When unconfirmed, state clearly that this is a proposal and not a default project fact.
 
-## Context
+## Body
+
+### Context And Trigger
 
 To fill: background, constraints, and trigger for this decision.
 
-## Decision
+### Options And Evidence
 
-To fill: the decision that has been confirmed or proposed.
+To fill: considered options, evidence, risks, and unresolved questions.
 
-## Consequences
+### Decision And Consequences
 
-To fill: benefits, costs, risks, and follow-up actions.
+To fill: the confirmed or proposed decision, benefits, costs, risks, and follow-up actions.
+
+### Lifecycle Handling
+
+To fill: whether this record replaces an older decision. When replaced, update `superseded_by` and move its parent-index entry to Historical reference. See the [Artifact Freshness Standard](../../../methods/artifact-freshness-standard.md).
+
+## Related References
+
+- [Plan And Decisions Index](../index.md)
+- [Artifact Freshness Standard](../../../methods/artifact-freshness-standard.md)
+
+## Change Log
+
+| Date | Version | Change |
+| --- | --- | --- |
+| To fill | 0.1 | Created the decision record. |

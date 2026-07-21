@@ -18,11 +18,13 @@ Before presenting work as complete, the AI should check:
 - Durable decisions or reusable methods were captured.
 - New or substantially revised documents follow the [Document Standard](./document-standard.md): five parts, one topic, and relative links.
 - Affected `index.md` files have current links, summaries, statuses, and last-updated dates.
+- Traces are consolidated, replacement relationships are marked, and each topic has one Current version under the [Artifact Freshness Standard](./artifact-freshness-standard.md).
 
 ## Related References
 
 - [Document Standard](./document-standard.md)
 - [Workflow](./workflow.md)
+- [Artifact Freshness Standard](./artifact-freshness-standard.md)
 
 ## Change Log
 

@@ -20,3 +20,4 @@
 - Does the roadmap, pace, or project need adjustment?
 - Which conclusions belong in `05-knowledge-capture/`?
 - Do new or substantially revised learning documents follow the [Document Standard](./document-standard.md), and have their parent indexes been updated?
+- Has validated understanding been consolidated under the [Artifact Freshness Standard](./artifact-freshness-standard.md), with old drafts, practice, and discussion materials marked with their destination?
