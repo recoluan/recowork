@@ -313,3 +313,19 @@ Implication:
 - Templates and targets declare a semantic `version` in their manifests and increment it when their generated contract changes.
 - New template workspace files are surfaced as recommendations, not silently inserted into a working project.
 - Workspace migrations require user confirmation and should use the generated report as a scoped task brief for a human or AI assistant.
+
+## 019. Separate Idea Exploration From Daily Tasks And Project Execution
+
+Decision: `idea-engineering` is a dedicated workflow for AI-assisted brainstorming, direction synthesis, and hypothesis validation. `general-ai-workflow` is presented to users as the daily task workflow while retaining its stable internal ID for compatibility.
+
+Reason:
+
+- Daily task collaboration should stay lightweight and may complete clear tasks directly.
+- Idea exploration needs deliberate divergence, evidence-aware convergence, and a confirmation point before committing to a direction.
+- Project engineering begins after a direction has enough agreement to justify solution design and execution planning.
+
+Implication:
+
+- `idea-engineering` uses localized `想法空间/` and `idea-space/` workspaces with problem, trace, synthesis, validation, and next-step sections.
+- The template supports chat, project, workspace, and document targets and waits for explicit confirmation before a priority direction, validation plan, or project execution.
+- Confirmed directions can be handed to `project-engineering` with the idea agreement and evidence preserved.

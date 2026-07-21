@@ -1,0 +1,45 @@
+id: idea-engineering
+version: 1.0.0
+name: 想法探索与验证工作流包
+name_en: Idea Exploration And Validation Template
+description: 把与 AI 的脑暴从发散想法推进到方向归纳、假设验证和可执行下一步。
+description_en: Turn AI brainstorming into divergent exploration, direction synthesis, hypothesis validation, and an actionable next step.
+audience:
+  - 创业者
+  - 产品经理
+  - 创作者
+  - 希望探索新方向的团队
+audience_en:
+  - Founders
+  - Product managers
+  - Creators
+  - Teams exploring new directions
+supported_targets:
+  - chatgpt-chat
+  - claude-chat
+  - kimi-doubao-chat
+  - codex-project
+  - cursor-project
+  - notion-workspace
+  - feishu-doc
+default_target: chatgpt-chat
+default_locale: zh
+locales:
+  - zh
+  - en
+aliases:
+  - idea
+  - brainstorm
+  - explore
+outputs:
+  - 本地化工作方法目录
+  - 想法探索角色设定
+  - 想法空间与方向归纳
+  - 假设、验证与下一步决策
+  - 产物保鲜与过程留痕规则
+outputs_en:
+  - localized methods directory
+  - idea exploration role contract
+  - idea space and direction synthesis
+  - hypotheses, validation, and next-step decisions
+  - artifact freshness and trace rules

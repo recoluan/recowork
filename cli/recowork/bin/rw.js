@@ -819,6 +819,9 @@ function collectDesiredFiles(template, target, locale) {
       return;
     }
     for (const entry of fs.readdirSync(sourceDir, { withFileTypes: true })) {
+      if (ownership === "target" && shouldSkipTargetEntry(entry.name, template, target)) {
+        continue;
+      }
       const sourcePath = path.join(sourceDir, entry.name);
       const outputName = render && entry.name.endsWith(".tpl") ? entry.name.slice(0, -4) : entry.name;
       const outputPath = path.join(outputPrefix, outputName);
@@ -1123,6 +1126,9 @@ function renderTargetFiles(from, to, template, target, locale) {
 
   fs.mkdirSync(to, { recursive: true });
   for (const entry of fs.readdirSync(from, { withFileTypes: true })) {
+    if (shouldSkipTargetEntry(entry.name, template, target)) {
+      continue;
+    }
     const source = path.join(from, entry.name);
     const outputName = entry.name.endsWith(".tpl")
       ? entry.name.slice(0, -4)
@@ -1136,6 +1142,12 @@ function renderTargetFiles(from, to, template, target, locale) {
       fs.writeFileSync(destination, renderTemplate(content, template, target, locale));
     }
   }
+}
+
+function shouldSkipTargetEntry(entryName, template, target) {
+  return template.id === "idea-engineering"
+    && target.id === "codex-project"
+    && (entryName === "knowledge" || entryName === "知识库");
 }
 
 function cleanupTargetLocaleOutputs(targetDir, target, locale, outputDir) {
@@ -1230,6 +1242,7 @@ function renderTemplate(source, template, target, locale) {
     questions_file: localePaths.questionsFile,
     role_file: localePaths.roleFile,
     knowledge_dir: localePaths.knowledgeDir,
+    self_review_knowledge_check: localeStrings.selfReviewKnowledgeCheck,
     target_intro: localeStrings.targetIntro,
     heading_purpose: localeStrings.headingPurpose,
     heading_audience: localeStrings.headingAudience,
@@ -1293,6 +1306,7 @@ function getLocaleStrings(locale, template, target, localePaths) {
   const isGeneralWorkflow = template.id === "general-ai-workflow";
   const isLearningWorkflow = template.id === "learning-engineering";
   const isProjectWorkflow = template.id === "project-engineering";
+  const isIdeaWorkflow = template.id === "idea-engineering";
   if (locale === "en") {
     return {
       targetIntro: `This workflow uses RecoWork template \`${template.id}\` for target \`${target.id}\` and locale \`${locale}\`.`,
@@ -1301,29 +1315,40 @@ function getLocaleStrings(locale, template, target, localePaths) {
       headingExpectedOutputs: "Expected Outputs",
       headingWorkingProtocol: "Working Protocol",
       headingRules: "Rules",
-      ruleReadProjectContext: `Read \`README.md\`, \`${localePaths.roleFile}\`, \`${localePaths.methodsDir}/\`, \`${localePaths.workspaceDir}/\`, and \`rw-manifest.json\` before ${isLearningWorkflow ? "starting or continuing a learning unit" : isGeneralWorkflow ? "starting or continuing meaningful work" : "making changes"}.`,
+      ruleReadProjectContext: `Read \`README.md\`, \`${localePaths.roleFile}\`, \`${localePaths.methodsDir}/\`, \`${localePaths.workspaceDir}/\`, and \`rw-manifest.json\` before ${isLearningWorkflow ? "starting or continuing a learning unit" : isIdeaWorkflow ? "starting or continuing an idea exploration" : isGeneralWorkflow ? "starting or continuing meaningful work" : "making changes"}.`,
       ruleCaptureKnowledge: isLearningWorkflow
         ? `Capture reusable learning insights in \`${localePaths.workspaceDir}/05-knowledge-capture/\`.`
         : isGeneralWorkflow
           ? `Capture reusable task insights in \`${localePaths.workspaceDir}/04-review-and-reuse/\`.`
+          : isIdeaWorkflow
+            ? `Capture confirmed directions, validation conclusions, and next steps in \`${localePaths.ideaDecisionDir}/\`.`
         : `Capture durable project knowledge in \`${localePaths.knowledgeDir}/\`.`,
       ruleReviewOutput: "Before returning work, review the result against the template purpose and expected outputs.",
-      ruleConfirmLargeChanges: isLearningWorkflow
+      ruleConfirmLargeChanges: isIdeaWorkflow
+        ? "Before selecting a priority direction, validation plan, or project execution, present an idea agreement and wait for the user's explicit confirmation."
+        : isLearningWorkflow
         ? "Before creating or changing a roadmap, lesson content, practice plan, or project plan, present a learning agreement and wait for the learner's explicit confirmation. Also ask before large scope changes or irreversible operations."
         : isProjectWorkflow
           ? "Before generating a complete solution, plan, or implementation change, present a project agreement and wait for the user's explicit confirmation. Also ask before large scope changes or irreversible operations."
         : "Ask for confirmation before large scope changes or irreversible operations.",
       ruleUseClaudeSkills: "Use project-scoped skills from `.claude/skills/` when they match the task.",
-      ruleKeepKnowledge: isLearningWorkflow
+      ruleKeepKnowledge: isIdeaWorkflow
+        ? `Keep idea briefs, directions, hypotheses, and decisions in \`${localePaths.workspaceDir}/\`. Explore broadly first, then separate facts, assumptions, and evidence; wait for confirmation before converging on a priority direction.`
+        : isLearningWorkflow
         ? `Keep the learner brief, roadmap, progress, and retrospectives in \`${localePaths.workspaceDir}/\`. Before creating or changing a roadmap, lesson, practice plan, or project plan, present a learning agreement and wait for the learner's explicit confirmation; then teach one validated unit at a time.`
         : isGeneralWorkflow
           ? `Keep useful task context in \`${localePaths.workspaceDir}/\` and leave a continuation memory after important work.`
           : `Keep durable project knowledge in \`${localePaths.workspaceDir}/\` and the template-defined knowledge location. Before creating a complete solution, plan, or implementation change, present a project agreement and wait for explicit user confirmation.`,
       ruleKeepScoped: "Keep changes scoped to the current task.",
       ruleExplainVerification: "Explain verification steps after implementation.",
+      selfReviewKnowledgeCheck: isIdeaWorkflow
+        ? `Check that confirmed directions, validation conclusions, and next steps are captured in \`${localePaths.ideaDecisionDir}/\`.`
+        : `Check whether any durable knowledge should be added to \`${localePaths.knowledgeDir}/\`.`,
       chatInitTitle: "RecoWork Initialization Prompt",
       chatInitIntro: `You are helping me use the RecoWork template \`${template.id}\`.`,
-      chatInitInstruction: isLearningWorkflow
+      chatInitInstruction: isIdeaWorkflow
+        ? "Start with focused idea discovery. Clarify the question, target user, constraints, success signals, known facts, assumptions, and open questions. Explore multiple directions first, then present an idea agreement and wait for my explicit confirmation before selecting a priority direction, validation plan, or project execution."
+        : isLearningWorkflow
         ? "Start with a focused learning diagnosis. Restate the goal, background, constraints, preferences, completion criteria, assumptions, and open questions as a short learning agreement, then wait for my explicit confirmation. Until I confirm, do not generate a roadmap, lesson content, practice plan, or project plan. After confirmation, teach one validated unit at a time and leave a short continuation memory after meaningful work."
         : isProjectWorkflow
           ? "Start with focused project discovery. Restate the goal, scope, constraints, risks, success criteria, assumptions, and open questions as a short project agreement, then wait for my explicit confirmation. Until I confirm, only maintain a draft project brief and open questions; do not generate a complete solution, plan, or implementation change. After confirmation, work in small, verified steps and capture durable decisions."
@@ -1333,7 +1358,9 @@ function getLocaleStrings(locale, template, target, localePaths) {
       chatTaskFieldTask: "Task",
       chatTaskFieldContext: "Context",
       chatTaskFieldConstraints: "Constraints",
-      chatTaskInstruction: isLearningWorkflow
+      chatTaskInstruction: isIdeaWorkflow
+        ? "First determine whether this idea scope has been explicitly confirmed. If not, clarify the exploration frame, separate facts, assumptions, and open questions, and explore alternatives without prematurely converging. Wait for my confirmation before selecting a priority direction or validation plan."
+        : isLearningWorkflow
         ? "First determine whether this learning scope has been explicitly confirmed. If it has not, run the focused diagnosis and wait for my confirmation before generating learning content. If it has, restate the unit goal briefly, separate facts, assumptions, and open questions, and advance only that validated unit. After meaningful work, include a short memory card I can paste into the next chat."
         : isProjectWorkflow
           ? "First determine whether this project scope has been explicitly confirmed. If it has not, form a short project agreement and wait for my confirmation before generating a complete solution, plan, or implementation change. If it has, restate the local task goal briefly, separate facts, assumptions, and open questions, then work only within that confirmed scope. After meaningful work, include a short memory card I can paste into the next chat."
@@ -1346,7 +1373,9 @@ function getLocaleStrings(locale, template, target, localePaths) {
       chatMemoryNext: "Next step:",
       claudeInstructionsTitle: "Claude Workflow Instructions",
       claudeInstructionsIntro: `Use RecoWork template \`${template.id}\` and its role contract.`,
-      claudeInstructionsRule: isLearningWorkflow
+      claudeInstructionsRule: isIdeaWorkflow
+        ? "Explore multiple directions before converging. Separate facts, assumptions, risks, and evidence, then present an idea agreement and wait for explicit user confirmation before a priority direction, validation plan, or project execution."
+        : isLearningWorkflow
         ? "Start with a focused diagnosis and present a learning agreement. Wait for explicit learner confirmation before generating a roadmap, lesson content, practice plan, or project plan. After confirmation, work in one validated unit at a time, keep assumptions explicit, and summarize durable context after each milestone."
         : isProjectWorkflow
           ? "Start with focused project discovery and present a project agreement. Wait for explicit user confirmation before generating a complete solution, plan, or implementation change. After confirmation, work in small, verified steps, keep assumptions explicit, and summarize durable context after each milestone."
@@ -1361,29 +1390,40 @@ function getLocaleStrings(locale, template, target, localePaths) {
     headingExpectedOutputs: "预期产物",
     headingWorkingProtocol: "工作协议",
     headingRules: "规则",
-    ruleReadProjectContext: `在${isLearningWorkflow ? "开始或续接一个学习单元" : isGeneralWorkflow ? "开始或续接重要任务" : "改动"}前先读取 \`README.md\`、\`${localePaths.roleFile}\`、\`${localePaths.methodsDir}/\`、\`${localePaths.workspaceDir}/\` 和 \`rw-manifest.json\`。`,
+    ruleReadProjectContext: `在${isLearningWorkflow ? "开始或续接一个学习单元" : isIdeaWorkflow ? "开始或续接一次想法探索" : isGeneralWorkflow ? "开始或续接重要任务" : "改动"}前先读取 \`README.md\`、\`${localePaths.roleFile}\`、\`${localePaths.methodsDir}/\`、\`${localePaths.workspaceDir}/\` 和 \`rw-manifest.json\`。`,
     ruleCaptureKnowledge: isLearningWorkflow
       ? `把可复用的学习结论沉淀到 \`${localePaths.workspaceDir}/05-知识沉淀/\`。`
       : isGeneralWorkflow
         ? `把可复用的任务经验沉淀到 \`${localePaths.workspaceDir}/04-复盘与沉淀/\`。`
+        : isIdeaWorkflow
+          ? `把已确认的方向、验证结论和下一步沉淀到 \`${localePaths.ideaDecisionDir}/\`。`
         : `把长期有效的项目知识沉淀到 \`${localePaths.knowledgeDir}/\`。`,
     ruleReviewOutput: "返回结果前，对照模板用途和预期产物自审。",
-    ruleConfirmLargeChanges: isLearningWorkflow
+    ruleConfirmLargeChanges: isIdeaWorkflow
+      ? "选择优先方向、验证计划或进入项目执行前，先给出想法约定并等待用户明确确认。"
+      : isLearningWorkflow
       ? "生成或变更课程路线、章节内容、练习计划或项目方案前，先给出学习约定并等待学习者明确确认；大范围变更或不可逆操作前也必须先确认。"
       : isProjectWorkflow
         ? "生成完整方案、计划或实施改动前，先给出项目约定并等待用户明确确认；大范围变更或不可逆操作前也必须先确认。"
       : "大范围变更或不可逆操作前，先向用户确认。",
     ruleUseClaudeSkills: "当任务匹配时，使用 `.claude/skills/` 下的项目级 skills。",
-    ruleKeepKnowledge: isLearningWorkflow
+    ruleKeepKnowledge: isIdeaWorkflow
+      ? `把想法简报、方向、假设和决策放在 \`${localePaths.workspaceDir}/\`。先充分发散，再区分事实、假设和证据；收敛到优先方向前等待用户确认。`
+      : isLearningWorkflow
       ? `把学习简报、课程路线、进度和复盘放在 \`${localePaths.workspaceDir}/\`。生成或变更课程路线、章节内容、练习计划或项目方案前，先给出学习约定并等待学习者明确确认；确认后一次只推进一个经过验证的学习单元。`
       : isGeneralWorkflow
       ? `把有效任务上下文放在 \`${localePaths.workspaceDir}/\`，重要任务结束后留下续聊记忆。`
       : `把长期项目知识放在 \`${localePaths.workspaceDir}/\` 和模板定义的知识位置。生成完整方案、计划或实施改动前，先给出项目约定并等待用户明确确认。`,
     ruleKeepScoped: "保持改动聚焦在当前任务范围内。",
     ruleExplainVerification: "实现后说明验证步骤。",
+    selfReviewKnowledgeCheck: isIdeaWorkflow
+      ? `检查已确认的方向、验证结论和下一步是否已沉淀到 \`${localePaths.ideaDecisionDir}/\`。`
+      : `检查是否有应写入 \`${localePaths.knowledgeDir}/\` 的长期知识。`,
     chatInitTitle: "RecoWork 初始化 Prompt",
     chatInitIntro: `你正在使用 RecoWork 模板 \`${template.id}\`。`,
-    chatInitInstruction: isLearningWorkflow
+    chatInitInstruction: isIdeaWorkflow
+      ? "先进行聚焦的想法澄清：明确问题、目标用户、约束、成功信号、已知事实、假设和待确认问题。先探索多个方向，再给出想法约定；在我明确确认前，不要选择优先方向、制定验证计划或进入项目执行。"
+      : isLearningWorkflow
       ? "先进行聚焦的学习诊断。将目标、基础、约束、偏好、完成标准、假设和待确认问题整理为简短的学习约定，并等待我明确确认。在确认前，不要生成课程路线、章节内容、练习计划或项目方案。确认后一次只推进一个经过验证的学习单元，并在重要工作结束后留下可复制的续聊记忆。"
       : isProjectWorkflow
         ? "先进行聚焦的项目澄清。将目标、范围、约束、风险、成功标准、假设和待确认问题整理为简短的项目约定，并等待我明确确认。在确认前，只维护项目简报草稿和待确认问题；不要生成完整方案、计划或实施改动。确认后分小步推进、验证结果并沉淀长期决策。"
@@ -1393,7 +1433,9 @@ function getLocaleStrings(locale, template, target, localePaths) {
     chatTaskFieldTask: "任务",
     chatTaskFieldContext: "背景",
     chatTaskFieldConstraints: "约束",
-    chatTaskInstruction: isLearningWorkflow
+    chatTaskInstruction: isIdeaWorkflow
+      ? "先判断当前想法探索范围是否已经获得明确确认。未确认时，澄清探索框架，区分事实、假设和待确认问题，并充分发散备选方向；选择优先方向或验证计划前等待我确认。"
+      : isLearningWorkflow
       ? "先判断当前学习范围是否已经获得明确确认。尚未确认时，先完成聚焦诊断并等待我确认，再生成学习内容；已确认时，简要复述单元目标，区分事实、假设和待确认问题，并且只推进这个经过验证的单元。重要工作结束后给出一张可复制到下一轮对话的简短记忆卡。"
       : isProjectWorkflow
         ? "先判断当前项目范围是否已经获得明确确认。尚未确认时，先形成简短的项目约定并等待我确认，再生成完整方案、计划或实施改动；已确认时，简要复述局部任务目标，区分事实、假设和待确认问题，并且只在这个确认范围内推进。重要工作结束后给出一张可复制到下一轮对话的简短记忆卡。"
@@ -1406,7 +1448,9 @@ function getLocaleStrings(locale, template, target, localePaths) {
     chatMemoryNext: "下一步：",
     claudeInstructionsTitle: "Claude 工作流说明",
     claudeInstructionsIntro: `请使用 RecoWork 模板 \`${template.id}\` 及其角色设定。`,
-    claudeInstructionsRule: isLearningWorkflow
+    claudeInstructionsRule: isIdeaWorkflow
+      ? "先探索多个方向再收敛，区分事实、假设、风险和证据；选择优先方向、验证计划或进入项目执行前，给出想法约定并等待用户明确确认。"
+      : isLearningWorkflow
       ? "先进行聚焦诊断并给出学习约定。在学习者明确确认前，不要生成课程路线、章节内容、练习计划或项目方案；确认后一次只推进一个经过验证的学习单元，明确标注假设，并在每个阶段结束后总结可持续使用的上下文。"
       : isProjectWorkflow
         ? "先进行聚焦的项目澄清并给出项目约定。在用户明确确认前，不要生成完整方案、计划或实施改动；确认后分小步推进、明确标注假设，并在每个阶段结束后总结可持续使用的上下文。"
@@ -1417,6 +1461,7 @@ function getLocaleStrings(locale, template, target, localePaths) {
 function getLocalePaths(locale, template) {
   const isGeneralWorkflow = template && template.id === "general-ai-workflow";
   const isLearningWorkflow = template && template.id === "learning-engineering";
+  const isIdeaWorkflow = template && template.id === "idea-engineering";
   if (locale === "en") {
     if (isLearningWorkflow) {
       return {
@@ -1425,6 +1470,17 @@ function getLocalePaths(locale, template) {
         briefFile: "learner-brief.md",
         questionsFile: "learning-workspace/04-questions-and-retrospectives/",
         roleFile: "methods/role-contract.md",
+        knowledgeDir: "knowledge",
+      };
+    }
+    if (isIdeaWorkflow) {
+      return {
+        methodsDir: "methods",
+        workspaceDir: "idea-space",
+        briefFile: "idea-brief.md",
+        questionsFile: "open-questions.md",
+        roleFile: "methods/role-contract.md",
+        ideaDecisionDir: "idea-space/05-decisions-and-next-steps",
         knowledgeDir: "knowledge",
       };
     }
@@ -1466,6 +1522,17 @@ function getLocalePaths(locale, template) {
       briefFile: "学习简报.md",
       questionsFile: "学习空间/04-问题与复盘/",
       roleFile: "工作方法/角色设定.md",
+      knowledgeDir: "知识库",
+    };
+  }
+  if (isIdeaWorkflow) {
+    return {
+      methodsDir: "工作方法",
+      workspaceDir: "想法空间",
+      briefFile: "想法简报.md",
+      questionsFile: "待确认问题.md",
+      roleFile: "工作方法/角色设定.md",
+      ideaDecisionDir: "想法空间/05-决策与下一步",
       knowledgeDir: "知识库",
     };
   }

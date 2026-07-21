@@ -1,9 +1,9 @@
 id: general-ai-workflow
-version: 1.1.0
-name: 通用 AI 工作流包
-name_en: General AI Workflow Template
-description: 帮普通用户把任意 AI App 用成可持续的任务工作流，包含角色协议、任务上下文、续聊记忆、自审和复盘沉淀。
-description_en: Turn any AI app into a durable task workflow with a role contract, task context, continuation memory, self-review, and reusable learning.
+version: 1.2.0
+name: 日常任务协作包
+name_en: Daily Task Workflow Template
+description: 帮普通用户把任意 AI App 用成可持续的日常任务协作流程，包含角色协议、任务上下文、续聊记忆、自审和复盘沉淀。
+description_en: Turn any AI app into a durable daily task workflow with a role contract, task context, continuation memory, self-review, and reusable learning.
 audience:
   - 普通 AI 用户
   - ChatGPT Mobile 用户
@@ -29,6 +29,8 @@ locales:
   - en
 aliases:
   - general
+  - task
+  - daily
   - mobile
   - ai
 outputs:

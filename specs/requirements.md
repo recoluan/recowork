@@ -33,6 +33,7 @@ The first templates are:
 - `general-ai-workflow`: daily AI usage with a role contract, task context, continuation memory, review, and reusable learning.
 - `project-engineering`: project-level AI workflow with rules, knowledge capture, and quality gates.
 - `learning-engineering`: structured learning workflow with learner diagnosis, a roadmap, lessons, practice, projects, feedback, and durable learning records.
+- `idea-engineering`: idea exploration workflow with divergence, direction synthesis, hypotheses, validation, and a confirmed next step.
 
 Template content quality is intentionally deferred. The architecture should support better, more differentiated templates later.
 
@@ -325,6 +326,41 @@ Responsibilities:
 - Each learning unit should include a goal, a minimal experiment, practice, feedback, verification, and learner-owned explanation.
 - Code or operational courses should show the problem, key change, actual verification, and data-flow reasoning; they must not claim unrun work succeeded.
 - The workspace separates course design, lessons, project work, questions/retrospectives, and validated knowledge capture.
+
+## Idea Engineering Workspace Requirements
+
+The `idea-engineering` template should help users explore an uncertain idea without prematurely treating brainstorming as a decision. It should diverge broadly, distinguish facts from assumptions, then converge through explicit confirmation and proportionate validation.
+
+The Chinese locale should generate:
+
+```text
+工作方法/
+├── 角色设定.md
+├── 文档规范.md
+├── 发散与收敛方法.md
+├── 假设与验证规范.md
+└── 产物保鲜规范.md
+
+想法空间/
+├── index.md
+├── 想法简报.md
+├── 待确认问题.md
+├── 01-问题与机会/
+├── 02-脑暴留痕/
+├── 03-方向归纳/
+├── 04-假设与验证/
+└── 05-决策与下一步/
+```
+
+The English locale should generate the equivalent structure under `methods/` and `idea-space/`, including `methods/document-standard.md` and `idea-space/05-decisions-and-next-steps/`.
+
+Responsibilities:
+
+- The role contract defines a rigorous idea exploration facilitator, strategy advisor, and validation coach.
+- Idea initialization has a mandatory confirmation gate: clarify the exploration frame and diverge first; wait for explicit user confirmation before selecting a priority direction, creating a validation plan, or entering project execution.
+- The idea brief is the current agreement for the exploration; open questions contain items AI must not silently assume.
+- Problem/opportunity, brainstorming traces, direction synthesis, hypotheses/validation, and decisions/next steps keep process material separate from current conclusions.
+- Confirmed directions, validation conclusions, and next steps must be captured in `05-决策与下一步/` or `05-decisions-and-next-steps/`; no separate `知识库/` or `knowledge/` directory is required for this template.
 
 ## Naming Requirements
 

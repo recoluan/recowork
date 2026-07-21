@@ -31,9 +31,10 @@ const translations = {
     configTemplateLabel: "工作流",
     configTargetLabel: "使用位置",
     configLocaleLabel: "输出语言",
-    configTemplateGeneral: "日常 AI 使用",
+    configTemplateGeneral: "日常任务协作",
     configTemplateProject: "项目工程化",
     configTemplateLearning: "系统学习",
+    configTemplateIdea: "想法探索与验证",
     configEnvironmentLabel: "运行环境",
     environmentAgent: "本地智能体",
     environmentChat: "纯聊天 / 手机端",
@@ -163,9 +164,10 @@ npx recowork add project-engineering --target codex-project --locale zh .
     configTemplateLabel: "Workflow",
     configTargetLabel: "Usage target",
     configLocaleLabel: "Output language",
-    configTemplateGeneral: "Daily AI work",
+    configTemplateGeneral: "Daily task workflow",
     configTemplateProject: "Project engineering",
     configTemplateLearning: "Structured learning",
+    configTemplateIdea: "Idea exploration",
     configEnvironmentLabel: "Runtime capability",
     environmentAgent: "Local agent",
     environmentChat: "Chat / mobile",
@@ -336,6 +338,25 @@ const templateStructures = {
   04-问题与复盘/
   05-知识沉淀/`,
     },
+    idea: {
+      eyebrow: "想法探索与验证",
+      title: "让脑暴留下方向，而不是留下更多噪音。",
+      description: "先发散候选方向，再用事实、假设和小验证收敛；被排除的想法保留理由，但不干扰当前结论。",
+      outcomes: ["探索角色、发散收敛和验证方法", "想法简报与待确认问题", "方向、验证、决策和下一步空间"],
+      tree: `工作方法/
+  角色设定.md
+  发散与收敛方法.md
+  假设与验证规范.md
+  产物保鲜规范.md
+想法空间/
+  想法简报.md
+  待确认问题.md
+  01-问题与机会/
+  02-脑暴留痕/
+  03-方向归纳/
+  04-假设与验证/
+  05-决策与下一步/`,
+    },
   },
   en: {
     general: {
@@ -407,6 +428,25 @@ learning-workspace/
   04-questions-and-retrospectives/
   05-knowledge-capture/`,
     },
+    idea: {
+      eyebrow: "Idea exploration",
+      title: "Let brainstorming produce direction, not more noise.",
+      description: "Explore candidate directions, then converge with facts, assumptions, and small validations. Keep rejected ideas for context without letting them obscure the current conclusion.",
+      outcomes: ["Exploration role, divergence, convergence, and validation", "Idea brief and open questions", "Spaces for directions, validation, decisions, and next steps"],
+      tree: `methods/
+  role-contract.md
+  divergence-and-convergence.md
+  hypothesis-and-evidence-standard.md
+  artifact-freshness-standard.md
+idea-space/
+  idea-brief.md
+  open-questions.md
+  01-problem-and-opportunity/
+  02-brainstorming-traces/
+  03-direction-synthesis/
+  04-hypotheses-and-validation/
+  05-decisions-and-next-steps/`,
+    },
   },
 };
 
@@ -425,6 +465,7 @@ const templateAliases = {
   "general-ai-workflow": "general",
   "project-engineering": "project",
   "learning-engineering": "learning",
+  "idea-engineering": "idea",
 };
 
 const chatTargets = new Set(["chatgpt-chat", "claude-chat", "kimi-doubao-chat"]);
@@ -443,6 +484,10 @@ const chatBootstrapDetails = {
       role: "资深课程设计师、领域导师和实践教练",
       focus: "先诊断基础、目标和时间约束；一次只推进一个可验证单元；通过练习、反馈和复盘建立真实能力。",
     },
+    "idea-engineering": {
+      role: "严谨的想法探索引导者、产品策略顾问和验证教练",
+      focus: "先澄清问题、用户、约束和成功信号；充分发散多个方向；用事实、假设和验证收敛。",
+    },
   },
   en: {
     "general-ai-workflow": {
@@ -456,6 +501,10 @@ const chatBootstrapDetails = {
     "learning-engineering": {
       role: "a senior curriculum designer, subject mentor, and practice coach",
       focus: "Diagnose foundation, goals, and time constraints; advance one validated unit at a time; build real capability through practice, feedback, and retrospectives.",
+    },
+    "idea-engineering": {
+      role: "a rigorous idea exploration facilitator, product strategy advisor, and validation coach",
+      focus: "Clarify the question, user, constraints, and success signals; explore multiple directions; converge through facts, assumptions, and validation.",
     },
   },
 };
