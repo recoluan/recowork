@@ -4,6 +4,34 @@ All notable changes to RecoWork are documented here. This project follows [Keep 
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-07-21
+
+### Added
+
+- Added the `chat-mobile` target with a start instruction, task protocol, and manual continuation/migration summary.
+- Added the `local-agent-project` target with tool-neutral `AGENTS.md`, working methods, a durable workspace, and safe upgrade support.
+- Added legacy chat migration guidance that initializes a separate local workflow without touching existing files.
+
+### Changed
+
+- Replaced brand-specific targets with the two user-facing environments: Chat / mobile and desktop AI assistant.
+- Consolidated durable knowledge into canonical workspace documents and indexes instead of a separate knowledge directory.
+- `rw add` now refuses destinations that already contain `rw-manifest.json`, preventing reinitialization from overwriting an existing workflow.
+- Updated templates, CLI prompts, bilingual README files, specifications, and the documentation site for the new environment model.
+
+### Removed
+
+- Removed brand-specific target output, native skills, platform configuration folders, and Notion/Feishu document exports.
+
+### Compatibility
+
+- Legacy target names remain CLI aliases and resolve to `chat-mobile` or `local-agent-project`.
+- Existing workspaces remain untouched. Legacy Chat workflows receive a migration command for a separate local destination.
+
+### Breaking Changes
+
+- Brand-specific generated paths and native skill output are no longer produced. Use `local-agent-project` for complete local workflows or `chat-mobile` for lightweight chat workflows.
+
 ## [0.4.0] - 2026-07-20
 
 ### Added

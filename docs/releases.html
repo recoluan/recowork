@@ -52,17 +52,41 @@
       <section class="section release-summary">
         <div class="release-summary-card latest-release">
           <span data-zh="最新已发布" data-en="Latest published">最新已发布</span>
-          <strong>0.4.0</strong>
-          <p data-zh="2026-07-20 · 学习与项目确认门禁、npm 包入口" data-en="2026-07-20 · Learning and project confirmation gates, npm package links">2026-07-20 · 学习与项目确认门禁、npm 包入口</p>
+          <strong>1.0.0</strong>
+          <p data-zh="2026-07-21 · 两种使用环境与安全迁移" data-en="2026-07-21 · Two usage environments and safe migration">2026-07-21 · 两种使用环境与安全迁移</p>
         </div>
         <div class="release-summary-card next-release">
           <span data-zh="下一版本" data-en="Next release">下一版本</span>
-          <strong data-zh="未发布" data-en="Unreleased">未发布</strong>
+          <strong data-zh="开发中" data-en="In development">开发中</strong>
           <p data-zh="当前没有待发布变更。" data-en="No changes are currently queued for release.">当前没有待发布变更。</p>
         </div>
       </section>
 
       <section class="section release-list" aria-label="Release history">
+        <article class="release-card">
+          <div class="release-card-heading">
+            <div>
+              <span class="release-kicker">2026-07-21</span>
+              <h2>1.0.0</h2>
+            </div>
+            <span class="release-badge badge-green" data-zh="已发布" data-en="Published">已发布</span>
+          </div>
+          <div class="release-columns">
+            <div>
+              <h3 data-zh="新增与变更" data-en="Added and changed">新增与变更</h3>
+              <ul>
+                <li data-zh="RecoWork 收敛为聊天 / 手机端与电脑端 AI 助手两种使用环境。" data-en="RecoWork now has two usage environments: Chat / mobile and desktop AI assistant.">RecoWork 收敛为聊天 / 手机端与电脑端 AI 助手两种使用环境。</li>
+                <li data-zh="本地环境生成 AGENTS.md、工作方法和工作空间；聊天环境只生成启动、执行与续接/迁移三件套。" data-en="The desktop environment generates AGENTS.md, methods, and a workspace; Chat produces only start, task, and continuation/migration materials.">本地环境生成 AGENTS.md、工作方法和工作空间；聊天环境只生成启动、执行与续接/迁移三件套。</li>
+                <li data-zh="长期结论写入工作空间的权威文档与索引，初始化不会覆盖已有 RecoWork 工作流。" data-en="Durable conclusions live in canonical workspace documents and indexes; initialization never overwrites an existing RecoWork workflow.">长期结论写入工作空间的权威文档与索引，初始化不会覆盖已有 RecoWork 工作流。</li>
+              </ul>
+            </div>
+            <div>
+              <h3 data-zh="破坏性变更与迁移" data-en="Breaking changes and migration">破坏性变更与迁移</h3>
+              <p data-zh="品牌专属 target、原生 skill、平台配置目录和 Notion/飞书导出已移除。旧命令保留别名；旧 Chat 工作流执行 rw status 或 rw upgrade 时会得到创建独立本地目录的迁移指引。" data-en="Brand-specific targets, native skills, platform configuration, and Notion/Feishu exports were removed. Old command names remain aliases; legacy Chat workflows receive a separate-local-directory migration guide through rw status or rw upgrade.">品牌专属 target、原生 skill、平台配置目录和 Notion/飞书导出已移除。旧命令保留别名；旧 Chat 工作流执行 rw status 或 rw upgrade 时会得到创建独立本地目录的迁移指引。</p>
+            </div>
+          </div>
+        </article>
+
         <article class="release-card">
           <div class="release-card-heading">
             <div>
