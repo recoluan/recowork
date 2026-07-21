@@ -1,8 +1,8 @@
 # RecoWork
 
-RecoWork turns practical AI workflows into reusable templates that can be initialized for the tool and environment a user actually uses.
+RecoWork is an AI work harness: it turns practical AI workflows into reusable templates that can be initialized for the tool and environment a user actually uses.
 
-It is not a prompt collection. A RecoWork template defines the work scenario; a target defines where the workflow will be used; a locale defines the generated language and user-facing paths. The CLI combines them into real output.
+It is not a prompt collection. In the industry, a harness is the surrounding system that gives an AI repeatable context, rules, tools, and checks. A RecoWork template defines the work scenario; a target defines where the workflow will be used; a locale defines the generated language and user-facing paths. The CLI combines them into a usable work harness.
 
 ## Why
 
@@ -14,7 +14,7 @@ Using AI well often fails for engineering reasons:
 - project knowledge is rarely captured;
 - users need repeatable workflows, not one-off answers.
 
-RecoWork keeps the workflow method in one place and keeps output rules reusable.
+RecoWork keeps the workflow method in one place and keeps output rules reusable, so the AI harness can move with the work instead of being rebuilt for every session or tool.
 
 ## Architecture
 
