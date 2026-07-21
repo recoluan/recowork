@@ -1,5 +1,5 @@
 id: general-ai-workflow
-version: 2.0.0
+version: 2.0.1
 name: 日常任务协作包
 name_en: Daily Task Workflow Template
 description: 帮普通用户把任意 AI App 用成可持续的日常任务协作流程，包含角色协议、任务上下文、续聊记忆、自审和复盘沉淀。

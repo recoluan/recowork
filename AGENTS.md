@@ -45,6 +45,7 @@ Template structure changes must also update the generated template files, CLI cl
 - Keep locale-specific target content under `targets/<target>/locales/<locale>/files/`; use shared `targets/<target>/files/` only for convention-driven or locale-neutral output.
 - Locale changes may translate user-facing directories and documents, but must not translate convention-driven filenames such as `AGENTS.md`, `README.md`, and `index.md`.
 - Templates that govern ongoing work should include a localized role contract that defines the AI's working role, principles, prohibited behavior, and iteration rules.
+- AI agents must judge objectively rather than merely validate the user's premise. State material risks, contradictions, weak assumptions, and credible alternatives clearly; disagree respectfully when evidence or reasoning warrants it, and never hide concerns to be agreeable.
 - For `project-engineering`, the role contract lives at `工作方法/角色设定.md` for `zh` and `methods/role-contract.md` for `en`.
 - Every template with a durable workspace keeps document conventions at `工作方法/文档规范.md` for `zh` and `methods/document-standard.md` for `en`. Agents navigate from `index.md`, retrieve documents progressively, and update affected indexes after work.
 - Non-index documents follow metadata, conclusion-first summary, structured body, relative references, and a change log. `index.md` remains navigation only, with one-line entries, status, and last-updated state.

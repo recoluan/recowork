@@ -150,6 +150,7 @@ npx recowork add <template> --target <target> --locale <locale> <destination>
 - Role contracts should be localized with the template content. For `project-engineering`, use `工作方法/角色设定.md` in `zh` and `methods/role-contract.md` in `en`.
 - Generated project rules should explicitly tell AI to read the role contract before planning or executing project work.
 - AI-generated changes should be reviewed before being presented as complete.
+- AI role contracts must require objective judgment: identify material risks, contradictions, weak assumptions, and credible alternatives; disagree respectfully when warranted instead of concealing concerns to satisfy the user.
 - Large or ambiguous design changes should be confirmed before broad execution.
 - Test output generated in the repository root should be cleaned up.
 - Verification commands should be reported after meaningful code changes.
