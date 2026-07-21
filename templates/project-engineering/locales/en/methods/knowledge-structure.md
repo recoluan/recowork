@@ -1,21 +1,15 @@
-# Knowledge Structure
+# Project Record Map
 
-Keep durable project context in small, focused files.
+There is no separate knowledge base. Keep durable project context in small, focused canonical documents inside `workspace/`.
 
-## Stable Context
+## Canonical Records
 
-- `workspace/project-brief.md`
-- `workspace/01-requirements-and-constraints/`
-- `workspace/02-solution-design/`
+- `workspace/project-brief.md`: stable project context.
+- `workspace/01-requirements-and-constraints/`: requirements and constraints.
+- `workspace/02-solution-design/`: current design and tradeoffs.
+- `workspace/03-plan-and-decisions/decision-records/`: confirmed decisions.
+- `workspace/05-review-and-validation/`: validation and acceptance evidence.
 
-## Decisions
+## Process Traces
 
-- `workspace/03-plan-and-decisions/decision-records/`
-
-## Working Traces
-
-- `workspace/04-thinking-traces/`
-
-## Validation
-
-- `workspace/05-review-and-validation/`
+`workspace/04-thinking-traces/` holds dated discussion summaries and evidence. At milestones, consolidate verified conclusions into the canonical records above and update affected indexes.

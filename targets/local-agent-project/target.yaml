@@ -1,0 +1,9 @@
+id: local-agent-project
+version: 1.0.0
+name: Local Agent Project
+type: project
+description: Generates a complete, tool-neutral RecoWork harness for a command-capable local agent.
+aliases:
+  - local-agent
+  - local
+  - project-local

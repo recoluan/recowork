@@ -1,8 +1,0 @@
-id: notion-workspace
-version: 1.0.0
-name: Notion Workspace
-type: workspace
-description: Generates a markdown workspace outline for Notion-style documentation and team workflows.
-aliases:
-  - notion
-  - notion-feishu

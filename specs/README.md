@@ -6,7 +6,7 @@ These documents are the source of truth when changing templates, targets, CLI be
 
 ## Documents
 
-- [Targets Standard](./targets.md): how RecoWork defines output targets such as `codex-project`, `claude-code-project`, or `chatgpt-chat`.
+- [Targets Standard](./targets.md): how RecoWork defines the `local-agent-project` and `chat-mobile` delivery environments.
 - [Requirements Log](./requirements.md): product, naming, packaging, website, CLI, prompt, and documentation requirements collected so far.
 - [Architecture Decisions](./decisions.md): important design decisions and the reasoning behind them.
 

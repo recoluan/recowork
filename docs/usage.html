@@ -45,7 +45,7 @@
       <section class="page-hero">
         <p class="eyebrow" data-zh="使用说明" data-en="Usage guide">使用说明</p>
         <h1 data-zh="从选择模板到生成文件，一次讲清楚。" data-en="From choosing a template to generating files.">从选择模板到生成文件，一次讲清楚。</h1>
-        <p class="hero-text" data-zh="RecoWork 用 template + target + locale 组装一套 AI 工作 harness。你先选择要解决的工作场景，再选择真实使用位置，最后选择输出语言。" data-en="RecoWork assembles an AI work harness from template + target + locale. Choose the work scenario, the real output environment, and the output language.">RecoWork 用 template + target + locale 组装一套 AI 工作 harness。你先选择要解决的工作场景，再选择真实使用位置，最后选择输出语言。</p>
+        <p class="hero-text" data-zh="RecoWork 分为两层：Chat / 手机端提供即时可用的轻量对话入口；Codex、Claude Code、Cursor 等本地可执行 Agent 承载完整、可持续的工程化工作流。" data-en="RecoWork has two layers: Chat and mobile provide an immediate lightweight conversation entry point; executable local agents such as Codex, Claude Code, and Cursor carry the complete, durable engineered workflow.">RecoWork 分为两层：Chat / 手机端提供即时可用的轻量对话入口；Codex、Claude Code、Cursor 等本地可执行 Agent 承载完整、可持续的工程化工作流。</p>
         <div class="page-actions">
           <a class="page-link primary" href="#initialize" data-zh="选择初始化方式" data-en="Choose initialization method">选择初始化方式</a>
           <a class="page-link" href="#commands" data-zh="查看 CLI 命令" data-en="View CLI commands">查看 CLI 命令</a>
@@ -54,7 +54,7 @@
 
       <section class="section">
         <div class="section-heading">
-          <p class="eyebrow" data-zh="四步使用" data-en="Four steps">四步使用</p>
+          <p class="eyebrow" data-zh="三步使用" data-en="Three steps">三步使用</p>
           <h2 data-zh="把选择过程拆成稳定决策。" data-en="Break initialization into stable decisions.">把选择过程拆成稳定决策。</h2>
         </div>
         <div class="content-grid four path-grid">
@@ -66,12 +66,12 @@
           <article class="path-card">
             <span class="number-badge">02</span>
             <h3 data-zh="选择 target" data-en="Choose a target">选择 target</h3>
-            <p data-zh="Target 不是品牌名，而是具体使用位置，例如 codex-project、claude-chat 或 notion-workspace。" data-en="A target is not a brand name. It is the actual output environment, such as codex-project, claude-chat, or notion-workspace.">Target 不是品牌名，而是具体使用位置，例如 codex-project、claude-chat 或 notion-workspace。</p>
+            <p data-zh="选择聊天 / 手机端或电脑端 AI 助手，两者的能力边界不同。" data-en="Choose Chat / mobile or a desktop AI assistant; their capability boundaries are different.">选择聊天 / 手机端或电脑端 AI 助手，两者的能力边界不同。</p>
           </article>
           <article class="path-card">
             <span class="number-badge">03</span>
             <h3 data-zh="选择语言" data-en="Choose locale">选择语言</h3>
-            <p data-zh="Locale 控制用户可见的文件夹、文档和正文语言；AGENTS.md、CLAUDE.md 等约定文件名不会被翻译。" data-en="Locale controls user-facing folders, documents, and text. Convention filenames such as AGENTS.md and CLAUDE.md stay unchanged.">Locale 控制用户可见的文件夹、文档和正文语言；AGENTS.md、CLAUDE.md 等约定文件名不会被翻译。</p>
+            <p data-zh="Locale 控制用户可见的文件夹、文档和正文语言；AGENTS.md 等约定文件名不会被翻译。" data-en="Locale controls user-facing folders, documents, and text. Convention filenames such as AGENTS.md stay unchanged.">Locale 控制用户可见的文件夹、文档和正文语言；AGENTS.md 等约定文件名不会被翻译。</p>
           </article>
         </div>
       </section>
@@ -88,24 +88,14 @@
             <strong role="columnheader" data-zh="生成内容" data-en="Generated assets">生成内容</strong>
           </div>
           <div role="row">
-            <span data-zh="ChatGPT / Claude 网页或手机端" data-en="ChatGPT / Claude web or mobile">ChatGPT / Claude 网页或手机端</span>
-            <code>chatgpt-chat / claude-chat</code>
-            <span data-zh="可复制 Prompt、任务说明、续聊记忆" data-en="Copyable prompts, task instructions, continuation memory">可复制 Prompt、任务说明、续聊记忆</span>
+            <span data-zh="任意网页、App 或手机聊天" data-en="Any web, app, or mobile chat">任意网页、App 或手机聊天</span>
+            <code>chat-mobile</code>
+            <span data-zh="启动指令、任务执行协议、手动保存的续接/迁移摘要；不创建本地工作空间" data-en="Start instruction, task protocol, and manually saved continuation or migration summary; no local workspace">启动指令、任务执行协议、手动保存的续接/迁移摘要；不创建本地工作空间</span>
           </div>
           <div role="row">
-            <span data-zh="Codex / Cursor 本地项目" data-en="Codex / Cursor local project">Codex / Cursor 本地项目</span>
-            <code>codex-project / cursor-project</code>
-            <span data-zh="项目规则、工作空间、知识库、质量检查" data-en="Project rules, workspace, knowledge files, quality checks">项目规则、工作空间、知识库、质量检查</span>
-          </div>
-          <div role="row">
-            <span data-zh="Claude Code 本地项目" data-en="Claude Code local project">Claude Code 本地项目</span>
-            <code>claude-code-project</code>
-            <span data-zh="CLAUDE.md 和 .claude/skills" data-en="CLAUDE.md and .claude/skills">CLAUDE.md 和 .claude/skills</span>
-          </div>
-          <div role="row">
-            <span data-zh="Notion / 飞书文档协作" data-en="Notion / Feishu documentation">Notion / 飞书文档协作</span>
-            <code>notion-workspace / feishu-doc</code>
-            <span data-zh="页面模板、工作区结构、复盘文档" data-en="Page templates, workspace structure, retrospective documents">页面模板、工作区结构、复盘文档</span>
+            <span data-zh="电脑端 AI 助手" data-en="Desktop AI assistant">电脑端 AI 助手</span>
+            <code>local-agent-project</code>
+            <span data-zh="可执行命令、读写项目文件；提供 AGENTS.md、工作空间、状态检查与安全升级" data-en="Runs commands and reads or writes project files; includes AGENTS.md, workspace, status checks, and safe upgrades">可执行命令、读写项目文件；提供 AGENTS.md、工作空间、状态检查与安全升级</span>
           </div>
         </div>
       </section>
@@ -125,14 +115,14 @@
           <article class="content-card">
             <span class="number-badge">02</span>
             <h3><code>targets</code></h3>
-            <p data-zh="查看可生成到哪些真实使用位置，例如 codex-project、chatgpt-chat、notion-workspace。" data-en="List real output environments such as codex-project, chatgpt-chat, and notion-workspace.">查看可生成到哪些真实使用位置，例如 codex-project、chatgpt-chat、notion-workspace。</p>
+            <p data-zh="查看两种使用环境：chat-mobile 与 local-agent-project。" data-en="List the two environments: chat-mobile and local-agent-project.">查看两种使用环境：chat-mobile 与 local-agent-project。</p>
             <pre class="mini-code">npx recowork targets</pre>
           </article>
           <article class="content-card">
             <span class="number-badge">03</span>
             <h3><code>add</code></h3>
             <p data-zh="把一个模板按 target 和 locale 初始化到指定目录。" data-en="Initialize a template into a destination using a target and locale.">把一个模板按 target 和 locale 初始化到指定目录。</p>
-            <pre class="mini-code">npx recowork add project --target codex-project --locale zh .</pre>
+            <pre class="mini-code">npx recowork add project --target local-agent-project --locale zh .</pre>
           </article>
           <article class="content-card">
             <span class="number-badge">04</span>
@@ -150,13 +140,10 @@ npx recowork list
 npx recowork targets
 
 # 初始化项目工作流到当前目录
-npx recowork add project --target codex-project --locale zh .
+npx recowork add project --target local-agent-project --locale zh .
 
-# 初始化聊天工作流到新目录
-npx recowork add general --target chatgpt-chat --locale zh ./my-ai-workflow
-
-# 初始化学习工作流到 Notion 文档工作区
-npx recowork add learning --target notion-workspace --locale zh ./my-learning-workflow
+# 初始化学习工作流到电脑端 AI 助手
+npx recowork add learning --target local-agent-project --locale zh ./my-learning-workflow
 
 # 只读检查已有工作流的更新建议
 npx recowork upgrade --check .
@@ -167,6 +154,23 @@ npx recowork upgrade --apply .
 # 仅补齐新版新增且当前缺失的工作空间文件
 npx recowork upgrade --apply --scope workspace --add-missing .</pre>
           <button class="terminal-copy" type="button" data-copy-target="cliReference" data-i18n="copyCommands">复制命令</button>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow" data-zh="迁移出口" data-en="Migration exit">迁移出口</p>
+          <h2 data-zh="聊天用于快速开始，本地 Agent 用于长期推进。" data-en="Use chat to start quickly and a local agent to continue durably.">聊天用于快速开始，本地 Agent 用于长期推进。</h2>
+        </div>
+        <div class="content-grid two">
+          <article class="content-card">
+            <h3 data-zh="Chat / 手机端" data-en="Chat / mobile">Chat / 手机端</h3>
+            <p data-zh="复制启动指令，在对话内完成澄清、确认和自检。每次重要回复保存续接摘要；平台不会自动保存中间产物或维护版本。" data-en="Copy a start instruction, then clarify, confirm, and self-review in the conversation. Save the continuation summary after meaningful work; the platform does not automatically preserve artifacts or manage versions.">复制启动指令，在对话内完成澄清、确认和自检。每次重要回复保存续接摘要；平台不会自动保存中间产物或维护版本。</p>
+          </article>
+          <article class="content-card">
+            <h3 data-zh="迁移到本地 Agent" data-en="Move to a local agent">迁移到本地 Agent</h3>
+            <p data-zh="当需要长期沉淀、多人协作、可审计过程或安全升级时，将项目简报、当前决策、未决问题和下一步粘贴到具备命令执行能力的本地 Agent，初始化完整工作空间。" data-en="When durable records, collaboration, auditability, or safe upgrades are needed, paste the project brief, current decisions, open questions, and next step into a command-capable local agent to initialize a complete workspace.">当需要长期沉淀、多人协作、可审计过程或安全升级时，将项目简报、当前决策、未决问题和下一步粘贴到具备命令执行能力的本地 Agent，初始化完整工作空间。</p>
+          </article>
         </div>
       </section>
 
@@ -190,19 +194,13 @@ npx recowork upgrade --apply --scope workspace --add-missing .</pre>
             <span data-i18n="configTargetLabel">使用位置</span>
             <div class="target-select">
               <button id="targetSelectTrigger" class="target-select-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
-                <span id="targetSelectBrand" class="target-brand target-brand-text">CX</span>
-                <span id="targetSelectLabel">Codex</span>
+                <span id="targetSelectBrand" class="target-brand"><i data-lucide="monitor" aria-hidden="true"></i></span>
+                <span id="targetSelectLabel">电脑端 AI 助手</span>
                 <i data-lucide="chevron-down" aria-hidden="true"></i>
               </button>
               <div id="targetSelectMenu" class="target-select-menu" role="listbox" hidden>
-                <button class="target-option" type="button" role="option" data-target="chatgpt-chat"><span class="target-brand target-brand-text">GPT</span><span class="target-option-label">ChatGPT</span><i data-lucide="smartphone" aria-hidden="true"></i></button>
-                <button class="target-option" type="button" role="option" data-target="claude-chat"><span class="target-brand"><img src="https://cdn.simpleicons.org/anthropic" alt="" /></span><span class="target-option-label">Claude</span><i data-lucide="smartphone" aria-hidden="true"></i></button>
-                <button class="target-option" type="button" role="option" data-target="kimi-doubao-chat"><span class="target-brand target-brand-text">K / 豆</span><span class="target-option-label" data-i18n="targetKimiDoubao">Kimi / 豆包</span><i data-lucide="smartphone" aria-hidden="true"></i></button>
-                <button class="target-option" type="button" role="option" data-target="claude-code-project"><span class="target-brand"><img src="https://cdn.simpleicons.org/anthropic" alt="" /></span><span class="target-option-label">Claude Code</span><i data-lucide="monitor" aria-hidden="true"></i></button>
-                <button class="target-option" type="button" role="option" data-target="codex-project"><span class="target-brand target-brand-text">CX</span><span class="target-option-label">Codex</span><i data-lucide="monitor" aria-hidden="true"></i></button>
-                <button class="target-option" type="button" role="option" data-target="cursor-project"><span class="target-brand"><img src="https://cdn.simpleicons.org/cursor" alt="" /></span><span class="target-option-label">Cursor</span><i data-lucide="monitor" aria-hidden="true"></i></button>
-                <button class="target-option" type="button" role="option" data-target="notion-workspace"><span class="target-brand"><img src="https://cdn.simpleicons.org/notion" alt="" /></span><span class="target-option-label">Notion</span><i data-lucide="monitor" aria-hidden="true"></i></button>
-                <button class="target-option" type="button" role="option" data-target="feishu-doc"><span class="target-brand"><img src="https://www.feishu.cn/favicon.ico" alt="" /></span><span class="target-option-label" data-i18n="targetFeishu">飞书</span><i data-lucide="smartphone" aria-hidden="true"></i></button>
+                <button class="target-option" type="button" role="option" data-target="local-agent-project"><span class="target-brand"><i data-lucide="monitor" aria-hidden="true"></i></span><span class="target-option-label" data-zh="电脑端 AI 助手" data-en="Desktop AI assistant">电脑端 AI 助手</span><i data-lucide="terminal" aria-hidden="true"></i></button>
+                <button class="target-option" type="button" role="option" data-target="chat-mobile"><span class="target-brand"><i data-lucide="smartphone" aria-hidden="true"></i></span><span class="target-option-label" data-zh="Chat / 手机端" data-en="Chat / mobile">Chat / 手机端</span><i data-lucide="message-circle" aria-hidden="true"></i></button>
               </div>
             </div>
           </div>
@@ -211,13 +209,6 @@ npx recowork upgrade --apply --scope workspace --add-missing .</pre>
             <div class="config-locales" role="group" aria-label="Output locale">
               <button class="config-locale active" type="button" data-locale="zh" aria-pressed="true">中文</button>
               <button class="config-locale" type="button" data-locale="en" aria-pressed="false">English</button>
-            </div>
-          </div>
-          <div class="config-field">
-            <span data-i18n="configEnvironmentLabel">运行环境</span>
-            <div class="config-environments" role="group" aria-label="Runtime capability">
-              <button class="config-environment active" type="button" data-environment="agent" aria-pressed="true"><i data-lucide="monitor" aria-hidden="true"></i><span data-i18n="environmentAgent">本地智能体</span></button>
-              <button class="config-environment" type="button" data-environment="chat" aria-pressed="false"><i data-lucide="smartphone" aria-hidden="true"></i><span data-i18n="environmentChat">纯聊天 / 手机端</span></button>
             </div>
           </div>
         </div>
@@ -259,7 +250,7 @@ https://github.com/recoluan/recowork
 project-engineering
 
 使用位置：
-codex-project
+local-agent-project
 
 语言：
 zh
@@ -268,9 +259,9 @@ zh
 当前目录
 
 请运行：
-npx recowork add project-engineering --target codex-project --locale zh .
+npx recowork add project-engineering --target local-agent-project --locale zh .
 
-如果当前环境不能使用 npx，请使用仓库里的 templates/project-engineering/locales/zh/、targets/codex-project/files/ 和 targets/codex-project/locales/zh/files/ 手动创建同等文件。完成后展示文件树，并告诉我第一步应该做什么。</pre>
+如果当前环境不能使用 npx，请先说明阻塞原因并请求确认；不要在纯聊天环境中模拟创建本地文件。完成后展示文件树，并告诉我第一步应该做什么。</pre>
               <button class="terminal-copy" type="button" data-copy-target="promptPaths" data-i18n="copyPrompt">复制 prompt</button>
             </div>
           </div>
@@ -283,10 +274,10 @@ npx recowork add project-engineering --target codex-project --locale zh .
                 <span></span>
                 <span></span>
               </div>
-              <pre id="cliCommand">npx recowork add project --target codex-project --locale zh .
+              <pre id="cliCommand">npx recowork add project --target local-agent-project --locale zh .
 
 # 安装后可使用
-rw add project --target codex-project --locale zh .</pre>
+rw add project --target local-agent-project --locale zh .</pre>
             </div>
             <div class="cli-copy">
               <h3 data-i18n="cliHowTitle">怎么用</h3>
@@ -306,7 +297,7 @@ rw add project --target codex-project --locale zh .</pre>
         <div class="content-grid two">
           <article class="content-card">
             <h3 data-zh="让 AI 帮你初始化" data-en="Let AI initialize it">让 AI 帮你初始化</h3>
-            <p data-zh="适合 Codex、Cursor、Claude Code 等能运行命令的本地智能体。Prompt 会要求 AI 先检查 Node.js 和 npm，再运行 npx recowork。" data-en="Best for command-capable local agents such as Codex, Cursor, or Claude Code. The prompt asks AI to check Node.js and npm before running npx recowork.">适合 Codex、Cursor、Claude Code 等能运行命令的本地智能体。Prompt 会要求 AI 先检查 Node.js 和 npm，再运行 npx recowork。</p>
+            <p data-zh="适合能运行命令的本地 Agent。Prompt 会要求 AI 先检查 Node.js 和 npm，再运行 npx recowork。" data-en="Best for command-capable local agents. The prompt asks AI to check Node.js and npm before running npx recowork.">适合能运行命令的本地 Agent。Prompt 会要求 AI 先检查 Node.js 和 npm，再运行 npx recowork。</p>
           </article>
           <article class="content-card">
             <h3 data-zh="纯聊天 / 手机端" data-en="Pure chat or mobile">纯聊天 / 手机端</h3>

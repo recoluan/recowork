@@ -6,18 +6,26 @@ This document records product and engineering requirements established during th
 
 - RecoWork helps people turn repeatable AI usage into engineered workflows.
 - It is not a prompt collection.
-- It should help users build durable working systems: prompts, rules, knowledge capture, memory, quality checks, and usage steps.
+- It should help users build durable working systems: prompts, rules, canonical workspace records, memory, quality checks, and usage steps.
 - It should serve both technical users and non-technical users across industries.
 - It should be usable across different AI products, including web apps, mobile apps, coding agents, and workspace tools.
 - The project should remain open-source friendly.
 
+## Product Modes
+
+- Local executable agents are the core environment for complete, durable engineered workflows. They initialize directories, rules, indexes, workspaces, intermediate artifacts, knowledge capture, status checks, and safe upgrades.
+- Chat and mobile targets are low-friction, immediate conversation workflow entry points. They provide a start instruction, task execution protocol, and continuation or migration summary only.
+- Chat and mobile targets must not require or imply Node.js installation, CLI use, local file creation, local workspaces, automatic artifact persistence, file-level traceability, status checks, or upgrades.
+- Chat continuity is user-managed: the user saves and pastes a continuation summary into the next conversation.
+- Every chat target must offer a migration exit containing a project brief, current decisions, open questions, and next step for initialization in a command-capable local agent.
+
 ## Core Concepts
 
 - A reusable work scenario should be represented as a template.
-- A target should represent a concrete output environment and usage surface.
+- A target should represent one of two delivery environments: `chat-mobile` or `local-agent-project`.
 - A locale should represent the generated language and user-facing naming convention.
 - Reusable template methodology should live in `工作方法/`, not `core/` or `method/`.
-- Project workspace outputs should live in `工作空间/`, not `workspace/`.
+- Project workspace outputs should use the locale-specific name such as `工作空间/` or `workspace/`.
 - Templates and targets must evolve independently.
 - Localized template content should live under `templates/<template>/locales/<locale>/` when a template supports multiple languages.
 - Localized target content should live under `targets/<target>/locales/<locale>/files/`. Shared target files are reserved for convention-driven or locale-neutral output.
@@ -31,7 +39,7 @@ This document records product and engineering requirements established during th
 The first templates are:
 
 - `general-ai-workflow`: daily AI usage with a role contract, task context, continuation memory, review, and reusable learning.
-- `project-engineering`: project-level AI workflow with rules, knowledge capture, and quality gates.
+- `project-engineering`: project-level AI workflow with rules, canonical workspace records, and quality gates.
 - `learning-engineering`: structured learning workflow with learner diagnosis, a roadmap, lessons, practice, projects, feedback, and durable learning records.
 - `idea-engineering`: idea exploration workflow with divergence, direction synthesis, hypotheses, validation, and a confirmed next step.
 
@@ -39,13 +47,10 @@ Template content quality is intentionally deferred. The architecture should supp
 
 ## Targets and Platform Usage
 
-- Do not use brand-only targets such as `claude` or `chatgpt`.
-- Distinguish chat/mobile usage from local project usage.
-- Claude chat and Claude Code project are different targets.
-- Claude Code project skills should be generated under `.claude/skills/<skill-name>/SKILL.md`.
-- Claude Code project instructions should use `CLAUDE.md`.
-- Chat targets should generate copyable prompts, not local project configuration folders.
-- Project targets should follow each tool's real file conventions.
+- RecoWork has exactly two primary targets: `chat-mobile` and `local-agent-project`.
+- `local-agent-project` is tool-neutral: it generates `AGENTS.md`, methods, workspace records, and a manifest, but no platform-specific skills or configuration folders.
+- `chat-mobile` generates only copyable conversation material and never local project configuration.
+- Existing brand target names remain CLI aliases only; they do not imply brand-specific output.
 
 ## CLI Requirements
 
@@ -67,20 +72,22 @@ rw add <template> --target <target> --locale <locale> <destination>
 
 - `rw init` can remain as a compatibility alias if needed.
 - CLI initialization should be deterministic file copy/render, not AI-generated long-form reconstruction.
+- `rw add` must refuse a destination containing `rw-manifest.json`; users must use `rw status` or `rw upgrade` for an existing initialized workflow.
 - CLI should list templates and targets, and `rw show <template>` should show supported locales.
 - CLI should support aliases only when they are unambiguous.
 - If a requested locale is not supported by the template, the CLI should fail with supported locales.
-- New initializations must write a versioned `rw-manifest.json` with generated-file hashes and ownership metadata.
+- New `local-agent-project` initializations must write a versioned `rw-manifest.json` with generated-file hashes and ownership metadata. Chat initializations must not create a manifest.
 - `rw status <destination>` and `rw upgrade --check <destination>` must be read-only and explain available template/target updates, user modifications, missing files, and workspace items needing review. When `--scope` is provided, their output must be filtered to that scope.
 - `rw upgrade --apply <destination>` may update only unchanged working-method or target files within the selected scope. It must preserve user-modified files.
 - Generated workspaces are user-owned. Upgrade must never overwrite, move, delete, restore, or add reports within an existing/tracked workspace file tree. It may add a newly introduced missing workspace file only with both `--scope workspace` and `--add-missing`; upgrade reports live under `.recowork/upgrade-reports/`.
 - Legacy manifests without a generated-file baseline must require explicit `rw upgrade --adopt <destination>`; adoption records state without changing project files.
+- Legacy chat manifests must never be upgraded in place. `rw status` and `rw upgrade` should provide a read-only migration guide that preserves the old directory and initializes `local-agent-project` in a separate destination.
 
 ## Prompt Requirements
 
 - Prompt mode exists for users who do not want to manually learn the CLI.
 - Prompt mode should not embed full template content.
-- Prompt mode should tell AI to run:
+- Local-agent prompt mode should tell AI to run:
 
 ```bash
 npx recowork add <template> --target <target> <destination>
@@ -92,7 +99,7 @@ npx recowork add <template> --target <target> <destination>
 npx recowork add <template> --target <target> --locale <locale> <destination>
 ```
 
-- If the environment cannot run `npx`, the prompt may instruct AI to read the GitHub repository and manually compose `templates/<template>/` with `targets/<target>/`.
+- If a local agent cannot run `npx`, the prompt may instruct it to read the GitHub repository and manually compose `templates/<template>/` with `targets/<target>/`.
 - If the template has localized content, fallback prompt mode should instruct AI to use `templates/<template>/locales/<locale>/`.
 - Chinese prompt templates should be written in Chinese.
 - Prompt templates must include the GitHub repository URL so AI knows where to read the source.
@@ -134,11 +141,11 @@ npx recowork add <template> --target <target> --locale <locale> <destination>
 - Durable decisions and requirements should be recorded in repo docs, not left only in chat.
 - When discussion establishes a new convention, update `AGENTS.md` and the relevant file under `specs/` in the same change.
 - Template changes must keep source templates, CLI compatibility cleanup, README/site usage text, and specs consistent.
-- Convention-driven filenames must not be translated. Keep names such as `AGENTS.md`, `CLAUDE.md`, `SKILL.md`, `README.md`, and `index.md` unchanged.
+- Convention-driven filenames must not be translated. Keep names such as `AGENTS.md`, `README.md`, and `index.md` unchanged.
 - Chinese can be used in user-facing folder names and document content when the template is Chinese-oriented.
 - English locale output should use English user-facing folders and documents, such as `methods/`, `workspace/`, `project-brief.md`, and `open-questions.md`.
 - Chinese locale output should use Chinese user-facing folders and documents, such as `工作方法/`, `工作空间/`, `项目简报.md`, and `待确认问题.md`.
-- Locale applies to user-facing target paths and static target text as well as template content. For example, Chinese Codex output uses `知识库/`, while English output uses `knowledge/`.
+- Locale applies to user-facing target paths and static target text as well as template content. Durable knowledge is consolidated into canonical workspace documents; do not generate a separate `知识库/` or `knowledge/` directory.
 - Project-oriented templates should include a role contract that defines the AI role, working principles, core capabilities, prohibited behavior, and iteration rules.
 - Role contracts should be localized with the template content. For `project-engineering`, use `工作方法/角色设定.md` in `zh` and `methods/role-contract.md` in `en`.
 - Generated project rules should explicitly tell AI to read the role contract before planning or executing project work.

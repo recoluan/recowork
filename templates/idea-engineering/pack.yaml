@@ -1,5 +1,5 @@
 id: idea-engineering
-version: 1.0.0
+version: 2.0.0
 name: 想法探索与验证工作流包
 name_en: Idea Exploration And Validation Template
 description: 把与 AI 的脑暴从发散想法推进到方向归纳、假设验证和可执行下一步。
@@ -15,14 +15,9 @@ audience_en:
   - Creators
   - Teams exploring new directions
 supported_targets:
-  - chatgpt-chat
-  - claude-chat
-  - kimi-doubao-chat
-  - codex-project
-  - cursor-project
-  - notion-workspace
-  - feishu-doc
-default_target: chatgpt-chat
+  - chat-mobile
+  - local-agent-project
+default_target: chat-mobile
 default_locale: zh
 locales:
   - zh

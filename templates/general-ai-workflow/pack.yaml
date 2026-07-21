@@ -1,5 +1,5 @@
 id: general-ai-workflow
-version: 1.2.0
+version: 2.0.0
 name: 日常任务协作包
 name_en: Daily Task Workflow Template
 description: 帮普通用户把任意 AI App 用成可持续的日常任务协作流程，包含角色协议、任务上下文、续聊记忆、自审和复盘沉淀。
@@ -15,14 +15,9 @@ audience_en:
   - Claude mobile users
   - Kimi / Doubao users
 supported_targets:
-  - chatgpt-chat
-  - claude-chat
-  - kimi-doubao-chat
-  - codex-project
-  - cursor-project
-  - notion-workspace
-  - feishu-doc
-default_target: chatgpt-chat
+  - chat-mobile
+  - local-agent-project
+default_target: chat-mobile
 default_locale: zh
 locales:
   - zh

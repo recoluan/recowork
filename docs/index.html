@@ -6,7 +6,7 @@
     <title>RecoWork · AI 工作流模板</title>
     <meta
       name="description"
-      content="RecoWork 将 AI 工作流模板初始化到 ChatGPT、Claude、Codex、Cursor、Notion 和飞书等真实使用环境。"
+      content="RecoWork 将 AI 工作流模板初始化为 Chat / 手机端或电脑端 AI 助手的工程化工作流。"
     />
     <link rel="stylesheet" href="./styles.css" />
   </head>
@@ -57,7 +57,7 @@
 
         <div class="hero-visual" aria-label="RecoWork workflow preview">
           <div class="visual-topline">
-            <span id="visualCommand" data-i18n="visualCommand">rw add project --target codex-project --locale zh .</span>
+            <span id="visualCommand" data-i18n="visualCommand">rw add project --target local-agent-project --locale zh .</span>
             <div class="visual-actions">
               <a href="./usage.html#initialize" data-i18n="visualPrompt">初始化</a>
               <button id="visualCopy" type="button" data-copy-target="visualCommand" data-i18n="copyCommand">复制</button>
@@ -72,12 +72,12 @@
             <div>
               <span>Target</span>
               <strong data-zh="使用位置" data-en="Usage target">使用位置</strong>
-              <p data-zh="Codex、Claude、ChatGPT、Notion" data-en="Codex, Claude, ChatGPT, Notion">Codex、Claude、ChatGPT、Notion</p>
+              <p data-zh="Chat / 手机端、电脑端 AI 助手" data-en="Chat / mobile, desktop AI assistant">Chat / 手机端、电脑端 AI 助手</p>
             </div>
             <div>
               <span>Output</span>
               <strong data-zh="可用资产" data-en="Ready assets">可用资产</strong>
-              <p data-zh="规则、Prompt、知识库、记忆卡" data-en="Rules, prompts, knowledge, memory">规则、Prompt、知识库、记忆卡</p>
+              <p data-zh="规则、工作空间、Prompt、续接摘要" data-en="Rules, workspace, prompts, continuation summaries">规则、工作空间、Prompt、续接摘要</p>
             </div>
           </div>
           <div class="visual-footer">
@@ -119,12 +119,12 @@
       <section class="section audience-section">
         <div class="section-heading">
           <p class="eyebrow" data-zh="适合谁" data-en="Who it is for">适合谁</p>
-          <h2 data-zh="从聊天用户到本地 Agent，都能用同一套方法。" data-en="The same method works from chat users to local agents.">从聊天用户到本地 Agent，都能用同一套方法。</h2>
+          <h2 data-zh="聊天快速开始，本地 Agent 持续推进。" data-en="Start quickly in chat, continue durably with a local agent.">聊天快速开始，本地 Agent 持续推进。</h2>
         </div>
         <div class="audience-grid">
           <article class="audience-card">
             <strong data-zh="日常 AI 用户" data-en="Everyday AI users">日常 AI 用户</strong>
-            <p data-zh="在 ChatGPT、Claude、Kimi 或豆包里做写作、总结、计划、分析，希望下一次对话能接上。" data-en="Write, summarize, plan, and analyze in ChatGPT, Claude, Kimi, or Doubao while keeping continuity.">在 ChatGPT、Claude、Kimi 或豆包里做写作、总结、计划、分析，希望下一次对话能接上。</p>
+            <p data-zh="在 ChatGPT、Claude、Kimi 或豆包里做写作、总结、计划、分析，用续接摘要手动衔接下一次对话；需要长期沉淀时迁移到本地 Agent。" data-en="Write, summarize, plan, and analyze in ChatGPT, Claude, Kimi, or Doubao, then manually continue with a saved summary and move to a local agent when durable work is needed.">在 ChatGPT、Claude、Kimi 或豆包里做写作、总结、计划、分析，用续接摘要手动衔接下一次对话；需要长期沉淀时迁移到本地 Agent。</p>
             <a href="./cases.html" data-zh="看聊天案例" data-en="See chat cases">看聊天案例</a>
           </article>
           <article class="audience-card">

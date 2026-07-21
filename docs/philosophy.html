@@ -48,11 +48,11 @@
           </article>
           <article class="principle-card">
             <h3 data-zh="模板和 target 分离" data-en="Separate templates and targets">模板和 target 分离</h3>
-            <p data-zh="模板描述工作方法，target 描述输出位置。这样同一个项目工程化模板可以生成 Codex、Claude Code 或 Notion 所需资产。" data-en="Templates describe the work method; targets describe the output environment. The same project workflow can generate assets for Codex, Claude Code, or Notion.">模板描述工作方法，target 描述输出位置。这样同一个项目工程化模板可以生成 Codex、Claude Code 或 Notion 所需资产。</p>
+            <p data-zh="模板描述工作方法，target 描述能力边界。RecoWork 只区分电脑端 AI 助手与聊天 / 手机端。" data-en="Templates describe the work method; targets describe the capability boundary. RecoWork distinguishes only a desktop AI assistant and Chat / mobile.">模板描述工作方法，target 描述能力边界。RecoWork 只区分电脑端 AI 助手与聊天 / 手机端。</p>
           </article>
           <article class="principle-card">
             <h3 data-zh="尊重真实工具约定" data-en="Respect real tool conventions">尊重真实工具约定</h3>
-            <p data-zh="Claude Code 使用 CLAUDE.md 和 .claude/skills；Codex 使用 AGENTS.md。RecoWork 不发明看起来整齐但工具并不认识的目录。" data-en="Claude Code uses CLAUDE.md and .claude/skills; Codex uses AGENTS.md. RecoWork does not invent tidy folders that tools do not understand.">Claude Code 使用 CLAUDE.md 和 .claude/skills；Codex 使用 AGENTS.md。RecoWork 不发明看起来整齐但工具并不认识的目录。</p>
+            <p data-zh="本地工作流只使用跨工具的 AGENTS.md，不把同一套工作方法复制为平台专属配置。" data-en="The local workflow uses only cross-tool AGENTS.md and does not duplicate the same methods as platform-specific configuration.">本地工作流只使用跨工具的 AGENTS.md，不把同一套工作方法复制为平台专属配置。</p>
           </article>
           <article class="principle-card">
             <h3 data-zh="面向持续协作" data-en="Built for continuity">面向持续协作</h3>
@@ -73,7 +73,7 @@
           </article>
           <article class="content-card">
             <h3 data-zh="Target" data-en="Target">Target</h3>
-            <p data-zh="回答：这些资产要放到哪里使用？例如聊天窗口、本地代码项目、Notion 工作区或飞书文档。" data-en="Answers: where will the assets be used? For example a chat window, local code project, Notion workspace, or Feishu document.">回答：这些资产要放到哪里使用？例如聊天窗口、本地代码项目、Notion 工作区或飞书文档。</p>
+            <p data-zh="回答：需要轻量即时对话，还是需要可持续的本地工作空间？" data-en="Answers: do you need lightweight immediate chat, or a durable local workspace?">回答：需要轻量即时对话，还是需要可持续的本地工作空间？</p>
           </article>
           <article class="content-card">
             <h3 data-zh="Locale" data-en="Locale">Locale</h3>
@@ -90,7 +90,7 @@
         <div class="content-grid two">
           <article class="content-card danger-card">
             <h3 data-zh="每次重新解释背景" data-en="Explaining context from scratch">每次重新解释背景</h3>
-            <p data-zh="聊天窗口里的临时说明很难持续维护。RecoWork 用工作空间、index.md 和续聊记忆把上下文沉淀下来。" data-en="Temporary chat instructions are hard to maintain. RecoWork preserves context through workspaces, index.md navigation, and continuation memory.">聊天窗口里的临时说明很难持续维护。RecoWork 用工作空间、index.md 和续聊记忆把上下文沉淀下来。</p>
+            <p data-zh="聊天窗口里的临时说明很难持续维护。RecoWork 在聊天中用手动保存的续接摘要保持连续性；需要可靠沉淀时，再迁移到带工作空间和 index.md 的本地 Agent。" data-en="Temporary chat instructions are hard to maintain. RecoWork uses a manually saved continuation summary in chat, then moves durable work to a local agent with a workspace and index.md navigation.">聊天窗口里的临时说明很难持续维护。RecoWork 在聊天中用手动保存的续接摘要保持连续性；需要可靠沉淀时，再迁移到带工作空间和 index.md 的本地 Agent。</p>
           </article>
           <article class="content-card danger-card">
             <h3 data-zh="把品牌名当 target" data-en="Using brand names as targets">把品牌名当 target</h3>

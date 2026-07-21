@@ -1,148 +1,61 @@
 # RecoWork
 
-RecoWork 是一个 AI 工作 harness（工作支架）：它把实用 AI 工作流做成可复用模板，并初始化到用户真实使用的工具和环境里。
+RecoWork 将可重复的 AI 使用方式沉淀为可复用、可持续的工程化工作流。它提供日常任务、想法探索、学习和项目四类模板，内置确认、自审、产物保鲜与从对话迁移到本地工作的机制。
 
-它不是提示词合集。harness 是业界常用的说法，指把 AI 所需的上下文、规则、工具约定和检查机制组织成可重复运行的工作系统。RecoWork 的模板负责描述工作场景，target 负责描述这个工作流要输出到哪里、应该生成哪些文件或 prompt，locale 负责描述生成语言和用户可见路径。CLI 会把三者组合成可直接使用的 AI 工作 harness。
+English: [README.md](./README.md) | 网站：[RecoWork](https://recowork.recoluan.com)
 
-## 为什么做
+## 两种使用环境
 
-很多人用不好 AI，不只是提示词问题，更是工程化问题：
+| 使用环境 | 适用情况 | 交付内容 |
+| --- | --- | --- |
+| `local-agent-project` | 工作需要持续推进、沉淀、评审或升级 | `AGENTS.md`、工作方法、带索引的工作空间、中间产物与 `rw-manifest.json`。 |
+| `chat-mobile` | 希望在任意网页、App 或手机聊天中快速开始 | 启动指令、任务执行协议，以及需要手动保存的续接/迁移摘要。 |
 
-- 提示词分散，难以复用；
-- AI 在不同会话之间容易忘记上下文；
-- 不同平台需要不同文件或 prompt 格式；
-- 项目知识很少被沉淀；
-- 用户需要的是可重复工作流，而不是一次性回答。
+本地工作流是工具中立的，可由 Codex、Claude Code、Cursor 等具备命令执行能力的 Agent 使用；它刻意不生成平台专属 skill 或配置目录。
 
-RecoWork 把工作流方法和输出目标拆开，让场景可以复用，目标格式也可以复用，使这套 AI 工作 harness 能随工作和工具迁移，而不必每次重搭。
+对话连续性需要手动维护：保存摘要并粘贴到下一轮对话。任务变为长期、多人、知识密集或需要审计时，使用迁移包进入本地 Agent。
 
-## 架构
+## 模板
 
-```text
-.
-├── templates/        # 场景模板
-├── targets/          # 可复用输出目标
-├── cli/              # rw 命令实现
-├── prompts/          # 让 AI 调用 CLI 的短 prompt
-├── docs/             # GitHub Pages 静态站点
-├── specs/            # 产品和工程规范
-├── AGENTS.md         # AI 协作入口
-└── package.json
-```
-
-模板描述工作场景：
-
-| 模板 | 用途 |
+| 模板 | 适用场景 |
 | --- | --- |
-| `general-ai-workflow` | 日常 AI 使用，包含角色设定、任务上下文、续聊记忆、自审和持续保鲜的任务沉淀。 |
-| `project-engineering` | 项目级 AI 工作流，包含规则、文档与产物保鲜规范、按需获取、知识沉淀和质量门禁。 |
-| `learning-engineering` | 学习工程化，包含学习诊断、课程路线、章节、练习、项目实践、反馈和持续保鲜的学习沉淀。 |
-| `idea-engineering` | 想法探索与验证，包含发散脑暴、方向归纳、假设、验证和已确认的下一步。 |
+| `general-ai-workflow`（`general`） | 需要上下文、自审与续接的日常任务。 |
+| `idea-engineering`（`idea`） | 脑暴、方向归纳、假设验证和确认下一步。 |
+| `learning-engineering`（`learning`） | 学习诊断、路线、章节、练习与复盘。 |
+| `project-engineering`（`project`） | 有工作方法、文档规范、工作空间记录与质量门禁的 AI 辅助项目。 |
 
-下一版架构标准把这层定义为 target。Target 描述具体使用环境：
-
-- `chatgpt-chat`
-- `claude-chat`
-- `claude-code-project`
-- `codex-project`
-- `cursor-project`
-- `notion-workspace`
-- `feishu-doc`
-
-Target 标准记录在 `specs/targets.md`。
-
-## CLI 用法
-
-npm 包名是 `recowork`，可执行命令是 `rw`。
-
-通过 `npx` 使用：
+## 用 CLI 初始化
 
 ```bash
-npx recowork list
-npx recowork targets
-npx recowork add project --target codex-project --locale zh .
-npx recowork add project --target claude-code-project --locale en .
-npx recowork add general --target chatgpt-chat --locale zh ./my-ai-workflow
-npx recowork add learning --target chatgpt-chat --locale zh ./my-learning-workflow
+npx recowork add project --target local-agent-project --locale zh .
+npx recowork add learning --target local-agent-project --locale zh ./langchain-study
+npx recowork add idea --target chat-mobile --locale zh ./idea-chat-kit
 ```
 
-在当前仓库里运行：
+安装后的命令是 `rw`。使用 `rw list` 和 `rw targets` 查看模板与使用环境。
 
-```bash
-node cli/recowork/bin/rw.js list
-node cli/recowork/bin/rw.js targets
-node cli/recowork/bin/rw.js add project --target codex-project --locale zh .
-```
+## 让 AI 初始化
 
-`rw init` 会保留为 `rw add` 的别名。
-
-当模板支持多语言时，可以通过 `--locale zh` 或 `--locale en` 选择生成语言。locale 同时决定用户可见的模板和 target 文件路径，例如中文 `知识库/` 与英文 `knowledge/`。不传时使用模板默认语言。
-
-## 更新已有工作流
-
-新初始化的工作流会包含带版本的 `rw-manifest.json`，让 RecoWork 能识别生成文件的变化，同时不接管用户的项目内容。
-
-```bash
-npx recowork status .
-npx recowork upgrade --check .
-npx recowork upgrade --plan .
-npx recowork upgrade --apply .
-```
-
-`--check` 和 `--plan` 都是只读操作，并会遵循 `--scope`。`--apply` 只更新未被用户改动的工作方法和 target 文件。工作空间文档始终归用户所有，RecoWork 不会覆盖、移动、删除或恢复它们。若要补齐新版新增且当前缺失的工作空间模板，必须显式执行下面命令；它会在 `.recowork/upgrade-reports/` 生成一份供人工处理的升级报告，不会改动工作空间。
-
-```bash
-npx recowork upgrade --apply --scope workspace --add-missing .
-```
-
-旧项目使用的是旧版清单，需要先建立基线，且不会改动项目文件：
-
-```bash
-npx recowork upgrade --adopt .
-```
-
-## Prompt 用法
-
-Prompt 模式不应该让 AI 在聊天里重写完整模板，而是优先让 AI 安装或运行 CLI：
+在具备命令执行能力的本地 Agent 中粘贴：
 
 ```text
-请为当前项目初始化 RecoWork 模板 `project-engineering`，target 是 `codex-project`。
-请运行：
-npx recowork add project-engineering --target codex-project --locale zh .
+请在当前目录初始化 RecoWork 的 `project-engineering` 模板，使用 `local-agent-project` 环境和中文。
 
-如果当前环境不能使用 npx，请使用：
-https://github.com/recoluan/recowork
-templates/project-engineering/
-targets/codex-project/
+先检查 Node.js 与 npm 是否可用。如缺失或版本过旧，请说明情况并先征求我的确认，再安装最新稳定版 Node.js。确认后执行：
+
+npx recowork add project-engineering --target local-agent-project --locale zh .
+
+然后检查生成结果，并告诉我你需要我确认的第一个项目决策。仓库地址：https://github.com/recoluan/recowork
 ```
 
-完整 prompt 模板：
+在网页或手机聊天中，初始化 `chat-mobile`，将其中的“启动指令”粘贴到对话即可。不需要 Node.js、CLI 或本地文件。
 
-- `prompts/init-package.md`
-- `prompts/init-package.zh.md`
+## 长期沉淀
 
-## 开发
+RecoWork 不再创建独立知识库。已验证结论应写入工作空间中对应的权威文档，并更新受影响的 `index.md`。这样 Agent 能从索引按需读取，而不是一次加载所有内容。
 
-产品和工程规范放在 `specs/`：
+## 升级
 
-- `specs/targets.md`
-- `specs/requirements.md`
-- `specs/decisions.md`
+如果目录已经存在 `rw-manifest.json`，`rw add` 会拒绝覆盖；请使用 `rw status <目录>` 与 `rw upgrade --check <目录>` 查看既有工作流。`rw upgrade --apply` 只更新未被修改的工作方法或 target 文件，绝不会覆盖、移动或删除用户自己的工作空间文件。旧 Chat 工作流会得到迁移指引，在单独目录创建本地工作流。
 
-## 更新日志
-
-发布记录见 [CHANGELOG.md](./CHANGELOG.md) 和 [CHANGELOG.zh.md](./CHANGELOG.zh.md)。站点同步提供[中英文发布记录](https://recoluan.github.io/recowork/releases.html)。
-
-校验命令：
-
-```bash
-node --check cli/recowork/bin/rw.js
-node --check docs/app.js
-node cli/recowork/bin/rw.js list
-node cli/recowork/bin/rw.js targets
-node cli/recowork/bin/rw.js add project --target codex-project --locale zh /private/tmp/recowork-project-test
-```
-
-## License
-
-MIT
+完整约定见 [specs/targets.md](./specs/targets.md)、[specs/requirements.md](./specs/requirements.md) 与 [CHANGELOG.zh.md](./CHANGELOG.zh.md)。

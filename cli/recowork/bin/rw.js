@@ -9,26 +9,34 @@ const TEMPLATES_DIR = path.join(ROOT, "templates");
 const TARGETS_DIR = path.join(ROOT, "targets");
 
 const legacyPlatformTargets = {
-  "chatgpt-mobile": "chatgpt-chat",
-  "claude-mobile": "claude-chat",
-  "kimi-doubao": "kimi-doubao-chat",
-  codex: "codex-project",
-  cursor: "cursor-project",
-  "notion-feishu": "notion-workspace",
+  "chatgpt-mobile": "chat-mobile",
+  "claude-mobile": "chat-mobile",
+  "kimi-doubao": "chat-mobile",
+  codex: "local-agent-project",
+  cursor: "local-agent-project",
+  "notion-feishu": "local-agent-project",
 };
 
 const aliasTargets = {
-  chatgpt: "chatgpt-chat",
-  mobile: "chatgpt-chat",
-  claude: "claude-chat",
-  "claude-code": "claude-code-project",
-  "claude-project": "claude-code-project",
-  kimi: "kimi-doubao-chat",
-  doubao: "kimi-doubao-chat",
-  codex: "codex-project",
-  cursor: "cursor-project",
-  notion: "notion-workspace",
-  feishu: "feishu-doc",
+  chatgpt: "chat-mobile",
+  mobile: "chat-mobile",
+  claude: "chat-mobile",
+  "claude-code": "local-agent-project",
+  "claude-project": "local-agent-project",
+  kimi: "chat-mobile",
+  doubao: "chat-mobile",
+  "chatgpt-chat": "chat-mobile",
+  "claude-chat": "chat-mobile",
+  "kimi-doubao-chat": "chat-mobile",
+  codex: "local-agent-project",
+  cursor: "local-agent-project",
+  notion: "local-agent-project",
+  feishu: "local-agent-project",
+  "claude-code-project": "local-agent-project",
+  "codex-project": "local-agent-project",
+  "cursor-project": "local-agent-project",
+  "notion-workspace": "local-agent-project",
+  "feishu-doc": "local-agent-project",
 };
 
 function main() {
@@ -102,10 +110,9 @@ Compatibility:
   rw add <template> --platform <legacy-platform> <destination>
 
 Examples:
-  rw add general --target chatgpt-chat ./my-ai-workflow
-  rw add project --target codex-project --locale zh .
-  rw add project --target claude-code-project --locale en .
-  rw add learning -t notion-workspace ./langchain-study
+  rw add general --target chat-mobile ./my-ai-workflow
+  rw add project --target local-agent-project --locale zh .
+  rw add learning -t local-agent-project ./langchain-study
   rw upgrade --check .
   rw upgrade --plan .
 `);
@@ -185,9 +192,25 @@ function initTemplate(args) {
     fail(`Target not found: ${selectedTarget.id}`);
   }
 
+  const manifestPath = path.join(targetDir, "rw-manifest.json");
+  if (fs.existsSync(manifestPath)) {
+    fail(`RecoWork is already initialized in: ${targetDir}. Use \`rw status\` or \`rw upgrade\`; initialization never overwrites an existing workflow.`);
+  }
+
   fs.mkdirSync(targetDir, { recursive: true });
-  cleanupLegacyTemplatePaths(template.id, targetDir);
-  cleanupLocalizedExampleOutputs(templateDir, template, selectedLocale, targetDir);
+  if (selectedTarget.type === "chat") {
+    renderTargetFiles(
+      path.join(selectedTargetDir, "locales", selectedLocale, "files"),
+      targetDir,
+      template,
+      selectedTarget,
+      selectedLocale,
+    );
+    console.log(`Exported lightweight chat materials for ${template.id} (${selectedLocale})`);
+    console.log(`Target: ${targetDir}`);
+    return;
+  }
+
   copyIfExists(path.join(localizedTemplateDir, "README.md"), path.join(targetDir, "README.md"));
   copyDir(path.join(localizedTemplateDir, "工作方法"), path.join(targetDir, "工作方法"));
   copyDir(path.join(localizedTemplateDir, "methods"), path.join(targetDir, "methods"));
@@ -223,6 +246,11 @@ function upgradeWorkflow(args) {
   }
 
   const manifest = readManifest(manifestPath);
+  const manifestTarget = resolveTarget(manifest.target);
+  if (manifestTarget.type === "chat") {
+    printLegacyChatMigration(targetDir, manifest);
+    return;
+  }
   if (args.includes("--adopt")) {
     adoptWorkflow(targetDir, manifest);
     return;
@@ -268,6 +296,22 @@ function readManifest(manifestPath) {
   } catch {
     fail(`Cannot read manifest: ${manifestPath}`);
   }
+}
+
+function printLegacyChatMigration(targetDir, manifest) {
+  const template = resolveTemplate(manifest.template);
+  const locale = resolveRequestedLocale(manifest.locale, template);
+  const destination = `${targetDir}-local`;
+
+  console.log("This is a legacy chat workflow. Chat targets no longer support status or in-place upgrades.");
+  console.log("Your existing files remain untouched.");
+  console.log("\nTo migrate safely, initialize a new local workflow:");
+  console.log(`  rw add ${template.id} --target local-agent-project --locale ${locale} ${destination}`);
+  console.log("\nThen transfer this continuation package into the new workspace:");
+  console.log("- Project or task brief");
+  console.log("- Confirmed decisions");
+  console.log("- Open questions");
+  console.log("- Next step");
 }
 
 function parseUpgradeScopes(value) {
@@ -819,9 +863,6 @@ function collectDesiredFiles(template, target, locale) {
       return;
     }
     for (const entry of fs.readdirSync(sourceDir, { withFileTypes: true })) {
-      if (ownership === "target" && shouldSkipTargetEntry(entry.name, template, target)) {
-        continue;
-      }
       const sourcePath = path.join(sourceDir, entry.name);
       const outputName = render && entry.name.endsWith(".tpl") ? entry.name.slice(0, -4) : entry.name;
       const outputPath = path.join(outputPrefix, outputName);
@@ -833,6 +874,11 @@ function collectDesiredFiles(template, target, locale) {
       }
     }
   };
+
+  if (target.type === "chat") {
+    addDirectory(path.join(TARGETS_DIR, target.id, "locales", locale, "files"), "", "target", true);
+    return files;
+  }
 
   if (fs.existsSync(path.join(localizedTemplateDir, "README.md"))) {
     addFile("README.md", fs.readFileSync(path.join(localizedTemplateDir, "README.md"), "utf8"), "template");
@@ -884,241 +930,6 @@ function getTargetVersion(target) {
   return target.version || "0.0.0";
 }
 
-function cleanupLegacyTemplatePaths(templateId, targetDir) {
-  const legacyFilesByTemplate = {
-    "learning-engineering": [
-      path.join("工作方法", "工作流程.md"),
-      path.join("工作方法", "章节模板.md"),
-      path.join("工作方法", "进度追踪.md"),
-      path.join("工作方法", "角色设定.md"),
-      path.join("工作方法", "学习方法.md"),
-      path.join("工作方法", "课程单元模板.md"),
-      path.join("工作方法", "评估与复盘.md"),
-      path.join("学习空间", "index.md"),
-      path.join("学习空间", "学习简报.md"),
-      path.join("学习空间", "课程路线.md"),
-      path.join("学习空间", "学习进度.md"),
-      path.join("学习空间", "01-课程设计", "index.md"),
-      path.join("学习空间", "02-课程与练习", "index.md"),
-      path.join("学习空间", "02-课程与练习", "课程单元模板.md"),
-      path.join("学习空间", "03-项目实践", "index.md"),
-      path.join("学习空间", "04-问题与复盘", "index.md"),
-      path.join("学习空间", "05-知识沉淀", "index.md"),
-      path.join("methods", "role-contract.md"),
-      path.join("methods", "learning-method.md"),
-      path.join("methods", "lesson-template.md"),
-      path.join("methods", "assessment-and-retrospective.md"),
-      path.join("learning-workspace", "index.md"),
-      path.join("learning-workspace", "learner-brief.md"),
-      path.join("learning-workspace", "course-roadmap.md"),
-      path.join("learning-workspace", "learning-progress.md"),
-      path.join("learning-workspace", "01-course-design", "index.md"),
-      path.join("learning-workspace", "02-lessons-and-practice", "index.md"),
-      path.join("learning-workspace", "02-lessons-and-practice", "lesson-unit-template.md"),
-      path.join("learning-workspace", "03-project-practice", "index.md"),
-      path.join("learning-workspace", "04-questions-and-retrospectives", "index.md"),
-      path.join("learning-workspace", "05-knowledge-capture", "index.md"),
-    ],
-    "general-ai-workflow": [
-      path.join("工作方法", "工作流程.md"),
-      path.join("工作方法", "检查清单.md"),
-      path.join("工作方法", "记忆卡.md"),
-      path.join("工作方法", "角色设定.md"),
-      path.join("工作方法", "记忆卡模板.md"),
-      path.join("工作空间", "index.md"),
-      path.join("工作空间", "任务简报.md"),
-      path.join("工作空间", "待确认问题.md"),
-      path.join("工作空间", "01-任务准备", "index.md"),
-      path.join("工作空间", "02-任务产出", "index.md"),
-      path.join("工作空间", "03-过程留痕", "index.md"),
-      path.join("工作空间", "04-复盘与沉淀", "index.md"),
-      path.join("methods", "workflow.md"),
-      path.join("methods", "quality-checklist.md"),
-      path.join("methods", "continuation-memory-template.md"),
-      path.join("methods", "role-contract.md"),
-      path.join("workspace", "index.md"),
-      path.join("workspace", "task-brief.md"),
-      path.join("workspace", "open-questions.md"),
-      path.join("workspace", "01-task-setup", "index.md"),
-      path.join("workspace", "02-task-output", "index.md"),
-      path.join("workspace", "03-thinking-traces", "index.md"),
-      path.join("workspace", "04-review-and-reuse", "index.md"),
-    ],
-    "project-engineering": [
-      path.join("工作空间", "project-brief.md"),
-      path.join("工作空间", "open-questions.md"),
-      path.join("工作空间", "06-思考留痕", "待确认问题清单.md"),
-      path.join("工作空间", "00-项目总览", "index.md"),
-      path.join("工作空间", "00-项目总览", "项目简介.md"),
-      path.join("工作空间", "00-项目总览", "目标与范围.md"),
-      path.join("工作空间", "01-需求分析", "index.md"),
-      path.join("工作空间", "02-分析评估", "index.md"),
-      path.join("工作空间", "02-分析评估", "关键取舍分析.md"),
-      path.join("工作空间", "03-技术设计", "index.md"),
-      path.join("工作空间", "03-技术设计", "整体架构设计.md"),
-      path.join("工作空间", "04-项目规划", "index.md"),
-      path.join("工作空间", "04-项目规划", "阶段划分与推进路径.md"),
-      path.join("工作空间", "05-决策记录", "index.md"),
-      path.join("工作空间", "05-决策记录", "决策记录", "001-template.md"),
-      path.join("工作空间", "06-思考留痕", "index.md"),
-      path.join("工作空间", "06-思考留痕", "头脑风暴", "index.md"),
-      path.join("工作空间", "07-评审验证", "index.md"),
-      path.join("workspace", "project-brief.md"),
-      path.join("workspace", "open-questions.md"),
-      path.join("工作方法", "使用场景.md"),
-      path.join("工作方法", "工作流程.md"),
-      path.join("工作方法", "知识结构.md"),
-      path.join("工作方法", "质量门禁.md"),
-      path.join("工作方法", "角色设定.md"),
-      path.join("工作空间", "index.md"),
-      path.join("工作空间", "项目简报.md"),
-      path.join("工作空间", "待确认问题.md"),
-      path.join("工作空间", "01-需求与约束", "index.md"),
-      path.join("工作空间", "02-方案设计", "index.md"),
-      path.join("工作空间", "02-方案设计", "关键取舍分析.md"),
-      path.join("工作空间", "02-方案设计", "整体架构设计.md"),
-      path.join("工作空间", "03-计划与决策", "index.md"),
-      path.join("工作空间", "03-计划与决策", "阶段划分与推进路径.md"),
-      path.join("工作空间", "03-计划与决策", "决策记录", "001-template.md"),
-      path.join("工作空间", "04-过程留痕", "index.md"),
-      path.join("工作空间", "04-过程留痕", "头脑风暴", "index.md"),
-      path.join("工作空间", "05-评审验证", "index.md"),
-      path.join("methods", "scenarios.md"),
-      path.join("methods", "workflow.md"),
-      path.join("methods", "knowledge-structure.md"),
-      path.join("methods", "quality-gates.md"),
-      path.join("methods", "role-contract.md"),
-      path.join("workspace", "index.md"),
-      path.join("workspace", "project-brief.md"),
-      path.join("workspace", "open-questions.md"),
-      path.join("workspace", "01-requirements-and-constraints", "index.md"),
-      path.join("workspace", "02-solution-design", "index.md"),
-      path.join("workspace", "02-solution-design", "tradeoff-analysis.md"),
-      path.join("workspace", "02-solution-design", "architecture-design.md"),
-      path.join("workspace", "03-plan-and-decisions", "index.md"),
-      path.join("workspace", "03-plan-and-decisions", "delivery-plan.md"),
-      path.join("workspace", "03-plan-and-decisions", "decision-records", "001-template.md"),
-      path.join("workspace", "04-thinking-traces", "index.md"),
-      path.join("workspace", "04-thinking-traces", "brainstorming", "index.md"),
-      path.join("workspace", "05-review-and-validation", "index.md"),
-    ],
-  };
-  const legacyDirsByTemplate = {
-    "learning-engineering": [
-      path.join("工作方法"),
-      path.join("学习空间", "01-课程设计"),
-      path.join("学习空间", "02-课程与练习"),
-      path.join("学习空间", "03-项目实践"),
-      path.join("学习空间", "04-问题与复盘"),
-      path.join("学习空间", "05-知识沉淀"),
-      path.join("学习空间"),
-      path.join("methods"),
-      path.join("learning-workspace", "01-course-design"),
-      path.join("learning-workspace", "02-lessons-and-practice"),
-      path.join("learning-workspace", "03-project-practice"),
-      path.join("learning-workspace", "04-questions-and-retrospectives"),
-      path.join("learning-workspace", "05-knowledge-capture"),
-      path.join("learning-workspace"),
-    ],
-    "general-ai-workflow": [
-      path.join("工作方法"),
-      path.join("工作空间", "01-任务准备"),
-      path.join("工作空间", "02-任务产出"),
-      path.join("工作空间", "03-过程留痕"),
-      path.join("工作空间", "04-复盘与沉淀"),
-      path.join("工作空间"),
-      path.join("methods"),
-      path.join("workspace", "01-task-setup"),
-      path.join("workspace", "02-task-output"),
-      path.join("workspace", "03-thinking-traces"),
-      path.join("workspace", "04-review-and-reuse"),
-      path.join("workspace"),
-    ],
-    "project-engineering": [
-      path.join("工作方法"),
-      path.join("工作空间", "01-需求与约束"),
-      path.join("工作空间", "02-方案设计"),
-      path.join("工作空间", "03-计划与决策", "决策记录"),
-      path.join("工作空间", "03-计划与决策"),
-      path.join("工作空间", "04-过程留痕", "头脑风暴"),
-      path.join("工作空间", "04-过程留痕"),
-      path.join("工作空间", "05-评审验证"),
-      path.join("工作空间"),
-      path.join("methods"),
-      path.join("workspace", "01-requirements-and-constraints"),
-      path.join("workspace", "02-solution-design"),
-      path.join("workspace", "03-plan-and-decisions", "decision-records"),
-      path.join("workspace", "03-plan-and-decisions"),
-      path.join("workspace", "04-thinking-traces", "brainstorming"),
-      path.join("workspace", "04-thinking-traces"),
-      path.join("workspace", "05-review-and-validation"),
-      path.join("工作空间", "00-项目总览"),
-      path.join("工作空间", "01-需求分析"),
-      path.join("工作空间", "02-分析评估"),
-      path.join("工作空间", "03-技术设计"),
-      path.join("工作空间", "04-项目规划"),
-      path.join("工作空间", "05-决策记录", "决策记录"),
-      path.join("工作空间", "05-决策记录"),
-      path.join("工作空间", "06-思考留痕", "头脑风暴"),
-      path.join("工作空间", "06-思考留痕"),
-      path.join("工作空间", "07-评审验证"),
-      path.join("工作空间"),
-      path.join("工作方法"),
-      "workspace",
-      "methods",
-    ],
-  };
-
-  for (const relativePath of legacyFilesByTemplate[templateId] || []) {
-    const absolutePath = path.join(targetDir, relativePath);
-    if (fs.existsSync(absolutePath) && fs.statSync(absolutePath).isFile()) {
-      fs.rmSync(absolutePath);
-    }
-  }
-
-  for (const relativePath of legacyDirsByTemplate[templateId] || []) {
-    const absolutePath = path.join(targetDir, relativePath);
-    if (
-      fs.existsSync(absolutePath)
-      && fs.statSync(absolutePath).isDirectory()
-      && fs.readdirSync(absolutePath).length === 0
-    ) {
-      fs.rmdirSync(absolutePath);
-    }
-  }
-}
-
-function cleanupLocalizedExampleOutputs(templateDir, template, locale, outputDir) {
-  const manifestPath = path.join(outputDir, "rw-manifest.json");
-  if (!fs.existsSync(manifestPath)) {
-    return;
-  }
-
-  try {
-    const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
-    if (manifest.template !== template.id) {
-      return;
-    }
-  } catch {
-    return;
-  }
-
-  const previousExampleDir = locale === "zh" ? "examples" : "示例";
-  const sourceDirs = [
-    path.join(templateDir, "examples"),
-    path.join(templateDir, "locales", "zh", "examples"),
-  ];
-  for (const sourceDir of sourceDirs) {
-    for (const relativePath of getRenderedTargetPaths(sourceDir)) {
-      const outputPath = path.join(outputDir, previousExampleDir, relativePath);
-      if (fs.existsSync(outputPath) && fs.statSync(outputPath).isFile()) {
-        fs.rmSync(outputPath);
-        removeEmptyParentDirectories(path.dirname(outputPath), outputDir);
-      }
-    }
-  }
-}
-
 function renderTargetFiles(from, to, template, target, locale) {
   if (!fs.existsSync(from)) {
     return;
@@ -1126,9 +937,6 @@ function renderTargetFiles(from, to, template, target, locale) {
 
   fs.mkdirSync(to, { recursive: true });
   for (const entry of fs.readdirSync(from, { withFileTypes: true })) {
-    if (shouldSkipTargetEntry(entry.name, template, target)) {
-      continue;
-    }
     const source = path.join(from, entry.name);
     const outputName = entry.name.endsWith(".tpl")
       ? entry.name.slice(0, -4)
@@ -1142,12 +950,6 @@ function renderTargetFiles(from, to, template, target, locale) {
       fs.writeFileSync(destination, renderTemplate(content, template, target, locale));
     }
   }
-}
-
-function shouldSkipTargetEntry(entryName, template, target) {
-  return template.id === "idea-engineering"
-    && target.id === "codex-project"
-    && (entryName === "knowledge" || entryName === "知识库");
 }
 
 function cleanupTargetLocaleOutputs(targetDir, target, locale, outputDir) {
@@ -1241,8 +1043,6 @@ function renderTemplate(source, template, target, locale) {
     brief_file: localePaths.briefFile,
     questions_file: localePaths.questionsFile,
     role_file: localePaths.roleFile,
-    knowledge_dir: localePaths.knowledgeDir,
-    self_review_knowledge_check: localeStrings.selfReviewKnowledgeCheck,
     target_intro: localeStrings.targetIntro,
     heading_purpose: localeStrings.headingPurpose,
     heading_audience: localeStrings.headingAudience,
@@ -1253,7 +1053,6 @@ function renderTemplate(source, template, target, locale) {
     rule_capture_knowledge: localeStrings.ruleCaptureKnowledge,
     rule_review_output: localeStrings.ruleReviewOutput,
     rule_confirm_large_changes: localeStrings.ruleConfirmLargeChanges,
-    rule_use_claude_skills: localeStrings.ruleUseClaudeSkills,
     rule_keep_knowledge: localeStrings.ruleKeepKnowledge,
     rule_keep_scoped: localeStrings.ruleKeepScoped,
     rule_explain_verification: localeStrings.ruleExplainVerification,
@@ -1272,9 +1071,10 @@ function renderTemplate(source, template, target, locale) {
     chat_memory_goal: localeStrings.chatMemoryGoal,
     chat_memory_decisions: localeStrings.chatMemoryDecisions,
     chat_memory_next: localeStrings.chatMemoryNext,
-    claude_instructions_title: localeStrings.claudeInstructionsTitle,
-    claude_instructions_intro: localeStrings.claudeInstructionsIntro,
-    claude_instructions_rule: localeStrings.claudeInstructionsRule,
+    chat_delivery_boundary: localeStrings.chatDeliveryBoundary,
+    chat_continuity_notice: localeStrings.chatContinuityNotice,
+    chat_migration_title: localeStrings.chatMigrationTitle,
+    chat_migration_instruction: localeStrings.chatMigrationInstruction,
     outputs: formatList(localizedTemplate.outputs),
     audience: formatList(localizedTemplate.audience),
   };
@@ -1307,6 +1107,7 @@ function getLocaleStrings(locale, template, target, localePaths) {
   const isLearningWorkflow = template.id === "learning-engineering";
   const isProjectWorkflow = template.id === "project-engineering";
   const isIdeaWorkflow = template.id === "idea-engineering";
+  const isChatTarget = target.type === "chat";
   if (locale === "en") {
     return {
       targetIntro: `This workflow uses RecoWork template \`${template.id}\` for target \`${target.id}\` and locale \`${locale}\`.`,
@@ -1316,13 +1117,7 @@ function getLocaleStrings(locale, template, target, localePaths) {
       headingWorkingProtocol: "Working Protocol",
       headingRules: "Rules",
       ruleReadProjectContext: `Read \`README.md\`, \`${localePaths.roleFile}\`, \`${localePaths.methodsDir}/\`, \`${localePaths.workspaceDir}/\`, and \`rw-manifest.json\` before ${isLearningWorkflow ? "starting or continuing a learning unit" : isIdeaWorkflow ? "starting or continuing an idea exploration" : isGeneralWorkflow ? "starting or continuing meaningful work" : "making changes"}.`,
-      ruleCaptureKnowledge: isLearningWorkflow
-        ? `Capture reusable learning insights in \`${localePaths.workspaceDir}/05-knowledge-capture/\`.`
-        : isGeneralWorkflow
-          ? `Capture reusable task insights in \`${localePaths.workspaceDir}/04-review-and-reuse/\`.`
-          : isIdeaWorkflow
-            ? `Capture confirmed directions, validation conclusions, and next steps in \`${localePaths.ideaDecisionDir}/\`.`
-        : `Capture durable project knowledge in \`${localePaths.knowledgeDir}/\`.`,
+      ruleCaptureKnowledge: `Capture verified conclusions in \`${localePaths.knowledgeCaptureDir}/\` and update the affected index.`,
       ruleReviewOutput: "Before returning work, review the result against the template purpose and expected outputs.",
       ruleConfirmLargeChanges: isIdeaWorkflow
         ? "Before selecting a priority direction, validation plan, or project execution, present an idea agreement and wait for the user's explicit confirmation."
@@ -1331,19 +1126,15 @@ function getLocaleStrings(locale, template, target, localePaths) {
         : isProjectWorkflow
           ? "Before generating a complete solution, plan, or implementation change, present a project agreement and wait for the user's explicit confirmation. Also ask before large scope changes or irreversible operations."
         : "Ask for confirmation before large scope changes or irreversible operations.",
-      ruleUseClaudeSkills: "Use project-scoped skills from `.claude/skills/` when they match the task.",
       ruleKeepKnowledge: isIdeaWorkflow
         ? `Keep idea briefs, directions, hypotheses, and decisions in \`${localePaths.workspaceDir}/\`. Explore broadly first, then separate facts, assumptions, and evidence; wait for confirmation before converging on a priority direction.`
         : isLearningWorkflow
         ? `Keep the learner brief, roadmap, progress, and retrospectives in \`${localePaths.workspaceDir}/\`. Before creating or changing a roadmap, lesson, practice plan, or project plan, present a learning agreement and wait for the learner's explicit confirmation; then teach one validated unit at a time.`
         : isGeneralWorkflow
           ? `Keep useful task context in \`${localePaths.workspaceDir}/\` and leave a continuation memory after important work.`
-          : `Keep durable project knowledge in \`${localePaths.workspaceDir}/\` and the template-defined knowledge location. Before creating a complete solution, plan, or implementation change, present a project agreement and wait for explicit user confirmation.`,
+          : `Keep durable project context in \`${localePaths.workspaceDir}/\`. Consolidate verified conclusions into the appropriate canonical document and update affected indexes. Before creating a complete solution, plan, or implementation change, present a project agreement and wait for explicit user confirmation.`,
       ruleKeepScoped: "Keep changes scoped to the current task.",
       ruleExplainVerification: "Explain verification steps after implementation.",
-      selfReviewKnowledgeCheck: isIdeaWorkflow
-        ? `Check that confirmed directions, validation conclusions, and next steps are captured in \`${localePaths.ideaDecisionDir}/\`.`
-        : `Check whether any durable knowledge should be added to \`${localePaths.knowledgeDir}/\`.`,
       chatInitTitle: "RecoWork Initialization Prompt",
       chatInitIntro: `You are helping me use the RecoWork template \`${template.id}\`.`,
       chatInitInstruction: isIdeaWorkflow
@@ -1354,7 +1145,9 @@ function getLocaleStrings(locale, template, target, localePaths) {
           ? "Start with focused project discovery. Restate the goal, scope, constraints, risks, success criteria, assumptions, and open questions as a short project agreement, then wait for my explicit confirmation. Until I confirm, only maintain a draft project brief and open questions; do not generate a complete solution, plan, or implementation change. After confirmation, work in small, verified steps and capture durable decisions."
         : "Ask one concise question if the task is unclear. Otherwise, help me start the workflow, keep assumptions explicit, and leave a short continuation memory after meaningful work.",
       chatTaskTitle: "Task Prompt",
-      chatTaskIntro: `Use the \`${template.id}\` workflow and its role contract.`,
+      chatTaskIntro: isChatTarget
+        ? `Use this lightweight \`${template.id}\` chat protocol.`
+        : `Use the \`${template.id}\` workflow and its role contract.`,
       chatTaskFieldTask: "Task",
       chatTaskFieldContext: "Context",
       chatTaskFieldConstraints: "Constraints",
@@ -1365,12 +1158,18 @@ function getLocaleStrings(locale, template, target, localePaths) {
         : isProjectWorkflow
           ? "First determine whether this project scope has been explicitly confirmed. If it has not, form a short project agreement and wait for my confirmation before generating a complete solution, plan, or implementation change. If it has, restate the local task goal briefly, separate facts, assumptions, and open questions, then work only within that confirmed scope. After meaningful work, include a short memory card I can paste into the next chat."
         : "Before answering, restate the goal briefly. Separate facts, assumptions, and open questions. After answering, include a short memory card I can paste into the next chat.",
-      chatMemoryTitle: "Continuation Memory Card",
+      chatMemoryTitle: "Continuation And Migration Summary",
       chatMemoryTemplate: "Template",
       chatMemoryTarget: "Target",
       chatMemoryGoal: "Current goal:",
       chatMemoryDecisions: "Confirmed decisions:",
       chatMemoryNext: "Next step:",
+      chatDeliveryBoundary: isChatTarget
+        ? "This is a lightweight chat workflow. It does not create a local workspace, automatically save intermediate work, or provide version checks and upgrades."
+        : "",
+      chatContinuityNotice: "Conversation continuity is manual: save this summary and paste it into the next chat. It is not persisted automatically.",
+      chatMigrationTitle: "Move To A Local Project",
+      chatMigrationInstruction: "When the work becomes complex, long-running, collaborative, knowledge-heavy, or auditable, complete the migration package below and paste it into a command-capable local agent to initialize a full local workflow.",
       claudeInstructionsTitle: "Claude Workflow Instructions",
       claudeInstructionsIntro: `Use RecoWork template \`${template.id}\` and its role contract.`,
       claudeInstructionsRule: isIdeaWorkflow
@@ -1391,13 +1190,7 @@ function getLocaleStrings(locale, template, target, localePaths) {
     headingWorkingProtocol: "工作协议",
     headingRules: "规则",
     ruleReadProjectContext: `在${isLearningWorkflow ? "开始或续接一个学习单元" : isIdeaWorkflow ? "开始或续接一次想法探索" : isGeneralWorkflow ? "开始或续接重要任务" : "改动"}前先读取 \`README.md\`、\`${localePaths.roleFile}\`、\`${localePaths.methodsDir}/\`、\`${localePaths.workspaceDir}/\` 和 \`rw-manifest.json\`。`,
-    ruleCaptureKnowledge: isLearningWorkflow
-      ? `把可复用的学习结论沉淀到 \`${localePaths.workspaceDir}/05-知识沉淀/\`。`
-      : isGeneralWorkflow
-        ? `把可复用的任务经验沉淀到 \`${localePaths.workspaceDir}/04-复盘与沉淀/\`。`
-        : isIdeaWorkflow
-          ? `把已确认的方向、验证结论和下一步沉淀到 \`${localePaths.ideaDecisionDir}/\`。`
-        : `把长期有效的项目知识沉淀到 \`${localePaths.knowledgeDir}/\`。`,
+    ruleCaptureKnowledge: `把已验证的结论沉淀到 \`${localePaths.knowledgeCaptureDir}/\`，并更新受影响的索引。`,
     ruleReviewOutput: "返回结果前，对照模板用途和预期产物自审。",
     ruleConfirmLargeChanges: isIdeaWorkflow
       ? "选择优先方向、验证计划或进入项目执行前，先给出想法约定并等待用户明确确认。"
@@ -1406,19 +1199,15 @@ function getLocaleStrings(locale, template, target, localePaths) {
       : isProjectWorkflow
         ? "生成完整方案、计划或实施改动前，先给出项目约定并等待用户明确确认；大范围变更或不可逆操作前也必须先确认。"
       : "大范围变更或不可逆操作前，先向用户确认。",
-    ruleUseClaudeSkills: "当任务匹配时，使用 `.claude/skills/` 下的项目级 skills。",
     ruleKeepKnowledge: isIdeaWorkflow
       ? `把想法简报、方向、假设和决策放在 \`${localePaths.workspaceDir}/\`。先充分发散，再区分事实、假设和证据；收敛到优先方向前等待用户确认。`
       : isLearningWorkflow
       ? `把学习简报、课程路线、进度和复盘放在 \`${localePaths.workspaceDir}/\`。生成或变更课程路线、章节内容、练习计划或项目方案前，先给出学习约定并等待学习者明确确认；确认后一次只推进一个经过验证的学习单元。`
       : isGeneralWorkflow
       ? `把有效任务上下文放在 \`${localePaths.workspaceDir}/\`，重要任务结束后留下续聊记忆。`
-      : `把长期项目知识放在 \`${localePaths.workspaceDir}/\` 和模板定义的知识位置。生成完整方案、计划或实施改动前，先给出项目约定并等待用户明确确认。`,
+      : `把长期项目上下文放在 \`${localePaths.workspaceDir}/\`。将已验证结论合并到对应的权威文档，并更新受影响的索引。生成完整方案、计划或实施改动前，先给出项目约定并等待用户明确确认。`,
     ruleKeepScoped: "保持改动聚焦在当前任务范围内。",
     ruleExplainVerification: "实现后说明验证步骤。",
-    selfReviewKnowledgeCheck: isIdeaWorkflow
-      ? `检查已确认的方向、验证结论和下一步是否已沉淀到 \`${localePaths.ideaDecisionDir}/\`。`
-      : `检查是否有应写入 \`${localePaths.knowledgeDir}/\` 的长期知识。`,
     chatInitTitle: "RecoWork 初始化 Prompt",
     chatInitIntro: `你正在使用 RecoWork 模板 \`${template.id}\`。`,
     chatInitInstruction: isIdeaWorkflow
@@ -1429,7 +1218,9 @@ function getLocaleStrings(locale, template, target, localePaths) {
         ? "先进行聚焦的项目澄清。将目标、范围、约束、风险、成功标准、假设和待确认问题整理为简短的项目约定，并等待我明确确认。在确认前，只维护项目简报草稿和待确认问题；不要生成完整方案、计划或实施改动。确认后分小步推进、验证结果并沉淀长期决策。"
       : "如果任务不清晰，先问一个最必要的问题。否则帮助我启动工作流，明确标注假设，并在重要任务结束后留下可复制的续聊记忆。",
     chatTaskTitle: "任务 Prompt",
-    chatTaskIntro: `请按 \`${template.id}\` 工作流及其角色设定推进。`,
+    chatTaskIntro: isChatTarget
+      ? `请按这个轻量 \`${template.id}\` 对话协议推进。`
+      : `请按 \`${template.id}\` 工作流及其角色设定推进。`,
     chatTaskFieldTask: "任务",
     chatTaskFieldContext: "背景",
     chatTaskFieldConstraints: "约束",
@@ -1440,12 +1231,18 @@ function getLocaleStrings(locale, template, target, localePaths) {
       : isProjectWorkflow
         ? "先判断当前项目范围是否已经获得明确确认。尚未确认时，先形成简短的项目约定并等待我确认，再生成完整方案、计划或实施改动；已确认时，简要复述局部任务目标，区分事实、假设和待确认问题，并且只在这个确认范围内推进。重要工作结束后给出一张可复制到下一轮对话的简短记忆卡。"
       : "回答前先简要复述目标，区分事实、假设和待确认问题。回答后给出一张可复制到下一轮对话的简短记忆卡。",
-    chatMemoryTitle: "续聊记忆卡",
+    chatMemoryTitle: "续接与迁移摘要",
     chatMemoryTemplate: "模板",
     chatMemoryTarget: "目标环境",
     chatMemoryGoal: "当前目标：",
     chatMemoryDecisions: "已确认结论：",
     chatMemoryNext: "下一步：",
+    chatDeliveryBoundary: isChatTarget
+      ? "这是轻量对话工作流：不会创建本地工作空间、自动保存中间产物，也不提供版本检查或升级。"
+      : "",
+    chatContinuityNotice: "对话连续性需要手动维护：请保存这份摘要，并在下一轮对话中粘贴；系统不会自动持久化。",
+    chatMigrationTitle: "迁移到本地项目",
+    chatMigrationInstruction: "当任务变复杂、需要长期推进、多人协作、知识沉淀或可审计过程时，补全下面的迁移包，再粘贴到具备命令执行能力的本地 Agent 中初始化完整本地工作流。",
     claudeInstructionsTitle: "Claude 工作流说明",
     claudeInstructionsIntro: `请使用 RecoWork 模板 \`${template.id}\` 及其角色设定。`,
     claudeInstructionsRule: isIdeaWorkflow
@@ -1470,7 +1267,7 @@ function getLocalePaths(locale, template) {
         briefFile: "learner-brief.md",
         questionsFile: "learning-workspace/04-questions-and-retrospectives/",
         roleFile: "methods/role-contract.md",
-        knowledgeDir: "knowledge",
+        knowledgeCaptureDir: "learning-workspace/05-knowledge-capture",
       };
     }
     if (isIdeaWorkflow) {
@@ -1481,7 +1278,7 @@ function getLocalePaths(locale, template) {
         questionsFile: "open-questions.md",
         roleFile: "methods/role-contract.md",
         ideaDecisionDir: "idea-space/05-decisions-and-next-steps",
-        knowledgeDir: "knowledge",
+        knowledgeCaptureDir: "idea-space/05-decisions-and-next-steps",
       };
     }
     if (isGeneralWorkflow) {
@@ -1491,7 +1288,7 @@ function getLocalePaths(locale, template) {
         briefFile: "task-brief.md",
         questionsFile: "open-questions.md",
         roleFile: "methods/role-contract.md",
-        knowledgeDir: "knowledge",
+        knowledgeCaptureDir: "workspace/04-review-and-reuse",
       };
     }
     return {
@@ -1500,7 +1297,7 @@ function getLocalePaths(locale, template) {
       briefFile: "project-brief.md",
       questionsFile: "open-questions.md",
       roleFile: "methods/role-contract.md",
-      knowledgeDir: "knowledge",
+      knowledgeCaptureDir: "workspace/03-plan-and-decisions",
     };
   }
 
@@ -1511,7 +1308,7 @@ function getLocalePaths(locale, template) {
       briefFile: "任务简报.md",
       questionsFile: "待确认问题.md",
       roleFile: "工作方法/角色设定.md",
-      knowledgeDir: "知识库",
+      knowledgeCaptureDir: "工作空间/04-复盘与沉淀",
     };
   }
 
@@ -1522,7 +1319,7 @@ function getLocalePaths(locale, template) {
       briefFile: "学习简报.md",
       questionsFile: "学习空间/04-问题与复盘/",
       roleFile: "工作方法/角色设定.md",
-      knowledgeDir: "知识库",
+      knowledgeCaptureDir: "学习空间/05-知识沉淀",
     };
   }
   if (isIdeaWorkflow) {
@@ -1533,7 +1330,7 @@ function getLocalePaths(locale, template) {
       questionsFile: "待确认问题.md",
       roleFile: "工作方法/角色设定.md",
       ideaDecisionDir: "想法空间/05-决策与下一步",
-      knowledgeDir: "知识库",
+      knowledgeCaptureDir: "想法空间/05-决策与下一步",
     };
   }
 
@@ -1543,7 +1340,7 @@ function getLocalePaths(locale, template) {
     briefFile: "项目简报.md",
     questionsFile: "待确认问题.md",
     roleFile: "工作方法/角色设定.md",
-    knowledgeDir: "知识库",
+    knowledgeCaptureDir: "工作空间/03-计划与决策",
   };
 }
 

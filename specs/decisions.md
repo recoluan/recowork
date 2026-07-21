@@ -258,6 +258,23 @@ Implication:
 - Keep `AGENTS.md`, `CLAUDE.md`, `SKILL.md`, `.claude/`, and `rw-manifest.json` unchanged.
 - When an existing RecoWork target is re-initialized in another locale, remove previous locale-specific generated files that do not exist in the selected locale.
 
+## 020. Separate Lightweight Chat Entry From Durable Local Workflows
+
+Decision: Chat and mobile targets remain supported, but they are lightweight conversation workflow entry points rather than equivalent versions of local engineered workflows. Local executable agents are the core environment for full RecoWork capability.
+
+Reason:
+
+- Pure chat and mobile environments do not provide a reliable local filesystem, command runtime, artifact lifecycle, or upgrade surface.
+- Pretending that a chat conversation owns a workspace creates false expectations about persistence and traceability.
+- Chat remains valuable as an immediate, low-friction way to clarify work, execute a focused task, self-review output, and prepare a clean handoff to a local agent.
+
+Implication:
+
+- Chat targets provide only a copyable start instruction, task execution protocol, and continuation or migration summary.
+- Chat targets do not create template workspaces or `rw-manifest.json`, and they do not support status checks or upgrades.
+- Continuity is manual: users save and paste the summary into the next chat.
+- When work becomes complex, long-running, collaborative, knowledge-heavy, or auditable, the chat flow produces a migration package with project brief, current decisions, open questions, and next step for Codex, Claude Code, Cursor, or another local executable agent.
+
 ## 016. Use Conventional Commits With Structured Large-Change Bodies
 
 Decision: RecoWork uses Conventional Commits and requires structured commit bodies for broad or compatibility-relevant changes.
@@ -329,3 +346,22 @@ Implication:
 - `idea-engineering` uses localized `想法空间/` and `idea-space/` workspaces with problem, trace, synthesis, validation, and next-step sections.
 - The template supports chat, project, workspace, and document targets and waits for explicit confirmation before a priority direction, validation plan, or project execution.
 - Confirmed directions can be handed to `project-engineering` with the idea agreement and evidence preserved.
+
+## 020. Collapse Brand Targets Into Two Environment Contracts
+
+Decision: RecoWork exposes only `local-agent-project` and `chat-mobile` as primary targets. Brand-specific targets, native skills, and document-platform exports are removed.
+
+Reason:
+
+- Brand-specific target files duplicated the same workflow contract, increased maintenance cost, and made target selection harder than necessary.
+- `AGENTS.md` is the common instruction surface across the supported local-agent workflow.
+- A separate knowledge folder duplicates the canonical project, learning, task, or idea records already owned by the workspace.
+- RecoWork cannot reliably provide document synchronization or collaboration; users should synchronize their actual workspace through the tools they choose.
+
+Implication:
+
+- `local-agent-project` generates tool-neutral `AGENTS.md`, methods, workspace records, and a manifest. It does not generate `.claude/`, `.cursor/`, `CLAUDE.md`, or skills.
+- `chat-mobile` is a lightweight conversation entry point and produces only a start instruction, task protocol, and manual continuation/migration summary.
+- Durable conclusions are consolidated into canonical workspace documents and their indexes, never into a separate `knowledge/` or `知识库/` directory.
+- Legacy brand target names remain CLI aliases for compatibility, but no longer select brand-specific output. Existing user workspaces are preserved untouched.
+- Decisions 003 and 005 are superseded where they prescribe brand-specific targets or Claude-native skills.

@@ -1,152 +1,61 @@
 # RecoWork
 
-RecoWork is an AI work harness: it turns practical AI workflows into reusable templates that can be initialized for the tool and environment a user actually uses.
+RecoWork turns repeatable AI work into reusable, engineered workflows. It provides templates for daily tasks, idea exploration, learning, and projects, with explicit confirmation, self-review, fresh records, and a clean handoff between chat and local work.
 
-It is not a prompt collection. In the industry, a harness is the surrounding system that gives an AI repeatable context, rules, tools, and checks. A RecoWork template defines the work scenario; a target defines where the workflow will be used; a locale defines the generated language and user-facing paths. The CLI combines them into a usable work harness.
+中文说明：[README.zh.md](./README.zh.md) | Website: [RecoWork](https://recowork.recoluan.com)
 
-## Why
+## Two Environments
 
-Using AI well often fails for engineering reasons:
+| Environment | Use it when | What it delivers |
+| --- | --- | --- |
+| `local-agent-project` | Work needs to persist, evolve, be reviewed, or be upgraded | `AGENTS.md`, working methods, an indexed workspace, intermediate artifacts, and `rw-manifest.json`. |
+| `chat-mobile` | You need a low-friction workflow in any web, app, or mobile chat | A start instruction, task protocol, and a manually saved continuation/migration summary. |
 
-- prompts are scattered and hard to reuse;
-- AI forgets context between sessions;
-- every tool expects different files or prompt formats;
-- project knowledge is rarely captured;
-- users need repeatable workflows, not one-off answers.
+The local workflow is tool-neutral and can be used by a command-capable agent such as Codex, Claude Code, or Cursor. It intentionally does not generate platform-specific skills or configuration directories.
 
-RecoWork keeps the workflow method in one place and keeps output rules reusable, so the AI harness can move with the work instead of being rebuilt for every session or tool.
+Chat continuity is manual. Save the summary and paste it into the next conversation. When work becomes long-running, collaborative, knowledge-heavy, or auditable, use the included migration package to move into a local agent.
 
-## Architecture
+## Templates
 
-```text
-.
-├── templates/        # scenario templates
-├── targets/          # reusable output targets
-├── cli/              # rw command implementation
-├── prompts/          # short prompts that ask AI to run the CLI
-├── docs/             # GitHub Pages static site
-├── specs/            # product and engineering specs
-├── AGENTS.md         # AI agent project guide
-└── package.json
-```
-
-Templates describe the work scenario:
-
-| Template | Purpose |
+| Template | Use case |
 | --- | --- |
-| `general-ai-workflow` | Daily AI work with a role contract, task context, continuation memory, review, and fresh reusable task records. |
-| `project-engineering` | Project-level AI workflow with rules, document and artifact freshness standards, progressive retrieval, knowledge capture, and quality gates. |
-| `learning-engineering` | Structured learning with learner diagnosis, a roadmap, lessons, practice, projects, feedback, and fresh durable learning records. |
-| `idea-engineering` | Idea exploration with divergence, direction synthesis, hypotheses, validation, and a confirmed next step. |
+| `general-ai-workflow` (`general`) | Daily tasks that need context, review, and continuity. |
+| `idea-engineering` (`idea`) | Brainstorming, direction synthesis, hypothesis validation, and a confirmed next step. |
+| `learning-engineering` (`learning`) | Learning diagnosis, roadmap, lessons, practice, and retrospectives. |
+| `project-engineering` (`project`) | AI-assisted projects with working methods, document standards, workspace records, and quality gates. |
 
-The next architecture standard calls these reusable output definitions targets. Target IDs describe the output environment:
-
-- `chatgpt-chat`
-- `claude-chat`
-- `claude-code-project`
-- `codex-project`
-- `cursor-project`
-- `notion-workspace`
-- `feishu-doc`
-
-The target standard is documented in [specs/targets.md](./specs/targets.md).
-
-## CLI Usage
-
-The npm package name is `recowork`; the executable command is `rw`.
-
-Preferred usage:
+## Initialize With CLI
 
 ```bash
-npx recowork list
-npx recowork targets
-npx recowork add project --target codex-project --locale en .
-npx recowork add project --target claude-code-project --locale zh .
-npx recowork add general --target chatgpt-chat --locale en ./my-ai-workflow
-npx recowork add learning --target chatgpt-chat --locale en ./my-learning-workflow
+npx recowork add project --target local-agent-project --locale en .
+npx recowork add learning --target local-agent-project --locale zh ./langchain-study
+npx recowork add idea --target chat-mobile --locale en ./idea-chat-kit
 ```
 
-Legacy platform compatibility is still available for older commands:
+`rw` is the installed command. Run `rw list` and `rw targets` to inspect available templates and environments.
 
-```bash
-node cli/recowork/bin/rw.js list
-node cli/recowork/bin/rw.js targets
-node cli/recowork/bin/rw.js add project --target codex-project --locale en .
-```
+## Initialize Through AI
 
-`rw init` can remain as a compatibility alias for `rw add`.
-
-Use `--locale zh` or `--locale en` when a template supports multiple languages. Locale applies to user-facing template and target files, such as Chinese `知识库/` or English `knowledge/`. If omitted, the template default is used.
-
-## Upgrade An Existing Workflow
-
-New workflows include a versioned `rw-manifest.json` so RecoWork can identify generated-file changes without taking ownership of project work.
-
-```bash
-npx recowork status .
-npx recowork upgrade --check .
-npx recowork upgrade --plan .
-npx recowork upgrade --apply .
-```
-
-`--check` and `--plan` are read-only and respect `--scope`. `--apply` updates only unchanged working-method and target files. Workspace documents are always user-owned: RecoWork never overwrites, moves, deletes, or restores them. To add a newly introduced, currently missing workspace template, use the explicit opt-in below; it creates an upgrade report under `.recowork/upgrade-reports/` for manual review without modifying the workspace.
-
-```bash
-npx recowork upgrade --apply --scope workspace --add-missing .
-```
-
-Older workflows use a legacy manifest. Record a baseline first without changing project files:
-
-```bash
-npx recowork upgrade --adopt .
-```
-
-## Prompt Usage
-
-Prompt mode should not ask AI to recreate the whole template in chat. It should ask AI to install or run the CLI first:
+For a local command-capable agent, paste this prompt:
 
 ```text
-Please initialize RecoWork template `project-engineering` for target `codex-project`.
-Run:
-npx recowork add project-engineering --target codex-project --locale en .
+Initialize the RecoWork `project-engineering` template for the `local-agent-project` environment in English in the current directory.
 
-If npx is unavailable, use:
-https://github.com/recoluan/recowork
-templates/project-engineering/
-targets/codex-project/
+First check whether Node.js and npm are available. If they are missing or outdated, explain the situation and ask for my confirmation before installing the latest stable Node.js. After confirmation, run:
+
+npx recowork add project-engineering --target local-agent-project --locale en .
+
+Then inspect the generated files and tell me the first decision you need from me. Repository source: https://github.com/recoluan/recowork
 ```
 
-Full prompt templates:
+For a web or mobile chat, initialize the `chat-mobile` target and paste its `start-instruction` into the conversation. It does not require Node.js, a CLI, or local files.
 
-- `prompts/init-package.md`
-- `prompts/init-package.zh.md`
+## Durable Records
 
-## Specs
+RecoWork does not create a separate knowledge base. Verified conclusions belong in the appropriate canonical document inside the generated workspace. Each affected `index.md` is updated so agents retrieve context progressively instead of loading every document at once.
 
-Product and engineering specs live in [specs](./specs/):
+## Upgrades
 
-- [Targets Standard](./specs/targets.md)
-- [Requirements Log](./specs/requirements.md)
-- [Architecture Decisions](./specs/decisions.md)
+`rw add` refuses a directory that already contains `rw-manifest.json`; use `rw status <directory>` and `rw upgrade --check <directory>` for an existing workflow. `rw upgrade --apply` only updates unchanged method or target files. User-owned workspace files are never overwritten, moved, or deleted. Legacy Chat workflows receive a migration guide that creates a separate local workflow.
 
-Update these specs whenever a change introduces a new target, CLI behavior, template convention, or user-facing rule.
-
-## Changelog
-
-Release history is available in [CHANGELOG.md](./CHANGELOG.md) and [CHANGELOG.zh.md](./CHANGELOG.zh.md). The same bilingual record is published on the [release notes page](https://recoluan.github.io/recowork/releases.html).
-
-## Development
-
-Validation commands:
-
-```bash
-node --check cli/recowork/bin/rw.js
-node --check docs/app.js
-node cli/recowork/bin/rw.js list
-node cli/recowork/bin/rw.js targets
-node cli/recowork/bin/rw.js add project --target codex-project --locale en /private/tmp/recowork-project-test
-```
-
-## License
-
-MIT
+See [specs/targets.md](./specs/targets.md), [specs/requirements.md](./specs/requirements.md), and [CHANGELOG.md](./CHANGELOG.md) for the durable product contract.

@@ -1,31 +1,17 @@
-# RecoWork 智能体初始化 Prompt
+# 通过 AI Agent 初始化 RecoWork
 
-把下面这段 prompt 复制到 Codex、Cursor、Claude Code 等能执行命令或创建文件的 AI 智能体里。替换方括号里的值。
+此 Prompt 只适用于具备命令执行能力的本地 Agent。
 
 ```text
-你正在为我初始化一个 RecoWork 工作流模板。
+请在 [destination] 初始化 RecoWork 模板 [general-ai-workflow | idea-engineering | learning-engineering | project-engineering]，使用 [local-agent-project] 环境和 [zh | en] 语言。
 
-仓库地址：
-https://github.com/recoluan/recowork
+先检查 Node.js 与 npm 是否可用。如果缺失或版本过旧，请说明为什么需要它，并先征求我的确认，再安装最新稳定版 Node.js。确认后执行：
 
-模板：
-[general-ai-workflow | project-engineering | learning-engineering]
+npx recowork add [template] --target local-agent-project --locale [locale] [destination]
 
-Target：
-[chatgpt-chat | claude-chat | claude-code-project | kimi-doubao-chat | codex-project | cursor-project | notion-workspace | feishu-doc]
+检查生成结果。不要创建平台专属 skill 或配置目录。先阅读 AGENTS.md，再告诉我开始有效工作前需要我确认的第一个决策。
 
-语言：
-[zh | en]
-
-目标位置：
-[当前项目 | ./folder-name]
-
-请这样做：
-1. 先确认当前环境能执行命令，运行 `node --version` 和 `npm --version`。
-2. 如果 Node.js 或 npm 缺失、不可用或版本过旧，先说明情况，并向我确认是否安装最新版稳定版 Node.js。只有在我确认后才安装，然后再次验证两个版本。
-3. 运行：
-   npx recowork add <模板> --target <target> --locale <语言> <目标位置>
-4. 不要凭记忆重写模板，也不要擅自改用手机端聊天流程。
-5. 如果 CLI 无法运行，先读取仓库中的 `templates/<模板>/locales/<语言>/`、共享 `targets/<target>/files/` 和 `targets/<target>/locales/<语言>/files/`，再手动创建等效产物。
-6. 初始化后展示文件树，说明创建了什么，并告诉我第一步怎么用。
+仓库地址：https://github.com/reco-dev/recowork
 ```
+
+网页或手机聊天应使用 `chat-mobile`：由另一台可运行 CLI 的机器初始化，或从仓库复制该 target 的对话材料。不要要求纯聊天环境安装 Node.js 或创建本地文件。

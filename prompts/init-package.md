@@ -1,31 +1,17 @@
-# RecoWork Agent Initialization Prompt
+# Initialize RecoWork Through An AI Agent
 
-Copy this prompt into a command-capable AI agent such as Codex, Cursor, or Claude Code. Replace the values in brackets.
+Use this prompt only in a command-capable local agent.
 
 ```text
-You are initializing a RecoWork workflow template.
+Initialize the RecoWork template [general-ai-workflow | idea-engineering | learning-engineering | project-engineering] for the [local-agent-project] environment in [zh | en] at [destination].
 
-Repository:
-https://github.com/recoluan/recowork
+First check whether Node.js and npm are available. If either is missing or outdated, explain why it is needed and ask for my confirmation before installing the latest stable Node.js. After confirmation, run:
 
-Template:
-[general-ai-workflow | project-engineering | learning-engineering]
+npx recowork add [template] --target local-agent-project --locale [locale] [destination]
 
-Target:
-[chatgpt-chat | claude-chat | claude-code-project | kimi-doubao-chat | codex-project | cursor-project | notion-workspace | feishu-doc]
+Inspect the generated output. Do not create platform-specific skills or configuration folders. Read AGENTS.md and tell me the first decision or confirmation needed before meaningful work begins.
 
-Locale:
-[en | zh]
-
-Destination:
-[current project | ./folder-name]
-
-Do this:
-1. Confirm this environment can execute commands. Run `node --version` and `npm --version` first.
-2. If Node.js or npm is missing, unavailable, or outdated, explain the situation and ask for my confirmation before installing the latest stable Node.js. Only install after I confirm, then verify both versions again.
-3. Run:
-   npx recowork add <template> --target <target> --locale <locale> <destination>
-4. Do not regenerate the template from memory or silently substitute a mobile-chat workflow.
-5. If the CLI cannot run, read `templates/<template>/locales/<locale>/`, shared `targets/<target>/files/`, and `targets/<target>/locales/<locale>/files/` from the repository before manually composing equivalent output.
-6. After initialization, show the file tree, explain what was created, and tell me the first step.
+Repository source: https://github.com/reco-dev/recowork
 ```
+
+For a web or mobile chat, initialize `chat-mobile` with the CLI from another machine or copy the chat target materials from the repository. Do not ask a pure chat environment to install Node.js or create local files.

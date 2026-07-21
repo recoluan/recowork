@@ -1,0 +1,8 @@
+id: chat-mobile
+version: 1.0.0
+name: Chat / Mobile
+type: chat
+description: Generates a lightweight start instruction, task protocol, and continuation or migration summary for any chat or mobile AI app.
+aliases:
+  - chat
+  - mobile
