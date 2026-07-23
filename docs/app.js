@@ -29,6 +29,8 @@ const translations = {
     visualOutMemory: "续接摘要",
     copyCommand: "复制",
     configTemplateLabel: "模板或规范",
+    configTemplateWorkflowLabel: "工作流模板",
+    configTemplateStandardLabel: "设计规范",
     configTargetLabel: "使用位置",
     configLocaleLabel: "输出语言",
     configTemplateGeneral: "日常任务协作",
@@ -152,6 +154,8 @@ npx recowork add project-engineering --target local-agent-project --locale zh .
     visualOutMemory: "Continuation summaries",
     copyCommand: "Copy",
     configTemplateLabel: "Template or standard",
+    configTemplateWorkflowLabel: "Workflow templates",
+    configTemplateStandardLabel: "Design standards",
     configTargetLabel: "Usage target",
     configLocaleLabel: "Output language",
     configTemplateGeneral: "Daily task workflow",
@@ -451,6 +455,7 @@ rw-manifest.json`,
 let currentLanguage = "zh";
 let currentTemplate = "project";
 let currentInitMethod = "ai";
+let currentGeneratorTemplateCategory = "workflow";
 const generatorConfig = {
   template: "project-engineering",
   target: "local-agent-project",
@@ -463,6 +468,11 @@ const templateAliases = {
   "learning-engineering": "learning",
   "idea-engineering": "idea",
   "web-design-standard": "web-design",
+};
+
+const generatorTemplateCategories = {
+  workflow: ["general-ai-workflow", "project-engineering", "learning-engineering", "idea-engineering"],
+  standard: ["web-design-standard"],
 };
 
 const chatTargets = new Set(["chat-mobile"]);
@@ -613,6 +623,34 @@ npx recowork upgrade --apply --scope workspace --add-missing .`;
 function getGeneratorCommand(binary) {
   const template = templateAliases[generatorConfig.template];
   return `${binary} add ${template} --target ${generatorConfig.target} --locale ${generatorConfig.locale} .`;
+}
+
+function getGeneratorTemplateCategory(template) {
+  return Object.entries(generatorTemplateCategories).find(([, templates]) => templates.includes(template))?.[0] || "workflow";
+}
+
+function syncGeneratorTemplateCategory() {
+  const category = getGeneratorTemplateCategory(generatorConfig.template);
+  currentGeneratorTemplateCategory = category;
+
+  document.querySelectorAll(".config-template-category").forEach((button) => {
+    const isActive = button.dataset.generatorTemplateCategory === category;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
+  });
+
+  document.querySelectorAll("#configTemplate option").forEach((option) => {
+    const isVisible = option.dataset.templateCategory === category;
+    option.hidden = !isVisible;
+    option.disabled = !isVisible;
+  });
+
+  const label = document.querySelector("#configTemplateLabel");
+  if (label) {
+    label.textContent = translations[currentLanguage][category === "workflow"
+      ? "configTemplateWorkflowLabel"
+      : "configTemplateStandardLabel"];
+  }
 }
 
 function getGeneratorPrompt() {
@@ -804,6 +842,7 @@ ${selectedCommand}`;
   }
 
   document.querySelector("#configTemplate").value = generatorConfig.template;
+  syncGeneratorTemplateCategory();
   document.querySelectorAll(".config-locale").forEach((button) => {
     const isActive = button.dataset.locale === generatorConfig.locale;
     button.classList.toggle("active", isActive);
@@ -943,6 +982,18 @@ document.querySelectorAll(".template-category-tab").forEach((button) => {
 document.querySelector("#configTemplate")?.addEventListener("change", (event) => {
   generatorConfig.template = event.target.value;
   renderGeneratorOutputs();
+});
+
+document.querySelectorAll(".config-template-category").forEach((button) => {
+  button.addEventListener("click", () => {
+    const category = button.dataset.generatorTemplateCategory;
+    if (currentGeneratorTemplateCategory === category) {
+      return;
+    }
+    currentGeneratorTemplateCategory = category;
+    generatorConfig.template = generatorTemplateCategories[category][0];
+    renderGeneratorOutputs();
+  });
 });
 
 document.querySelectorAll(".target-option").forEach((button) => {

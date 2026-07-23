@@ -12,7 +12,9 @@ All notable changes to RecoWork are documented here. This project follows [Keep 
 
 - Local initialization now safely integrates a marker-bounded RecoWork block into an existing root `AGENTS.md`; upgrades preserve a user-modified or removed managed block.
 - Workflow role contracts now require objective assessment of risks, contradictions, weak assumptions, and credible alternatives instead of reflexive agreement.
-- The documentation site separates workflow templates from design standards so each capability is easier to find.
+- The documentation site separates workflow templates from design standards in both the catalog and initialization flow, and the release summary now names each pending capability.
+- The documentation site now trials remotely loaded Noto Sans SC and JetBrains Mono to unify Chinese, English, and code typography before any font assets are self-hosted.
+- Large site headings now use balanced wrapping and the full section width, avoiding arbitrary phrase splits after the typography update.
 
 ### Compatibility
 

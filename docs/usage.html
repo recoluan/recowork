@@ -181,14 +181,18 @@ npx recowork upgrade --apply --scope workspace --add-missing .</pre>
         </div>
         <div class="init-workbench">
         <div class="workflow-config" aria-label="Workflow generator configuration">
-          <label class="config-field" for="configTemplate">
-            <span data-i18n="configTemplateLabel">工作流</span>
+          <label class="config-field config-template-field" for="configTemplate">
+            <span id="configTemplateLabel" data-i18n="configTemplateWorkflowLabel">工作流模板</span>
+            <div class="config-template-categories" role="tablist" aria-label="Template categories">
+              <button class="config-template-category active" type="button" role="tab" aria-selected="true" data-generator-template-category="workflow" data-i18n="configTemplateWorkflowLabel">工作流模板</button>
+              <button class="config-template-category" type="button" role="tab" aria-selected="false" data-generator-template-category="standard" data-i18n="configTemplateStandardLabel">设计规范</button>
+            </div>
             <select id="configTemplate">
-              <option value="general-ai-workflow" data-i18n="configTemplateGeneral">日常任务协作</option>
-              <option value="project-engineering" selected data-i18n="configTemplateProject">项目工程化</option>
-              <option value="learning-engineering" data-i18n="configTemplateLearning">系统学习</option>
-              <option value="idea-engineering" data-i18n="configTemplateIdea">想法探索与验证</option>
-              <option value="web-design-standard" data-i18n="configTemplateWebDesign">网页设计规范</option>
+              <option value="general-ai-workflow" data-template-category="workflow" data-i18n="configTemplateGeneral">日常任务协作</option>
+              <option value="project-engineering" data-template-category="workflow" selected data-i18n="configTemplateProject">项目工程化</option>
+              <option value="learning-engineering" data-template-category="workflow" data-i18n="configTemplateLearning">系统学习</option>
+              <option value="idea-engineering" data-template-category="workflow" data-i18n="configTemplateIdea">想法探索与验证</option>
+              <option value="web-design-standard" data-template-category="standard" data-i18n="configTemplateWebDesign">网页设计规范</option>
             </select>
           </label>
           <div class="config-field config-target-field">
