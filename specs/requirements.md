@@ -42,8 +42,20 @@ The first templates are:
 - `project-engineering`: project-level AI workflow with rules, canonical workspace records, and quality gates.
 - `learning-engineering`: structured learning workflow with learner diagnosis, a roadmap, lessons, practice, projects, feedback, and durable learning records.
 - `idea-engineering`: idea exploration workflow with divergence, direction synthesis, hypotheses, validation, and a confirmed next step.
+- `web-design-standard`: reusable default design guidance for AI-generated or improved HTML and web pages, covering visual consistency, responsive behavior, component states, and accessibility self-review.
 
 Template content quality is intentionally deferred. The architecture should support better, more differentiated templates later.
+
+### Web Design Standard Template
+
+`web-design-standard` validates a single reusable product-web design standard before any generic composition or pack mechanism is introduced.
+
+- Its default direction is restrained, modern, and trustworthy for SaaS, tool products, solo or small-team product sites, and lightweight operations dashboards.
+- It is not the default for expressive brand sites, games, complex commerce, or projects with strict existing brand systems. Existing user brand, design-system, and explicit visual requirements always take precedence.
+- It must cover scope and use, goals and prohibitions, color/type/spacing/container/radius/border/shadow tokens, desktop and mobile strategy, hierarchy, navigation/buttons/forms/cards/lists-tables/empty-feedback states, AI implementation instructions, and a post-implementation checklist.
+- For `local-agent-project`, it produces exactly one localized design-standard document in addition to target-owned `AGENTS.md` and `rw-manifest.json`: `网页设计规范.md` for `zh`, `web-design-standard.md` for `en`. It must not create a design-system directory, workspace, methods, or multiple standard documents.
+- For `chat-mobile`, it produces the standard three chat materials only. The start instruction must stand alone and include role, input fields, default direction, tokens, responsive and component rules, prohibitions, output expectations, self-checking, brand priority, and a continuation-summary format. It covers desktop and mobile webpages; it does not request local files or tools.
+- This first version must not add template composition, a `packs` CLI option, user-selectable visual styles, image generation, model APIs, or background execution.
 
 ## Targets and Platform Usage
 

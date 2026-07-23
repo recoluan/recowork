@@ -24,6 +24,8 @@ This is the product core.
 - Never generates platform-specific `.claude/`, `.cursor/`, `CLAUDE.md`, skills, or brand rules.
 - Durable knowledge belongs in canonical documents inside the template workspace, not in a separate `knowledge/` or `知识库/` directory. Agents update the affected `index.md` when consolidating verified conclusions.
 
+The `web-design-standard` template is a deliberate single-file exception: apart from target-owned `AGENTS.md` and `rw-manifest.json`, it generates only `网页设计规范.md` (`zh`) or `web-design-standard.md` (`en`). It does not create a workspace, methods directory, README, or design-system folder. Its rendered `AGENTS.md` requires agents to read the standard before web work, defer to existing brand guidance, complete responsive/state/accessibility checks, and report the checklist result.
+
 ### `chat-mobile`
 
 This is an intentionally limited conversation workflow, not a local-project substitute.
@@ -33,6 +35,8 @@ This is an intentionally limited conversation workflow, not a local-project subs
 - Must state that continuity is manual: users save the summary and paste it into the next conversation.
 - Must include a migration package with project brief, current decisions, open questions, and next step.
 - When work becomes complex, long-running, collaborative, knowledge-heavy, or auditable, it guides the user to initialize `local-agent-project` in a command-capable local agent.
+
+For `web-design-standard`, the start instruction is a complete standalone web-design prompt. It includes task input fields, the default product-web direction and tokens, desktop and mobile rules, component rules, prohibitions, delivery expectations, self-checking, brand-priority handling, and a manual continuation-summary format. It never asks a chat user to create local files.
 
 ## Filesystem Layout
 

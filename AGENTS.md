@@ -55,6 +55,7 @@ Template structure changes must also update the generated template files, CLI cl
 - Initialization must distinguish command-capable local agents from pure chat/mobile environments. Local agents should check Node.js and npm, then request confirmation before installing the latest stable Node.js when needed; pure chat/mobile flows must use direct chat bootstrap prompts and must not request local file creation.
 - Chat continuity is manual: the user saves and pastes the continuation summary into the next conversation. Every chat target must include a migration package with project brief, current decisions, open questions, and next step for a local executable agent.
 - `local-agent-project` is tool-neutral and generates `AGENTS.md` as the sole cross-tool instruction entry point. Do not generate platform-specific skills, rules folders, or configuration files.
+- `web-design-standard` is intentionally a single-file local standard: besides `AGENTS.md` and `rw-manifest.json`, generate exactly one localized design-standard document (`网页设计规范.md` or `web-design-standard.md`). Do not add a workspace, working-method directory, README, or design-system folder for this template.
 - For `project-engineering`, keep the generated `工作空间/` concise and user-facing:
   - `工作方法/角色设定.md`
   - `项目简报.md`
@@ -89,6 +90,10 @@ node cli/recowork/bin/rw.js add general --target chat-mobile --locale zh /privat
 node cli/recowork/bin/rw.js add general --target chat-mobile --locale en /private/tmp/recowork-general-en-test
 node cli/recowork/bin/rw.js add learning --target chat-mobile --locale zh /private/tmp/recowork-learning-zh-test
 node cli/recowork/bin/rw.js add learning --target chat-mobile --locale en /private/tmp/recowork-learning-en-test
+node cli/recowork/bin/rw.js add web-design-standard --target local-agent-project --locale zh /private/tmp/recowork-web-design-zh
+node cli/recowork/bin/rw.js add web-design-standard --target local-agent-project --locale en /private/tmp/recowork-web-design-en
+node cli/recowork/bin/rw.js add web-design-standard --target chat-mobile --locale zh /private/tmp/recowork-web-design-chat-zh
+node cli/recowork/bin/rw.js add web-design-standard --target chat-mobile --locale en /private/tmp/recowork-web-design-chat-en
 ```
 
 For initialization tests, use `/private/tmp/...` or another temporary directory outside the repository root.

@@ -35,6 +35,7 @@ const translations = {
     configTemplateProject: "项目工程化",
     configTemplateLearning: "系统学习",
     configTemplateIdea: "想法探索与验证",
+    configTemplateWebDesign: "网页设计规范",
     configEnvironmentLabel: "运行环境",
     environmentAgent: "本地智能体",
     environmentChat: "纯聊天 / 手机端",
@@ -53,8 +54,8 @@ rw add project --target local-agent-project --locale zh .`,
     stripTwoText: "同时拿到使用步骤、检查清单、记忆卡和项目模板。",
     stripThreeTitle: "换工具也能继续用",
     stripThreeText: "同一套方法可在聊天入口与本地工作空间之间迁移。",
-    packsEyebrow: "首批工作流模板",
-    packsTitle: "先从三个可复用的 AI 工作模板开始。",
+    packsEyebrow: "内置工作流模板",
+    packsTitle: "从五类可复用的 AI 工作模板开始。",
     essenceEyebrow: "模板精髓",
     essenceTitle: "模板交付的是一套工作系统，不是一段 prompt。",
     templateGeneral: "日常 AI 使用",
@@ -157,6 +158,7 @@ npx recowork add project-engineering --target local-agent-project --locale zh .
     configTemplateProject: "Project engineering",
     configTemplateLearning: "Structured learning",
     configTemplateIdea: "Idea exploration",
+    configTemplateWebDesign: "Web design standard",
     configEnvironmentLabel: "Runtime capability",
     environmentAgent: "Local agent",
     environmentChat: "Chat / mobile",
@@ -175,8 +177,8 @@ rw add project --target local-agent-project --locale en .`,
     stripTwoText: "Get steps, checklists, memory cards, and project templates together.",
     stripThreeTitle: "Keep using it when tools change",
     stripThreeText: "Move the same method between a chat entry point and a local workspace.",
-    packsEyebrow: "Starter workflow templates",
-    packsTitle: "Start with three reusable AI work templates.",
+    packsEyebrow: "Built-in workflow templates",
+    packsTitle: "Start with five reusable AI work templates.",
     essenceEyebrow: "Template essence",
     essenceTitle: "A template gives AI a working system, not one prompt.",
     templateGeneral: "Daily AI work",
@@ -335,6 +337,15 @@ const templateStructures = {
   04-假设与验证/
   05-决策与下一步/`,
     },
+    webDesign: {
+      eyebrow: "网页设计规范",
+      title: "让 AI 交付可用网页，而不只是好看的静态截图。",
+      description: "一份可跨项目复用的产品型网页规范：先处理层级与任务，再约束 token、桌面与移动端、组件状态和可访问性。已有品牌规范优先。",
+      outcomes: ["一份可复用的网页设计规范", "PC / 移动端响应式策略", "组件状态与可访问性自检清单"],
+      tree: `AGENTS.md
+网页设计规范.md
+rw-manifest.json`,
+    },
   },
   en: {
     general: {
@@ -425,6 +436,15 @@ idea-space/
   04-hypotheses-and-validation/
   05-decisions-and-next-steps/`,
     },
+    webDesign: {
+      eyebrow: "Web design standard",
+      title: "Make AI deliver usable web pages, not only attractive screenshots.",
+      description: "A reusable product-web standard that establishes hierarchy and tasks before constraining tokens, desktop and mobile behavior, component states, and accessibility. Existing brand guidance wins.",
+      outcomes: ["One reusable web design standard", "Desktop and mobile responsive strategy", "Component-state and accessibility checklist"],
+      tree: `AGENTS.md
+web-design-standard.md
+rw-manifest.json`,
+    },
   },
 };
 
@@ -442,6 +462,7 @@ const templateAliases = {
   "project-engineering": "project",
   "learning-engineering": "learning",
   "idea-engineering": "idea",
+  "web-design-standard": "web-design",
 };
 
 const chatTargets = new Set(["chat-mobile"]);
@@ -464,6 +485,10 @@ const chatBootstrapDetails = {
       role: "严谨的想法探索引导者、产品策略顾问和验证教练",
       focus: "先澄清问题、用户、约束和成功信号；充分发散多个方向；用事实、假设和验证收敛。",
     },
+    "web-design-standard": {
+      role: "资深产品网页设计师和前端实现评审者",
+      focus: "优先遵循已有品牌规范；同时完成信息层级、桌面与移动端、真实组件状态和可访问性检查。",
+    },
   },
   en: {
     "general-ai-workflow": {
@@ -481,6 +506,10 @@ const chatBootstrapDetails = {
     "idea-engineering": {
       role: "a rigorous idea exploration facilitator, product strategy advisor, and validation coach",
       focus: "Clarify the question, user, constraints, and success signals; explore multiple directions; converge through facts, assumptions, and validation.",
+    },
+    "web-design-standard": {
+      role: "a senior product web designer and front-end implementation reviewer",
+      focus: "Prioritize existing brand guidance while checking hierarchy, desktop and mobile behavior, real component states, and accessibility.",
     },
   },
 };
@@ -591,6 +620,58 @@ function getGeneratorPrompt() {
   const promptLocale = generatorConfig.locale;
 
   if (chatTargets.has(generatorConfig.target)) {
+    if (generatorConfig.template === "web-design-standard") {
+      if (promptLocale === "en") {
+        return `You are a senior product web designer and front-end implementation reviewer. Design or improve a web page from this input:
+
+This is a pure chat environment without a terminal or local file system. Do not ask me to install Node.js, run commands, clone repositories, or create local project files.
+
+- Product or page: [describe]
+- Audience and primary task: [describe]
+- Required content and actions: [describe]
+- Existing brand, design system, or reference: [describe or write none]
+- Technical constraints: [describe]
+
+Existing brand guidance, component libraries, and explicit visual requirements override this default. State material conflicts and ask only necessary clarification questions.
+
+Default direction: restrained, modern, trustworthy product web for SaaS, tools, small product sites, and lightweight operational dashboards. Put content and hierarchy first; use purposeful whitespace, low decoration, limited accents, real component states, and accessibility.
+
+Tokens: page #FFFFFF, surface #F8FAFC, text #0F172A, muted #475569, border #E2E8F0, primary #2563EB, primary hover #1D4ED8. Use Inter/system sans, 16px/1.5 body text, a 4/8/12/16/24/32/48/64px spacing scale, max 1200px container, 6px controls, and 8px cards/dialogs.
+
+Cover desktop and mobile: below 768px prefer one column, collapse constrained layouts, make mobile navigation closable, and do not rely on hover-only information. Implement semantic HTML and real navigation, button, form, card, list/table, empty, loading, success, error, disabled, hover, and focus states where relevant.
+
+Do not use broad gradients, purposeless glassmorphism, excessive rounding, nested cards, marketing buzzwords, fake metrics, desktop-only layouts, or screenshot-only UI.
+
+First provide a concise plan for hierarchy, responsive behavior, states, and validation. Before delivery, report brand handling, desktop/mobile checks, interaction states, keyboard/focus/semantic/contrast/alt-text checks, and available build/test/visual verification.
+
+End meaningful work with: current page goal, confirmed visual decisions, implemented work and verification, open questions or risks, and next step. I must save and paste that summary into the next chat; it is not persisted automatically. When the work becomes complex, long-running, collaborative, knowledge-heavy, or auditable, prepare a migration package with a project brief, current decisions, open questions, and next step for a command-capable local agent.`;
+      }
+
+      return `你是一名资深产品网页设计师和前端实现评审者。请根据下面输入设计或改造网页：
+
+当前是纯聊天环境，没有终端和本地文件系统。不要要求我安装 Node.js、执行命令、克隆仓库或创建本地项目文件。
+
+- 产品或页面：［填写］
+- 目标用户与主任务：［填写］
+- 必要内容与操作：［填写］
+- 既有品牌、设计系统或参考：［填写；没有则写无］
+- 技术约束：［填写］
+
+用户已有品牌规范、组件库和明确视觉要求优先于本默认规范。存在实质冲突时应说明，并只提出必要的澄清问题。
+
+默认采用克制、现代、可信赖的产品型网页风格，适用于 SaaS、工具型产品、个人或小团队官网与轻量运营后台：内容与层级优先、留白克制、低装饰、有限强调色、真实组件状态、可访问性优先。
+
+Token：页面 #FFFFFF，次级背景 #F8FAFC，主文字 #0F172A，次级文字 #475569，边框 #E2E8F0，主色 #2563EB，悬停 #1D4ED8。使用 Inter/系统无衬线字体，正文 16px/1.5，间距 4/8/12/16/24/32/48/64px，容器最大 1200px，控件圆角 6px，卡片/弹层 8px。
+
+同时覆盖桌面与移动端：768px 以下优先单列，空间不足时收起并列布局，移动导航必须可关闭，不要依赖仅悬停可见的信息。使用语义化 HTML，并在需要时实现真实的导航、按钮、表单、卡片、列表/表格、空、加载、成功、错误、禁用、悬停和焦点状态。
+
+不要使用大面积渐变、无意义玻璃拟态、过度圆角、卡片嵌卡片、营销词堆砌、虚假指标、仅桌面可用布局或只适合截图的静态界面。
+
+先给出信息层级、响应式处理、组件状态和验证方式的简短计划。交付前报告品牌优先级处理、桌面/移动端、交互状态、键盘/焦点/语义/对比度/替代文本，以及可执行的构建、测试或视觉验证。
+
+每次重要工作结束时附上：当前页面目标、已确认视觉决策、已实现内容与验证结果、待确认问题或风险、下一步。该摘要需要由我保存并粘贴到下一轮对话，系统不会自动持久化。当任务变复杂、需要长期推进、多人协作、知识沉淀或可审计过程时，生成包含项目简报、当前决策、未决问题和下一步的迁移包，供我粘贴到具备命令执行能力的本地 Agent。`;
+    }
+
     const details = chatBootstrapDetails[promptLocale][generatorConfig.template];
     if (promptLocale === "en") {
       return `You are ${details.role}. This is a pure chat environment without a terminal or local file system.

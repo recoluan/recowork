@@ -1,6 +1,6 @@
 # RecoWork
 
-RecoWork 将可重复的 AI 使用方式沉淀为可复用、可持续的工程化工作流。它提供日常任务、想法探索、学习和项目四类模板，内置确认、自审、产物保鲜与从对话迁移到本地工作的机制。
+RecoWork 将可重复的 AI 使用方式沉淀为可复用、可持续的工程化工作流。它提供日常任务、想法探索、学习、项目和网页设计规范五类模板，内置确认、自审、产物保鲜与从对话迁移到本地工作的机制。
 
 English: [README.md](./README.md) | 网站：[RecoWork](https://recowork.recoluan.com)
 
@@ -23,6 +23,7 @@ English: [README.md](./README.md) | 网站：[RecoWork](https://recowork.recolua
 | `idea-engineering`（`idea`） | 脑暴、方向归纳、假设验证和确认下一步。 |
 | `learning-engineering`（`learning`） | 学习诊断、路线、章节、练习与复盘。 |
 | `project-engineering`（`project`） | 有工作方法、文档规范、工作空间记录与质量门禁的 AI 辅助项目。 |
+| `web-design-standard`（`web-design`） | 为 AI 生成或改造 HTML / Web 页面提供克制的产品型设计规范。 |
 
 ## 用 CLI 初始化
 
@@ -30,6 +31,7 @@ English: [README.md](./README.md) | 网站：[RecoWork](https://recowork.recolua
 npx recowork add project --target local-agent-project --locale zh .
 npx recowork add learning --target local-agent-project --locale zh ./langchain-study
 npx recowork add idea --target chat-mobile --locale zh ./idea-chat-kit
+npx recowork add web-design --target local-agent-project --locale zh ./product-site
 ```
 
 安装后的命令是 `rw`。使用 `rw list` 和 `rw targets` 查看模板与使用环境。

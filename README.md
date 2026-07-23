@@ -1,6 +1,6 @@
 # RecoWork
 
-RecoWork turns repeatable AI work into reusable, engineered workflows. It provides templates for daily tasks, idea exploration, learning, and projects, with explicit confirmation, self-review, fresh records, and a clean handoff between chat and local work.
+RecoWork turns repeatable AI work into reusable, engineered workflows. It provides templates for daily tasks, idea exploration, learning, projects, and web design standards, with explicit confirmation, self-review, fresh records, and a clean handoff between chat and local work.
 
 中文说明：[README.zh.md](./README.zh.md) | Website: [RecoWork](https://recowork.recoluan.com)
 
@@ -23,6 +23,7 @@ Chat continuity is manual. Save the summary and paste it into the next conversat
 | `idea-engineering` (`idea`) | Brainstorming, direction synthesis, hypothesis validation, and a confirmed next step. |
 | `learning-engineering` (`learning`) | Learning diagnosis, roadmap, lessons, practice, and retrospectives. |
 | `project-engineering` (`project`) | AI-assisted projects with working methods, document standards, workspace records, and quality gates. |
+| `web-design-standard` (`web-design`) | A reusable restrained product-web standard for AI-generated or improved HTML and web pages. |
 
 ## Initialize With CLI
 
@@ -30,6 +31,7 @@ Chat continuity is manual. Save the summary and paste it into the next conversat
 npx recowork add project --target local-agent-project --locale en .
 npx recowork add learning --target local-agent-project --locale zh ./langchain-study
 npx recowork add idea --target chat-mobile --locale en ./idea-chat-kit
+npx recowork add web-design --target local-agent-project --locale en ./product-site
 ```
 
 `rw` is the installed command. Run `rw list` and `rw targets` to inspect available templates and environments.

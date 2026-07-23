@@ -365,3 +365,20 @@ Implication:
 - Durable conclusions are consolidated into canonical workspace documents and their indexes, never into a separate `knowledge/` or `知识库/` directory.
 - Legacy brand target names remain CLI aliases for compatibility, but no longer select brand-specific output. Existing user workspaces are preserved untouched.
 - Decisions 003 and 005 are superseded where they prescribe brand-specific targets or Claude-native skills.
+
+## 021. Validate Web Design Guidance As A Standalone Template
+
+Decision: introduce `web-design-standard` as a standalone template before adding generic work-pack composition.
+
+Reason:
+
+- Web design guidance is likely to be reused across projects, but real reuse must be validated before introducing template composition, `packs` CLI options, or user-selectable style systems.
+- A single product-web default is enough to validate whether users value reusable visual tokens, responsive rules, component-state requirements, and self-checking.
+- A durable project workspace would add noise for a reusable design standard whose job is to constrain page work, not manage a project.
+
+Implication:
+
+- The local target produces target-owned `AGENTS.md`, `rw-manifest.json`, and exactly one localized standard: `网页设计规范.md` or `web-design-standard.md`.
+- The Chat target remains a lightweight three-document delivery. Its start instruction is a complete standalone prompt that covers both desktop and mobile web work and never requests local files or tools.
+- Existing brand guidance and explicit user visual requirements override the default standard.
+- Do not add composition, a `packs` CLI option, multiple style choices, image generation, model APIs, or background execution in this iteration.
