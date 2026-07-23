@@ -174,7 +174,22 @@ button {
 
 .page-hero h1 {
   max-width: 900px;
-  font-size: clamp(40px, 6vw, 76px);
+  font-size: clamp(40px, 5vw, 64px);
+}
+
+.cases-hero .localized-title {
+  font-size: clamp(42px, 5.5vw, 52px);
+}
+
+.philosophy-hero .localized-title {
+  font-size: clamp(42px, 5.4vw, 50px);
+}
+
+@media (min-width: 641px) {
+  .cases-hero .title-line,
+  .philosophy-hero .title-line {
+    white-space: nowrap;
+  }
 }
 
 .page-hero .hero-text {
@@ -229,7 +244,7 @@ button {
 }
 
 .home-intro-copy h2 {
-  font-size: clamp(32px, 4.4vw, 56px);
+  font-size: clamp(30px, 4vw, 50px);
 }
 
 .home-intro-copy p:not(.eyebrow) {
@@ -294,6 +309,17 @@ button {
   padding-bottom: 58px;
 }
 
+.product-hero .localized-title {
+  max-width: 640px;
+  font-size: clamp(46px, 4vw, 54px);
+  line-height: 1.06;
+  text-wrap: nowrap;
+}
+
+.product-hero .title-line {
+  white-space: nowrap;
+}
+
 .eyebrow {
   margin: 0 0 16px;
   color: var(--violet);
@@ -313,7 +339,7 @@ p {
 h1 {
   max-width: 820px;
   margin-bottom: 22px;
-  font-size: clamp(42px, 6.8vw, 86px);
+  font-size: clamp(42px, 5.2vw, 68px);
   line-height: 0.95;
   letter-spacing: 0;
   text-wrap: balance;
@@ -322,14 +348,14 @@ h1 {
 h2 {
   max-width: 820px;
   margin-bottom: 0;
-  font-size: clamp(32px, 4.8vw, 58px);
+  font-size: clamp(30px, 4vw, 50px);
   line-height: 1;
   letter-spacing: 0;
   text-wrap: balance;
 }
 
 h3 {
-  font-size: 22px;
+  font-size: 20px;
   line-height: 1.2;
 }
 
@@ -719,7 +745,7 @@ html[lang="en"] .title-en {
 
 .comparison-card h3 {
   max-width: 560px;
-  font-size: clamp(24px, 3.2vw, 38px);
+  font-size: clamp(23px, 3vw, 34px);
 }
 
 .comparison-card ul {
@@ -946,7 +972,7 @@ html[lang="en"] .title-en {
 
 .pack-card h3 {
   margin-bottom: 12px;
-  font-size: 27px;
+  font-size: 25px;
 }
 
 .pack-card ul {
@@ -1001,7 +1027,7 @@ html[lang="en"] .title-en {
 
 .template-essence-copy h3 {
   margin-bottom: 12px;
-  font-size: 27px;
+  font-size: 25px;
 }
 
 .template-essence-copy p {
@@ -1886,7 +1912,7 @@ pre {
 
 .release-card-heading h2 {
   margin: 7px 0 0;
-  font-size: 42px;
+  font-size: 38px;
   line-height: 1;
 }
 
@@ -2091,6 +2117,21 @@ pre {
     line-height: 1;
   }
 
+  .product-hero .localized-title {
+    font-size: clamp(38px, 12vw, 50px);
+    line-height: 1.04;
+    text-wrap: balance;
+  }
+
+  .product-hero .title-line {
+    white-space: normal;
+  }
+
+  .cases-hero .localized-title,
+  .philosophy-hero .localized-title {
+    font-size: clamp(38px, 12vw, 50px);
+  }
+
   h2 {
     font-size: clamp(28px, 10vw, 40px);
     line-height: 1.05;
@@ -2199,7 +2240,7 @@ pre {
   }
 
   .release-card-heading h2 {
-    font-size: 34px;
+    font-size: 32px;
   }
 
   .target-select-menu {
