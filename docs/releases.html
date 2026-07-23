@@ -41,7 +41,10 @@
     <main>
       <section class="page-hero release-hero">
         <p class="eyebrow" data-zh="发布记录" data-en="Release notes">发布记录</p>
-        <h1 data-zh="每次版本变化，都能找到原因和影响。" data-en="Every version explains its reason and impact.">每次版本变化，都能找到原因和影响。</h1>
+        <h1 class="localized-title">
+          <span class="title-copy title-zh"><span class="title-line">每次版本变化，</span><span class="title-line">都能找到<span class="title-accent title-accent-orange">原因</span>和<span class="title-accent title-accent-violet">影响</span>。</span></span>
+          <span class="title-copy title-en"><span class="title-line">Every release tells you</span><span class="title-line">its <span class="title-accent title-accent-orange">reason</span> and <span class="title-accent title-accent-violet">impact</span>.</span></span>
+        </h1>
         <p class="hero-text" data-zh="这里同步 npm 发布版本、兼容性说明和未发布变更。详细 Markdown 记录保存在仓库的 CHANGELOG.md 与 CHANGELOG.zh.md。" data-en="This page tracks published npm versions, compatibility notes, and unreleased changes. The full Markdown sources live in CHANGELOG.md and CHANGELOG.zh.md.">这里同步 npm 发布版本、兼容性说明和未发布变更。详细 Markdown 记录保存在仓库的 CHANGELOG.md 与 CHANGELOG.zh.md。</p>
         <div class="page-actions">
           <a class="page-link primary" href="https://github.com/recoluan/recowork/blob/main/CHANGELOG.zh.md" target="_blank" rel="noreferrer" data-zh="查看中文更新日志" data-en="View Chinese changelog">查看中文更新日志</a>
@@ -85,7 +88,7 @@
                 <li data-zh="工作流要求 AI 客观指出风险与替代方案，站点也将工作流模板和设计规范分开展示。" data-en="Workflows now require AI to state risks and alternatives objectively, and the site separates workflow templates from design standards.">工作流要求 AI 客观指出风险与替代方案，站点也将工作流模板和设计规范分开展示。</li>
                 <li data-zh="下线日常任务协作模板；新初始化请选想法、项目或学习工作流。已有 general 工作流不被改写，运行 rw status 或 rw upgrade 会得到只读迁移指引。" data-en="Retired the daily task workflow; choose idea, project, or learning for new initialization. Existing general workflows are not changed, and rw status or rw upgrade provides read-only migration guidance.">下线日常任务协作模板；新初始化请选想法、项目或学习工作流。已有 general 工作流不被改写，运行 rw status 或 rw upgrade 会得到只读迁移指引。</li>
                 <li data-zh="站点试用在线加载的 Noto Sans SC 与 JetBrains Mono，统一中英文与代码字体；暂不写入本地字体资产。" data-en="The site now trials remotely loaded Noto Sans SC and JetBrains Mono to unify Chinese, English, and code typography without adding local font assets.">站点试用在线加载的 Noto Sans SC 与 JetBrains Mono，统一中英文与代码字体；暂不写入本地字体资产。</li>
-                <li data-zh="站点大标题改用平衡换行并使用完整区块宽度，避免字体调整后出现生硬的词组截断。" data-en="Large headings now use balanced wrapping and the full section width to avoid awkward phrase splits after the typography update.">站点大标题改用平衡换行并使用完整区块宽度，避免字体调整后出现生硬的词组截断。</li>
+                <li data-zh="站点首屏大标题改为中英文分别按语义换行并高亮关键词，避免字体调整后出现生硬的词组截断。" data-en="Top-level site headings now use semantic line breaks and highlighted keywords in Chinese and English, avoiding arbitrary phrase splits after the typography update.">站点首屏大标题改为中英文分别按语义换行并高亮关键词，避免字体调整后出现生硬的词组截断。</li>
               </ul>
             </div>
             <div>

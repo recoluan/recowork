@@ -333,6 +333,39 @@ h3 {
   line-height: 1.2;
 }
 
+.title-copy {
+  display: none;
+}
+
+html[lang="zh-CN"] .title-zh,
+html[lang="en"] .title-en {
+  display: block;
+}
+
+.title-line {
+  display: block;
+}
+
+.title-accent {
+  display: inline-block;
+}
+
+.title-accent-orange {
+  color: var(--orange);
+}
+
+.title-accent-violet {
+  color: var(--violet);
+}
+
+.title-accent-blue {
+  color: var(--blue);
+}
+
+.title-accent-pink {
+  color: var(--pink);
+}
+
 .hero-text {
   max-width: 680px;
   color: var(--muted);

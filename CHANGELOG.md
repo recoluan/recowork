@@ -15,7 +15,7 @@ All notable changes to RecoWork are documented here. This project follows [Keep 
 - Workflow role contracts now require objective assessment of risks, contradictions, weak assumptions, and credible alternatives instead of reflexive agreement.
 - The documentation site separates workflow templates from design standards in both the catalog and initialization flow, and the release summary now names each pending capability.
 - The documentation site now trials remotely loaded Noto Sans SC and JetBrains Mono to unify Chinese, English, and code typography before any font assets are self-hosted.
-- Large site headings now use balanced wrapping and the full section width, avoiding arbitrary phrase splits after the typography update.
+- Top-level site headings now use semantic line breaks and highlighted keywords in Chinese and English, avoiding arbitrary phrase splits after the typography update.
 
 ### Compatibility
 
