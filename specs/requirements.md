@@ -149,6 +149,7 @@ npx recowork add <template> --target <target> --locale <locale> <destination>
 - Publishing requires npm authentication that supports package publish, including 2FA or a granular access token with publish permission when required by npm.
 - Every published version must move completed items from `Unreleased` into a dated version section in both `CHANGELOG.md` and `CHANGELOG.zh.md`.
 - Every published version must also have a matching Chinese and English entry on the GitHub Pages release record at `docs/releases.html`.
+- Before committing a completed user-facing, template, target, CLI, or website change that remains unreleased, add its concise bilingual summary to `CHANGELOG.md`, `CHANGELOG.zh.md`, and the Unreleased section of `docs/releases.html`; the three sources must stay aligned until publication.
 
 ## Project Workflow Requirements
 

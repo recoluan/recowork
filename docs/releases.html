@@ -58,11 +58,35 @@
         <div class="release-summary-card next-release">
           <span data-zh="下一版本" data-en="Next release">下一版本</span>
           <strong data-zh="开发中" data-en="In development">开发中</strong>
-          <p data-zh="当前没有待发布变更。" data-en="No changes are currently queued for release.">当前没有待发布变更。</p>
+          <p data-zh="已记录 3 项待发布能力与体验改进。" data-en="Three pending capability and experience improvements are recorded.">已记录 3 项待发布能力与体验改进。</p>
         </div>
       </section>
 
       <section class="section release-list" aria-label="Release history">
+        <article class="release-card release-card-unreleased">
+          <div class="release-card-heading">
+            <div>
+              <span class="release-kicker" data-zh="下一版本" data-en="Next release">下一版本</span>
+              <h2 data-zh="未发布" data-en="Unreleased">未发布</h2>
+            </div>
+            <span class="release-badge badge-pink" data-zh="开发中" data-en="In development">开发中</span>
+          </div>
+          <div class="release-columns">
+            <div>
+              <h3 data-zh="新增与变更" data-en="Added and changed">新增与变更</h3>
+              <ul>
+                <li data-zh="新增网页设计规范模板：本地 Agent 生成一份可复用规范，聊天 / 手机端提供可独立复制的响应式网页大 Prompt。" data-en="Added a web design standard template: local agents receive one reusable standard, while Chat / mobile receives a standalone responsive-web prompt.">新增网页设计规范模板：本地 Agent 生成一份可复用规范，聊天 / 手机端提供可独立复制的响应式网页大 Prompt。</li>
+                <li data-zh="本地初始化会安全集成到已有根目录 AGENTS.md，仅管理 RecoWork 标记区块；升级会保留用户修改或删除过的区块。" data-en="Local initialization safely integrates with an existing root AGENTS.md and manages only the marked RecoWork block; upgrades preserve user-modified or removed blocks.">本地初始化会安全集成到已有根目录 AGENTS.md，仅管理 RecoWork 标记区块；升级会保留用户修改或删除过的区块。</li>
+                <li data-zh="工作流要求 AI 客观指出风险与替代方案，站点也将工作流模板和设计规范分开展示。" data-en="Workflows now require AI to state risks and alternatives objectively, and the site separates workflow templates from design standards.">工作流要求 AI 客观指出风险与替代方案，站点也将工作流模板和设计规范分开展示。</li>
+              </ul>
+            </div>
+            <div>
+              <h3 data-zh="兼容性" data-en="Compatibility">兼容性</h3>
+              <p data-zh="已有根目录 AGENTS.md 在 RecoWork 受管区块之外的内容不会被改写；已有工作流不会被自动修改。" data-en="Existing root AGENTS.md content outside the managed RecoWork block is never rewritten, and existing workflows are not modified automatically.">已有根目录 AGENTS.md 在 RecoWork 受管区块之外的内容不会被改写；已有工作流不会被自动修改。</p>
+            </div>
+          </div>
+        </article>
+
         <article class="release-card">
           <div class="release-card-heading">
             <div>

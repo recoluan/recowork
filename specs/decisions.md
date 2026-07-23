@@ -399,3 +399,19 @@ Implication:
 - The block states that external project rules have priority and contains the selected template's localized protocol.
 - The manifest records the managed block's marker and hashes separately. Upgrades may replace only an unchanged block; user-edited or removed blocks are preserved and reported.
 - The behavior applies only to the initialization root. Nested instruction files are not discovered or modified.
+
+## 023. Maintain Unreleased Changes With Each Completed Commit
+
+Decision: completed unreleased user-facing changes are recorded before their commit in the bilingual Markdown changelogs and the bilingual Unreleased section of the website release page.
+
+Reason:
+
+- Deferring changelog work until publication causes committed capabilities to be invisible to repository and website readers.
+- A continuously maintained Unreleased section makes the next release scope reviewable without reconstructing history from commits.
+- Keeping all three public records aligned avoids different audiences receiving different expectations of unreleased behavior.
+
+Implication:
+
+- User-facing template, target, CLI, or website changes add a concise Unreleased entry as part of completion, before commit.
+- `CHANGELOG.md`, `CHANGELOG.zh.md`, and `docs/releases.html` describe the same pending changes in their respective languages.
+- Release preparation moves the already-recorded entries into a dated version section; it does not recreate release notes from commit history.

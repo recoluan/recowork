@@ -4,6 +4,20 @@ All notable changes to RecoWork are documented here. This project follows [Keep 
 
 ## [Unreleased]
 
+### Added
+
+- Added `web-design-standard`, a reusable product-web design standard that produces one localized standard file for local agents and a standalone responsive-web prompt for Chat / mobile.
+
+### Changed
+
+- Local initialization now safely integrates a marker-bounded RecoWork block into an existing root `AGENTS.md`; upgrades preserve a user-modified or removed managed block.
+- Workflow role contracts now require objective assessment of risks, contradictions, weak assumptions, and credible alternatives instead of reflexive agreement.
+- The documentation site separates workflow templates from design standards so each capability is easier to find.
+
+### Compatibility
+
+- Existing root `AGENTS.md` content remains unchanged outside the managed RecoWork block. Existing workflows are not modified automatically.
+
 ## [1.0.0] - 2026-07-21
 
 ### Added
