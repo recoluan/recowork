@@ -13,6 +13,8 @@ RecoWork turns repeatable AI work into reusable, engineered workflows. It provid
 
 The local workflow is tool-neutral and can be used by a command-capable agent such as Codex, Claude Code, or Cursor. It intentionally does not generate platform-specific skills or configuration directories.
 
+When a local destination already has a root `AGENTS.md`, RecoWork preserves it and automatically appends a marker-bounded, template-specific RecoWork block. Existing project rules outside that block take priority. Upgrades only update an unchanged RecoWork block and report user edits instead of overwriting them.
+
 Chat continuity is manual. Save the summary and paste it into the next conversation. When work becomes long-running, collaborative, knowledge-heavy, or auditable, use the included migration package to move into a local agent.
 
 ## Templates

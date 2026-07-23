@@ -13,6 +13,8 @@ English: [README.md](./README.md) | 网站：[RecoWork](https://recowork.recolua
 
 本地工作流是工具中立的，可由 Codex、Claude Code、Cursor 等具备命令执行能力的 Agent 使用；它刻意不生成平台专属 skill 或配置目录。
 
+本地目标遇到已有根目录 `AGENTS.md` 时，会保留原有内容，并自动追加带稳定标记、与模板对应的 RecoWork 区块；区块外的项目规则优先。升级只会更新未被修改的 RecoWork 区块，用户修改会被保留并报告。
+
 对话连续性需要手动维护：保存摘要并粘贴到下一轮对话。任务变为长期、多人、知识密集或需要审计时，使用迁移包进入本地 Agent。
 
 ## 模板

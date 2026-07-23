@@ -43,6 +43,7 @@ Template structure changes must also update the generated template files, CLI cl
 - Use `--locale <locale>` for language selection when a template supports multiple locales.
 - Keep locale-specific template content under `templates/<template>/locales/<locale>/`.
 - Keep locale-specific target content under `targets/<target>/locales/<locale>/files/`; use shared `targets/<target>/files/` only for convention-driven or locale-neutral output.
+- Locale-specific non-output partials for root `AGENTS.md` integration may live at `targets/local-agent-project/locales/<locale>/AGENTS.integration.md.tpl`; they must never be emitted as standalone user files.
 - Locale changes may translate user-facing directories and documents, but must not translate convention-driven filenames such as `AGENTS.md`, `README.md`, and `index.md`.
 - Templates that govern ongoing work should include a localized role contract that defines the AI's working role, principles, prohibited behavior, and iteration rules.
 - AI agents must judge objectively rather than merely validate the user's premise. State material risks, contradictions, weak assumptions, and credible alternatives clearly; disagree respectfully when evidence or reasoning warrants it, and never hide concerns to be agreeable.
@@ -54,7 +55,7 @@ Template structure changes must also update the generated template files, CLI cl
 - Chat targets are lightweight conversation workflow entry points, not local-project equivalents. They generate only a start instruction, task execution protocol, and continuation or migration summary; they do not create workspaces or manifests and do not support upgrades.
 - Initialization must distinguish command-capable local agents from pure chat/mobile environments. Local agents should check Node.js and npm, then request confirmation before installing the latest stable Node.js when needed; pure chat/mobile flows must use direct chat bootstrap prompts and must not request local file creation.
 - Chat continuity is manual: the user saves and pastes the continuation summary into the next conversation. Every chat target must include a migration package with project brief, current decisions, open questions, and next step for a local executable agent.
-- `local-agent-project` is tool-neutral and generates `AGENTS.md` as the sole cross-tool instruction entry point. Do not generate platform-specific skills, rules folders, or configuration files.
+- `local-agent-project` is tool-neutral and uses root `AGENTS.md` as the sole cross-tool instruction entry point. When it is absent, generate it; when an external root `AGENTS.md` exists, preserve its content and append or update only a marker-bounded RecoWork block. Do not generate platform-specific skills, rules folders, or configuration files.
 - `web-design-standard` is intentionally a single-file local standard: besides `AGENTS.md` and `rw-manifest.json`, generate exactly one localized design-standard document (`网页设计规范.md` or `web-design-standard.md`). Do not add a workspace, working-method directory, README, or design-system folder for this template.
 - For `project-engineering`, keep the generated `工作空间/` concise and user-facing:
   - `工作方法/角色设定.md`
@@ -74,6 +75,7 @@ Template structure changes must also update the generated template files, CLI cl
 - `rw add` must refuse destinations that already contain `rw-manifest.json`; never use initialization as an in-place upgrade or cleanup mechanism.
 - Legacy chat manifests do not support in-place upgrades. `rw status` and `rw upgrade` must print a migration guide that creates a separate `local-agent-project` destination and leaves existing files untouched.
 - New initializations write `rw-manifest.json` schema version 2 with template/target versions and generated-file hashes. Legacy manifests require `rw upgrade --adopt <destination>` before upgrade checks can establish a baseline.
+- For an external root `AGENTS.md`, record the managed RecoWork block separately in the manifest. Upgrades may replace only an unchanged managed block; any user edit inside or removal of that block must be preserved and reported.
 
 ## Validation
 

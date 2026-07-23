@@ -60,6 +60,8 @@ Template content quality is intentionally deferred. The architecture should supp
 ## Targets and Platform Usage
 
 - RecoWork has exactly two primary targets: `chat-mobile` and `local-agent-project`.
+- `local-agent-project` must safely integrate with a root `AGENTS.md`: create the complete file when absent, or preserve an external file while adding a marker-bounded RecoWork block when present. The block contains the template-specific reading, confirmation, review, and durable-context rules, and states that external project rules take priority.
+- The manifest must track an externally integrated AGENTS block independently from complete target files. An upgrade may update only an unchanged block; modified or removed blocks are preserved and reported.
 - `local-agent-project` is tool-neutral: it generates `AGENTS.md`, methods, workspace records, and a manifest, but no platform-specific skills or configuration folders.
 - `chat-mobile` generates only copyable conversation material and never local project configuration.
 - Existing brand target names remain CLI aliases only; they do not imply brand-specific output.

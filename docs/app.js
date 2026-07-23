@@ -28,7 +28,7 @@ const translations = {
     visualOutKnowledge: "工作空间记录",
     visualOutMemory: "续接摘要",
     copyCommand: "复制",
-    configTemplateLabel: "工作流",
+    configTemplateLabel: "模板或规范",
     configTargetLabel: "使用位置",
     configLocaleLabel: "输出语言",
     configTemplateGeneral: "日常任务协作",
@@ -151,7 +151,7 @@ npx recowork add project-engineering --target local-agent-project --locale zh .
     visualOutKnowledge: "Workspace records",
     visualOutMemory: "Continuation summaries",
     copyCommand: "Copy",
-    configTemplateLabel: "Workflow",
+    configTemplateLabel: "Template or standard",
     configTargetLabel: "Usage target",
     configLocaleLabel: "Output language",
     configTemplateGeneral: "Daily task workflow",
@@ -725,7 +725,7 @@ Do this:
 2. If Node.js or npm is unavailable or outdated, explain the situation and ask for my confirmation before installing the latest stable Node.js. After confirmation, install it using the platform's normal method and verify both versions.
 3. Run:
    ${command}
-4. Do not substitute a mobile-chat workflow. After initialization, show the generated file tree, explain what was created, and tell me the first step.`;
+4. Do not substitute a mobile-chat workflow. If root \`AGENTS.md\` already exists, preserve its existing rules and verify that RecoWork added only its marker-bounded integration block. Then show the generated file tree, explain what was created, and tell me the first step.`;
   }
 
   return `你正在为我初始化一个 RecoWork 工作流模板。
@@ -750,7 +750,7 @@ ${generatorConfig.locale}
 2. 如果 Node.js 或 npm 缺失、不可用或版本过旧，先说明情况，并向我确认是否安装最新版稳定版 Node.js。只有在我确认后才按当前系统的常规方式安装，并再次验证两个版本。
 3. 运行：
    ${command}
-4. 不要改用手机端聊天流程。初始化后展示生成后的文件树，说明创建了什么，并告诉我第一步应该做什么。`;
+4. 不要改用手机端聊天流程。如果根目录已有 \`AGENTS.md\`，保留其原有规则，并确认 RecoWork 只新增带稳定标记的整合区块。初始化后展示生成后的文件树，说明创建了什么，并告诉我第一步应该做什么。`;
 }
 
 function renderGeneratorOutputs() {
@@ -888,6 +888,23 @@ function renderTemplateStructure(templateId) {
   });
 }
 
+function renderTemplateCategory(category) {
+  document.querySelectorAll(".template-category-tab").forEach((button) => {
+    const isActive = button.dataset.templateCategory === category;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
+  });
+
+  document.querySelectorAll("[data-template-category-card]").forEach((card) => {
+    card.hidden = card.dataset.templateCategoryCard !== category;
+  });
+
+  document.querySelectorAll("[data-template-category-intro]").forEach((intro) => {
+    intro.hidden = intro.dataset.templateCategoryIntro !== category;
+    intro.classList.toggle("active", intro.dataset.templateCategoryIntro === category);
+  });
+}
+
 function showToast(message) {
   const toast = document.querySelector("#toast");
   toast.textContent = message;
@@ -917,6 +934,10 @@ document.querySelectorAll(".language-toggle").forEach((button) => {
 
 document.querySelectorAll(".template-tab").forEach((button) => {
   button.addEventListener("click", () => renderTemplateStructure(button.dataset.template));
+});
+
+document.querySelectorAll(".template-category-tab").forEach((button) => {
+  button.addEventListener("click", () => renderTemplateCategory(button.dataset.templateCategory));
 });
 
 document.querySelector("#configTemplate")?.addEventListener("change", (event) => {

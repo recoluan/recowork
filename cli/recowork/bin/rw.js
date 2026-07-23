@@ -223,7 +223,20 @@ function initTemplate(args) {
   );
   copyTemplateAssets(localizedTemplateDir, targetDir);
   cleanupTargetLocaleOutputs(selectedTargetDir, selectedTarget, selectedLocale, targetDir);
-  renderTargetFiles(path.join(selectedTargetDir, "files"), targetDir, template, selectedTarget, selectedLocale);
+  const agentPath = path.join(targetDir, "AGENTS.md");
+  const hasExternalAgent = fs.existsSync(agentPath);
+  if (hasExternalAgent && !fs.statSync(agentPath).isFile()) {
+    fail(`Expected AGENTS.md to be a file: ${agentPath}`);
+  }
+
+  renderTargetFiles(
+    path.join(selectedTargetDir, "files"),
+    targetDir,
+    template,
+    selectedTarget,
+    selectedLocale,
+    { skipOutputPaths: hasExternalAgent ? new Set(["AGENTS.md"]) : new Set() },
+  );
   renderTargetFiles(
     path.join(selectedTargetDir, "locales", selectedLocale, "files"),
     targetDir,
@@ -231,9 +244,15 @@ function initTemplate(args) {
     selectedTarget,
     selectedLocale,
   );
-  writeManifest(targetDir, template, selectedTarget, selectedLocale);
+  const agentBlock = hasExternalAgent
+    ? integrateAgentBlock(agentPath, template, selectedTarget, selectedLocale)
+    : null;
+  writeManifest(targetDir, template, selectedTarget, selectedLocale, agentBlock);
 
   console.log(`Initialized ${template.id} for ${selectedTarget.id} (${selectedLocale})`);
+  if (agentBlock) {
+    console.log("Integrated a RecoWork-managed block into the existing root AGENTS.md.");
+  }
   console.log(`Target: ${targetDir}`);
 }
 
@@ -360,6 +379,9 @@ function adoptWorkflow(targetDir, previousManifest) {
 function buildUpgradePlan(targetDir, manifest, template, target, locale) {
   const desiredFiles = collectDesiredFiles(template, target, locale);
   const items = [];
+  if (manifest.agent_block) {
+    delete desiredFiles[manifest.agent_block.path || "AGENTS.md"];
+  }
   const trackedPaths = new Set(Object.keys(manifest.files));
 
   for (const [relativePath, desired] of Object.entries(desiredFiles)) {
@@ -433,6 +455,11 @@ function buildUpgradePlan(targetDir, manifest, template, target, locale) {
     }
   }
 
+  const agentBlockItem = getAgentBlockUpgradeItem(targetDir, manifest, template, target, locale);
+  if (agentBlockItem) {
+    items.push(agentBlockItem);
+  }
+
   return { desiredFiles, items };
 }
 
@@ -446,6 +473,13 @@ function applyUpgradePlan(targetDir, manifest, plan, scopes, addMissing) {
     const canUpdate = item.action === "update";
     const canAdd = item.action === "add" || (item.action === "suggest-add" && addMissing);
     if (!canUpdate && !canAdd) {
+      continue;
+    }
+
+    if (item.managedKind === "agent-block") {
+      if (canUpdate && applyAgentBlockUpgrade(targetDir, manifest, item)) {
+        applied.updated += 1;
+      }
       continue;
     }
 
@@ -526,6 +560,8 @@ function formatUpgradeState(state) {
     untracked: "Existing untracked files",
     "workspace-template-changed": "Workspace template changes requiring review",
     "workspace-user-changed": "User-owned workspace files requiring review",
+    "agent-block-conflict": "RecoWork AGENTS.md blocks changed by both you and RecoWork",
+    "agent-block-user-changed": "User-modified RecoWork AGENTS.md blocks preserved",
     conflict: "Files changed by both you and RecoWork",
     "user-changed": "User-modified files preserved",
     "retired-upstream-file": "Files no longer emitted by the current template",
@@ -930,7 +966,7 @@ function getTargetVersion(target) {
   return target.version || "0.0.0";
 }
 
-function renderTargetFiles(from, to, template, target, locale) {
+function renderTargetFiles(from, to, template, target, locale, options = {}) {
   if (!fs.existsSync(from)) {
     return;
   }
@@ -944,12 +980,117 @@ function renderTargetFiles(from, to, template, target, locale) {
     const destination = path.join(to, outputName);
 
     if (entry.isDirectory()) {
-      renderTargetFiles(source, destination, template, target, locale);
+      renderTargetFiles(source, destination, template, target, locale, options);
+    } else if (options.skipOutputPaths && options.skipOutputPaths.has(outputName)) {
+      continue;
     } else {
       const content = fs.readFileSync(source, "utf8");
       fs.writeFileSync(destination, renderTemplate(content, template, target, locale));
     }
   }
+}
+
+function getAgentBlockMarkers(template, target, locale) {
+  return {
+    start: `<!-- recowork:start template=${template.id} target=${target.id} locale=${locale} -->`,
+    end: "<!-- recowork:end -->",
+  };
+}
+
+function renderAgentIntegrationBlock(template, target, locale) {
+  const sourcePath = path.join(TARGETS_DIR, target.id, "locales", locale, "AGENTS.integration.md.tpl");
+  if (!fs.existsSync(sourcePath)) {
+    fail(`Agent integration template not found: ${sourcePath}`);
+  }
+  return renderTemplate(fs.readFileSync(sourcePath, "utf8"), template, target, locale).trimEnd();
+}
+
+function extractAgentBlock(source, markers) {
+  const startIndex = source.indexOf(markers.start);
+  if (startIndex < 0) {
+    return null;
+  }
+  const endIndex = source.indexOf(markers.end, startIndex);
+  if (endIndex < 0) {
+    return null;
+  }
+  return source.slice(startIndex, endIndex + markers.end.length);
+}
+
+function upsertAgentBlock(source, markers, block) {
+  const existing = extractAgentBlock(source, markers);
+  if (existing) {
+    return source.replace(existing, block);
+  }
+  const suffix = source.length && !source.endsWith("\n") ? "\n" : "";
+  return `${source}${suffix}${source.length ? "\n" : ""}${block}\n`;
+}
+
+function integrateAgentBlock(agentPath, template, target, locale) {
+  const markers = getAgentBlockMarkers(template, target, locale);
+  const block = renderAgentIntegrationBlock(template, target, locale);
+  const existing = fs.readFileSync(agentPath, "utf8");
+  fs.writeFileSync(agentPath, upsertAgentBlock(existing, markers, block));
+  return {
+    path: "AGENTS.md",
+    markers,
+    source_hash: hashContent(block),
+    baseline_hash: hashContent(block),
+    template: template.id,
+    target: target.id,
+    locale,
+  };
+}
+
+function getAgentBlockUpgradeItem(targetDir, manifest, template, target, locale) {
+  if (!manifest.agent_block) {
+    return null;
+  }
+
+  const metadata = manifest.agent_block;
+  const markers = metadata.markers || getAgentBlockMarkers(template, target, locale);
+  const desiredContent = renderAgentIntegrationBlock(template, target, locale);
+  const agentPath = path.join(targetDir, metadata.path || "AGENTS.md");
+  const source = fs.existsSync(agentPath) && fs.statSync(agentPath).isFile()
+    ? fs.readFileSync(agentPath, "utf8")
+    : null;
+  const currentBlock = source ? extractAgentBlock(source, markers) : null;
+  const upstreamChanged = metadata.source_hash !== hashContent(desiredContent);
+  const userChanged = !currentBlock || hashContent(currentBlock) !== metadata.baseline_hash;
+
+  if (!upstreamChanged && !userChanged) {
+    return null;
+  }
+
+  return {
+    relativePath: metadata.path || "AGENTS.md",
+    ownership: "target",
+    managedKind: "agent-block",
+    state: userChanged && upstreamChanged ? "agent-block-conflict" : userChanged ? "agent-block-user-changed" : "safe-update",
+    action: userChanged ? "preserve" : "update",
+    upstreamChanged,
+    desired: { content: desiredContent, hash: hashContent(desiredContent), markers },
+  };
+}
+
+function applyAgentBlockUpgrade(targetDir, manifest, item) {
+  const metadata = manifest.agent_block;
+  const agentPath = path.join(targetDir, item.relativePath);
+  if (!fs.existsSync(agentPath) || !fs.statSync(agentPath).isFile()) {
+    return false;
+  }
+  const source = fs.readFileSync(agentPath, "utf8");
+  const currentBlock = extractAgentBlock(source, metadata.markers);
+  if (!currentBlock || hashContent(currentBlock) !== metadata.baseline_hash) {
+    return false;
+  }
+  fs.writeFileSync(agentPath, upsertAgentBlock(source, metadata.markers, item.desired.content));
+  manifest.agent_block = {
+    ...metadata,
+    source_hash: item.desired.hash,
+    baseline_hash: item.desired.hash,
+  };
+  return true;
 }
 
 function cleanupTargetLocaleOutputs(targetDir, target, locale, outputDir) {
@@ -1392,7 +1533,7 @@ function formatList(items) {
   return items.map((item) => `- ${item}`).join("\n");
 }
 
-function writeManifest(targetDir, template, target, locale) {
+function writeManifest(targetDir, template, target, locale, agentBlock = null) {
   const desiredFiles = collectDesiredFiles(template, target, locale);
   const files = {};
   for (const [relativePath, desired] of Object.entries(desiredFiles)) {
@@ -1408,6 +1549,10 @@ function writeManifest(targetDir, template, target, locale) {
     };
   }
   const manifest = createManifest(template, target, locale, files);
+  if (agentBlock) {
+    delete manifest.files[agentBlock.path];
+    manifest.agent_block = agentBlock;
+  }
 
   fs.writeFileSync(
     path.join(targetDir, "rw-manifest.json"),

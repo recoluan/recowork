@@ -31,6 +31,8 @@ After installation, use `rw` instead of `npx recowork`.
 
 Brand names such as `codex-project`, `claude-code-project`, and `chatgpt-chat` are retained as compatibility aliases. They now resolve to one of the two generic targets and no longer create brand-specific files.
 
+If the local destination already has a root `AGENTS.md`, `rw add` keeps the existing content and adds a marker-bounded RecoWork block for the selected template. The manifest tracks that block separately; upgrades update only an unchanged block and preserve user edits.
+
 ## Commands
 
 ```bash

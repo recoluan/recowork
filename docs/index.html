@@ -143,10 +143,10 @@
       <section class="section workflow-section highlight-band">
         <div class="section-heading">
           <p class="eyebrow" data-zh="如何工作" data-en="How it works">如何工作</p>
-          <h2 data-zh="三个选择，生成一套可运行的 AI 工作流。" data-en="Three choices generate a runnable AI workflow.">三个选择，生成一套可运行的 AI 工作流。</h2>
+          <h2 data-zh="三个选择，生成可用的 AI 工作资产。" data-en="Three choices generate ready-to-use AI work assets.">三个选择，生成可用的 AI 工作资产。</h2>
         </div>
         <div class="workflow-steps">
-          <div><span>01</span><strong>Template</strong><p data-zh="选择要工程化的工作场景：日常任务、想法探索、项目协作、系统学习或网页设计。" data-en="Choose the work scenario: daily tasks, idea exploration, project collaboration, structured learning, or web design.">选择要工程化的工作场景：日常任务、想法探索、项目协作、系统学习或网页设计。</p></div>
+          <div><span>01</span><strong>Template</strong><p data-zh="选择工作流模板，或选择要跨项目复用的网页设计规范。" data-en="Choose a workflow template, or a web design standard to reuse across projects.">选择工作流模板，或选择要跨项目复用的网页设计规范。</p></div>
           <div><span>02</span><strong>Target</strong><p data-zh="选择真实使用位置：聊天窗口、本地项目、文档工作区。" data-en="Choose the real output surface: chat, local project, or document workspace.">选择真实使用位置：聊天窗口、本地项目、文档工作区。</p></div>
           <div><span>03</span><strong>Locale</strong><p data-zh="选择输出语言和用户可见命名，保留工具约定文件名。" data-en="Choose output language and user-facing naming while preserving tool conventions.">选择输出语言和用户可见命名，保留工具约定文件名。</p></div>
           <div><span>04</span><strong>Use</strong><p data-zh="通过 AI Prompt 或 CLI 初始化，然后在实际工具里继续协作。" data-en="Initialize through an AI prompt or CLI, then keep working in the actual tool.">通过 AI Prompt 或 CLI 初始化，然后在实际工具里继续协作。</p></div>
@@ -155,31 +155,39 @@
 
       <section class="section template-overview-section">
         <div class="section-heading">
-          <p class="eyebrow" data-zh="内置模板" data-en="Built-in templates">内置模板</p>
-          <h2 data-zh="覆盖五类常见的 AI 工作。" data-en="Cover five common AI work modes.">覆盖五类常见的 AI 工作。</h2>
+          <p class="eyebrow" data-zh="内置能力" data-en="Built-in capabilities">内置能力</p>
+          <h2 data-zh="先选工作方式，再按需要附加规范。" data-en="Choose a way of working, then add standards when needed.">先选工作方式，再按需要附加规范。</h2>
         </div>
-        <div class="pack-grid compact">
-          <article class="pack-card card-green">
+        <div class="template-category-tabs" role="tablist" aria-label="Template categories">
+          <button class="template-category-tab active" type="button" role="tab" aria-selected="true" aria-controls="templateCatalog" data-template-category="workflow" data-zh="工作流模板（4）" data-en="Workflow templates (4)">工作流模板（4）</button>
+          <button class="template-category-tab" type="button" role="tab" aria-selected="false" aria-controls="templateCatalog" data-template-category="standard" data-zh="设计规范（1）" data-en="Design standards (1)">设计规范（1）</button>
+        </div>
+        <div class="template-category-intros">
+          <p class="template-category-intro active" data-template-category-intro="workflow" data-zh="工作流模板定义 AI 如何澄清、推进、复盘和续接一类工作。" data-en="Workflow templates define how AI clarifies, advances, reviews, and continues a type of work.">工作流模板定义 AI 如何澄清、推进、复盘和续接一类工作。</p>
+          <p class="template-category-intro" data-template-category-intro="standard" hidden data-zh="设计规范可跨项目复用，用来约束 AI 的视觉、响应式、状态和自检质量。" data-en="Design standards are reusable across projects and constrain visual direction, responsiveness, states, and self-review quality.">设计规范可跨项目复用，用来约束 AI 的视觉、响应式、状态和自检质量。</p>
+        </div>
+        <div class="pack-grid compact" id="templateCatalog">
+          <article class="pack-card card-green" data-template-category-card="workflow">
             <div class="card-chip">general</div>
             <h3>general-ai-workflow</h3>
             <p data-i18n="generalDesc">让普通用户在手机或网页 AI App 中持续推进任务，包含角色设定、任务上下文、续聊记忆、自审和复盘沉淀。</p>
           </article>
-          <article class="pack-card card-yellow">
+          <article class="pack-card card-yellow" data-template-category-card="workflow">
             <div class="card-chip">idea</div>
             <h3>idea-engineering</h3>
             <p data-zh="先发散脑暴，再用方向归纳、假设和小验证收敛到值得推进的下一步。" data-en="Explore broadly, then use direction synthesis, hypotheses, and small validations to converge on a next step worth pursuing.">先发散脑暴，再用方向归纳、假设和小验证收敛到值得推进的下一步。</p>
           </article>
-          <article class="pack-card card-pink">
+          <article class="pack-card card-pink" data-template-category-card="workflow">
             <div class="card-chip">project</div>
             <h3>project-engineering</h3>
             <p data-i18n="projectDesc">先澄清并确认项目约定，再建立 AGENTS.md、文档规范、质量门禁和持续沉淀机制。</p>
           </article>
-          <article class="pack-card card-blue">
+          <article class="pack-card card-blue" data-template-category-card="workflow">
             <div class="card-chip">learning</div>
             <h3>learning-engineering</h3>
             <p data-i18n="learningDesc">把学习拆成诊断、课程路线、章节练习、项目实践、反馈、复盘和知识沉淀。</p>
           </article>
-          <article class="pack-card card-green">
+          <article class="pack-card card-blue" data-template-category-card="standard" hidden>
             <div class="card-chip">web design</div>
             <h3>web-design-standard</h3>
             <p data-zh="为 AI 生成或改造 HTML / Web 页面提供一份可复用规范，覆盖 token、响应式、组件状态和可访问性自检。" data-en="A reusable standard for AI-generated or improved HTML and web pages, covering tokens, responsive behavior, component states, and accessibility self-checking.">为 AI 生成或改造 HTML / Web 页面提供一份可复用规范，覆盖 token、响应式、组件状态和可访问性自检。</p>

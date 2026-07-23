@@ -95,7 +95,7 @@
           <div role="row">
             <span data-zh="电脑端 AI 助手" data-en="Desktop AI assistant">电脑端 AI 助手</span>
             <code>local-agent-project</code>
-            <span data-zh="可执行命令、读写项目文件；提供 AGENTS.md、工作空间、状态检查与安全升级" data-en="Runs commands and reads or writes project files; includes AGENTS.md, workspace, status checks, and safe upgrades">可执行命令、读写项目文件；提供 AGENTS.md、工作空间、状态检查与安全升级</span>
+            <span data-zh="可执行命令、读写项目文件；创建或安全整合根目录 AGENTS.md，并提供状态检查与安全升级" data-en="Runs commands and reads or writes project files; creates or safely integrates root AGENTS.md, with status checks and safe upgrades">可执行命令、读写项目文件；创建或安全整合根目录 AGENTS.md，并提供状态检查与安全升级</span>
           </div>
         </div>
       </section>
@@ -315,7 +315,7 @@ rw add project --target local-agent-project --locale zh .</pre>
         <div class="content-grid three">
           <article class="content-card">
             <h3 data-zh="规则文件" data-en="Rule files">规则文件</h3>
-            <p data-zh="项目 target 应有 AGENTS.md、CLAUDE.md 或工具对应的规则文件；聊天 target 不应该生成项目工具目录。" data-en="Project targets should produce AGENTS.md, CLAUDE.md, or equivalent rule files. Chat targets should not generate project tool directories.">项目 target 应有 AGENTS.md、CLAUDE.md 或工具对应的规则文件；聊天 target 不应该生成项目工具目录。</p>
+            <p data-zh="本地 target 应创建根目录 AGENTS.md，或在已有文件中加入带 RecoWork 标记的独立区块；聊天 target 不应生成项目工具目录。" data-en="The local target should create root AGENTS.md or add a marker-bounded RecoWork block to an existing file. Chat targets should not generate project tool directories.">本地 target 应创建根目录 AGENTS.md，或在已有文件中加入带 RecoWork 标记的独立区块；聊天 target 不应生成项目工具目录。</p>
           </article>
           <article class="content-card">
             <h3 data-zh="工作方法" data-en="Working methods">工作方法</h3>

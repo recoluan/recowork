@@ -836,6 +836,41 @@ h3 {
   gap: 18px;
 }
 
+.template-category-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 24px 0 12px;
+}
+
+.template-category-tab {
+  min-height: 40px;
+  padding: 0 14px;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-weight: 900;
+}
+
+.template-category-tab:hover,
+.template-category-tab.active {
+  color: #fff;
+  background: var(--violet);
+  border-color: var(--violet);
+}
+
+.template-category-intros {
+  min-height: 28px;
+  margin-bottom: 18px;
+}
+
+.template-category-intro {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
 .pack-card {
   min-height: 420px;
   padding: 22px;

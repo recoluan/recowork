@@ -382,3 +382,20 @@ Implication:
 - The Chat target remains a lightweight three-document delivery. Its start instruction is a complete standalone prompt that covers both desktop and mobile web work and never requests local files or tools.
 - Existing brand guidance and explicit user visual requirements override the default standard.
 - Do not add composition, a `packs` CLI option, multiple style choices, image generation, model APIs, or background execution in this iteration.
+
+## 022. Safely Integrate With Existing Root AGENTS.md
+
+Decision: `local-agent-project` automatically integrates RecoWork instructions into an existing root `AGENTS.md` through a marker-bounded block, rather than requiring manual copy or overwriting the file.
+
+Reason:
+
+- A template that is initialized but never referenced by the project's instruction entry point is unlikely to take effect.
+- Existing root instructions are user-owned and may contain important project conventions that RecoWork cannot replace safely.
+- A stable block boundary makes the RecoWork portion independently traceable and upgradeable.
+
+Implication:
+
+- When root `AGENTS.md` is absent, RecoWork creates the complete target-owned file. When present, it preserves existing content and appends or updates `<!-- recowork:start ... -->` through `<!-- recowork:end -->` only.
+- The block states that external project rules have priority and contains the selected template's localized protocol.
+- The manifest records the managed block's marker and hashes separately. Upgrades may replace only an unchanged block; user-edited or removed blocks are preserved and reported.
+- The behavior applies only to the initialization root. Nested instruction files are not discovered or modified.
