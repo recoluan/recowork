@@ -18,7 +18,6 @@ const translations = {
     metricCli: "本地脚手架",
     visualCommand: "rw add project --target local-agent-project --locale zh .",
     visualChoose: "选择场景",
-    visualGeneral: "日常 AI 使用",
     visualProject: "项目工程化",
     visualLearning: "系统学习",
     visualUse: "选择使用位置",
@@ -33,7 +32,6 @@ const translations = {
     configTemplateStandardLabel: "设计规范",
     configTargetLabel: "使用位置",
     configLocaleLabel: "输出语言",
-    configTemplateGeneral: "日常任务协作",
     configTemplateProject: "项目工程化",
     configTemplateLearning: "系统学习",
     configTemplateIdea: "想法探索与验证",
@@ -57,17 +55,12 @@ rw add project --target local-agent-project --locale zh .`,
     stripThreeTitle: "换工具也能继续用",
     stripThreeText: "同一套方法可在聊天入口与本地工作空间之间迁移。",
     packsEyebrow: "内置工作流模板",
-    packsTitle: "从五类可复用的 AI 工作模板开始。",
+    packsTitle: "从四类可复用的 AI 工作模板开始。",
     essenceEyebrow: "模板精髓",
     essenceTitle: "模板交付的是一套工作系统，不是一段 prompt。",
-    templateGeneral: "日常 AI 使用",
     templateProject: "项目工程化",
     templateLearning: "系统学习",
     essenceIncluded: "初始化后包含",
-    generalDesc:
-      "让普通用户在手机或网页 AI App 中启动任务，包含对话内澄清、确认、自审和可手动保存的续接摘要。长期沉淀应迁移到本地 Agent。",
-    generalOne: "适合任意网页、App 或手机聊天",
-    generalTwo: "让上下文、质量标准和有效方法持续积累",
     projectDesc:
       "先澄清并确认项目约定，再建立 AGENTS.md、文档与产物保鲜规范、质量门禁和持续沉淀机制。",
     projectOne: "适合具备命令执行能力的本地 Agent",
@@ -143,7 +136,6 @@ npx recowork add project-engineering --target local-agent-project --locale zh .
     metricCli: "local scaffold",
     visualCommand: "rw add project --target local-agent-project --locale en .",
     visualChoose: "Pick a scenario",
-    visualGeneral: "Daily AI work",
     visualProject: "Project workflow",
     visualLearning: "Structured learning",
     visualUse: "Pick a target",
@@ -158,7 +150,6 @@ npx recowork add project-engineering --target local-agent-project --locale zh .
     configTemplateStandardLabel: "Design standards",
     configTargetLabel: "Usage target",
     configLocaleLabel: "Output language",
-    configTemplateGeneral: "Daily task workflow",
     configTemplateProject: "Project engineering",
     configTemplateLearning: "Structured learning",
     configTemplateIdea: "Idea exploration",
@@ -182,17 +173,12 @@ rw add project --target local-agent-project --locale en .`,
     stripThreeTitle: "Keep using it when tools change",
     stripThreeText: "Move the same method between a chat entry point and a local workspace.",
     packsEyebrow: "Built-in workflow templates",
-    packsTitle: "Start with five reusable AI work templates.",
+    packsTitle: "Start with four reusable AI work templates.",
     essenceEyebrow: "Template essence",
     essenceTitle: "A template gives AI a working system, not one prompt.",
-    templateGeneral: "Daily AI work",
     templateProject: "Project engineering",
     templateLearning: "Structured learning",
     essenceIncluded: "Included after initialization",
-    generalDesc:
-      "Helps everyday users start tasks in mobile or web AI apps with in-chat clarification, confirmation, self-review, and a manually saved continuation summary. Move durable work to a local agent.",
-    generalOne: "For any web, app, or mobile chat",
-    generalTwo: "Keeps context, quality standards, and proven methods reusable",
     projectDesc:
       "Confirms a project agreement before setting up AGENTS.md, document and artifact freshness standards, quality gates, and durable capture for AI-assisted projects.",
     projectOne: "For command-capable local agents",
@@ -242,7 +228,7 @@ If npx is unavailable, explain the blocker and request confirmation. Do not simu
     copyCommands: "Copy commands",
     structureEyebrow: "For builders",
     structureTitle: "Templates and targets evolve independently.",
-    structureYaml: "Stores scenario templates such as project work, learning, or daily AI use.",
+    structureYaml: "Stores scenario templates such as idea exploration, project work, or learning.",
     structureCore: "Stores localized methods, workspaces, and documentation for each supported language.",
     structureAdapters: "Stores reusable output rules for chat, project, workspace, and document targets.",
     structureExamples: "Stores real scenarios so users can understand how to apply the pack.",
@@ -253,28 +239,6 @@ If npx is unavailable, explain the blocker and request confirmation. Do not simu
 
 const templateStructures = {
   zh: {
-    general: {
-      eyebrow: "日常 AI 使用",
-      title: "让每次对话都能继续，而不是从头开始。",
-      description: "用对话内澄清、自审和续接摘要，把手机或网页中的一次性对话变成可持续推进的轻量任务流程；需要工作空间时迁移到本地 Agent。",
-      outcomes: [
-        "AI 工作角色、流程与自审清单",
-        "任务简报与待确认问题",
-        "任务准备、产出、过程留痕与复盘沉淀",
-      ],
-      tree: `工作方法/
-  角色设定.md
-  工作流程.md
-  检查清单.md
-  记忆卡模板.md
-工作空间/
-  任务简报.md
-  待确认问题.md
-  01-任务准备/
-  02-任务产出/
-  03-过程留痕/
-  04-复盘与沉淀/`,
-    },
     project: {
       eyebrow: "项目工程化",
       title: "把 AI 协作变成可追溯的项目系统。",
@@ -352,28 +316,6 @@ rw-manifest.json`,
     },
   },
   en: {
-    general: {
-      eyebrow: "Daily AI work",
-      title: "Continue each conversation instead of starting over.",
-      description: "In-chat clarification, self-review, and a continuation summary turn one-off mobile or web chats into a lightweight task flow. Move to a local agent when a workspace is needed.",
-      outcomes: [
-        "AI role, workflow, and self-review checklist",
-        "Task brief and open questions",
-        "Task setup, output, thinking traces, and reusable learning",
-      ],
-      tree: `methods/
-  role-contract.md
-  workflow.md
-  quality-checklist.md
-  continuation-memory-template.md
-workspace/
-  task-brief.md
-  open-questions.md
-  01-task-setup/
-  02-task-output/
-  03-thinking-traces/
-  04-review-and-reuse/`,
-    },
     project: {
       eyebrow: "Project engineering",
       title: "Turn AI collaboration into a traceable project system.",
@@ -463,7 +405,6 @@ const generatorConfig = {
 };
 
 const templateAliases = {
-  "general-ai-workflow": "general",
   "project-engineering": "project",
   "learning-engineering": "learning",
   "idea-engineering": "idea",
@@ -471,7 +412,7 @@ const templateAliases = {
 };
 
 const generatorTemplateCategories = {
-  workflow: ["general-ai-workflow", "project-engineering", "learning-engineering", "idea-engineering"],
+  workflow: ["project-engineering", "learning-engineering", "idea-engineering"],
   standard: ["web-design-standard"],
 };
 
@@ -479,10 +420,6 @@ const chatTargets = new Set(["chat-mobile"]);
 
 const chatBootstrapDetails = {
   zh: {
-    "general-ai-workflow": {
-      role: "严谨的 AI 工作顾问",
-      focus: "先澄清真实目标、约束和完成标准；区分事实、推断和假设；重要任务结束后留下续聊记忆。",
-    },
     "project-engineering": {
       role: "资深项目负责人和技术规划顾问",
       focus: "先澄清目标、范围、约束和风险；重要方向变化前先确认；记录关键决策、问题和验收依据。",
@@ -501,10 +438,6 @@ const chatBootstrapDetails = {
     },
   },
   en: {
-    "general-ai-workflow": {
-      role: "a rigorous AI work advisor",
-      focus: "Clarify goals, constraints, and completion criteria; separate facts, inferences, and assumptions; leave continuation memory after meaningful work.",
-    },
     "project-engineering": {
       role: "a senior project lead and technical planning advisor",
       focus: "Clarify goals, scope, constraints, and risks; confirm material direction changes; record key decisions, questions, and acceptance evidence.",

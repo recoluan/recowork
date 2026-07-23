@@ -16,7 +16,6 @@ After installation, use `rw` instead of `npx recowork`.
 
 | Template | Aliases | Purpose |
 | --- | --- | --- |
-| `general-ai-workflow` | `general`, `task`, `daily` | Daily task workflow with context, review, and continuity. |
 | `idea-engineering` | `idea`, `brainstorm`, `explore` | Idea exploration, validation, and next-step agreement. |
 | `learning-engineering` | `learning`, `study`, `course` | Structured learning workflow. |
 | `project-engineering` | `project`, `engineering` | Durable project workflow with methods, workspace records, and quality gates. |

@@ -1,6 +1,6 @@
 # RecoWork
 
-RecoWork 将可重复的 AI 使用方式沉淀为可复用、可持续的工程化工作流。它提供日常任务、想法探索、学习、项目和网页设计规范五类模板，内置确认、自审、产物保鲜与从对话迁移到本地工作的机制。
+RecoWork 将可重复的 AI 使用方式沉淀为可复用、可持续的工程化工作流。它提供想法探索、学习、项目和网页设计规范四类模板，内置确认、自审、产物保鲜与从对话迁移到本地工作的机制。
 
 English: [README.md](./README.md) | 网站：[RecoWork](https://recowork.recoluan.com)
 
@@ -21,7 +21,6 @@ English: [README.md](./README.md) | 网站：[RecoWork](https://recowork.recolua
 
 | 模板 | 适用场景 |
 | --- | --- |
-| `general-ai-workflow`（`general`） | 需要上下文、自审与续接的日常任务。 |
 | `idea-engineering`（`idea`） | 脑暴、方向归纳、假设验证和确认下一步。 |
 | `learning-engineering`（`learning`） | 学习诊断、路线、章节、练习与复盘。 |
 | `project-engineering`（`project`） | 有工作方法、文档规范、工作空间记录与质量门禁的 AI 辅助项目。 |

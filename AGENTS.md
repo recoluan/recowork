@@ -50,7 +50,6 @@ Template structure changes must also update the generated template files, CLI cl
 - For `project-engineering`, the role contract lives at `工作方法/角色设定.md` for `zh` and `methods/role-contract.md` for `en`.
 - Every template with a durable workspace keeps document conventions at `工作方法/文档规范.md` for `zh` and `methods/document-standard.md` for `en`. Agents navigate from `index.md`, retrieve documents progressively, and update affected indexes after work.
 - Non-index documents follow metadata, conclusion-first summary, structured body, relative references, and a change log. `index.md` remains navigation only, with one-line entries, status, and last-updated state.
-- For `general-ai-workflow`, the role contract uses the same locations and its workspace is task-oriented: task brief, open questions, setup, output, thinking traces, and review/reuse.
 - For `learning-engineering`, the role contract uses the same locations and its learning space is organized around learner brief, roadmap, progress, course design, lessons/practice, project practice, questions/retrospectives, and knowledge capture.
 - Chat targets are lightweight conversation workflow entry points, not local-project equivalents. They generate only a start instruction, task execution protocol, and continuation or migration summary; they do not create workspaces or manifests and do not support upgrades.
 - Initialization must distinguish command-capable local agents from pure chat/mobile environments. Local agents should check Node.js and npm, then request confirmation before installing the latest stable Node.js when needed; pure chat/mobile flows must use direct chat bootstrap prompts and must not request local file creation.
@@ -88,8 +87,6 @@ node cli/recowork/bin/rw.js list
 node cli/recowork/bin/rw.js targets
 node cli/recowork/bin/rw.js add project --target local-agent-project --locale zh /private/tmp/recowork-zh-test
 node cli/recowork/bin/rw.js add project --target local-agent-project --locale en /private/tmp/recowork-en-test
-node cli/recowork/bin/rw.js add general --target chat-mobile --locale zh /private/tmp/recowork-general-zh-test
-node cli/recowork/bin/rw.js add general --target chat-mobile --locale en /private/tmp/recowork-general-en-test
 node cli/recowork/bin/rw.js add learning --target chat-mobile --locale zh /private/tmp/recowork-learning-zh-test
 node cli/recowork/bin/rw.js add learning --target chat-mobile --locale en /private/tmp/recowork-learning-en-test
 node cli/recowork/bin/rw.js add web-design-standard --target local-agent-project --locale zh /private/tmp/recowork-web-design-zh
@@ -103,7 +100,7 @@ For initialization tests, use `/private/tmp/...` or another temporary directory 
 ## Commit Rules
 
 - Follow [CONTRIBUTING.md](./CONTRIBUTING.md) and use Conventional Commits: `<type>(<scope>): <summary>`.
-- Use a specific scope such as `cli`, `targets`, `templates`, `project-engineering`, `general-ai-workflow`, `learning-engineering`, `docs`, `specs`, or `release`.
+- Use a specific scope such as `cli`, `targets`, `templates`, `project-engineering`, `idea-engineering`, `learning-engineering`, `docs`, `specs`, or `release`.
 - For multi-surface, migration, generated-output, or otherwise non-obvious changes, include `Why`, `Changes`, `Compatibility`, and `Validation` in the commit body.
 - Use a `BREAKING CHANGE:` footer when an existing command, generated path, file format, or workflow contract becomes incompatible.
 - Before committing a completed user-facing, template, target, CLI, or website change that is not yet released, add a concise bilingual entry to `CHANGELOG.md`, `CHANGELOG.zh.md`, and the Unreleased section of `docs/releases.html`. Keep the three surfaces aligned; publication moves those entries into a dated release section.

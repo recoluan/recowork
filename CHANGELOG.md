@@ -10,6 +10,7 @@ All notable changes to RecoWork are documented here. This project follows [Keep 
 
 ### Changed
 
+- Retired `general-ai-workflow` because its daily-task scope did not provide a sufficiently distinct reusable workflow. New initialization now directs users to idea, project, or learning workflows; existing general workflow files remain untouched and receive a read-only migration guide from `rw status` or `rw upgrade`.
 - Local initialization now safely integrates a marker-bounded RecoWork block into an existing root `AGENTS.md`; upgrades preserve a user-modified or removed managed block.
 - Workflow role contracts now require objective assessment of risks, contradictions, weak assumptions, and credible alternatives instead of reflexive agreement.
 - The documentation site separates workflow templates from design standards in both the catalog and initialization flow, and the release summary now names each pending capability.
@@ -19,6 +20,11 @@ All notable changes to RecoWork are documented here. This project follows [Keep 
 ### Compatibility
 
 - Existing root `AGENTS.md` content remains unchanged outside the managed RecoWork block. Existing workflows are not modified automatically.
+- Existing `general-ai-workflow` files remain untouched; use the migration guidance from `rw status` or `rw upgrade` to initialize a separate supported workflow.
+
+### Breaking Changes
+
+- `general-ai-workflow` and its `general`, `task`, and `daily` aliases can no longer be initialized, listed, or shown.
 
 ## [1.0.0] - 2026-07-21
 

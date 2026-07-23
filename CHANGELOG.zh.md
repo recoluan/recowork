@@ -10,6 +10,7 @@ RecoWork 的重要变更记录在此。项目遵循 [Keep a Changelog](https://k
 
 ### 变更
 
+- 下线 `general-ai-workflow`：日常任务范围没有形成足够明确、可复用的工作流价值。新初始化请改选想法、项目或学习工作流；已有 general 工作流文件保持不动，运行 `rw status` 或 `rw upgrade` 会获得只读迁移指引。
 - 本地初始化遇到已有根目录 `AGENTS.md` 时，会安全写入带标记边界的 RecoWork 区块；升级时会保留用户修改或删除过的受管区块。
 - 工作流角色设定现在要求客观识别风险、矛盾、薄弱假设与可信替代方案，不得一味迎合。
 - 文档站在能力目录和初始化流程中都将工作流模板与设计规范分开，并在发布摘要中直接列出每项待发布能力。
@@ -19,6 +20,11 @@ RecoWork 的重要变更记录在此。项目遵循 [Keep a Changelog](https://k
 ### 兼容性
 
 - 已有根目录 `AGENTS.md` 在 RecoWork 受管区块之外的内容保持不变；已有工作流不会被自动修改。
+- 已有 `general-ai-workflow` 文件保持不动；请通过 `rw status` 或 `rw upgrade` 的迁移指引，在单独目录初始化受支持的工作流。
+
+### 破坏性变更
+
+- 不再支持初始化、列出或查看 `general-ai-workflow` 及其 `general`、`task`、`daily` 别名。
 
 ## [1.0.0] - 2026-07-21
 

@@ -1,6 +1,6 @@
 # RecoWork
 
-RecoWork turns repeatable AI work into reusable, engineered workflows. It provides templates for daily tasks, idea exploration, learning, projects, and web design standards, with explicit confirmation, self-review, fresh records, and a clean handoff between chat and local work.
+RecoWork turns repeatable AI work into reusable, engineered workflows. It provides templates for idea exploration, learning, projects, and web design standards, with explicit confirmation, self-review, fresh records, and a clean handoff between chat and local work.
 
 中文说明：[README.zh.md](./README.zh.md) | Website: [RecoWork](https://recowork.recoluan.com)
 
@@ -21,7 +21,6 @@ Chat continuity is manual. Save the summary and paste it into the next conversat
 
 | Template | Use case |
 | --- | --- |
-| `general-ai-workflow` (`general`) | Daily tasks that need context, review, and continuity. |
 | `idea-engineering` (`idea`) | Brainstorming, direction synthesis, hypothesis validation, and a confirmed next step. |
 | `learning-engineering` (`learning`) | Learning diagnosis, roadmap, lessons, practice, and retrospectives. |
 | `project-engineering` (`project`) | AI-assisted projects with working methods, document standards, workspace records, and quality gates. |

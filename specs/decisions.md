@@ -162,6 +162,8 @@ Implication:
 
 ## 011. Engineer General AI Workflows Around Tasks, Not Projects
 
+Superseded by Decision 024. This entry records the original rationale for the retired template.
+
 Decision: `general-ai-workflow` uses the same durable principles as `project-engineering` but a lighter task-oriented structure.
 
 - `zh`: `工作方法/` and `工作空间/`
@@ -333,6 +335,8 @@ Implication:
 
 ## 019. Separate Idea Exploration From Daily Tasks And Project Execution
 
+Superseded by Decision 024. This entry records the original relationship between idea exploration and daily task work.
+
 Decision: `idea-engineering` is a dedicated workflow for AI-assisted brainstorming, direction synthesis, and hypothesis validation. `general-ai-workflow` is presented to users as the daily task workflow while retaining its stable internal ID for compatibility.
 
 Reason:
@@ -415,3 +419,20 @@ Implication:
 - User-facing template, target, CLI, or website changes add a concise Unreleased entry as part of completion, before commit.
 - `CHANGELOG.md`, `CHANGELOG.zh.md`, and `docs/releases.html` describe the same pending changes in their respective languages.
 - Release preparation moves the already-recorded entries into a dated version section; it does not recreate release notes from commit history.
+
+## 024. Retire The Daily Task Workflow Template
+
+Decision: retire `general-ai-workflow` and its `general`, `task`, and `daily` aliases. RecoWork no longer offers a generic daily-task workflow as a new initialization choice.
+
+Reason:
+
+- Its scope overlaps ordinary chat usage but does not offer a sufficiently distinct, repeatable workflow to justify a dedicated template.
+- The remaining templates have clearer intent: idea exploration, project engineering, structured learning, and web design standards.
+- Keeping a weakly differentiated template makes selection harder and dilutes product guidance.
+
+Implication:
+
+- Remove its source template, CLI list/show/add access, prompts, README entries, site cards, configuration options, cases, and workspace requirements.
+- Existing generated `general-ai-workflow` files are user-owned and remain untouched.
+- `rw status` and `rw upgrade` detect a legacy general manifest and print a read-only migration guide to a separate idea or project workflow; they never perform an in-place conversion.
+- Decisions 011 and 019 are superseded only where they prescribe `general-ai-workflow` as an active template.

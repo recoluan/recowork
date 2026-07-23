@@ -33,7 +33,7 @@ cli
 targets
 templates
 project-engineering
-general-ai-workflow
+idea-engineering
 learning-engineering
 docs
 specs

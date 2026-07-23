@@ -39,6 +39,18 @@ const aliasTargets = {
   "feishu-doc": "local-agent-project",
 };
 
+const retiredTemplates = {
+  "general-ai-workflow": {
+    aliases: ["general", "task", "daily"],
+  },
+};
+
+function findRetiredTemplate(templateRef) {
+  return Object.entries(retiredTemplates).find(([id, details]) => {
+    return id === templateRef || details.aliases.includes(templateRef);
+  });
+}
+
 function main() {
   const args = process.argv.slice(2);
   const command = args[0] || "help";
@@ -110,7 +122,7 @@ Compatibility:
   rw add <template> --platform <legacy-platform> <destination>
 
 Examples:
-  rw add general --target chat-mobile ./my-ai-workflow
+  rw add idea --target chat-mobile ./my-idea-workflow
   rw add project --target local-agent-project --locale zh .
   rw add learning -t local-agent-project ./langchain-study
   rw upgrade --check .
@@ -265,6 +277,10 @@ function upgradeWorkflow(args) {
   }
 
   const manifest = readManifest(manifestPath);
+  if (findRetiredTemplate(manifest.template)) {
+    printRetiredTemplateMigration(targetDir, manifest);
+    return;
+  }
   const manifestTarget = resolveTarget(manifest.target);
   if (manifestTarget.type === "chat") {
     printLegacyChatMigration(targetDir, manifest);
@@ -331,6 +347,18 @@ function printLegacyChatMigration(targetDir, manifest) {
   console.log("- Confirmed decisions");
   console.log("- Open questions");
   console.log("- Next step");
+}
+
+function printRetiredTemplateMigration(targetDir, manifest) {
+  const locale = manifest.locale === "en" ? "en" : "zh";
+  const suffix = locale === "zh" ? "-新工作流" : "-new-workflow";
+
+  console.log("The general-ai-workflow template has been retired and no longer supports in-place status or upgrades.");
+  console.log("Your existing files remain untouched.");
+  console.log("\nChoose a new workflow in a separate destination:");
+  console.log(`  rw add idea --target chat-mobile --locale ${locale} ${targetDir}-idea`);
+  console.log(`  rw add project --target local-agent-project --locale ${locale} ${targetDir}${suffix}`);
+  console.log("\nTransfer only the current brief, confirmed decisions, open questions, and next step into the new workflow.");
 }
 
 function parseUpgradeScopes(value) {
@@ -695,6 +723,10 @@ function resolveTemplate(templateRef) {
   });
 
   if (!template) {
+    const retired = findRetiredTemplate(templateRef);
+    if (retired) {
+      fail(`Template retired: ${templateRef}. Use \`idea\`, \`project\`, or \`learning\` for a supported workflow. Existing general-ai-workflow files remain untouched.`);
+    }
     fail(`Unknown template: ${templateRef}`);
   }
 
@@ -1244,7 +1276,6 @@ function getLocalizedTemplateMetadata(template, locale) {
 }
 
 function getLocaleStrings(locale, template, target, localePaths) {
-  const isGeneralWorkflow = template.id === "general-ai-workflow";
   const isLearningWorkflow = template.id === "learning-engineering";
   const isProjectWorkflow = template.id === "project-engineering";
   const isIdeaWorkflow = template.id === "idea-engineering";
@@ -1260,7 +1291,7 @@ function getLocaleStrings(locale, template, target, localePaths) {
       headingRules: "Rules",
       ruleReadProjectContext: isWebDesignStandard
         ? `Before designing, generating, or changing a web page, read \`${localePaths.designStandardFile}\`. If the project has a brand or design system, read that source as well and treat it as higher priority.`
-        : `Read \`README.md\`, \`${localePaths.roleFile}\`, \`${localePaths.methodsDir}/\`, \`${localePaths.workspaceDir}/\`, and \`rw-manifest.json\` before ${isLearningWorkflow ? "starting or continuing a learning unit" : isIdeaWorkflow ? "starting or continuing an idea exploration" : isGeneralWorkflow ? "starting or continuing meaningful work" : "making changes"}.`,
+        : `Read \`README.md\`, \`${localePaths.roleFile}\`, \`${localePaths.methodsDir}/\`, \`${localePaths.workspaceDir}/\`, and \`rw-manifest.json\` before ${isLearningWorkflow ? "starting or continuing a learning unit" : isIdeaWorkflow ? "starting or continuing an idea exploration" : "making changes"}.`,
       ruleCaptureKnowledge: isWebDesignStandard
         ? "Keep project-specific visual decisions in the project's own documents. Do not rewrite this reusable standard unless the user explicitly requests it."
         : `Capture verified conclusions in \`${localePaths.knowledgeCaptureDir}/\` and update the affected index.`,
@@ -1280,9 +1311,7 @@ function getLocaleStrings(locale, template, target, localePaths) {
         ? `Keep idea briefs, directions, hypotheses, and decisions in \`${localePaths.workspaceDir}/\`. Explore broadly first, then separate facts, assumptions, and evidence; wait for confirmation before converging on a priority direction.`
         : isLearningWorkflow
         ? `Keep the learner brief, roadmap, progress, and retrospectives in \`${localePaths.workspaceDir}/\`. Before creating or changing a roadmap, lesson, practice plan, or project plan, present a learning agreement and wait for the learner's explicit confirmation; then teach one validated unit at a time.`
-        : isGeneralWorkflow
-          ? `Keep useful task context in \`${localePaths.workspaceDir}/\` and leave a continuation memory after important work.`
-          : isWebDesignStandard
+        : isWebDesignStandard
             ? "Use this file as the reusable default. Existing user brand requirements, design systems, and explicit visual requests override it; state material conflicts rather than silently blending incompatible directions."
             : `Keep durable project context in \`${localePaths.workspaceDir}/\`. Consolidate verified conclusions into the appropriate canonical document and update affected indexes. Before creating a complete solution, plan, or implementation change, present a project agreement and wait for explicit user confirmation.`,
       ruleKeepScoped: "Keep changes scoped to the current task.",
@@ -1349,7 +1378,7 @@ function getLocaleStrings(locale, template, target, localePaths) {
     headingRules: "规则",
     ruleReadProjectContext: isWebDesignStandard
       ? `设计、生成或改动网页前，先读取 \`${localePaths.designStandardFile}\`。项目已有品牌规范或设计系统时，也必须先读取，并以其为更高优先级。`
-      : `在${isLearningWorkflow ? "开始或续接一个学习单元" : isIdeaWorkflow ? "开始或续接一次想法探索" : isGeneralWorkflow ? "开始或续接重要任务" : "改动"}前先读取 \`README.md\`、\`${localePaths.roleFile}\`、\`${localePaths.methodsDir}/\`、\`${localePaths.workspaceDir}/\` 和 \`rw-manifest.json\`。`,
+      : `在${isLearningWorkflow ? "开始或续接一个学习单元" : isIdeaWorkflow ? "开始或续接一次想法探索" : "改动"}前先读取 \`README.md\`、\`${localePaths.roleFile}\`、\`${localePaths.methodsDir}/\`、\`${localePaths.workspaceDir}/\` 和 \`rw-manifest.json\`。`,
     ruleCaptureKnowledge: isWebDesignStandard
       ? "将项目专属的视觉决策记录在项目已有文档中；除非用户明确要求，不要改写这份可复用规范。"
       : `把已验证的结论沉淀到 \`${localePaths.knowledgeCaptureDir}/\`，并更新受影响的索引。`,
@@ -1369,8 +1398,6 @@ function getLocaleStrings(locale, template, target, localePaths) {
       ? `把想法简报、方向、假设和决策放在 \`${localePaths.workspaceDir}/\`。先充分发散，再区分事实、假设和证据；收敛到优先方向前等待用户确认。`
       : isLearningWorkflow
       ? `把学习简报、课程路线、进度和复盘放在 \`${localePaths.workspaceDir}/\`。生成或变更课程路线、章节内容、练习计划或项目方案前，先给出学习约定并等待学习者明确确认；确认后一次只推进一个经过验证的学习单元。`
-      : isGeneralWorkflow
-      ? `把有效任务上下文放在 \`${localePaths.workspaceDir}/\`，重要任务结束后留下续聊记忆。`
       : isWebDesignStandard
         ? "将本文件作为可复用默认规范。用户已有品牌、设计系统和明确视觉要求优先；存在实质冲突时应清楚说明，不要默默混合不兼容的方向。"
         : `把长期项目上下文放在 \`${localePaths.workspaceDir}/\`。将已验证结论合并到对应的权威文档，并更新受影响的索引。生成完整方案、计划或实施改动前，先给出项目约定并等待用户明确确认。`,
@@ -1430,7 +1457,6 @@ function getLocaleStrings(locale, template, target, localePaths) {
 }
 
 function getLocalePaths(locale, template) {
-  const isGeneralWorkflow = template && template.id === "general-ai-workflow";
   const isLearningWorkflow = template && template.id === "learning-engineering";
   const isIdeaWorkflow = template && template.id === "idea-engineering";
   const isWebDesignStandard = template && template.id === "web-design-standard";
@@ -1459,16 +1485,6 @@ function getLocalePaths(locale, template) {
         knowledgeCaptureDir: "idea-space/05-decisions-and-next-steps",
       };
     }
-    if (isGeneralWorkflow) {
-      return {
-        methodsDir: "methods",
-        workspaceDir: "workspace",
-        briefFile: "task-brief.md",
-        questionsFile: "open-questions.md",
-        roleFile: "methods/role-contract.md",
-        knowledgeCaptureDir: "workspace/04-review-and-reuse",
-      };
-    }
     return {
       methodsDir: "methods",
       workspaceDir: "workspace",
@@ -1481,17 +1497,6 @@ function getLocalePaths(locale, template) {
 
   if (isWebDesignStandard) {
     return { designStandardFile: "网页设计规范.md" };
-  }
-
-  if (isGeneralWorkflow) {
-    return {
-      methodsDir: "工作方法",
-      workspaceDir: "工作空间",
-      briefFile: "任务简报.md",
-      questionsFile: "待确认问题.md",
-      roleFile: "工作方法/角色设定.md",
-      knowledgeCaptureDir: "工作空间/04-复盘与沉淀",
-    };
   }
 
   if (isLearningWorkflow) {
