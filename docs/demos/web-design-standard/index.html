@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="RecoWork 产品型网页设计规范的交互式样例。" />
+    <title>Northstar · 项目概览</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar" aria-label="主导航">
+        <a class="logo" href="#overview" aria-label="Northstar 项目概览">
+          <span class="logo-mark">N</span>
+          <span>Northstar</span>
+        </a>
+        <nav class="side-nav" aria-label="工作区导航">
+          <a class="active" href="#overview"><i data-lucide="layout-dashboard"></i><span>项目概览</span></a>
+          <a href="#projects"><i data-lucide="folder-kanban"></i><span>项目</span></a>
+          <a href="#activity"><i data-lucide="activity"></i><span>动态</span></a>
+          <a href="#team"><i data-lucide="users"></i><span>团队</span></a>
+        </nav>
+        <div class="sidebar-footer">
+          <button class="workspace-switcher" type="button" aria-label="切换工作区">
+            <span class="avatar">RC</span>
+            <span><strong>Reco Studio</strong><small>专业版</small></span>
+            <i data-lucide="chevrons-up-down"></i>
+          </button>
+        </div>
+      </aside>
+
+      <div class="page">
+        <header class="topbar">
+          <button class="icon-button menu-button" type="button" aria-label="打开导航" aria-controls="sidebar" aria-expanded="false">
+            <i data-lucide="menu"></i>
+          </button>
+          <div class="breadcrumb" aria-label="当前位置"><span>工作区</span><i data-lucide="chevron-right"></i><strong>项目概览</strong></div>
+          <div class="topbar-actions">
+            <button class="icon-button" type="button" aria-label="通知"><i data-lucide="bell"></i></button>
+            <button class="profile-button" type="button" aria-label="打开个人菜单"><span class="avatar avatar-blue">LW</span><span>林雯</span><i data-lucide="chevron-down"></i></button>
+          </div>
+        </header>
+
+        <main>
+          <section class="page-heading" id="overview">
+            <div>
+              <p class="eyebrow">项目管理</p>
+              <h1>项目概览</h1>
+              <p>跟踪当前工作、风险与下一步，不遗漏需要推进的事项。</p>
+            </div>
+            <button class="button button-primary" type="button" data-open-modal="project-modal"><i data-lucide="plus"></i><span>新建项目</span></button>
+          </section>
+
+          <section class="summary-grid" aria-label="项目摘要">
+            <article class="summary-item"><span>进行中项目</span><strong>12</strong><small><i data-lucide="trending-up"></i> 较上周增加 2 个</small></article>
+            <article class="summary-item"><span>本周待处理</span><strong>28</strong><small>其中 6 项需要评审</small></article>
+            <article class="summary-item"><span>需要关注</span><strong class="warning-number">3</strong><small><i data-lucide="triangle-alert"></i> 存在阻塞或逾期风险</small></article>
+          </section>
+
+          <section class="content-section" id="projects" aria-labelledby="projects-title">
+            <div class="section-header">
+              <div><h2 id="projects-title">当前项目</h2><p>按状态查看需要你处理的项目。</p></div>
+              <button class="button button-secondary" type="button" id="refresh-projects"><i data-lucide="refresh-cw"></i><span>刷新</span></button>
+            </div>
+            <div class="filter-bar" role="toolbar" aria-label="按状态筛选项目">
+              <button class="filter active" type="button" data-filter="all">全部 <span>12</span></button>
+              <button class="filter" type="button" data-filter="review">待评审 <span>3</span></button>
+              <button class="filter" type="button" data-filter="blocked">有风险 <span>3</span></button>
+            </div>
+            <div class="table-wrap" aria-live="polite">
+              <table>
+                <thead><tr><th scope="col">项目</th><th scope="col">负责人</th><th scope="col">状态</th><th scope="col">下一步</th><th scope="col">更新时间</th><th scope="col"><span class="sr-only">操作</span></th></tr></thead>
+                <tbody id="project-rows">
+                  <tr data-status="review"><td><strong>移动端订阅流程</strong><small>产品体验优化</small></td><td><span class="member"><span class="avatar avatar-orange">ZQ</span>周齐</span></td><td><span class="status status-review">待评审</span></td><td>确认价格方案</td><td>今天 10:24</td><td><button class="row-action" type="button" aria-label="查看移动端订阅流程"><i data-lucide="arrow-up-right"></i></button></td></tr>
+                  <tr data-status="active"><td><strong>团队权限升级</strong><small>平台基础能力</small></td><td><span class="member"><span class="avatar avatar-violet">YL</span>杨澜</span></td><td><span class="status status-active">进行中</span></td><td>完成权限矩阵</td><td>昨天 16:40</td><td><button class="row-action" type="button" aria-label="查看团队权限升级"><i data-lucide="arrow-up-right"></i></button></td></tr>
+                  <tr data-status="blocked"><td><strong>客户数据导入</strong><small>企业客户交付</small></td><td><span class="member"><span class="avatar avatar-red">MH</span>马赫</span></td><td><span class="status status-blocked">存在风险</span></td><td>等待数据样本</td><td>周一 09:12</td><td><button class="row-action" type="button" aria-label="查看客户数据导入"><i data-lucide="arrow-up-right"></i></button></td></tr>
+                </tbody>
+              </table>
+              <div class="empty-state" id="empty-state" hidden><i data-lucide="inbox"></i><h3>这里还没有项目</h3><p>调整筛选条件，或创建一个新的项目开始协作。</p><button class="button button-secondary" type="button" data-open-modal="project-modal">新建项目</button></div>
+            </div>
+          </section>
+
+          <section class="content-section activity-section" id="activity" aria-labelledby="activity-title">
+            <div class="section-header"><div><h2 id="activity-title">需要关注</h2><p>优先处理可能影响项目节奏的事项。</p></div><a href="#projects">查看全部</a></div>
+            <ul class="attention-list">
+              <li><span class="attention-icon warning"><i data-lucide="triangle-alert"></i></span><div><strong>客户数据导入等待数据样本</strong><p>已超过原定交付时间 2 天，请确认客户侧负责人。</p></div><button class="text-button" type="button">处理</button></li>
+              <li><span class="attention-icon info"><i data-lucide="message-square"></i></span><div><strong>移动端订阅流程有 4 条待评审意见</strong><p>评审完成后可进入研发排期。</p></div><button class="text-button" type="button">查看</button></li>
+            </ul>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <dialog class="modal" id="project-modal" aria-labelledby="modal-title">
+      <form method="dialog" id="project-form">
+        <div class="modal-header"><div><h2 id="modal-title">新建项目</h2><p>填写最少信息后即可开始推进。</p></div><button class="icon-button" value="cancel" aria-label="关闭"><i data-lucide="x"></i></button></div>
+        <div class="form-field"><label for="project-name">项目名称 <span aria-hidden="true">*</span></label><input id="project-name" name="project-name" required placeholder="例如：新用户引导优化" /><p class="field-error" id="name-error" hidden>请输入项目名称。</p></div>
+        <div class="form-grid"><div class="form-field"><label for="project-owner">负责人</label><select id="project-owner" name="project-owner"><option>林雯</option><option>周齐</option><option>杨澜</option></select></div><div class="form-field"><label for="project-date">目标日期</label><input id="project-date" name="project-date" type="date" /></div></div>
+        <div class="modal-actions"><button class="button button-secondary" value="cancel">取消</button><button class="button button-primary" value="default" id="create-project" type="submit">创建项目</button></div>
+      </form>
+    </dialog>
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden><i data-lucide="circle-check"></i><span>项目已创建，并已加入当前列表。</span></div>
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

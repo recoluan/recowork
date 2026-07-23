@@ -776,6 +776,10 @@ ${selectedCommand}`;
 
   document.querySelector("#configTemplate").value = generatorConfig.template;
   syncGeneratorTemplateCategory();
+  const designDemoLink = document.querySelector("#designDemoLink");
+  if (designDemoLink) {
+    designDemoLink.hidden = generatorConfig.template !== "web-design-standard";
+  }
   document.querySelectorAll(".config-locale").forEach((button) => {
     const isActive = button.dataset.locale === generatorConfig.locale;
     button.classList.toggle("active", isActive);
@@ -973,6 +977,14 @@ document.querySelectorAll("[data-copy-target]").forEach((button) => {
     const target = document.querySelector(`#${button.dataset.copyTarget}`);
     copyText(target.textContent);
   });
+});
+
+document.querySelectorAll("[data-open-design-demo]").forEach((button) => {
+  button.addEventListener("click", () => document.querySelector("#designDemoModal")?.showModal());
+});
+
+document.querySelectorAll("[data-close-design-demo]").forEach((button) => {
+  button.addEventListener("click", () => document.querySelector("#designDemoModal")?.close());
 });
 
 applyLanguage(currentLanguage);

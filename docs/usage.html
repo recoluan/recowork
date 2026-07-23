@@ -184,8 +184,11 @@ npx recowork upgrade --apply --scope workspace --add-missing .</pre>
         </div>
         <div class="init-workbench">
         <div class="workflow-config" aria-label="Workflow generator configuration">
-          <label class="config-field config-template-field" for="configTemplate">
-            <span id="configTemplateLabel" data-i18n="configTemplateWorkflowLabel">工作流模板</span>
+          <div class="config-field config-template-field">
+            <div class="config-template-heading">
+              <label id="configTemplateLabel" for="configTemplate" data-i18n="configTemplateWorkflowLabel">工作流模板</label>
+              <button class="config-demo-link" id="designDemoLink" type="button" hidden data-open-design-demo><i data-lucide="eye" aria-hidden="true"></i><span data-zh="预览样例" data-en="Preview example">预览样例</span></button>
+            </div>
             <div class="config-template-categories" role="tablist" aria-label="Template categories">
               <button class="config-template-category active" type="button" role="tab" aria-selected="true" data-generator-template-category="workflow" data-i18n="configTemplateWorkflowLabel">工作流模板</button>
               <button class="config-template-category" type="button" role="tab" aria-selected="false" data-generator-template-category="standard" data-i18n="configTemplateStandardLabel">设计规范</button>
@@ -196,7 +199,7 @@ npx recowork upgrade --apply --scope workspace --add-missing .</pre>
               <option value="idea-engineering" data-template-category="workflow" data-i18n="configTemplateIdea">想法探索与验证</option>
               <option value="web-design-standard" data-template-category="standard" data-i18n="configTemplateWebDesign">网页设计规范</option>
             </select>
-          </label>
+          </div>
           <div class="config-field config-target-field">
             <span data-i18n="configTargetLabel">使用位置</span>
             <div class="target-select">
@@ -334,6 +337,14 @@ rw add project --target local-agent-project --locale zh .</pre>
         </div>
       </section>
     </main>
+
+    <dialog class="design-demo-modal" id="designDemoModal" aria-labelledby="designDemoModalTitle">
+      <div class="design-demo-modal-header">
+        <div><strong id="designDemoModalTitle" data-zh="网页设计规范交互样例" data-en="Web design standard interactive example">网页设计规范交互样例</strong><span data-zh="默认产品型网页方向" data-en="Default product-web direction">默认产品型网页方向</span></div>
+        <button class="icon-button" type="button" data-close-design-demo aria-label="Close preview"><i data-lucide="x" aria-hidden="true"></i></button>
+      </div>
+      <iframe class="design-demo-frame" title="Web design standard interactive example" src="./demos/web-design-standard/index.html"></iframe>
+    </dialog>
 
     <footer class="site-footer">
       <span>RecoWork</span>

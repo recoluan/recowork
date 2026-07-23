@@ -55,6 +55,7 @@ Template content quality is intentionally deferred. The architecture should supp
 - For `local-agent-project`, it produces exactly one localized design-standard document in addition to target-owned `AGENTS.md` and `rw-manifest.json`: `网页设计规范.md` for `zh`, `web-design-standard.md` for `en`. It must not create a design-system directory, workspace, methods, or multiple standard documents.
 - For `chat-mobile`, it produces the standard three chat materials only. The start instruction must stand alone and include role, input fields, default direction, tokens, responsive and component rules, prohibitions, output expectations, self-checking, brand priority, and a continuation-summary format. It covers desktop and mobile webpages; it does not request local files or tools.
 - This first version must not add template composition, a `packs` CLI option, user-selectable visual styles, image generation, model APIs, or background execution.
+- The documentation site keeps one public interactive reference implementation at `docs/demos/web-design-standard/index.html`. It demonstrates the default product-web direction, responsive behavior, and real UI states as a manual acceptance baseline; it is previewed inside a website modal and is not emitted by either target or included in generated user projects.
 
 ## Targets and Platform Usage
 

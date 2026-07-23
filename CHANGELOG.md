@@ -7,6 +7,7 @@ All notable changes to RecoWork are documented here. This project follows [Keep 
 ### Added
 
 - Added `web-design-standard`, a reusable product-web design standard that produces one localized standard file for local agents and a standalone responsive-web prompt for Chat / mobile.
+- Added a public interactive reference implementation for the default product-web direction, including responsive navigation, filtering, loading, empty state, form validation, and success feedback.
 
 ### Changed
 

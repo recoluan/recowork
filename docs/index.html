@@ -189,6 +189,7 @@
             <div class="card-chip">web design</div>
             <h3>web-design-standard</h3>
             <p data-zh="为 AI 生成或改造 HTML / Web 页面提供一份可复用规范，覆盖 token、响应式、组件状态和可访问性自检。" data-en="A reusable standard for AI-generated or improved HTML and web pages, covering tokens, responsive behavior, component states, and accessibility self-checking.">为 AI 生成或改造 HTML / Web 页面提供一份可复用规范，覆盖 token、响应式、组件状态和可访问性自检。</p>
+            <button class="demo-preview-button" type="button" data-open-design-demo><i data-lucide="eye" aria-hidden="true"></i><span data-zh="预览样例" data-en="Preview example">预览样例</span></button>
           </article>
         </div>
       </section>
@@ -217,6 +218,14 @@
         </div>
       </section>
     </main>
+
+    <dialog class="design-demo-modal" id="designDemoModal" aria-labelledby="designDemoModalTitle">
+      <div class="design-demo-modal-header">
+        <div><strong id="designDemoModalTitle" data-zh="网页设计规范交互样例" data-en="Web design standard interactive example">网页设计规范交互样例</strong><span data-zh="默认产品型网页方向" data-en="Default product-web direction">默认产品型网页方向</span></div>
+        <button class="icon-button" type="button" data-close-design-demo aria-label="Close preview"><i data-lucide="x" aria-hidden="true"></i></button>
+      </div>
+      <iframe class="design-demo-frame" title="Web design standard interactive example" src="./demos/web-design-standard/index.html"></iframe>
+    </dialog>
 
     <footer class="site-footer">
       <span>RecoWork</span>

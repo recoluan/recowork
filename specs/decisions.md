@@ -436,3 +436,19 @@ Implication:
 - Existing generated `general-ai-workflow` files are user-owned and remain untouched.
 - `rw status` and `rw upgrade` detect a legacy general manifest and print a read-only migration guide to a separate idea or project workflow; they never perform an in-place conversion.
 - Decisions 011 and 019 are superseded only where they prescribe `general-ai-workflow` as an active template.
+
+## 025. Keep A Public Reference Implementation For The Web Design Standard
+
+Decision: retain one interactive website example for `web-design-standard` at `docs/demos/web-design-standard/index.html` and expose it inside a large preview modal from the design-standard card and configuration flow.
+
+Reason:
+
+- Tokens and written rules alone do not let users quickly judge the intended default product-web direction.
+- A functioning example verifies that the standard can produce responsive layout, meaningful component states, and accessible interaction instead of a static screenshot.
+- The example gives maintainers a stable manual acceptance baseline when the standard evolves.
+
+Implication:
+
+- The example is documentation-site content, not a generated template asset and not a new output from either target.
+- It uses the default restrained product-web direction and covers navigation, primary action, filtering, loading, empty state, form validation, and success feedback.
+- Future changes to the web-design standard should check the example against the same responsive, state, and accessibility criteria.
