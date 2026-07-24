@@ -103,6 +103,7 @@ For initialization tests, use `/private/tmp/...` or another temporary directory 
 - Use a specific scope such as `cli`, `targets`, `templates`, `project-engineering`, `idea-engineering`, `learning-engineering`, `docs`, `specs`, or `release`.
 - For multi-surface, migration, generated-output, or otherwise non-obvious changes, include `Why`, `Changes`, `Compatibility`, and `Validation` in the commit body.
 - Use a `BREAKING CHANGE:` footer when an existing command, generated path, file format, or workflow contract becomes incompatible.
-- Before committing a completed user-facing, template, target, CLI, or website change that is not yet released, add a concise bilingual entry to `CHANGELOG.md`, `CHANGELOG.zh.md`, and the Unreleased section of `docs/releases.html`. Keep the three surfaces aligned; publication moves those entries into a dated release section.
+- Before committing a completed functional change to a template, target, CLI, generated artifact, compatibility contract, or migration behavior that is not yet released, add a concise bilingual entry to `CHANGELOG.md`, `CHANGELOG.zh.md`, and the Unreleased section of `docs/releases.html`. Keep the three surfaces aligned; publication moves those entries into a dated release section.
+- Do not add changelog entries for website-only visual, copy, layout, interaction-polish, or documentation-presentation changes. When a change includes both presentation and functional behavior, record only the functional impact.
 - Inspect staged files before committing; never stage unrelated user changes, generated test output, npm cache, or package tarballs.
 - Before publishing, update `CHANGELOG.md`, `CHANGELOG.zh.md`, and `docs/releases.html` in both languages. Do not publish a version without a release record.

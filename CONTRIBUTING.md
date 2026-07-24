@@ -82,7 +82,8 @@ BREAKING CHANGE: Chinese Codex output now uses 知识库/ instead of knowledge/.
 - Do not stage unrelated user changes, generated test output, npm cache, or package tarballs.
 - Inspect the staged diff before committing and run checks appropriate to the changed surface.
 - A commit that changes templates, targets, CLI behavior, or public documentation must include the related specs in the same commit.
-- Before committing a completed user-facing, template, target, CLI, or website change that has not been released, add a concise bilingual entry to `CHANGELOG.md`, `CHANGELOG.zh.md`, and the Unreleased section of `docs/releases.html`.
+- Before committing a completed functional change to a template, target, CLI, generated artifact, compatibility contract, or migration behavior that has not been released, add a concise bilingual entry to `CHANGELOG.md`, `CHANGELOG.zh.md`, and the Unreleased section of `docs/releases.html`.
+- Do not add changelog entries for website-only visual, copy, layout, interaction-polish, or documentation-presentation changes. When a change includes both presentation and functional behavior, record only the functional impact.
 
 ## Release Checklist
 
