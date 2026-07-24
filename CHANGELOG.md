@@ -11,6 +11,9 @@ All notable changes to RecoWork are documented here. This project follows [Keep 
 
 ### Changed
 
+- Reframed the homepage hero as a work-standard Harness for AI agents, using a transparent workflow visual that connects an initial request, task and standards, project facts, review, reviewable results, and a resumable next step.
+- Simplified the homepage product statement, moved the stronger Agent-work problem framing into the problem section, and made both initialization paths use aligned guidance and top-right copy controls.
+- Improved site legibility and hierarchy: work-case labels now use violet, command examples use a restored dark terminal surface, and homepage/philosophy headings use clearer narrative copy and semantic line breaks.
 - Reframed the public website and README around helping an existing AI agent finish real work continuously, with clear task, standards, project facts, review, and continuation boundaries instead of CLI-first template language.
 - Reworked the bilingual homepage, usage guide, philosophy, and cases around real work scenarios and the distinction between a local executable agent and Chat / Mobile. Public copy now avoids unverified product-support claims and clarifies that Chat / Mobile continuity is manual.
 - Retired `general-ai-workflow` because its daily-task scope did not provide a sufficiently distinct reusable workflow. New initialization now directs users to idea, project, or learning workflows; existing general workflow files remain untouched and receive a read-only migration guide from `rw status` or `rw upgrade`.
@@ -18,7 +21,7 @@ All notable changes to RecoWork are documented here. This project follows [Keep 
 - Workflow role contracts now require objective assessment of risks, contradictions, weak assumptions, and credible alternatives instead of reflexive agreement.
 - The documentation site separates workflow templates from design standards in both the catalog and initialization flow, and the release summary now names each pending capability.
 - The documentation site now trials remotely loaded Noto Sans SC and JetBrains Mono to unify Chinese, English, and code typography before any font assets are self-hosted.
-- Site headings now use semantic line breaks, highlighted keywords, and a more compact desktop hierarchy from H1 through H3 in Chinese and English, avoiding arbitrary phrase splits, oversized page heroes, and weak visual hierarchy.
+- Site headings now use semantic line breaks with consistent space between lines, highlighted keywords, and a more compact desktop hierarchy from H1 through H3 in Chinese and English, avoiding arbitrary phrase splits, oversized page heroes, and weak visual hierarchy.
 
 ### Compatibility
 
