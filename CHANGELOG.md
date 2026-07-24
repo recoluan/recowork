@@ -4,6 +4,8 @@ All notable changes to RecoWork are documented here. This project follows [Keep 
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-07-24
+
 ### Added
 
 - Added `web-design-standard`, a reusable product-web design standard that produces one localized standard file for local agents and a standalone responsive-web prompt for Chat / mobile.

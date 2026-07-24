@@ -55,30 +55,26 @@
       <section class="section release-summary">
         <div class="release-summary-card latest-release">
           <span data-zh="最新已发布" data-en="Latest published">最新已发布</span>
-          <strong>1.0.0</strong>
-          <p data-zh="2026-07-21 · 两种使用环境与安全迁移" data-en="2026-07-21 · Two usage environments and safe migration">2026-07-21 · 两种使用环境与安全迁移</p>
+          <strong>2.0.0</strong>
+          <p data-zh="2026-07-24 · 工作标准、网页设计规范与安全迁移" data-en="2026-07-24 · Work standards, web design standard, and safe migration">2026-07-24 · 工作标准、网页设计规范与安全迁移</p>
         </div>
         <div class="release-summary-card next-release">
           <span data-zh="下一版本" data-en="Next release">下一版本</span>
-          <strong data-zh="开发中" data-en="In development">开发中</strong>
+          <strong data-zh="暂无未发布变更" data-en="No unreleased changes">暂无未发布变更</strong>
           <ul class="next-release-summary">
-            <li data-zh="网页设计规范模板与聊天端响应式网页 Prompt" data-en="Web design standard and responsive-web chat prompt">网页设计规范模板与聊天端响应式网页 Prompt</li>
-            <li data-zh="安全整合并升级已有根目录 AGENTS.md" data-en="Safe integration and upgrades for existing root AGENTS.md">安全整合并升级已有根目录 AGENTS.md</li>
-            <li data-zh="要求 AI 客观评估风险，并优化站点能力分类" data-en="Objective AI risk assessment and clearer site capability categories">要求 AI 客观评估风险，并优化站点能力分类</li>
-            <li data-zh="下线日常任务模板，并为已有工作流提供只读迁移指引" data-en="Retire the daily task template with read-only migration guidance for existing workflows">下线日常任务模板，并为已有工作流提供只读迁移指引</li>
-            <li data-zh="重构网站与 README：从模板和 CLI 叙事转向让已有 AI Agent 持续完成真实工作" data-en="Reframe the website and README around helping an existing AI agent keep finishing real work">重构网站与 README：从模板和 CLI 叙事转向让已有 AI Agent 持续完成真实工作</li>
+            <li data-zh="下一次迭代的内容会在这里汇总。" data-en="The next iteration will be summarized here.">下一次迭代的内容会在这里汇总。</li>
           </ul>
         </div>
       </section>
 
       <section class="section release-list" aria-label="Release history">
-        <article class="release-card release-card-unreleased">
+        <article class="release-card">
           <div class="release-card-heading">
             <div>
-              <span class="release-kicker" data-zh="下一版本" data-en="Next release">下一版本</span>
-              <h2 data-zh="未发布" data-en="Unreleased">未发布</h2>
+              <span class="release-kicker">2026-07-24</span>
+              <h2>2.0.0</h2>
             </div>
-            <span class="release-badge badge-pink" data-zh="开发中" data-en="In development">开发中</span>
+            <span class="release-badge badge-green" data-zh="已发布" data-en="Published">已发布</span>
           </div>
           <div class="release-columns">
             <div>
@@ -100,6 +96,10 @@
             <div>
               <h3 data-zh="兼容性" data-en="Compatibility">兼容性</h3>
               <p data-zh="已有根目录 AGENTS.md 在 RecoWork 受管区块之外的内容不会被改写。日常任务模板及其别名不再支持新建；已有 general 工作流保持不动，只通过 rw status 或 rw upgrade 提供迁移建议。" data-en="Existing root AGENTS.md content outside the managed RecoWork block is never rewritten. The daily task template and aliases no longer support new initialization; existing general workflows remain untouched and receive migration guidance only through rw status or rw upgrade.">已有根目录 AGENTS.md 在 RecoWork 受管区块之外的内容不会被改写。日常任务模板及其别名不再支持新建；已有 general 工作流保持不动，只通过 rw status 或 rw upgrade 提供迁移建议。</p>
+            </div>
+            <div>
+              <h3 data-zh="破坏性变更" data-en="Breaking changes">破坏性变更</h3>
+              <p data-zh="不再支持初始化、列出或查看 general-ai-workflow 及其 general、task、daily 别名。请改用想法、项目或学习工作流；已有 general 工作流不会被改写。" data-en="general-ai-workflow and its general, task, and daily aliases can no longer be initialized, listed, or shown. Use idea, project, or learning workflows instead; existing general workflows are not modified.">不再支持初始化、列出或查看 general-ai-workflow 及其 general、task、daily 别名。请改用想法、项目或学习工作流；已有 general 工作流不会被改写。</p>
             </div>
           </div>
         </article>

@@ -4,6 +4,8 @@ RecoWork 的重要变更记录在此。项目遵循 [Keep a Changelog](https://k
 
 ## [未发布]
 
+## [2.0.0] - 2026-07-24
+
 ### 新增
 
 - 新增 `web-design-standard`：面向产品型网页的可复用设计规范；本地 Agent 交付一份本地化规范文件，聊天 / 手机端交付一份可独立使用的响应式网页大 Prompt。
