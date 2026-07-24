@@ -11,6 +11,8 @@ All notable changes to RecoWork are documented here. This project follows [Keep 
 
 ### Changed
 
+- Reframed the public website and README around helping an existing AI agent finish real work continuously, with clear task, standards, project facts, review, and continuation boundaries instead of CLI-first template language.
+- Reworked the bilingual homepage, usage guide, philosophy, and cases around real work scenarios and the distinction between a local executable agent and Chat / Mobile. Public copy now avoids unverified product-support claims and clarifies that Chat / Mobile continuity is manual.
 - Retired `general-ai-workflow` because its daily-task scope did not provide a sufficiently distinct reusable workflow. New initialization now directs users to idea, project, or learning workflows; existing general workflow files remain untouched and receive a read-only migration guide from `rw status` or `rw upgrade`.
 - Local initialization now safely integrates a marker-bounded RecoWork block into an existing root `AGENTS.md`; upgrades preserve a user-modified or removed managed block.
 - Workflow role contracts now require objective assessment of risks, contradictions, weak assumptions, and credible alternatives instead of reflexive agreement.

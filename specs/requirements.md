@@ -4,12 +4,15 @@ This document records product and engineering requirements established during th
 
 ## Product Positioning
 
-- RecoWork helps people turn repeatable AI usage into engineered workflows.
+- RecoWork helps people and the AI agents they already use turn real work into a durable, reviewable working system.
+- Its public positioning is: "work standards and project facts for people and AI agents." It fixes the task, professional standards, current project facts, acceptance method, and continuation mechanism; it does not replace an agent runtime.
 - It is not a prompt collection.
+- It is not another agent platform and does not host models, API keys, background execution, automatic memory, or unattended completion.
 - It should help users build durable working systems: prompts, rules, canonical workspace records, memory, quality checks, and usage steps.
 - It should serve both technical users and non-technical users across industries.
 - It should be usable across different AI products, including web apps, mobile apps, coding agents, and workspace tools.
 - The project should remain open-source friendly.
+- Public documentation may say RecoWork works with an AI agent the user already uses, but must not present a specific agent product as officially supported unless that compatibility has been actually verified.
 
 ## Product Modes
 
@@ -133,6 +136,12 @@ npx recowork add <template> --target <target> --locale <locale> <destination>
 - Website should present AI-assisted initialization and CLI initialization as two selectable paths within one initialization area.
 - Website should let users select a workflow template, usage target, output locale, and runtime capability, then generate matching copyable CLI and prompt examples.
 - Website should avoid overlong or unclear main titles.
+- The website must explain value before internal terms such as CLI, template, target, or locale. Its homepage should lead with the user problem: an existing agent needs a concrete, repeatable job to finish.
+- Website terminology should use user-facing labels: "work scenario", "usage environment", and "language" rather than template, target, and locale where implementation details are unnecessary.
+- The homepage must distinguish local executable agents from Chat / Mobile: local mode is the complete durable workflow; Chat / Mobile is a low-friction conversation entry point with a copyable start instruction, task protocol, and manually saved continuation or migration summary.
+- Public copy must state that Chat / Mobile neither creates nor automatically persists a local project workspace, and should guide users to move complex, collaborative, knowledge-heavy, or auditable work to a local executable agent.
+- The homepage must present project engineering, learning engineering, and idea engineering as available workflow scenarios. A retired daily-task workflow must not be presented as a current template; its user problem may be discussed only with an explicit statement that no standalone template is currently available.
+- The web-design standard must be shown separately as an independently validated professional standard, rather than misrepresented as another durable project-workflow scenario.
 
 ## Packaging and Publishing Requirements
 

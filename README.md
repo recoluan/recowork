@@ -1,64 +1,84 @@
 # RecoWork
 
-RecoWork turns repeatable AI work into reusable, engineered workflows. It provides templates for idea exploration, learning, projects, and web design standards, with explicit confirmation, self-review, fresh records, and a clean handoff between chat and local work.
+**Help the AI agent you already use keep finishing real work.**
 
-中文说明：[README.zh.md](./README.zh.md) | Website: [RecoWork](https://recowork.recoluan.com)
+RecoWork is a layer of work standards and project facts for people and AI agents. It does not replace an agent runtime, host models, run tasks in the background, or manage your API keys.
+
+It fixes the task, professional standards, current facts, review criteria, and handoff so a useful conversation can become work that is easier to continue, inspect, and reuse.
+
+[中文说明](./README.zh.md) · [Website](https://recoluan.github.io/recowork/) · [Usage guide](https://recoluan.github.io/recowork/usage.html)
+
+## What It Helps With
+
+| Real work | What RecoWork preserves | Current template |
+| --- | --- | --- |
+| Move a project forward | Briefs, open questions, designs, decisions, reviews | `project-engineering` |
+| Learn with evidence | Diagnosis, roadmap, practice, projects, retrospectives | `learning-engineering` |
+| Turn an idea into a direction | Problem framing, hypotheses, validation, next decisions | `idea-engineering` |
+| Improve web-page quality | Design direction, responsive rules, component states, self-review | `web-design-standard` |
+
+The web design standard is a separate reusable standard. It is being validated independently, rather than treated as another project-workflow scenario.
 
 ## Two Environments
 
-| Environment | Use it when | What it delivers |
-| --- | --- | --- |
-| `local-agent-project` | Work needs to persist, evolve, be reviewed, or be upgraded | `AGENTS.md`, working methods, an indexed workspace, intermediate artifacts, and `rw-manifest.json`. |
-| `chat-mobile` | You need a low-friction workflow in any web, app, or mobile chat | A start instruction, task protocol, and a manually saved continuation/migration summary. |
+### Local executable agent
 
-The local workflow is tool-neutral and can be used by a command-capable agent such as Codex, Claude Code, or Cursor. It intentionally does not generate platform-specific skills or configuration directories.
+Use this for long-running projects, code, complex learning, and work that needs durable facts or reviewability. RecoWork initializes a root `AGENTS.md`, working methods, a localized workspace where applicable, and a versioned manifest in the directory you choose.
 
-When a local destination already has a root `AGENTS.md`, RecoWork preserves it and automatically appends a marker-bounded, template-specific RecoWork block. Existing project rules outside that block take priority. Upgrades only update an unchanged RecoWork block and report user edits instead of overwriting them.
+### Chat / Mobile
 
-Chat continuity is manual. Save the summary and paste it into the next conversation. When work becomes long-running, collaborative, knowledge-heavy, or auditable, use the included migration package to move into a local agent.
+Use this for fast starts, temporary tasks, and lightweight conversations. It produces only a start instruction, task execution protocol, and continuation or migration summary. It does not ask for Node.js, a CLI, local folders, automatic persistence, upgrades, or file-level traceability.
 
-## Templates
+Chat continuity is manual: save and paste the continuation summary into the next conversation. When work becomes long-running, collaborative, knowledge-heavy, or auditable, use the migration package to start a separate local workflow.
 
-| Template | Use case |
-| --- | --- |
-| `idea-engineering` (`idea`) | Brainstorming, direction synthesis, hypothesis validation, and a confirmed next step. |
-| `learning-engineering` (`learning`) | Learning diagnosis, roadmap, lessons, practice, and retrospectives. |
-| `project-engineering` (`project`) | AI-assisted projects with working methods, document standards, workspace records, and quality gates. |
-| `web-design-standard` (`web-design`) | A reusable restrained product-web standard for AI-generated or improved HTML and web pages. |
+## Start a Local Workflow
 
-## Initialize With CLI
+In a command-capable local agent, initialize a workflow deterministically:
 
 ```bash
 npx recowork add project --target local-agent-project --locale en .
-npx recowork add learning --target local-agent-project --locale zh ./langchain-study
-npx recowork add idea --target chat-mobile --locale en ./idea-chat-kit
-npx recowork add web-design --target local-agent-project --locale en ./product-site
 ```
 
-`rw` is the installed command. Run `rw list` and `rw targets` to inspect available templates and environments.
+Choose another scenario or locale as needed:
 
-## Initialize Through AI
+```bash
+npx recowork list
+npx recowork add learning --target local-agent-project --locale en ./my-learning-work
+npx recowork add idea --target local-agent-project --locale en ./idea-work
+```
 
-For a local command-capable agent, paste this prompt:
+`rw` is the installed command alias. Use `npx recowork` when you do not have the package installed globally.
+
+## Start Through an Agent
+
+For a local agent that can run commands, paste this instruction:
 
 ```text
-Initialize the RecoWork `project-engineering` template for the `local-agent-project` environment in English in the current directory.
+Initialize a RecoWork project workflow in the current directory.
 
-First check whether Node.js and npm are available. If they are missing or outdated, explain the situation and ask for my confirmation before installing the latest stable Node.js. After confirmation, run:
+Repository: https://github.com/recoluan/recowork
+Run: npx recowork add project --target local-agent-project --locale en .
 
-npx recowork add project-engineering --target local-agent-project --locale en .
-
-Then inspect the generated files and tell me the first decision you need from me. Repository source: https://github.com/recoluan/recowork
+First verify Node.js and npm. If either is unavailable or outdated, explain the blocker and ask for confirmation before installing the latest stable Node.js. Preserve any existing root AGENTS.md and verify that RecoWork adds only its marker-bounded integration block. Then show the created files and the first working step.
 ```
 
-For a web or mobile chat, initialize the `chat-mobile` target and paste its `start-instruction` into the conversation. It does not require Node.js, a CLI, or local files.
+For a pure chat or mobile environment, use the website selector to generate a copyable chat start instruction. Do not use the CLI or simulate local files in that environment.
 
-## Durable Records
+## Boundaries
 
-RecoWork does not create a separate knowledge base. Verified conclusions belong in the appropriate canonical document inside the generated workspace. Each affected `index.md` is updated so agents retrieve context progressively instead of loading every document at once.
+- You control the agent; RecoWork does not run it for you.
+- Local files stay in the location you choose.
+- AI output, recommendations, and changes still require human review.
+- RecoWork does not claim automatic memory, unlimited execution, or unattended completion.
+- Specific agent products are not presented as officially supported unless compatibility has been verified.
 
-## Upgrades
+## Development
 
-`rw add` refuses a directory that already contains `rw-manifest.json`; use `rw status <directory>` and `rw upgrade --check <directory>` for an existing workflow. `rw upgrade --apply` only updates unchanged method or target files. User-owned workspace files are never overwritten, moved, or deleted. Legacy Chat workflows receive a migration guide that creates a separate local workflow.
+```bash
+node --check cli/recowork/bin/rw.js
+node --check docs/app.js
+node cli/recowork/bin/rw.js list
+node cli/recowork/bin/rw.js targets
+```
 
-See [specs/targets.md](./specs/targets.md), [specs/requirements.md](./specs/requirements.md), and [CHANGELOG.md](./CHANGELOG.md) for the durable product contract.
+Product and target conventions are recorded in [specs/requirements.md](./specs/requirements.md), [specs/targets.md](./specs/targets.md), and [specs/decisions.md](./specs/decisions.md). See [CHANGELOG.md](./CHANGELOG.md) for unreleased and published changes.

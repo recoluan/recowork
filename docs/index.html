@@ -3,238 +3,85 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>RecoWork · AI 工作流模板</title>
-    <meta
-      name="description"
-      content="RecoWork 将 AI 工作流模板初始化为 Chat / 手机端或电脑端 AI 助手的工程化工作流。"
-    />
+    <title>RecoWork · 让 AI 持续完成真实工作</title>
+    <meta name="description" content="RecoWork 将任务、标准、项目事实和续接方式固定下来，让已有 AI Agent 从聊天走向持续交付。" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body data-page="home">
     <header class="site-header">
-      <a class="brand" href="#top" aria-label="RecoWork home">
-        <span class="brand-mark" aria-hidden="true">RW</span>
-        <span>RecoWork</span>
-      </a>
+      <a class="brand" href="#top" aria-label="RecoWork home"><span class="brand-mark" aria-hidden="true">RW</span><span>RecoWork</span></a>
       <nav class="main-nav" aria-label="Primary navigation">
         <a class="active" href="./index.html" data-zh="首页" data-en="Home">首页</a>
-        <a href="./usage.html" data-zh="使用说明" data-en="Usage">使用说明</a>
-        <a href="./cases.html" data-zh="案例" data-en="Cases">案例</a>
-        <a href="./philosophy.html" data-zh="设计理念" data-en="Philosophy">设计理念</a>
+        <a href="./usage.html" data-zh="使用方式" data-en="How to use">使用方式</a>
+        <a href="./cases.html" data-zh="工作案例" data-en="Work cases">工作案例</a>
+        <a href="./philosophy.html" data-zh="工作理念" data-en="How it works">工作理念</a>
         <a href="./releases.html" data-zh="发布记录" data-en="Releases">发布记录</a>
       </nav>
       <div class="header-actions">
-        <a class="github-link" href="https://github.com/recoluan/recowork" target="_blank" rel="noreferrer">
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.1 3.3 9.4 7.9 10.9.58.1.8-.25.8-.56v-2.1c-3.22.7-3.9-1.38-3.9-1.38-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.7.08-.7 1.17.08 1.8 1.2 1.8 1.2 1.04 1.78 2.73 1.27 3.4.97.1-.76.4-1.27.74-1.56-2.57-.3-5.27-1.28-5.27-5.73 0-1.27.45-2.3 1.2-3.12-.12-.3-.52-1.5.12-3.08 0 0 .98-.31 3.2 1.2A11.1 11.1 0 0 1 12 5.94c.98 0 1.96.13 2.88.39 2.22-1.5 3.2-1.2 3.2-1.2.64 1.58.24 2.78.12 3.08.75.82 1.2 1.85 1.2 3.12 0 4.46-2.7 5.43-5.28 5.72.42.36.8 1.08.8 2.18v3.11c0 .31.2.67.8.56a11.5 11.5 0 0 0-3.72-22.4Z" />
-          </svg>
-          <span>GitHub</span>
-        </a>
-        <button class="language-toggle active" type="button" data-lang="zh">中</button>
-        <button class="language-toggle" type="button" data-lang="en">EN</button>
+        <a class="github-link" href="https://github.com/recoluan/recowork" target="_blank" rel="noreferrer" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.1 3.3 9.4 7.9 10.9.58.1.8-.25.8-.56v-2.1c-3.22.7-3.9-1.38-3.9-1.38-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.7.08-.7 1.17.08 1.8 1.2 1.8 1.2 1.04 1.78 2.73 1.27 3.4.97.1-.76.4-1.27.74-1.56-2.57-.3-5.27-1.28-5.27-5.73 0-1.27.45-2.3 1.2-3.12-.12-.3-.52-1.5.12-3.08 0 0 .98-.31 3.2 1.2A11.1 11.1 0 0 1 12 5.94c.98 0 1.96.13 2.88.39 2.22-1.5 3.2-1.2 3.2-1.2.64 1.58.24 2.78.12 3.08.75.82 1.2 1.85 1.2 3.12 0 4.46-2.7 5.43-5.28 5.72.42.36.8 1.08.8 2.18v3.11c0 .31.2.67.8.56a11.5 11.5 0 0 0-3.72-22.4Z" /></svg><span>GitHub</span></a>
+        <button class="language-toggle active" type="button" data-lang="zh">中</button><button class="language-toggle" type="button" data-lang="en">EN</button>
       </div>
     </header>
 
     <main id="top">
-      <section class="hero product-hero">
+      <section class="hero product-hero narrative-hero">
         <div class="hero-copy">
-          <p class="eyebrow" data-i18n="heroEyebrow">AI work harness</p>
+          <p class="eyebrow" data-zh="给已有 Agent 的工作标准" data-en="Work standards for the agent you already use">给已有 Agent 的工作标准</p>
           <h1 class="localized-title">
-            <span class="title-copy title-zh"><span class="title-line">让 AI 用<span class="title-accent title-accent-orange">工程化</span>的方式，</span><span class="title-line"><span class="title-accent title-accent-violet">聪明</span>地工作。</span></span>
-            <span class="title-copy title-en"><span class="title-line">Make AI work <span class="title-accent title-accent-violet">smarter</span>.</span><span class="title-line"><span class="title-accent title-accent-orange">Engineer</span> the workflow.</span></span>
+            <span class="title-copy title-zh"><span class="title-line">你部署了 Agent，</span><span class="title-line">但它每天究竟该替你完成<span class="title-accent title-accent-violet">什么</span>？</span></span>
+            <span class="title-copy title-en"><span class="title-line">You have an agent.</span><span class="title-line">What should it <span class="title-accent title-accent-violet">actually finish</span> every day?</span></span>
           </h1>
-          <p class="hero-text" data-i18n="heroText">
-            RecoWork 是 AI 工作 harness：把上下文、规则、工具约定和检查机制沉淀成模板，再按真实工具环境生成 Prompt、项目规则、知识空间和续聊机制。
-          </p>
-          <div class="hero-actions">
-            <a class="primary-link" href="./usage.html#initialize" data-i18n="heroInitialize">开始初始化</a>
-            <a class="secondary-link" href="./usage.html" data-i18n="heroPrimary">阅读使用说明</a>
-            <a class="secondary-link" href="./cases.html" data-i18n="heroSecondary">查看案例</a>
-          </div>
-          <div class="value-points" aria-label="RecoWork value points">
-            <span data-zh="不从零写 Prompt" data-en="No prompt writing from scratch">不从零写 Prompt</span>
-            <span data-zh="按真实工具生成" data-en="Generated for real tools">按真实工具生成</span>
-            <span data-zh="保留上下文和质量标准" data-en="Keeps context and quality standards">保留上下文和质量标准</span>
-          </div>
+          <p class="hero-text" data-zh="RecoWork 将任务、标准、项目事实和续接方式固定下来，让已有 AI Agent 从聊天走向持续交付。" data-en="RecoWork fixes the task, standards, project facts, and handoff so the AI agent you already use can move from chat to sustained delivery.">RecoWork 将任务、标准、项目事实和续接方式固定下来，让已有 AI Agent 从聊天走向持续交付。</p>
+          <div class="hero-actions"><a class="primary-link" href="#work-cases" data-zh="选择一个可立即开始的工作" data-en="Choose work to start now">选择一个可立即开始的工作</a><a class="secondary-link" href="./usage.html#environments" data-zh="了解本地 Agent 如何使用" data-en="See how local agents use it">了解本地 Agent 如何使用</a></div>
         </div>
-
-        <div class="hero-visual" aria-label="RecoWork workflow preview">
-          <div class="visual-topline">
-            <span id="visualCommand" data-i18n="visualCommand">rw add project --target local-agent-project --locale zh .</span>
-            <div class="visual-actions">
-              <a href="./usage.html#initialize" data-i18n="visualPrompt">初始化</a>
-              <button id="visualCopy" type="button" data-copy-target="visualCommand" data-i18n="copyCommand">复制</button>
-            </div>
+        <div class="hero-visual work-assets-visual" aria-label="Work assets preview">
+          <div class="asset-status"><span data-zh="当前工作" data-en="Current work">当前工作</span><strong data-zh="准备下一轮项目决策" data-en="Prepare the next project decision">准备下一轮项目决策</strong></div>
+          <div class="asset-list">
+            <div><span class="asset-icon asset-orange">01</span><div><strong data-zh="项目简报" data-en="Project brief">项目简报</strong><p data-zh="目标、范围和约束已确认" data-en="Goals, scope, and constraints confirmed">目标、范围和约束已确认</p></div><em data-zh="当前" data-en="Current">当前</em></div>
+            <div><span class="asset-icon asset-violet">02</span><div><strong data-zh="待确认问题" data-en="Open questions">待确认问题</strong><p data-zh="2 个问题等待决定" data-en="2 questions need decisions">2 个问题等待决定</p></div><em data-zh="待处理" data-en="Open">待处理</em></div>
+            <div><span class="asset-icon asset-blue">03</span><div><strong data-zh="验收检查" data-en="Acceptance check">验收检查</strong><p data-zh="完成前需要自检与复核" data-en="Self-review and verification before complete">完成前需要自检与复核</p></div><em data-zh="下一步" data-en="Next">下一步</em></div>
           </div>
-          <div class="product-flow">
-            <div>
-              <span>Template</span>
-              <strong data-zh="工作场景" data-en="Work scenario">工作场景</strong>
-              <p data-zh="想法、项目、学习、网页设计" data-en="Ideas, projects, learning, web design">想法、项目、学习、网页设计</p>
-            </div>
-            <div>
-              <span>Target</span>
-              <strong data-zh="使用位置" data-en="Usage target">使用位置</strong>
-              <p data-zh="Chat / 手机端、电脑端 AI 助手" data-en="Chat / mobile, desktop AI assistant">Chat / 手机端、电脑端 AI 助手</p>
-            </div>
-            <div>
-              <span>Output</span>
-              <strong data-zh="可用资产" data-en="Ready assets">可用资产</strong>
-              <p data-zh="规则、工作空间、Prompt、续接摘要" data-en="Rules, workspace, prompts, continuation summaries">规则、工作空间、Prompt、续接摘要</p>
-            </div>
-          </div>
-          <div class="visual-footer">
-            <span data-i18n="visualOutPrompt">Prompts</span>
-            <span data-i18n="visualOutRules">Project rules</span>
-            <span data-i18n="visualOutKnowledge">Knowledge templates</span>
-            <span data-i18n="visualOutMemory">Memory cards</span>
-          </div>
+          <div class="visual-footer"><span data-zh="任务" data-en="Task">任务</span><span data-zh="标准" data-en="Standards">标准</span><span data-zh="项目事实" data-en="Project facts">项目事实</span><span data-zh="续接" data-en="Continuation">续接</span></div>
         </div>
       </section>
 
       <section class="section problem-solution-section">
-        <div class="section-heading">
-          <p class="eyebrow" data-zh="为什么需要" data-en="Why it matters">为什么需要</p>
-          <h2 data-zh="AI 很强，但多数使用方式并不稳定。" data-en="AI is powerful, but most usage patterns are not stable.">AI 很强，但多数使用方式并不稳定。</h2>
-        </div>
-        <div class="comparison-grid">
-          <article class="comparison-card before">
-            <span data-zh="现在常见的问题" data-en="Common problems">现在常见的问题</span>
-            <h3 data-zh="每次都重新解释背景、标准和偏好。" data-en="You keep explaining context, standards, and preferences again.">每次都重新解释背景、标准和偏好。</h3>
-            <ul>
-              <li data-zh="Prompt 越写越长，但质量仍然不稳定。" data-en="Prompts get longer, but quality remains inconsistent.">Prompt 越写越长，但质量仍然不稳定。</li>
-              <li data-zh="聊天结束后，决策和经验很难沉淀。" data-en="Decisions and lessons are hard to preserve after chat ends.">聊天结束后，决策和经验很难沉淀。</li>
-              <li data-zh="换工具后，原来的工作方式又要重搭。" data-en="Changing tools means rebuilding the workflow again.">换工具后，原来的工作方式又要重搭。</li>
-            </ul>
-          </article>
-          <article class="comparison-card after">
-            <span data-zh="RecoWork 的做法" data-en="RecoWork approach">RecoWork 的做法</span>
-            <h3 data-zh="把工作方式初始化成可复用的 AI 工作 harness。" data-en="Initialize the way of working as a reusable AI work harness.">把工作方式初始化成可复用的 AI 工作 harness。</h3>
-            <ul>
-              <li data-zh="用模板定义角色、流程、检查和记忆。" data-en="Templates define roles, workflow, checks, and memory.">用模板定义角色、流程、检查和记忆。</li>
-              <li data-zh="按 target 生成真实工具能用的文件或 Prompt。" data-en="Targets generate files or prompts that real tools can use.">按 target 生成真实工具能用的文件或 Prompt。</li>
-              <li data-zh="用 locale 控制语言和用户可见命名。" data-en="Locales control language and user-facing naming.">用 locale 控制语言和用户可见命名。</li>
-            </ul>
-          </article>
+        <div class="section-heading"><p class="eyebrow" data-zh="问题不在 Agent 不够强" data-en="The agent is not the missing piece">问题不在 Agent 不够强</p><h2 data-zh="多数人缺的不是更强的 Agent，而是一套让 Agent 明天还知道该做什么的工作方式。" data-en="Most people do not need a stronger agent. They need a way of working that tells it what to do tomorrow.">多数人缺的不是更强的 Agent，而是一套让 Agent 明天还知道该做什么的工作方式。</h2></div>
+        <div class="pain-grid">
+          <article><span>01</span><h3 data-zh="每次新对话，都重新解释背景。" data-en="Every new chat starts with re-explaining context.">每次新对话，都重新解释背景。</h3><p data-zh="目标、已有决定和约束散落在不同对话里。" data-en="Goals, decisions, and constraints are scattered across conversations.">目标、已有决定和约束散落在不同对话里。</p></article>
+          <article><span>02</span><h3 data-zh="AI 产出很多，却没有可信的当前版本。" data-en="AI produces a lot, but there is no trusted current version.">AI 产出很多，却没有可信的当前版本。</h3><p data-zh="草稿、讨论和结论混在一起，下一次无法按需接续。" data-en="Drafts, discussion, and conclusions blur together, making focused continuation hard.">草稿、讨论和结论混在一起，下一次无法按需接续。</p></article>
+          <article><span>03</span><h3 data-zh="部署了 Agent，却不知道交给它什么。" data-en="You deployed an agent, but do not know what to hand it.">部署了 Agent，却不知道交给它什么。</h3><p data-zh="任务边界、完成标准和人工审查位置并不明确。" data-en="Task boundaries, completion criteria, and human review points stay unclear.">任务边界、完成标准和人工审查位置并不明确。</p></article>
         </div>
       </section>
 
-      <section class="section audience-section">
-        <div class="section-heading">
-          <p class="eyebrow" data-zh="适合谁" data-en="Who it is for">适合谁</p>
-          <h2 data-zh="聊天快速开始，本地 Agent 持续推进。" data-en="Start quickly in chat, continue durably with a local agent.">聊天快速开始，本地 Agent 持续推进。</h2>
-        </div>
-        <div class="audience-grid">
-          <article class="audience-card">
-            <strong data-zh="日常 AI 用户" data-en="Everyday AI users">日常 AI 用户</strong>
-            <p data-zh="在 ChatGPT、Claude、Kimi 或豆包里做写作、总结、计划、分析，用续接摘要手动衔接下一次对话；需要长期沉淀时迁移到本地 Agent。" data-en="Write, summarize, plan, and analyze in ChatGPT, Claude, Kimi, or Doubao, then manually continue with a saved summary and move to a local agent when durable work is needed.">在 ChatGPT、Claude、Kimi 或豆包里做写作、总结、计划、分析，用续接摘要手动衔接下一次对话；需要长期沉淀时迁移到本地 Agent。</p>
-            <a href="./cases.html" data-zh="看聊天案例" data-en="See chat cases">看聊天案例</a>
-          </article>
-          <article class="audience-card">
-            <strong data-zh="项目开发者" data-en="Project builders">项目开发者</strong>
-            <p data-zh="用 Codex、Cursor 或 Claude Code 做项目，希望 AI 先读规则、按计划执行、留下验证记录。" data-en="Use Codex, Cursor, or Claude Code and want AI to read rules, plan work, and leave validation records.">用 Codex、Cursor 或 Claude Code 做项目，希望 AI 先读规则、按计划执行、留下验证记录。</p>
-            <a href="./usage.html#initialize" data-zh="初始化项目" data-en="Initialize a project">初始化项目</a>
-          </article>
-          <article class="audience-card">
-            <strong data-zh="学习者和培训者" data-en="Learners and trainers">学习者和培训者</strong>
-            <p data-zh="先诊断并确认学习约定，再推进路线、章节、练习、项目实践和复盘，而不是一次性拿一堆资料。" data-en="Confirm a learning agreement after diagnosis, then advance through roadmaps, lessons, practice, project work, and retrospectives instead of a content dump.">先诊断并确认学习约定，再推进路线、章节、练习、项目实践和复盘，而不是一次性拿一堆资料。</p>
-            <a href="./cases.html" data-zh="看学习案例" data-en="See learning cases">看学习案例</a>
-          </article>
-        </div>
+      <section class="section highlight-band">
+        <div class="section-heading"><p class="eyebrow" data-zh="RecoWork 如何介入" data-en="How RecoWork fits in">RecoWork 如何介入</p><h2 data-zh="把一项真实工作固定成 Agent 可以持续推进的方式。" data-en="Turn a real job into a way of working an agent can continue.">把一项真实工作固定成 Agent 可以持续推进的方式。</h2></div>
+        <div class="work-loop"><div><span>01</span><strong data-zh="选择一项真实工作" data-en="Choose real work">选择一项真实工作</strong><p data-zh="不要先配置一个什么都能做的 Agent。" data-en="Do not start by configuring an agent for everything.">不要先配置一个什么都能做的 Agent。</p></div><div><span>02</span><strong data-zh="固定任务、标准、产物与检查" data-en="Fix task, standards, outputs, and checks">固定任务、标准、产物与检查</strong><p data-zh="明确要完成什么、如何判断完成。" data-en="Make the result and completion criteria explicit.">明确要完成什么、如何判断完成。</p></div><div><span>03</span><strong data-zh="由已有 Agent 执行、审查与续接" data-en="Let your existing agent execute, review, and continue">由已有 Agent 执行、审查与续接</strong><p data-zh="下一次从当前事实继续，而不是重新聊天。" data-en="Continue from current facts instead of restarting the chat.">下一次从当前事实继续，而不是重新聊天。</p></div></div>
+        <div class="asset-explainer"><div><strong data-zh="任务" data-en="Task">任务</strong><p data-zh="Agent 要完成什么。" data-en="What the agent must finish.">Agent 要完成什么。</p></div><div><strong data-zh="标准" data-en="Standards">标准</strong><p data-zh="专业约束与质量门槛。" data-en="Professional constraints and quality bars.">专业约束与质量门槛。</p></div><div><strong data-zh="项目事实" data-en="Project facts">项目事实</strong><p data-zh="目标、决定、问题与当前状态。" data-en="Goals, decisions, questions, and current state.">目标、决定、问题与当前状态。</p></div><div><strong data-zh="续接" data-en="Continuation">续接</strong><p data-zh="下一次不必重新解释上下文。" data-en="No need to re-explain context next time.">下一次不必重新解释上下文。</p></div></div>
       </section>
 
-      <section class="section workflow-section highlight-band">
-        <div class="section-heading">
-          <p class="eyebrow" data-zh="如何工作" data-en="How it works">如何工作</p>
-          <h2 data-zh="三个选择，生成可用的 AI 工作资产。" data-en="Three choices generate ready-to-use AI work assets.">三个选择，生成可用的 AI 工作资产。</h2>
+      <section class="section work-cases-section" id="work-cases">
+        <div class="section-heading"><p class="eyebrow" data-zh="可立即开始的工作" data-en="Work you can start now">可立即开始的工作</p><h2 data-zh="从每周都会重复的一项真实工作开始。" data-en="Start with one real job you repeat every week.">从每周都会重复的一项真实工作开始。</h2></div>
+        <div class="work-case-grid">
+          <article class="work-case-card card-pink"><span class="case-kicker" data-zh="项目工程化" data-en="Project engineering">项目工程化</span><h3 data-zh="项目决策和下一步散落在多次对话里。" data-en="Project decisions and next steps are scattered across chats.">项目决策和下一步散落在多次对话里。</h3><p><b data-zh="固定：" data-en="Fix: ">固定：</b><span data-zh="项目简报、未决问题、方案、决策与评审。" data-en="project brief, open questions, solutions, decisions, and reviews.">项目简报、未决问题、方案、决策与评审。</span></p><p><b data-zh="得到：" data-en="Get: ">得到：</b><span data-zh="可持续推进、可审查的项目事实。" data-en="project facts that can be continued and reviewed.">可持续推进、可审查的项目事实。</span></p><a href="./usage.html#initialize" data-zh="开始项目工作" data-en="Start project work">开始项目工作</a></article>
+          <article class="work-case-card card-yellow"><span class="case-kicker" data-zh="轻量日常协作 · 暂无独立模板" data-en="Lightweight everyday collaboration · no standalone template yet">轻量日常协作 · 暂无独立模板</span><h3 data-zh="一次任务结束后，下一次又要从头说明。" data-en="After one task ends, the next one starts from scratch.">一次任务结束后，下一次又要从头说明。</h3><p><b data-zh="建议固定：" data-en="Fix: ">建议固定：</b><span data-zh="任务输入、执行协议、输出、自检与续接。" data-en="task inputs, execution protocol, output, self-review, and continuation.">任务输入、执行协议、输出、自检与续接。</span></p><p><b data-zh="目前方式：" data-en="Current approach: ">目前方式：</b><span data-zh="在 Chat / Mobile 中用启动指令和续接摘要验证重复任务。" data-en="Use a start instruction and continuation summary in Chat / Mobile to validate the repeated task.">在 Chat / Mobile 中用启动指令和续接摘要验证重复任务。</span></p><a href="./usage.html#environments" data-zh="了解轻量对话方式" data-en="See lightweight conversation">了解轻量对话方式</a></article>
+          <article class="work-case-card card-blue"><span class="case-kicker" data-zh="学习工程化" data-en="Learning engineering">学习工程化</span><h3 data-zh="学习计划很多，却难以判断是否真的掌握。" data-en="There are many learning plans, but little proof of mastery.">学习计划很多，却难以判断是否真的掌握。</h3><p><b data-zh="固定：" data-en="Fix: ">固定：</b><span data-zh="学习诊断、路线、练习、验证、复盘与知识沉淀。" data-en="learning diagnosis, roadmap, practice, validation, retrospectives, and durable knowledge.">学习诊断、路线、练习、验证、复盘与知识沉淀。</span></p><p><b data-zh="得到：" data-en="Get: ">得到：</b><span data-zh="可验证、可继续的学习过程。" data-en="a learning process that is verifiable and continuous.">可验证、可继续的学习过程。</span></p><a href="./usage.html#initialize" data-zh="开始学习工作" data-en="Start learning work">开始学习工作</a></article>
+          <article class="work-case-card card-green"><span class="case-kicker" data-zh="想法工程化" data-en="Idea engineering">想法工程化</span><h3 data-zh="想法很多，但没有收敛到可验证的方向。" data-en="There are many ideas, but no convergence on a testable direction.">想法很多，但没有收敛到可验证的方向。</h3><p><b data-zh="固定：" data-en="Fix: ">固定：</b><span data-zh="问题定义、脑暴留痕、方向归纳、验证与决策。" data-en="problem framing, brainstorm traces, direction synthesis, validation, and decisions.">问题定义、脑暴留痕、方向归纳、验证与决策。</span></p><p><b data-zh="得到：" data-en="Get: ">得到：</b><span data-zh="从灵感到可验证方向的过程。" data-en="a path from inspiration to a testable direction.">从灵感到可验证方向的过程。</span></p><a href="./usage.html#initialize" data-zh="开始想法工作" data-en="Start idea work">开始想法工作</a></article>
         </div>
-        <div class="workflow-steps">
-          <div><span>01</span><strong>Template</strong><p data-zh="选择工作流模板，或选择要跨项目复用的网页设计规范。" data-en="Choose a workflow template, or a web design standard to reuse across projects.">选择工作流模板，或选择要跨项目复用的网页设计规范。</p></div>
-          <div><span>02</span><strong>Target</strong><p data-zh="选择真实使用位置：聊天窗口、本地项目、文档工作区。" data-en="Choose the real output surface: chat, local project, or document workspace.">选择真实使用位置：聊天窗口、本地项目、文档工作区。</p></div>
-          <div><span>03</span><strong>Locale</strong><p data-zh="选择输出语言和用户可见命名，保留工具约定文件名。" data-en="Choose output language and user-facing naming while preserving tool conventions.">选择输出语言和用户可见命名，保留工具约定文件名。</p></div>
-          <div><span>04</span><strong>Use</strong><p data-zh="通过 AI Prompt 或 CLI 初始化，然后在实际工具里继续协作。" data-en="Initialize through an AI prompt or CLI, then keep working in the actual tool.">通过 AI Prompt 或 CLI 初始化，然后在实际工具里继续协作。</p></div>
-        </div>
+        <aside class="validation-note"><strong data-zh="正在验证：网页设计规范" data-en="In validation: web design standard">正在验证：网页设计规范</strong><p data-zh="用于将网页的视觉方向、响应式、组件状态和自检标准固定下来。它目前作为独立设计规范验证中，不与四个工作场景混为同一类能力。" data-en="It fixes visual direction, responsive behavior, component states, and review criteria for web pages. It is currently being validated as a separate design standard, not presented as the same kind of capability as the four work scenarios.">用于将网页的视觉方向、响应式、组件状态和自检标准固定下来。它目前作为独立设计规范验证中，不与四个工作场景混为同一类能力。</p><a href="./usage.html#initialize" data-zh="查看设计规范" data-en="View design standard">查看设计规范</a></aside>
       </section>
 
-      <section class="section template-overview-section">
-        <div class="section-heading">
-          <p class="eyebrow" data-zh="内置能力" data-en="Built-in capabilities">内置能力</p>
-          <h2 data-zh="先选工作方式，再按需要附加规范。" data-en="Choose a way of working, then add standards when needed.">先选工作方式，再按需要附加规范。</h2>
-        </div>
-        <div class="template-category-tabs" role="tablist" aria-label="Template categories">
-          <button class="template-category-tab active" type="button" role="tab" aria-selected="true" aria-controls="templateCatalog" data-template-category="workflow" data-zh="工作流模板（3）" data-en="Workflow templates (3)">工作流模板（3）</button>
-          <button class="template-category-tab" type="button" role="tab" aria-selected="false" aria-controls="templateCatalog" data-template-category="standard" data-zh="设计规范（1）" data-en="Design standards (1)">设计规范（1）</button>
-        </div>
-        <div class="template-category-intros">
-          <p class="template-category-intro active" data-template-category-intro="workflow" data-zh="工作流模板定义 AI 如何澄清、推进、复盘和续接一类工作。" data-en="Workflow templates define how AI clarifies, advances, reviews, and continues a type of work.">工作流模板定义 AI 如何澄清、推进、复盘和续接一类工作。</p>
-          <p class="template-category-intro" data-template-category-intro="standard" hidden data-zh="设计规范可跨项目复用，用来约束 AI 的视觉、响应式、状态和自检质量。" data-en="Design standards are reusable across projects and constrain visual direction, responsiveness, states, and self-review quality.">设计规范可跨项目复用，用来约束 AI 的视觉、响应式、状态和自检质量。</p>
-        </div>
-        <div class="pack-grid compact" id="templateCatalog">
-          <article class="pack-card card-yellow" data-template-category-card="workflow">
-            <div class="card-chip">idea</div>
-            <h3>idea-engineering</h3>
-            <p data-zh="先发散脑暴，再用方向归纳、假设和小验证收敛到值得推进的下一步。" data-en="Explore broadly, then use direction synthesis, hypotheses, and small validations to converge on a next step worth pursuing.">先发散脑暴，再用方向归纳、假设和小验证收敛到值得推进的下一步。</p>
-          </article>
-          <article class="pack-card card-pink" data-template-category-card="workflow">
-            <div class="card-chip">project</div>
-            <h3>project-engineering</h3>
-            <p data-i18n="projectDesc">先澄清并确认项目约定，再建立 AGENTS.md、文档规范、质量门禁和持续沉淀机制。</p>
-          </article>
-          <article class="pack-card card-blue" data-template-category-card="workflow">
-            <div class="card-chip">learning</div>
-            <h3>learning-engineering</h3>
-            <p data-i18n="learningDesc">把学习拆成诊断、课程路线、章节练习、项目实践、反馈、复盘和知识沉淀。</p>
-          </article>
-          <article class="pack-card card-blue" data-template-category-card="standard" hidden>
-            <div class="card-chip">web design</div>
-            <h3>web-design-standard</h3>
-            <p data-zh="为 AI 生成或改造 HTML / Web 页面提供一份可复用规范，覆盖 token、响应式、组件状态和可访问性自检。" data-en="A reusable standard for AI-generated or improved HTML and web pages, covering tokens, responsive behavior, component states, and accessibility self-checking.">为 AI 生成或改造 HTML / Web 页面提供一份可复用规范，覆盖 token、响应式、组件状态和可访问性自检。</p>
-            <button class="demo-preview-button" type="button" data-open-design-demo><i data-lucide="eye" aria-hidden="true"></i><span data-zh="预览样例" data-en="Preview example">预览样例</span></button>
-          </article>
-        </div>
+      <section class="section environment-section" id="environments">
+        <div class="section-heading"><p class="eyebrow" data-zh="两种使用环境" data-en="Two ways to use it">两种使用环境</p><h2 data-zh="同一项工作，按持续性选择合适的入口。" data-en="Choose the right entry point based on how long the work needs to live.">同一项工作，按持续性选择合适的入口。</h2></div>
+        <div class="environment-grid"><article><span class="environment-icon">01</span><h3 data-zh="本地可执行 Agent" data-en="Local executable agent">本地可执行 Agent</h3><p data-zh="适合长期项目、代码、复杂学习与持续工作。得到可维护的项目规范、工作空间、过程产物与验收方式。" data-en="For long-running projects, code, complex learning, and durable work. Get maintainable project rules, a workspace, working artifacts, and acceptance checks.">适合长期项目、代码、复杂学习与持续工作。得到可维护的项目规范、工作空间、过程产物与验收方式。</p></article><article><span class="environment-icon">02</span><h3 data-zh="Chat / Mobile" data-en="Chat / Mobile">Chat / Mobile</h3><p data-zh="适合快速开始、临时任务和轻量对话。得到可复制的启动指令、执行协议、手动续接与迁移摘要。连续性依赖你保存并粘贴摘要。" data-en="For fast starts, temporary tasks, and lightweight conversation. Get a copyable start instruction, execution protocol, manual continuation, and migration summary. Continuity depends on saving and pasting that summary.">适合快速开始、临时任务和轻量对话。得到可复制的启动指令、执行协议、手动续接与迁移摘要。连续性依赖你保存并粘贴摘要。</p></article></div>
+        <p class="migration-line" data-zh="当任务需要多人协作、长期知识沉淀或可审计过程时，从 Chat / Mobile 生成续接包，再迁移到本地可执行 Agent。" data-en="When work needs collaboration, durable knowledge, or an auditable process, generate a continuation package in Chat / Mobile and move it to a local executable agent.">当任务需要多人协作、长期知识沉淀或可审计过程时，从 Chat / Mobile 生成续接包，再迁移到本地可执行 Agent。</p>
       </section>
 
-      <section class="section site-routes-section">
-        <div class="section-heading">
-          <p class="eyebrow" data-zh="下一步" data-en="Next steps">下一步</p>
-          <h2 data-zh="快速开始，或者先了解细节。" data-en="Start quickly, or read the details first.">快速开始，或者先了解细节。</h2>
-        </div>
-        <div class="site-route-grid">
-          <a class="site-route-card" href="./usage.html#initialize">
-            <span class="number-badge">01</span>
-            <h3 data-zh="开始初始化" data-en="Initialize">开始初始化</h3>
-            <p data-zh="选择模板、target、locale 和运行环境，复制 AI 初始化 Prompt 或 CLI 命令。" data-en="Choose template, target, locale, and runtime, then copy the AI prompt or CLI command.">选择模板、target、locale 和运行环境，复制 AI 初始化 Prompt 或 CLI 命令。</p>
-          </a>
-          <a class="site-route-card" href="./usage.html">
-            <span class="number-badge">02</span>
-            <h3 data-zh="阅读使用说明" data-en="Read the guide">阅读使用说明</h3>
-            <p data-zh="了解如何选择 target、如何判断运行环境，以及初始化后应该检查什么。" data-en="Learn how to choose targets, runtime capability, and what to verify after initialization.">了解如何选择 target、如何判断运行环境，以及初始化后应该检查什么。</p>
-          </a>
-          <a class="site-route-card" href="./philosophy.html">
-            <span class="number-badge">03</span>
-            <h3 data-zh="理解设计理念" data-en="Understand the philosophy">理解设计理念</h3>
-            <p data-zh="理解为什么 RecoWork 不是 Prompt 集合，以及为什么要拆分 template、target 和 locale。" data-en="Understand why RecoWork is not a prompt collection and why it separates templates, targets, and locales.">理解为什么 RecoWork 不是 Prompt 集合，以及为什么要拆分 template、target 和 locale。</p>
-          </a>
-        </div>
-      </section>
+      <section class="section trust-section"><div class="section-heading"><p class="eyebrow" data-zh="边界清楚，控制权在你" data-en="Clear boundaries, your control">边界清楚，控制权在你</p><h2 data-zh="你控制 Agent，RecoWork 不替你运行它。" data-en="You control the agent. RecoWork does not run it for you.">你控制 Agent，RecoWork 不替你运行它。</h2></div><ul><li data-zh="不托管模型或 API Key。" data-en="It does not host models or API keys.">不托管模型或 API Key。</li><li data-zh="本地项目规范和产物保存在你选择的位置。" data-en="Local project rules and artifacts stay where you choose.">本地项目规范和产物保存在你选择的位置。</li><li data-zh="AI 的建议、产出和修改仍需要你审查。" data-en="You still review AI suggestions, output, and changes.">AI 的建议、产出和修改仍需要你审查。</li><li data-zh="不承诺自动记忆、后台执行或无限自动化。" data-en="It does not promise automatic memory, background execution, or unlimited automation.">不承诺自动记忆、后台执行或无限自动化。</li></ul></section>
+
+      <section class="section final-cta"><p data-zh="从一项每周都会重复的真实工作开始。" data-en="Start with one real job you repeat every week.">从一项每周都会重复的真实工作开始。</p><h2 data-zh="不要先配置一个“什么都能做”的 Agent。" data-en="Do not start by configuring an agent that “does everything.”">不要先配置一个“什么都能做”的 Agent。</h2><div class="hero-actions"><a class="primary-link" href="./usage.html#initialize" data-zh="开始选择工作流" data-en="Choose a workflow">开始选择工作流</a><a class="secondary-link" href="./usage.html" data-zh="查看使用方式" data-en="View how to use it">查看使用方式</a></div></section>
     </main>
-
-    <dialog class="design-demo-modal" id="designDemoModal" aria-labelledby="designDemoModalTitle">
-      <div class="design-demo-modal-header">
-        <div><strong id="designDemoModalTitle" data-zh="网页设计规范交互样例" data-en="Web design standard interactive example">网页设计规范交互样例</strong><span data-zh="默认产品型网页方向" data-en="Default product-web direction">默认产品型网页方向</span></div>
-        <button class="icon-button" type="button" data-close-design-demo aria-label="Close preview"><i data-lucide="x" aria-hidden="true"></i></button>
-      </div>
-      <iframe class="design-demo-frame" title="Web design standard interactive example" src="./demos/web-design-standard/index.html"></iframe>
-    </dialog>
-
-    <footer class="site-footer">
-      <span>RecoWork</span>
-      <span data-i18n="footerText">Open workflow templates for practical AI work.</span>
-      <a href="./releases.html" data-zh="发布记录" data-en="Releases">发布记录</a>
-    </footer>
-
-    <div class="toast" id="toast" role="status" aria-live="polite">Copied</div>
-    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+    <footer class="site-footer"><span>RecoWork</span><span data-zh="面向人和 AI Agent 的工作标准与项目事实层。" data-en="Work standards and project facts for people and AI agents.">面向人和 AI Agent 的工作标准与项目事实层。</span></footer>
     <script src="./app.js"></script>
   </body>
 </html>

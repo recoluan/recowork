@@ -1,7 +1,7 @@
 const translations = {
   zh: {
-    pageTitle: "RecoWork · AI 工作流模板",
-    pageDescription: "RecoWork 将 AI 工作流模板初始化为聊天 / 手机端或电脑端 AI 助手的工程化工作流。",
+    pageTitle: "RecoWork · 让 AI 持续完成真实工作",
+    pageDescription: "RecoWork 将任务、标准、项目事实和续接方式固定下来，让已有 AI Agent 从聊天走向持续交付。",
     navPacks: "工作流模板",
     navEssence: "模板精髓",
     navPlatforms: "使用位置",
@@ -27,18 +27,18 @@ const translations = {
     visualOutKnowledge: "工作空间记录",
     visualOutMemory: "续接摘要",
     copyCommand: "复制",
-    configTemplateLabel: "模板或规范",
-    configTemplateWorkflowLabel: "工作流模板",
-    configTemplateStandardLabel: "设计规范",
-    configTargetLabel: "使用位置",
-    configLocaleLabel: "输出语言",
+    configTemplateLabel: "工作场景或专业标准",
+    configTemplateWorkflowLabel: "工作场景",
+    configTemplateStandardLabel: "专业标准",
+    configTargetLabel: "使用环境",
+    configLocaleLabel: "语言",
     configTemplateProject: "项目工程化",
     configTemplateLearning: "系统学习",
     configTemplateIdea: "想法探索与验证",
     configTemplateWebDesign: "网页设计规范",
     configEnvironmentLabel: "运行环境",
-    environmentAgent: "本地智能体",
-    environmentChat: "纯聊天 / 手机端",
+    environmentAgent: "本地可执行 Agent",
+    environmentChat: "Chat / Mobile",
     cliCommands: `npx recowork list
 npx recowork targets
 npx recowork add project --target local-agent-project --locale zh .
@@ -75,12 +75,12 @@ rw add project --target local-agent-project --locale zh .`,
     initializeTitle: "选择配置，再选择你习惯的初始化方式。",
     initMethodAi: "让 AI 帮你初始化",
     initMethodCli: "命令行初始化",
-    promptStepOneTitle: "复制初始化 Prompt",
-    promptStepOneText: "使用已经填好 RecoWork 仓库地址的 prompt 模板，再选择模板、输出目标、语言和目标位置。",
-    promptStepTwoTitle: "发给 AI 助手",
-    promptStepTwoText: "可以用 Codex、Cursor，或任何能执行命令或创建文件的 AI 助手。",
-    promptStepThreeTitle: "检查生成结果",
-    promptStepThreeText: "AI 应该优先运行 npx，然后展示文件树和第一步怎么使用。",
+    promptStepOneTitle: "复制开始指令",
+    promptStepOneText: "把与所选工作和环境相匹配的指令交给你的 AI 助手。",
+    promptStepTwoTitle: "让 Agent 执行",
+    promptStepTwoText: "本地环境会初始化工作文件；聊天环境直接开始对话。",
+    promptStepThreeTitle: "检查并续接",
+    promptStepThreeText: "检查交付物，并保存下一次所需的事实与摘要。",
     promptTemplate: `你正在为我初始化一个 RecoWork 工作流模板。
 
 仓库地址：
@@ -102,11 +102,11 @@ zh
 npx recowork add project-engineering --target local-agent-project --locale zh .
 
 如果当前环境不能使用 npx，请说明阻塞原因并先征求确认。不要在纯聊天环境中模拟创建本地文件。完成后展示文件树，并告诉我第一步应该做什么。`,
-    copyPrompt: "复制 prompt",
-    cliEyebrow: "CLI 用法",
-    cliTitle: "用 RecoWork 初始化工作流模板。",
+    copyPrompt: "复制开始指令",
+    cliEyebrow: "本地初始化",
+    cliTitle: "在本地环境中初始化工作方式。",
     cliHowTitle: "怎么用",
-    cliHowText: "选择一个工作流模板、运行位置和语言。CLI 会复制模板并套用 target 输出规则。",
+    cliHowText: "在有命令执行能力的本地环境中，CLI 会确定性地初始化对应工作文件。",
     copyCommands: "复制命令",
     structureEyebrow: "开发者视角",
     structureTitle: "模板和 target 可以独立演进。",
@@ -118,8 +118,8 @@ npx recowork add project-engineering --target local-agent-project --locale zh .
     copied: "已复制",
   },
   en: {
-    pageTitle: "RecoWork · AI Workflow Templates",
-    pageDescription: "RecoWork initializes AI workflow templates for Chat / mobile or a desktop AI assistant.",
+    pageTitle: "RecoWork · Help AI finish real work",
+    pageDescription: "RecoWork fixes tasks, standards, project facts, and handoffs so the AI agent you already use can deliver continuously.",
     navPacks: "Packs",
     navEssence: "What you get",
     navPlatforms: "Targets",
@@ -145,17 +145,17 @@ npx recowork add project-engineering --target local-agent-project --locale zh .
     visualOutKnowledge: "Workspace records",
     visualOutMemory: "Continuation summaries",
     copyCommand: "Copy",
-    configTemplateLabel: "Template or standard",
-    configTemplateWorkflowLabel: "Workflow templates",
-    configTemplateStandardLabel: "Design standards",
-    configTargetLabel: "Usage target",
-    configLocaleLabel: "Output language",
+    configTemplateLabel: "Work scenario or professional standard",
+    configTemplateWorkflowLabel: "Work scenarios",
+    configTemplateStandardLabel: "Professional standards",
+    configTargetLabel: "Usage environment",
+    configLocaleLabel: "Language",
     configTemplateProject: "Project engineering",
     configTemplateLearning: "Structured learning",
     configTemplateIdea: "Idea exploration",
     configTemplateWebDesign: "Web design standard",
     configEnvironmentLabel: "Runtime capability",
-    environmentAgent: "Local agent",
+    environmentAgent: "Local executable agent",
     environmentChat: "Chat / mobile",
     cliCommands: `npx recowork list
 npx recowork targets
@@ -193,12 +193,12 @@ rw add project --target local-agent-project --locale en .`,
     initializeTitle: "Choose a configuration, then choose how to initialize it.",
     initMethodAi: "Let AI initialize it",
     initMethodCli: "Initialize with CLI",
-    promptStepOneTitle: "Copy the initialization prompt",
-    promptStepOneText: "Use the prompt template with the RecoWork repo filled in, then choose the template, output target, locale, and destination.",
-    promptStepTwoTitle: "Paste it into an AI assistant",
-    promptStepTwoText: "Use Codex, Cursor, or any AI assistant that can run commands or create files.",
-    promptStepThreeTitle: "Review the generated package",
-    promptStepThreeText: "The AI should run npx first, then show the file tree and first step.",
+    promptStepOneTitle: "Copy the start instruction",
+    promptStepOneText: "Give your AI assistant the instruction for the work and environment you selected.",
+    promptStepTwoTitle: "Let the agent execute",
+    promptStepTwoText: "A local environment initializes working files; a chat environment begins the conversation directly.",
+    promptStepThreeTitle: "Review and continue",
+    promptStepThreeText: "Review the delivery and preserve facts and a summary for the next session.",
     promptTemplate: `You are initializing a RecoWork workflow template.
 
 Repository:
@@ -220,11 +220,11 @@ Run:
 npx recowork add project-engineering --target local-agent-project --locale en .
 
 If npx is unavailable, explain the blocker and request confirmation. Do not simulate local file creation in a pure chat environment. Show the file tree and first step.`,
-    copyPrompt: "Copy prompt",
-    cliEyebrow: "CLI Usage",
-    cliTitle: "Initialize workflow templates with RecoWork.",
+    copyPrompt: "Copy start instruction",
+    cliEyebrow: "Local initialization",
+    cliTitle: "Initialize a way of working locally.",
     cliHowTitle: "How it works",
-    cliHowText: "Choose a workflow template, where it will run, and the output language. The CLI copies the template and applies the target output rules.",
+    cliHowText: "In a local environment that can run commands, the CLI deterministically initializes the matching working files.",
     copyCommands: "Copy commands",
     structureEyebrow: "For builders",
     structureTitle: "Templates and targets evolve independently.",
@@ -656,10 +656,10 @@ Working protocol:
 - At the end of each meaningful response, include a short continuation summary with: confirmed goal, completed work, key conclusions, open questions, and next step. I must save and paste it into the next chat; it is not persisted automatically.
 - When the work becomes complex, long-running, collaborative, knowledge-heavy, or auditable, prepare a migration package with a project brief, current decisions, open questions, and next step for a command-capable local agent.
 
-Start now by asking the most important questions needed to begin my ${generatorConfig.template} workflow for ${generatorConfig.target}.`;
+Start now by asking the most important questions needed to begin this work.`;
     }
 
-    return `你是${details.role}。当前是纯聊天环境，没有终端和本地文件系统。
+      return `你是${details.role}。当前是纯聊天环境，没有终端和本地文件系统。
 
 不要要求我安装 Node.js、执行命令、克隆仓库或创建本地项目文件。
 
@@ -668,9 +668,9 @@ Start now by asking the most important questions needed to begin my ${generatorC
 - 不要把猜测当作事实；明确不确定性，只提出最必要的澄清问题。
 - 任务复杂时，先给出简短计划；输出前自审后再说明完成。
 - 每次重要回复结束时，给出一份简短续接摘要：已确认目标、已完成内容、关键结论、待确认问题和下一步。需要由我保存并粘贴到下一轮对话，系统不会自动持久化。
-- 当任务变复杂、需要长期推进、多人协作、知识沉淀或可审计过程时，生成包含项目简报、当前决策、未决问题和下一步的迁移包，供我粘贴到 Codex、Claude Code 或 Cursor 等本地 Agent。
+- 当任务变复杂、需要长期推进、多人协作、知识沉淀或可审计过程时，生成包含项目简报、当前决策、未决问题和下一步的迁移包，供我粘贴到本地可执行 Agent。
 
-现在先向我提出开始这个 ${generatorConfig.template} 工作流最重要的问题。使用位置是 ${generatorConfig.target}。`;
+现在先向我提出开始这项工作最重要的问题。`;
   }
 
   if (promptLocale === "en") {
@@ -679,13 +679,13 @@ Start now by asking the most important questions needed to begin my ${generatorC
 Repository:
 https://github.com/recoluan/recowork
 
-Template:
+Work scenario:
 ${generatorConfig.template}
 
-Usage target:
+Usage environment:
 ${generatorConfig.target}
 
-Output locale:
+Language:
 ${generatorConfig.locale}
 
 Destination:
@@ -704,13 +704,13 @@ Do this:
 仓库地址：
 https://github.com/recoluan/recowork
 
-模板：
+工作场景：
 ${generatorConfig.template}
 
-使用位置：
+使用环境：
 ${generatorConfig.target}
 
-输出语言：
+语言：
 ${generatorConfig.locale}
 
 目标位置：
@@ -737,8 +737,8 @@ function renderGeneratorOutputs() {
   const promptSteps = [...document.querySelectorAll(".prompt-steps > div")];
   if (isChatEnvironment && promptSteps.length === 3) {
     const chatStepCopy = currentLanguage === "zh"
-      ? [["复制聊天启动指令", "选择工作流、聊天平台和语言后，复制直接可用的对话启动指令。"], ["粘贴到聊天窗口", "直接发给 ChatGPT、Claude、Kimi、豆包等聊天助手；不需要 Node.js、CLI 或本地文件。"], ["保存续接摘要", "每次重要回复后保存续接摘要；需要长期协作时，用迁移包转到本地 Agent。"]]
-      : [["Copy the chat start instruction", "Choose a workflow, chat platform, and language, then copy the ready-to-use chat start instruction."], ["Paste it into chat", "Send it directly to ChatGPT, Claude, Kimi, Doubao, or another chat assistant. No Node.js, CLI, or local files are needed."], ["Save the continuation summary", "Save the summary after meaningful work. Use its migration package when work moves to a local agent."]];
+      ? [["复制聊天启动指令", "选择工作场景和语言后，复制直接可用的对话启动指令。"], ["粘贴到聊天窗口", "直接发给你正在使用的聊天助手；不需要 Node.js、CLI 或本地文件。"], ["保存续接摘要", "每次重要回复后保存续接摘要；需要长期协作时，用迁移包转到本地可执行 Agent。"]]
+      : [["Copy the chat start instruction", "Choose a work scenario and language, then copy the ready-to-use chat start instruction."], ["Paste it into chat", "Send it directly to the chat assistant you already use. No Node.js, CLI, or local files are needed."], ["Save the continuation summary", "Save the summary after meaningful work. Use its migration package when work moves to a local executable agent."]];
     promptSteps.forEach((step, index) => {
       step.querySelector("strong").textContent = chatStepCopy[index][0];
       step.querySelector("p").textContent = chatStepCopy[index][1];
@@ -883,6 +883,9 @@ function renderTemplateCategory(category) {
 
 function showToast(message) {
   const toast = document.querySelector("#toast");
+  if (!toast) {
+    return;
+  }
   toast.textContent = message;
   toast.classList.add("show");
   window.setTimeout(() => toast.classList.remove("show"), 1400);
@@ -989,4 +992,3 @@ document.querySelectorAll("[data-close-design-demo]").forEach((button) => {
 
 applyLanguage(currentLanguage);
 renderInitMethod(currentInitMethod);
-window.lucide?.createIcons();
