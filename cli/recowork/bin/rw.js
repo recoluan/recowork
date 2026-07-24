@@ -39,6 +39,18 @@ const aliasTargets = {
   "feishu-doc": "local-agent-project",
 };
 
+const retiredTemplates = {
+  "general-ai-workflow": {
+    aliases: ["general", "task", "daily"],
+  },
+};
+
+function findRetiredTemplate(templateRef) {
+  return Object.entries(retiredTemplates).find(([id, details]) => {
+    return id === templateRef || details.aliases.includes(templateRef);
+  });
+}
+
 function main() {
   const args = process.argv.slice(2);
   const command = args[0] || "help";
@@ -110,7 +122,7 @@ Compatibility:
   rw add <template> --platform <legacy-platform> <destination>
 
 Examples:
-  rw add general --target chat-mobile ./my-ai-workflow
+  rw add idea --target chat-mobile ./my-idea-workflow
   rw add project --target local-agent-project --locale zh .
   rw add learning -t local-agent-project ./langchain-study
   rw upgrade --check .
@@ -223,7 +235,20 @@ function initTemplate(args) {
   );
   copyTemplateAssets(localizedTemplateDir, targetDir);
   cleanupTargetLocaleOutputs(selectedTargetDir, selectedTarget, selectedLocale, targetDir);
-  renderTargetFiles(path.join(selectedTargetDir, "files"), targetDir, template, selectedTarget, selectedLocale);
+  const agentPath = path.join(targetDir, "AGENTS.md");
+  const hasExternalAgent = fs.existsSync(agentPath);
+  if (hasExternalAgent && !fs.statSync(agentPath).isFile()) {
+    fail(`Expected AGENTS.md to be a file: ${agentPath}`);
+  }
+
+  renderTargetFiles(
+    path.join(selectedTargetDir, "files"),
+    targetDir,
+    template,
+    selectedTarget,
+    selectedLocale,
+    { skipOutputPaths: hasExternalAgent ? new Set(["AGENTS.md"]) : new Set() },
+  );
   renderTargetFiles(
     path.join(selectedTargetDir, "locales", selectedLocale, "files"),
     targetDir,
@@ -231,9 +256,15 @@ function initTemplate(args) {
     selectedTarget,
     selectedLocale,
   );
-  writeManifest(targetDir, template, selectedTarget, selectedLocale);
+  const agentBlock = hasExternalAgent
+    ? integrateAgentBlock(agentPath, template, selectedTarget, selectedLocale)
+    : null;
+  writeManifest(targetDir, template, selectedTarget, selectedLocale, agentBlock);
 
   console.log(`Initialized ${template.id} for ${selectedTarget.id} (${selectedLocale})`);
+  if (agentBlock) {
+    console.log("Integrated a RecoWork-managed block into the existing root AGENTS.md.");
+  }
   console.log(`Target: ${targetDir}`);
 }
 
@@ -246,6 +277,10 @@ function upgradeWorkflow(args) {
   }
 
   const manifest = readManifest(manifestPath);
+  if (findRetiredTemplate(manifest.template)) {
+    printRetiredTemplateMigration(targetDir, manifest);
+    return;
+  }
   const manifestTarget = resolveTarget(manifest.target);
   if (manifestTarget.type === "chat") {
     printLegacyChatMigration(targetDir, manifest);
@@ -314,6 +349,18 @@ function printLegacyChatMigration(targetDir, manifest) {
   console.log("- Next step");
 }
 
+function printRetiredTemplateMigration(targetDir, manifest) {
+  const locale = manifest.locale === "en" ? "en" : "zh";
+  const suffix = locale === "zh" ? "-新工作流" : "-new-workflow";
+
+  console.log("The general-ai-workflow template has been retired and no longer supports in-place status or upgrades.");
+  console.log("Your existing files remain untouched.");
+  console.log("\nChoose a new workflow in a separate destination:");
+  console.log(`  rw add idea --target chat-mobile --locale ${locale} ${targetDir}-idea`);
+  console.log(`  rw add project --target local-agent-project --locale ${locale} ${targetDir}${suffix}`);
+  console.log("\nTransfer only the current brief, confirmed decisions, open questions, and next step into the new workflow.");
+}
+
 function parseUpgradeScopes(value) {
   const supported = new Set(["methods", "target", "workspace"]);
   if (!value) {
@@ -360,6 +407,9 @@ function adoptWorkflow(targetDir, previousManifest) {
 function buildUpgradePlan(targetDir, manifest, template, target, locale) {
   const desiredFiles = collectDesiredFiles(template, target, locale);
   const items = [];
+  if (manifest.agent_block) {
+    delete desiredFiles[manifest.agent_block.path || "AGENTS.md"];
+  }
   const trackedPaths = new Set(Object.keys(manifest.files));
 
   for (const [relativePath, desired] of Object.entries(desiredFiles)) {
@@ -433,6 +483,11 @@ function buildUpgradePlan(targetDir, manifest, template, target, locale) {
     }
   }
 
+  const agentBlockItem = getAgentBlockUpgradeItem(targetDir, manifest, template, target, locale);
+  if (agentBlockItem) {
+    items.push(agentBlockItem);
+  }
+
   return { desiredFiles, items };
 }
 
@@ -446,6 +501,13 @@ function applyUpgradePlan(targetDir, manifest, plan, scopes, addMissing) {
     const canUpdate = item.action === "update";
     const canAdd = item.action === "add" || (item.action === "suggest-add" && addMissing);
     if (!canUpdate && !canAdd) {
+      continue;
+    }
+
+    if (item.managedKind === "agent-block") {
+      if (canUpdate && applyAgentBlockUpgrade(targetDir, manifest, item)) {
+        applied.updated += 1;
+      }
       continue;
     }
 
@@ -526,6 +588,8 @@ function formatUpgradeState(state) {
     untracked: "Existing untracked files",
     "workspace-template-changed": "Workspace template changes requiring review",
     "workspace-user-changed": "User-owned workspace files requiring review",
+    "agent-block-conflict": "RecoWork AGENTS.md blocks changed by both you and RecoWork",
+    "agent-block-user-changed": "User-modified RecoWork AGENTS.md blocks preserved",
     conflict: "Files changed by both you and RecoWork",
     "user-changed": "User-modified files preserved",
     "retired-upstream-file": "Files no longer emitted by the current template",
@@ -659,6 +723,10 @@ function resolveTemplate(templateRef) {
   });
 
   if (!template) {
+    const retired = findRetiredTemplate(templateRef);
+    if (retired) {
+      fail(`Template retired: ${templateRef}. Use \`idea\`, \`project\`, or \`learning\` for a supported workflow. Existing general-ai-workflow files remain untouched.`);
+    }
     fail(`Unknown template: ${templateRef}`);
   }
 
@@ -930,7 +998,7 @@ function getTargetVersion(target) {
   return target.version || "0.0.0";
 }
 
-function renderTargetFiles(from, to, template, target, locale) {
+function renderTargetFiles(from, to, template, target, locale, options = {}) {
   if (!fs.existsSync(from)) {
     return;
   }
@@ -944,12 +1012,117 @@ function renderTargetFiles(from, to, template, target, locale) {
     const destination = path.join(to, outputName);
 
     if (entry.isDirectory()) {
-      renderTargetFiles(source, destination, template, target, locale);
+      renderTargetFiles(source, destination, template, target, locale, options);
+    } else if (options.skipOutputPaths && options.skipOutputPaths.has(outputName)) {
+      continue;
     } else {
       const content = fs.readFileSync(source, "utf8");
       fs.writeFileSync(destination, renderTemplate(content, template, target, locale));
     }
   }
+}
+
+function getAgentBlockMarkers(template, target, locale) {
+  return {
+    start: `<!-- recowork:start template=${template.id} target=${target.id} locale=${locale} -->`,
+    end: "<!-- recowork:end -->",
+  };
+}
+
+function renderAgentIntegrationBlock(template, target, locale) {
+  const sourcePath = path.join(TARGETS_DIR, target.id, "locales", locale, "AGENTS.integration.md.tpl");
+  if (!fs.existsSync(sourcePath)) {
+    fail(`Agent integration template not found: ${sourcePath}`);
+  }
+  return renderTemplate(fs.readFileSync(sourcePath, "utf8"), template, target, locale).trimEnd();
+}
+
+function extractAgentBlock(source, markers) {
+  const startIndex = source.indexOf(markers.start);
+  if (startIndex < 0) {
+    return null;
+  }
+  const endIndex = source.indexOf(markers.end, startIndex);
+  if (endIndex < 0) {
+    return null;
+  }
+  return source.slice(startIndex, endIndex + markers.end.length);
+}
+
+function upsertAgentBlock(source, markers, block) {
+  const existing = extractAgentBlock(source, markers);
+  if (existing) {
+    return source.replace(existing, block);
+  }
+  const suffix = source.length && !source.endsWith("\n") ? "\n" : "";
+  return `${source}${suffix}${source.length ? "\n" : ""}${block}\n`;
+}
+
+function integrateAgentBlock(agentPath, template, target, locale) {
+  const markers = getAgentBlockMarkers(template, target, locale);
+  const block = renderAgentIntegrationBlock(template, target, locale);
+  const existing = fs.readFileSync(agentPath, "utf8");
+  fs.writeFileSync(agentPath, upsertAgentBlock(existing, markers, block));
+  return {
+    path: "AGENTS.md",
+    markers,
+    source_hash: hashContent(block),
+    baseline_hash: hashContent(block),
+    template: template.id,
+    target: target.id,
+    locale,
+  };
+}
+
+function getAgentBlockUpgradeItem(targetDir, manifest, template, target, locale) {
+  if (!manifest.agent_block) {
+    return null;
+  }
+
+  const metadata = manifest.agent_block;
+  const markers = metadata.markers || getAgentBlockMarkers(template, target, locale);
+  const desiredContent = renderAgentIntegrationBlock(template, target, locale);
+  const agentPath = path.join(targetDir, metadata.path || "AGENTS.md");
+  const source = fs.existsSync(agentPath) && fs.statSync(agentPath).isFile()
+    ? fs.readFileSync(agentPath, "utf8")
+    : null;
+  const currentBlock = source ? extractAgentBlock(source, markers) : null;
+  const upstreamChanged = metadata.source_hash !== hashContent(desiredContent);
+  const userChanged = !currentBlock || hashContent(currentBlock) !== metadata.baseline_hash;
+
+  if (!upstreamChanged && !userChanged) {
+    return null;
+  }
+
+  return {
+    relativePath: metadata.path || "AGENTS.md",
+    ownership: "target",
+    managedKind: "agent-block",
+    state: userChanged && upstreamChanged ? "agent-block-conflict" : userChanged ? "agent-block-user-changed" : "safe-update",
+    action: userChanged ? "preserve" : "update",
+    upstreamChanged,
+    desired: { content: desiredContent, hash: hashContent(desiredContent), markers },
+  };
+}
+
+function applyAgentBlockUpgrade(targetDir, manifest, item) {
+  const metadata = manifest.agent_block;
+  const agentPath = path.join(targetDir, item.relativePath);
+  if (!fs.existsSync(agentPath) || !fs.statSync(agentPath).isFile()) {
+    return false;
+  }
+  const source = fs.readFileSync(agentPath, "utf8");
+  const currentBlock = extractAgentBlock(source, metadata.markers);
+  if (!currentBlock || hashContent(currentBlock) !== metadata.baseline_hash) {
+    return false;
+  }
+  fs.writeFileSync(agentPath, upsertAgentBlock(source, metadata.markers, item.desired.content));
+  manifest.agent_block = {
+    ...metadata,
+    source_hash: item.desired.hash,
+    baseline_hash: item.desired.hash,
+  };
+  return true;
 }
 
 function cleanupTargetLocaleOutputs(targetDir, target, locale, outputDir) {
@@ -1103,10 +1276,10 @@ function getLocalizedTemplateMetadata(template, locale) {
 }
 
 function getLocaleStrings(locale, template, target, localePaths) {
-  const isGeneralWorkflow = template.id === "general-ai-workflow";
   const isLearningWorkflow = template.id === "learning-engineering";
   const isProjectWorkflow = template.id === "project-engineering";
   const isIdeaWorkflow = template.id === "idea-engineering";
+  const isWebDesignStandard = template.id === "web-design-standard";
   const isChatTarget = target.type === "chat";
   if (locale === "en") {
     return {
@@ -1116,28 +1289,38 @@ function getLocaleStrings(locale, template, target, localePaths) {
       headingExpectedOutputs: "Expected Outputs",
       headingWorkingProtocol: "Working Protocol",
       headingRules: "Rules",
-      ruleReadProjectContext: `Read \`README.md\`, \`${localePaths.roleFile}\`, \`${localePaths.methodsDir}/\`, \`${localePaths.workspaceDir}/\`, and \`rw-manifest.json\` before ${isLearningWorkflow ? "starting or continuing a learning unit" : isIdeaWorkflow ? "starting or continuing an idea exploration" : isGeneralWorkflow ? "starting or continuing meaningful work" : "making changes"}.`,
-      ruleCaptureKnowledge: `Capture verified conclusions in \`${localePaths.knowledgeCaptureDir}/\` and update the affected index.`,
-      ruleReviewOutput: "Before returning work, review the result against the template purpose and expected outputs.",
+      ruleReadProjectContext: isWebDesignStandard
+        ? `Before designing, generating, or changing a web page, read \`${localePaths.designStandardFile}\`. If the project has a brand or design system, read that source as well and treat it as higher priority.`
+        : `Read \`README.md\`, \`${localePaths.roleFile}\`, \`${localePaths.methodsDir}/\`, \`${localePaths.workspaceDir}/\`, and \`rw-manifest.json\` before ${isLearningWorkflow ? "starting or continuing a learning unit" : isIdeaWorkflow ? "starting or continuing an idea exploration" : "making changes"}.`,
+      ruleCaptureKnowledge: isWebDesignStandard
+        ? "Keep project-specific visual decisions in the project's own documents. Do not rewrite this reusable standard unless the user explicitly requests it."
+        : `Capture verified conclusions in \`${localePaths.knowledgeCaptureDir}/\` and update the affected index.`,
+      ruleReviewOutput: isWebDesignStandard
+        ? `Before delivery, complete the checklist in \`${localePaths.designStandardFile}\` and report responsive, interaction-state, accessibility, and verification results.`
+        : "Before returning work, review the result against the template purpose and expected outputs.",
       ruleConfirmLargeChanges: isIdeaWorkflow
         ? "Before selecting a priority direction, validation plan, or project execution, present an idea agreement and wait for the user's explicit confirmation."
         : isLearningWorkflow
         ? "Before creating or changing a roadmap, lesson content, practice plan, or project plan, present a learning agreement and wait for the learner's explicit confirmation. Also ask before large scope changes or irreversible operations."
         : isProjectWorkflow
           ? "Before generating a complete solution, plan, or implementation change, present a project agreement and wait for the user's explicit confirmation. Also ask before large scope changes or irreversible operations."
-        : "Ask for confirmation before large scope changes or irreversible operations.",
+        : isWebDesignStandard
+          ? "Ask for confirmation before a material visual-direction change, a large page rewrite, or an irreversible operation when user requirements or the existing brand are unclear."
+          : "Ask for confirmation before large scope changes or irreversible operations.",
       ruleKeepKnowledge: isIdeaWorkflow
         ? `Keep idea briefs, directions, hypotheses, and decisions in \`${localePaths.workspaceDir}/\`. Explore broadly first, then separate facts, assumptions, and evidence; wait for confirmation before converging on a priority direction.`
         : isLearningWorkflow
         ? `Keep the learner brief, roadmap, progress, and retrospectives in \`${localePaths.workspaceDir}/\`. Before creating or changing a roadmap, lesson, practice plan, or project plan, present a learning agreement and wait for the learner's explicit confirmation; then teach one validated unit at a time.`
-        : isGeneralWorkflow
-          ? `Keep useful task context in \`${localePaths.workspaceDir}/\` and leave a continuation memory after important work.`
-          : `Keep durable project context in \`${localePaths.workspaceDir}/\`. Consolidate verified conclusions into the appropriate canonical document and update affected indexes. Before creating a complete solution, plan, or implementation change, present a project agreement and wait for explicit user confirmation.`,
+        : isWebDesignStandard
+            ? "Use this file as the reusable default. Existing user brand requirements, design systems, and explicit visual requests override it; state material conflicts rather than silently blending incompatible directions."
+            : `Keep durable project context in \`${localePaths.workspaceDir}/\`. Consolidate verified conclusions into the appropriate canonical document and update affected indexes. Before creating a complete solution, plan, or implementation change, present a project agreement and wait for explicit user confirmation.`,
       ruleKeepScoped: "Keep changes scoped to the current task.",
       ruleExplainVerification: "Explain verification steps after implementation.",
       chatInitTitle: "RecoWork Initialization Prompt",
       chatInitIntro: `You are helping me use the RecoWork template \`${template.id}\`.`,
-      chatInitInstruction: isIdeaWorkflow
+      chatInitInstruction: isWebDesignStandard
+        ? `You are a senior product web designer and front-end implementation reviewer. Design or improve a web page from the input below.\n\n## Input\n- Product or page: [describe]\n- Audience and primary task: [describe]\n- Required content and actions: [describe]\n- Existing brand, design system, or reference: [describe or write none]\n- Technical constraints: [describe]\n\n## Priority\nExisting brand guidance, component libraries, and explicit user visual requirements override this default. If they conflict or information is missing, state the conflict and ask the smallest material clarifying questions. Do not present assumptions as facts.\n\n## Default visual direction\nUse a restrained, modern, trustworthy product-web style suited to SaaS, tools, small product sites, and lightweight operational dashboards: content first, clear hierarchy, purposeful whitespace, low decoration, limited accent color, real component states, and accessibility first. Do not apply this default to expressive brand sites, games, complex commerce, or strict existing brand systems without clarification.\n\n## Tokens\n- Page/surface/text/border: #FFFFFF, #F8FAFC, #0F172A, #E2E8F0; muted text #475569.\n- Accent: #2563EB, hover #1D4ED8. Success #15803D, warning #B45309, danger #B91C1C.\n- Font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif. Body 16px/1.5; supporting text 14px/1.5; use a limited 12/14/16/20/24/32/40px scale.\n- Spacing: 4/8/12/16/24/32/48/64px. Container max 1200px, desktop horizontal padding 24px, mobile 16px.\n- Radius: 6px for controls, 8px for cards/dialogs. Use 1px #E2E8F0 borders. Shadows are reserved for floating layers.\n\n## Page and component rules\n- Establish one primary task and normally one primary action. Use semantic HTML and clear section hierarchy.\n- Navigation, buttons, forms, cards, lists/tables, empty states, loading, success, warning, error, disabled, hover, and focus states must be real where relevant.\n- Buttons and inputs need visible focus and usable touch targets. Forms need visible labels, field-level recovery guidance, and submission feedback. Tables need headers and responsive handling.\n- Desktop and mobile are both required. Below 768px prefer one column; collapse side-by-side layouts when needed; make mobile navigation closable; do not rely on hover-only information.\n\n## Do not\nDo not use broad or stacked gradients, purposeless glassmorphism, floating decorative effects, excessive rounding, nested cards, buzzword-heavy marketing copy, fake charts or metrics, desktop-only layouts, or static screenshot-only UI.\n\n## Output\nFirst provide a concise plan covering hierarchy, responsive behavior, component states, and validation. Then implement or propose the requested page. Keep changes scoped and reuse existing project components when available.\n\n## Delivery self-check\nBefore claiming completion, check and report: brand-priority handling; hierarchy and text fit; desktop/mobile layout; navigation and form behavior; relevant interactive, empty, loading, and error states; keyboard/focus/semantic HTML/contrast/alt text; and available build, test, or visual verification.\n\n## Continuation summary\nAt the end of meaningful work, output:\n- Current page goal\n- Confirmed visual decisions\n- Implemented work and verification\n- Open questions or risks\n- Next step\nThis summary must be saved and pasted into the next chat; it is not persisted automatically.`
+        : isIdeaWorkflow
         ? "Start with focused idea discovery. Clarify the question, target user, constraints, success signals, known facts, assumptions, and open questions. Explore multiple directions first, then present an idea agreement and wait for my explicit confirmation before selecting a priority direction, validation plan, or project execution."
         : isLearningWorkflow
         ? "Start with a focused learning diagnosis. Restate the goal, background, constraints, preferences, completion criteria, assumptions, and open questions as a short learning agreement, then wait for my explicit confirmation. Until I confirm, do not generate a roadmap, lesson content, practice plan, or project plan. After confirmation, teach one validated unit at a time and leave a short continuation memory after meaningful work."
@@ -1145,13 +1328,17 @@ function getLocaleStrings(locale, template, target, localePaths) {
           ? "Start with focused project discovery. Restate the goal, scope, constraints, risks, success criteria, assumptions, and open questions as a short project agreement, then wait for my explicit confirmation. Until I confirm, only maintain a draft project brief and open questions; do not generate a complete solution, plan, or implementation change. After confirmation, work in small, verified steps and capture durable decisions."
         : "Ask one concise question if the task is unclear. Otherwise, help me start the workflow, keep assumptions explicit, and leave a short continuation memory after meaningful work.",
       chatTaskTitle: "Task Prompt",
-      chatTaskIntro: isChatTarget
+      chatTaskIntro: isWebDesignStandard
+        ? "Use this lightweight web-design chat protocol."
+        : isChatTarget
         ? `Use this lightweight \`${template.id}\` chat protocol.`
         : `Use the \`${template.id}\` workflow and its role contract.`,
       chatTaskFieldTask: "Task",
       chatTaskFieldContext: "Context",
       chatTaskFieldConstraints: "Constraints",
-      chatTaskInstruction: isIdeaWorkflow
+      chatTaskInstruction: isWebDesignStandard
+        ? "Restate the page goal and existing brand constraints first. Use the start instruction's default design system only when no higher-priority system exists. Before delivery, include responsive, interaction-state, accessibility, and verification results plus a continuation summary."
+        : isIdeaWorkflow
         ? "First determine whether this idea scope has been explicitly confirmed. If not, clarify the exploration frame, separate facts, assumptions, and open questions, and explore alternatives without prematurely converging. Wait for my confirmation before selecting a priority direction or validation plan."
         : isLearningWorkflow
         ? "First determine whether this learning scope has been explicitly confirmed. If it has not, run the focused diagnosis and wait for my confirmation before generating learning content. If it has, restate the unit goal briefly, separate facts, assumptions, and open questions, and advance only that validated unit. After meaningful work, include a short memory card I can paste into the next chat."
@@ -1189,28 +1376,38 @@ function getLocaleStrings(locale, template, target, localePaths) {
     headingExpectedOutputs: "预期产物",
     headingWorkingProtocol: "工作协议",
     headingRules: "规则",
-    ruleReadProjectContext: `在${isLearningWorkflow ? "开始或续接一个学习单元" : isIdeaWorkflow ? "开始或续接一次想法探索" : isGeneralWorkflow ? "开始或续接重要任务" : "改动"}前先读取 \`README.md\`、\`${localePaths.roleFile}\`、\`${localePaths.methodsDir}/\`、\`${localePaths.workspaceDir}/\` 和 \`rw-manifest.json\`。`,
-    ruleCaptureKnowledge: `把已验证的结论沉淀到 \`${localePaths.knowledgeCaptureDir}/\`，并更新受影响的索引。`,
-    ruleReviewOutput: "返回结果前，对照模板用途和预期产物自审。",
+    ruleReadProjectContext: isWebDesignStandard
+      ? `设计、生成或改动网页前，先读取 \`${localePaths.designStandardFile}\`。项目已有品牌规范或设计系统时，也必须先读取，并以其为更高优先级。`
+      : `在${isLearningWorkflow ? "开始或续接一个学习单元" : isIdeaWorkflow ? "开始或续接一次想法探索" : "改动"}前先读取 \`README.md\`、\`${localePaths.roleFile}\`、\`${localePaths.methodsDir}/\`、\`${localePaths.workspaceDir}/\` 和 \`rw-manifest.json\`。`,
+    ruleCaptureKnowledge: isWebDesignStandard
+      ? "将项目专属的视觉决策记录在项目已有文档中；除非用户明确要求，不要改写这份可复用规范。"
+      : `把已验证的结论沉淀到 \`${localePaths.knowledgeCaptureDir}/\`，并更新受影响的索引。`,
+    ruleReviewOutput: isWebDesignStandard
+      ? `交付前完成 \`${localePaths.designStandardFile}\` 中的自检清单，并报告响应式、交互状态、可访问性和验证结果。`
+      : "返回结果前，对照模板用途和预期产物自审。",
     ruleConfirmLargeChanges: isIdeaWorkflow
       ? "选择优先方向、验证计划或进入项目执行前，先给出想法约定并等待用户明确确认。"
       : isLearningWorkflow
       ? "生成或变更课程路线、章节内容、练习计划或项目方案前，先给出学习约定并等待学习者明确确认；大范围变更或不可逆操作前也必须先确认。"
       : isProjectWorkflow
         ? "生成完整方案、计划或实施改动前，先给出项目约定并等待用户明确确认；大范围变更或不可逆操作前也必须先确认。"
-      : "大范围变更或不可逆操作前，先向用户确认。",
+      : isWebDesignStandard
+        ? "视觉方向发生重大变化、需要大范围重写页面，或既有品牌要求不明确时，先向用户确认；不可逆操作前也必须确认。"
+        : "大范围变更或不可逆操作前，先向用户确认。",
     ruleKeepKnowledge: isIdeaWorkflow
       ? `把想法简报、方向、假设和决策放在 \`${localePaths.workspaceDir}/\`。先充分发散，再区分事实、假设和证据；收敛到优先方向前等待用户确认。`
       : isLearningWorkflow
       ? `把学习简报、课程路线、进度和复盘放在 \`${localePaths.workspaceDir}/\`。生成或变更课程路线、章节内容、练习计划或项目方案前，先给出学习约定并等待学习者明确确认；确认后一次只推进一个经过验证的学习单元。`
-      : isGeneralWorkflow
-      ? `把有效任务上下文放在 \`${localePaths.workspaceDir}/\`，重要任务结束后留下续聊记忆。`
-      : `把长期项目上下文放在 \`${localePaths.workspaceDir}/\`。将已验证结论合并到对应的权威文档，并更新受影响的索引。生成完整方案、计划或实施改动前，先给出项目约定并等待用户明确确认。`,
+      : isWebDesignStandard
+        ? "将本文件作为可复用默认规范。用户已有品牌、设计系统和明确视觉要求优先；存在实质冲突时应清楚说明，不要默默混合不兼容的方向。"
+        : `把长期项目上下文放在 \`${localePaths.workspaceDir}/\`。将已验证结论合并到对应的权威文档，并更新受影响的索引。生成完整方案、计划或实施改动前，先给出项目约定并等待用户明确确认。`,
     ruleKeepScoped: "保持改动聚焦在当前任务范围内。",
     ruleExplainVerification: "实现后说明验证步骤。",
     chatInitTitle: "RecoWork 初始化 Prompt",
     chatInitIntro: `你正在使用 RecoWork 模板 \`${template.id}\`。`,
-    chatInitInstruction: isIdeaWorkflow
+    chatInitInstruction: isWebDesignStandard
+      ? `你是一名资深产品网页设计师和前端实现评审者。请根据下面输入设计或改造网页。\n\n## 任务输入\n- 产品或页面：［填写］\n- 目标用户与主任务：［填写］\n- 必要内容与操作：［填写］\n- 既有品牌、设计系统或参考：［填写；没有则写无］\n- 技术约束：［填写］\n\n## 优先级\n用户已有品牌规范、组件库和明确视觉要求优先于本默认规范。出现冲突或信息不足时，说明冲突并只提出最关键的澄清问题；不要把假设当作事实。\n\n## 默认视觉方向\n采用克制、现代、可信赖的产品型网页风格，适用于 SaaS、工具型产品、个人或小团队官网与轻量运营后台：内容优先、层级清晰、留白克制、低装饰、有限强调色、真实组件状态、可访问性优先。强品牌艺术站、游戏、复杂电商或严格既有品牌系统需要先澄清，不能直接套用。\n\n## 视觉 Token\n- 页面/次级背景/主文字/边框：#FFFFFF、#F8FAFC、#0F172A、#E2E8F0；次级文字 #475569。\n- 主强调色 #2563EB，悬停 #1D4ED8；成功 #15803D，警告 #B45309，错误 #B91C1C。\n- 字体：Inter、ui-sans-serif、system-ui、-apple-system、BlinkMacSystemFont、"Segoe UI"、sans-serif。正文 16px/1.5，辅助文字 14px/1.5；字号仅用有限的 12/14/16/20/24/32/40px 层级。\n- 间距：4/8/12/16/24/32/48/64px。容器最大 1200px，桌面水平内边距 24px，移动端 16px。\n- 圆角：控件 6px，卡片和弹层 8px；使用 1px #E2E8F0 边框，阴影只用于浮层。\n\n## 页面与组件规则\n- 每页明确一个主任务，通常只保留一个视觉主操作；使用语义化 HTML 与清晰标题层级。\n- 导航、按钮、表单、卡片、列表/表格、空状态、加载、成功、警告、错误、禁用、悬停和焦点等相关状态必须真实可用。\n- 按钮和输入框要有可见焦点和足够触摸区域；表单必须有可见标签、字段级修复提示和提交反馈；表格必须有表头和响应式处理。\n- 桌面与移动网页都必须覆盖。768px 以下优先单列，空间不足时收起并列布局；移动导航必须可关闭；不要依赖仅悬停可见的信息。\n\n## 禁止项\n不要使用大面积或叠层渐变、无意义玻璃拟态、漂浮装饰效果、过度圆角、卡片嵌卡片、营销词堆砌、虚假图表或指标、仅桌面可用的布局，或只适合截图的静态界面。\n\n## 输出要求\n先给出简短计划，说明信息层级、响应式处理、组件状态和验证方式；再实现或提出页面方案。改动保持聚焦，优先复用项目已有组件。\n\n## 交付前自检\n完成前检查并报告：品牌优先级处理、信息层级与文字适配、桌面/移动布局、导航与表单行为、必要的交互/空/加载/错误状态、键盘/焦点/语义 HTML/对比度/替代文本，以及可执行的构建、测试或视觉验证。\n\n## 续接摘要\n每次重要工作结束时输出：\n- 当前页面目标\n- 已确认的视觉决策\n- 已实现内容与验证结果\n- 待确认问题或风险\n- 下一步\n这份摘要需要由我保存并粘贴到下一轮对话，系统不会自动持久化。`
+      : isIdeaWorkflow
       ? "先进行聚焦的想法澄清：明确问题、目标用户、约束、成功信号、已知事实、假设和待确认问题。先探索多个方向，再给出想法约定；在我明确确认前，不要选择优先方向、制定验证计划或进入项目执行。"
       : isLearningWorkflow
       ? "先进行聚焦的学习诊断。将目标、基础、约束、偏好、完成标准、假设和待确认问题整理为简短的学习约定，并等待我明确确认。在确认前，不要生成课程路线、章节内容、练习计划或项目方案。确认后一次只推进一个经过验证的学习单元，并在重要工作结束后留下可复制的续聊记忆。"
@@ -1218,13 +1415,17 @@ function getLocaleStrings(locale, template, target, localePaths) {
         ? "先进行聚焦的项目澄清。将目标、范围、约束、风险、成功标准、假设和待确认问题整理为简短的项目约定，并等待我明确确认。在确认前，只维护项目简报草稿和待确认问题；不要生成完整方案、计划或实施改动。确认后分小步推进、验证结果并沉淀长期决策。"
       : "如果任务不清晰，先问一个最必要的问题。否则帮助我启动工作流，明确标注假设，并在重要任务结束后留下可复制的续聊记忆。",
     chatTaskTitle: "任务 Prompt",
-    chatTaskIntro: isChatTarget
+    chatTaskIntro: isWebDesignStandard
+      ? "请按这个轻量网页设计对话协议推进。"
+      : isChatTarget
       ? `请按这个轻量 \`${template.id}\` 对话协议推进。`
       : `请按 \`${template.id}\` 工作流及其角色设定推进。`,
     chatTaskFieldTask: "任务",
     chatTaskFieldContext: "背景",
     chatTaskFieldConstraints: "约束",
-    chatTaskInstruction: isIdeaWorkflow
+    chatTaskInstruction: isWebDesignStandard
+      ? "先复述页面目标和已有品牌约束。只有没有更高优先级规范时才使用启动指令中的默认设计规范。交付前报告响应式、交互状态、可访问性与验证结果，并附上续接摘要。"
+      : isIdeaWorkflow
       ? "先判断当前想法探索范围是否已经获得明确确认。未确认时，澄清探索框架，区分事实、假设和待确认问题，并充分发散备选方向；选择优先方向或验证计划前等待我确认。"
       : isLearningWorkflow
       ? "先判断当前学习范围是否已经获得明确确认。尚未确认时，先完成聚焦诊断并等待我确认，再生成学习内容；已确认时，简要复述单元目标，区分事实、假设和待确认问题，并且只推进这个经过验证的单元。重要工作结束后给出一张可复制到下一轮对话的简短记忆卡。"
@@ -1256,10 +1457,13 @@ function getLocaleStrings(locale, template, target, localePaths) {
 }
 
 function getLocalePaths(locale, template) {
-  const isGeneralWorkflow = template && template.id === "general-ai-workflow";
   const isLearningWorkflow = template && template.id === "learning-engineering";
   const isIdeaWorkflow = template && template.id === "idea-engineering";
+  const isWebDesignStandard = template && template.id === "web-design-standard";
   if (locale === "en") {
+    if (isWebDesignStandard) {
+      return { designStandardFile: "web-design-standard.md" };
+    }
     if (isLearningWorkflow) {
       return {
         methodsDir: "methods",
@@ -1281,16 +1485,6 @@ function getLocalePaths(locale, template) {
         knowledgeCaptureDir: "idea-space/05-decisions-and-next-steps",
       };
     }
-    if (isGeneralWorkflow) {
-      return {
-        methodsDir: "methods",
-        workspaceDir: "workspace",
-        briefFile: "task-brief.md",
-        questionsFile: "open-questions.md",
-        roleFile: "methods/role-contract.md",
-        knowledgeCaptureDir: "workspace/04-review-and-reuse",
-      };
-    }
     return {
       methodsDir: "methods",
       workspaceDir: "workspace",
@@ -1301,15 +1495,8 @@ function getLocalePaths(locale, template) {
     };
   }
 
-  if (isGeneralWorkflow) {
-    return {
-      methodsDir: "工作方法",
-      workspaceDir: "工作空间",
-      briefFile: "任务简报.md",
-      questionsFile: "待确认问题.md",
-      roleFile: "工作方法/角色设定.md",
-      knowledgeCaptureDir: "工作空间/04-复盘与沉淀",
-    };
+  if (isWebDesignStandard) {
+    return { designStandardFile: "网页设计规范.md" };
   }
 
   if (isLearningWorkflow) {
@@ -1351,7 +1538,7 @@ function formatList(items) {
   return items.map((item) => `- ${item}`).join("\n");
 }
 
-function writeManifest(targetDir, template, target, locale) {
+function writeManifest(targetDir, template, target, locale, agentBlock = null) {
   const desiredFiles = collectDesiredFiles(template, target, locale);
   const files = {};
   for (const [relativePath, desired] of Object.entries(desiredFiles)) {
@@ -1367,6 +1554,10 @@ function writeManifest(targetDir, template, target, locale) {
     };
   }
   const manifest = createManifest(template, target, locale, files);
+  if (agentBlock) {
+    delete manifest.files[agentBlock.path];
+    manifest.agent_block = agentBlock;
+  }
 
   fs.writeFileSync(
     path.join(targetDir, "rw-manifest.json"),

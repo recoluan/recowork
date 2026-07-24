@@ -3,7 +3,7 @@
 此 Prompt 只适用于具备命令执行能力的本地 Agent。
 
 ```text
-请在 [destination] 初始化 RecoWork 模板 [general-ai-workflow | idea-engineering | learning-engineering | project-engineering]，使用 [local-agent-project] 环境和 [zh | en] 语言。
+请在 [destination] 初始化 RecoWork 模板 [idea-engineering | learning-engineering | project-engineering]，使用 [local-agent-project] 环境和 [zh | en] 语言。
 
 先检查 Node.js 与 npm 是否可用。如果缺失或版本过旧，请说明为什么需要它，并先征求我的确认，再安装最新稳定版 Node.js。确认后执行：
 

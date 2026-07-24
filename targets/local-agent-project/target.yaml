@@ -1,5 +1,5 @@
 id: local-agent-project
-version: 1.0.0
+version: 1.0.1
 name: Local Agent Project
 type: project
 description: Generates a complete, tool-neutral RecoWork harness for a command-capable local agent.

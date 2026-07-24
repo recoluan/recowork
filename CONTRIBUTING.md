@@ -33,7 +33,7 @@ cli
 targets
 templates
 project-engineering
-general-ai-workflow
+idea-engineering
 learning-engineering
 docs
 specs
@@ -82,6 +82,7 @@ BREAKING CHANGE: Chinese Codex output now uses 知识库/ instead of knowledge/.
 - Do not stage unrelated user changes, generated test output, npm cache, or package tarballs.
 - Inspect the staged diff before committing and run checks appropriate to the changed surface.
 - A commit that changes templates, targets, CLI behavior, or public documentation must include the related specs in the same commit.
+- Before committing a completed user-facing, template, target, CLI, or website change that has not been released, add a concise bilingual entry to `CHANGELOG.md`, `CHANGELOG.zh.md`, and the Unreleased section of `docs/releases.html`.
 
 ## Release Checklist
 
@@ -94,3 +95,5 @@ Before publishing a release:
 5. Run package and relevant initialization checks before `npm publish`.
 
 Do not publish a version without updating both changelog sources and the website release record.
+
+The Unreleased sections are maintained with completed commits, not deferred until release preparation. Publishing moves the same entries into the dated version section.

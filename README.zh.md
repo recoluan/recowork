@@ -1,61 +1,84 @@
 # RecoWork
 
-RecoWork 将可重复的 AI 使用方式沉淀为可复用、可持续的工程化工作流。它提供日常任务、想法探索、学习和项目四类模板，内置确认、自审、产物保鲜与从对话迁移到本地工作的机制。
+**让你已经在使用的 AI Agent，持续完成真实工作。**
 
-English: [README.md](./README.md) | 网站：[RecoWork](https://recowork.recoluan.com)
+RecoWork 是面向人和 AI Agent 的工作标准与项目事实层。它不替代 Agent runtime，不托管模型，不在后台替你运行任务，也不管理你的 API Key。
+
+它把任务、专业标准、当前事实、验收方式和续接机制固定下来，让一次有价值的对话变成可以继续、检查和复用的工作。
+
+[English](./README.md) · [网站](https://recoluan.github.io/recowork/) · [使用方式](https://recoluan.github.io/recowork/usage.html)
+
+## 能解决什么工作
+
+| 真实工作 | RecoWork 固定什么 | 当前模板 |
+| --- | --- | --- |
+| 推进一个项目 | 项目简报、未决问题、方案、决策、评审 | `project-engineering` |
+| 用证据学习 | 诊断、路线、练习、项目实践、复盘 | `learning-engineering` |
+| 把想法收敛成方向 | 问题定义、假设、验证、下一步决策 | `idea-engineering` |
+| 提升网页交付质量 | 视觉方向、响应式规则、组件状态、自检 | `web-design-standard` |
+
+网页设计规范是独立可复用的专业标准，当前单独验证，不把它包装成与项目工作流完全相同的场景。
 
 ## 两种使用环境
 
-| 使用环境 | 适用情况 | 交付内容 |
-| --- | --- | --- |
-| `local-agent-project` | 工作需要持续推进、沉淀、评审或升级 | `AGENTS.md`、工作方法、带索引的工作空间、中间产物与 `rw-manifest.json`。 |
-| `chat-mobile` | 希望在任意网页、App 或手机聊天中快速开始 | 启动指令、任务执行协议，以及需要手动保存的续接/迁移摘要。 |
+### 本地可执行 Agent
 
-本地工作流是工具中立的，可由 Codex、Claude Code、Cursor 等具备命令执行能力的 Agent 使用；它刻意不生成平台专属 skill 或配置目录。
+适合长期项目、代码、复杂学习，以及需要持续沉淀或可审查过程的工作。RecoWork 会在你选择的目录中初始化根目录 `AGENTS.md`、工作方法、适用的本地化工作空间和版本化清单。
 
-对话连续性需要手动维护：保存摘要并粘贴到下一轮对话。任务变为长期、多人、知识密集或需要审计时，使用迁移包进入本地 Agent。
+### Chat / Mobile
 
-## 模板
+适合快速开始、临时任务和轻量对话。它只提供启动指令、任务执行协议和续接/迁移摘要，不要求 Node.js、CLI、本地目录、自动保存、升级或文件级可追溯性。
 
-| 模板 | 适用场景 |
-| --- | --- |
-| `general-ai-workflow`（`general`） | 需要上下文、自审与续接的日常任务。 |
-| `idea-engineering`（`idea`） | 脑暴、方向归纳、假设验证和确认下一步。 |
-| `learning-engineering`（`learning`） | 学习诊断、路线、章节、练习与复盘。 |
-| `project-engineering`（`project`） | 有工作方法、文档规范、工作空间记录与质量门禁的 AI 辅助项目。 |
+聊天连续性由你管理：保存并在下一轮对话中粘贴续接摘要。当任务变成长期工作、多人协作、知识沉淀或可审计过程时，使用迁移包新建一个独立的本地工作流。
 
-## 用 CLI 初始化
+## 在本地初始化
+
+在能够执行命令的本地 Agent 中，使用确定性的 CLI 初始化：
 
 ```bash
 npx recowork add project --target local-agent-project --locale zh .
-npx recowork add learning --target local-agent-project --locale zh ./langchain-study
-npx recowork add idea --target chat-mobile --locale zh ./idea-chat-kit
 ```
 
-安装后的命令是 `rw`。使用 `rw list` 和 `rw targets` 查看模板与使用环境。
+按需要换成其他工作场景或语言：
 
-## 让 AI 初始化
+```bash
+npx recowork list
+npx recowork add learning --target local-agent-project --locale zh ./my-learning-work
+npx recowork add idea --target local-agent-project --locale zh ./idea-work
+```
 
-在具备命令执行能力的本地 Agent 中粘贴：
+安装后可使用 `rw` 命令；未全局安装时使用 `npx recowork`。
+
+## 让本地 Agent 帮你开始
+
+将下面指令发给能够执行命令的本地 Agent：
 
 ```text
-请在当前目录初始化 RecoWork 的 `project-engineering` 模板，使用 `local-agent-project` 环境和中文。
+请在当前目录初始化 RecoWork 项目工作流。
 
-先检查 Node.js 与 npm 是否可用。如缺失或版本过旧，请说明情况并先征求我的确认，再安装最新稳定版 Node.js。确认后执行：
+仓库地址：https://github.com/recoluan/recowork
+执行：npx recowork add project --target local-agent-project --locale zh .
 
-npx recowork add project-engineering --target local-agent-project --locale zh .
-
-然后检查生成结果，并告诉我你需要我确认的第一个项目决策。仓库地址：https://github.com/recoluan/recowork
+先检查 Node.js 和 npm。任一项缺失或版本过旧时，先说明阻塞原因，并向我确认后再安装最新版稳定版 Node.js。若根目录已有 AGENTS.md，保留既有内容，并确认 RecoWork 只新增带稳定标记的整合区块。完成后展示创建的文件，并说明第一步如何开始工作。
 ```
 
-在网页或手机聊天中，初始化 `chat-mobile`，将其中的“启动指令”粘贴到对话即可。不需要 Node.js、CLI 或本地文件。
+纯聊天或手机端请通过网站选择器生成可复制的聊天启动指令；不要在这类环境中运行 CLI 或模拟创建本地文件。
 
-## 长期沉淀
+## 能力边界
 
-RecoWork 不再创建独立知识库。已验证结论应写入工作空间中对应的权威文档，并更新受影响的 `index.md`。这样 Agent 能从索引按需读取，而不是一次加载所有内容。
+- Agent 由你控制，RecoWork 不替你运行它。
+- 本地项目文件保存在你选择的位置。
+- AI 的产出、建议和修改仍需要人工审查。
+- RecoWork 不承诺自动记忆、无限执行或无人值守完成。
+- 未完成实际兼容性验证前，不将具体 Agent 产品描述为官方支持。
 
-## 升级
+## 开发
 
-如果目录已经存在 `rw-manifest.json`，`rw add` 会拒绝覆盖；请使用 `rw status <目录>` 与 `rw upgrade --check <目录>` 查看既有工作流。`rw upgrade --apply` 只更新未被修改的工作方法或 target 文件，绝不会覆盖、移动或删除用户自己的工作空间文件。旧 Chat 工作流会得到迁移指引，在单独目录创建本地工作流。
+```bash
+node --check cli/recowork/bin/rw.js
+node --check docs/app.js
+node cli/recowork/bin/rw.js list
+node cli/recowork/bin/rw.js targets
+```
 
-完整约定见 [specs/targets.md](./specs/targets.md)、[specs/requirements.md](./specs/requirements.md) 与 [CHANGELOG.zh.md](./CHANGELOG.zh.md)。
+产品和 target 约定见 [specs/requirements.md](./specs/requirements.md)、[specs/targets.md](./specs/targets.md) 与 [specs/decisions.md](./specs/decisions.md)。未发布和已发布变更见 [CHANGELOG.zh.md](./CHANGELOG.zh.md)。

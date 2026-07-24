@@ -162,6 +162,8 @@ Implication:
 
 ## 011. Engineer General AI Workflows Around Tasks, Not Projects
 
+Superseded by Decision 024. This entry records the original rationale for the retired template.
+
 Decision: `general-ai-workflow` uses the same durable principles as `project-engineering` but a lighter task-oriented structure.
 
 - `zh`: `工作方法/` and `工作空间/`
@@ -333,6 +335,8 @@ Implication:
 
 ## 019. Separate Idea Exploration From Daily Tasks And Project Execution
 
+Superseded by Decision 024. This entry records the original relationship between idea exploration and daily task work.
+
 Decision: `idea-engineering` is a dedicated workflow for AI-assisted brainstorming, direction synthesis, and hypothesis validation. `general-ai-workflow` is presented to users as the daily task workflow while retaining its stable internal ID for compatibility.
 
 Reason:
@@ -365,3 +369,86 @@ Implication:
 - Durable conclusions are consolidated into canonical workspace documents and their indexes, never into a separate `knowledge/` or `知识库/` directory.
 - Legacy brand target names remain CLI aliases for compatibility, but no longer select brand-specific output. Existing user workspaces are preserved untouched.
 - Decisions 003 and 005 are superseded where they prescribe brand-specific targets or Claude-native skills.
+
+## 021. Validate Web Design Guidance As A Standalone Template
+
+Decision: introduce `web-design-standard` as a standalone template before adding generic work-pack composition.
+
+Reason:
+
+- Web design guidance is likely to be reused across projects, but real reuse must be validated before introducing template composition, `packs` CLI options, or user-selectable style systems.
+- A single product-web default is enough to validate whether users value reusable visual tokens, responsive rules, component-state requirements, and self-checking.
+- A durable project workspace would add noise for a reusable design standard whose job is to constrain page work, not manage a project.
+
+Implication:
+
+- The local target produces target-owned `AGENTS.md`, `rw-manifest.json`, and exactly one localized standard: `网页设计规范.md` or `web-design-standard.md`.
+- The Chat target remains a lightweight three-document delivery. Its start instruction is a complete standalone prompt that covers both desktop and mobile web work and never requests local files or tools.
+- Existing brand guidance and explicit user visual requirements override the default standard.
+- Do not add composition, a `packs` CLI option, multiple style choices, image generation, model APIs, or background execution in this iteration.
+
+## 022. Safely Integrate With Existing Root AGENTS.md
+
+Decision: `local-agent-project` automatically integrates RecoWork instructions into an existing root `AGENTS.md` through a marker-bounded block, rather than requiring manual copy or overwriting the file.
+
+Reason:
+
+- A template that is initialized but never referenced by the project's instruction entry point is unlikely to take effect.
+- Existing root instructions are user-owned and may contain important project conventions that RecoWork cannot replace safely.
+- A stable block boundary makes the RecoWork portion independently traceable and upgradeable.
+
+Implication:
+
+- When root `AGENTS.md` is absent, RecoWork creates the complete target-owned file. When present, it preserves existing content and appends or updates `<!-- recowork:start ... -->` through `<!-- recowork:end -->` only.
+- The block states that external project rules have priority and contains the selected template's localized protocol.
+- The manifest records the managed block's marker and hashes separately. Upgrades may replace only an unchanged block; user-edited or removed blocks are preserved and reported.
+- The behavior applies only to the initialization root. Nested instruction files are not discovered or modified.
+
+## 023. Maintain Unreleased Changes With Each Completed Commit
+
+Decision: completed unreleased user-facing changes are recorded before their commit in the bilingual Markdown changelogs and the bilingual Unreleased section of the website release page.
+
+Reason:
+
+- Deferring changelog work until publication causes committed capabilities to be invisible to repository and website readers.
+- A continuously maintained Unreleased section makes the next release scope reviewable without reconstructing history from commits.
+- Keeping all three public records aligned avoids different audiences receiving different expectations of unreleased behavior.
+
+Implication:
+
+- User-facing template, target, CLI, or website changes add a concise Unreleased entry as part of completion, before commit.
+- `CHANGELOG.md`, `CHANGELOG.zh.md`, and `docs/releases.html` describe the same pending changes in their respective languages.
+- Release preparation moves the already-recorded entries into a dated version section; it does not recreate release notes from commit history.
+
+## 024. Retire The Daily Task Workflow Template
+
+Decision: retire `general-ai-workflow` and its `general`, `task`, and `daily` aliases. RecoWork no longer offers a generic daily-task workflow as a new initialization choice.
+
+Reason:
+
+- Its scope overlaps ordinary chat usage but does not offer a sufficiently distinct, repeatable workflow to justify a dedicated template.
+- The remaining templates have clearer intent: idea exploration, project engineering, structured learning, and web design standards.
+- Keeping a weakly differentiated template makes selection harder and dilutes product guidance.
+
+Implication:
+
+- Remove its source template, CLI list/show/add access, prompts, README entries, site cards, configuration options, cases, and workspace requirements.
+- Existing generated `general-ai-workflow` files are user-owned and remain untouched.
+- `rw status` and `rw upgrade` detect a legacy general manifest and print a read-only migration guide to a separate idea or project workflow; they never perform an in-place conversion.
+- Decisions 011 and 019 are superseded only where they prescribe `general-ai-workflow` as an active template.
+
+## 025. Keep A Public Reference Implementation For The Web Design Standard
+
+Decision: retain one interactive website example for `web-design-standard` at `docs/demos/web-design-standard/index.html` and expose it inside a large preview modal from the design-standard card and configuration flow.
+
+Reason:
+
+- Tokens and written rules alone do not let users quickly judge the intended default product-web direction.
+- A functioning example verifies that the standard can produce responsive layout, meaningful component states, and accessible interaction instead of a static screenshot.
+- The example gives maintainers a stable manual acceptance baseline when the standard evolves.
+
+Implication:
+
+- The example is documentation-site content, not a generated template asset and not a new output from either target.
+- It uses the default restrained product-web direction and covers navigation, primary action, filtering, loading, empty state, form validation, and success feedback.
+- Future changes to the web-design standard should check the example against the same responsive, state, and accessibility criteria.

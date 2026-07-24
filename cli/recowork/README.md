@@ -16,10 +16,10 @@ After installation, use `rw` instead of `npx recowork`.
 
 | Template | Aliases | Purpose |
 | --- | --- | --- |
-| `general-ai-workflow` | `general`, `task`, `daily` | Daily task workflow with context, review, and continuity. |
 | `idea-engineering` | `idea`, `brainstorm`, `explore` | Idea exploration, validation, and next-step agreement. |
 | `learning-engineering` | `learning`, `study`, `course` | Structured learning workflow. |
 | `project-engineering` | `project`, `engineering` | Durable project workflow with methods, workspace records, and quality gates. |
+| `web-design-standard` | `web-design`, `design-standard`, `web-ui` | Reusable product-web design guidance for HTML and web-page work. |
 
 ## Environments
 
@@ -29,6 +29,8 @@ After installation, use `rw` instead of `npx recowork`.
 | `chat-mobile` | A start instruction, task protocol, and manual continuation/migration summary for any chat or mobile AI app. |
 
 Brand names such as `codex-project`, `claude-code-project`, and `chatgpt-chat` are retained as compatibility aliases. They now resolve to one of the two generic targets and no longer create brand-specific files.
+
+If the local destination already has a root `AGENTS.md`, `rw add` keeps the existing content and adds a marker-bounded RecoWork block for the selected template. The manifest tracks that block separately; upgrades update only an unchanged block and preserve user edits.
 
 ## Commands
 
@@ -41,6 +43,7 @@ rw show-target local-agent-project
 rw add project --target local-agent-project --locale zh .
 rw add learning --target local-agent-project --locale en ./langchain-study
 rw add idea --target chat-mobile --locale zh ./idea-chat-kit
+rw add web-design --target local-agent-project --locale zh ./product-site
 
 rw status .
 rw upgrade --check .

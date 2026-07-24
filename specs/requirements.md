@@ -4,12 +4,15 @@ This document records product and engineering requirements established during th
 
 ## Product Positioning
 
-- RecoWork helps people turn repeatable AI usage into engineered workflows.
+- RecoWork helps people and the AI agents they already use turn real work into a durable, reviewable working system.
+- Its public positioning is: "work standards and project facts for people and AI agents." It fixes the task, professional standards, current project facts, acceptance method, and continuation mechanism; it does not replace an agent runtime.
 - It is not a prompt collection.
+- It is not another agent platform and does not host models, API keys, background execution, automatic memory, or unattended completion.
 - It should help users build durable working systems: prompts, rules, canonical workspace records, memory, quality checks, and usage steps.
 - It should serve both technical users and non-technical users across industries.
 - It should be usable across different AI products, including web apps, mobile apps, coding agents, and workspace tools.
 - The project should remain open-source friendly.
+- Public documentation may say RecoWork works with an AI agent the user already uses, but must not present a specific agent product as officially supported unless that compatibility has been actually verified.
 
 ## Product Modes
 
@@ -38,16 +41,30 @@ This document records product and engineering requirements established during th
 
 The first templates are:
 
-- `general-ai-workflow`: daily AI usage with a role contract, task context, continuation memory, review, and reusable learning.
 - `project-engineering`: project-level AI workflow with rules, canonical workspace records, and quality gates.
 - `learning-engineering`: structured learning workflow with learner diagnosis, a roadmap, lessons, practice, projects, feedback, and durable learning records.
 - `idea-engineering`: idea exploration workflow with divergence, direction synthesis, hypotheses, validation, and a confirmed next step.
+- `web-design-standard`: reusable default design guidance for AI-generated or improved HTML and web pages, covering visual consistency, responsive behavior, component states, and accessibility self-review.
 
 Template content quality is intentionally deferred. The architecture should support better, more differentiated templates later.
+
+### Web Design Standard Template
+
+`web-design-standard` validates a single reusable product-web design standard before any generic composition or pack mechanism is introduced.
+
+- Its default direction is restrained, modern, and trustworthy for SaaS, tool products, solo or small-team product sites, and lightweight operations dashboards.
+- It is not the default for expressive brand sites, games, complex commerce, or projects with strict existing brand systems. Existing user brand, design-system, and explicit visual requirements always take precedence.
+- It must cover scope and use, goals and prohibitions, color/type/spacing/container/radius/border/shadow tokens, desktop and mobile strategy, hierarchy, navigation/buttons/forms/cards/lists-tables/empty-feedback states, AI implementation instructions, and a post-implementation checklist.
+- For `local-agent-project`, it produces exactly one localized design-standard document in addition to target-owned `AGENTS.md` and `rw-manifest.json`: `网页设计规范.md` for `zh`, `web-design-standard.md` for `en`. It must not create a design-system directory, workspace, methods, or multiple standard documents.
+- For `chat-mobile`, it produces the standard three chat materials only. The start instruction must stand alone and include role, input fields, default direction, tokens, responsive and component rules, prohibitions, output expectations, self-checking, brand priority, and a continuation-summary format. It covers desktop and mobile webpages; it does not request local files or tools.
+- This first version must not add template composition, a `packs` CLI option, user-selectable visual styles, image generation, model APIs, or background execution.
+- The documentation site keeps one public interactive reference implementation at `docs/demos/web-design-standard/index.html`. It demonstrates the default product-web direction, responsive behavior, and real UI states as a manual acceptance baseline; it is previewed inside a website modal and is not emitted by either target or included in generated user projects.
 
 ## Targets and Platform Usage
 
 - RecoWork has exactly two primary targets: `chat-mobile` and `local-agent-project`.
+- `local-agent-project` must safely integrate with a root `AGENTS.md`: create the complete file when absent, or preserve an external file while adding a marker-bounded RecoWork block when present. The block contains the template-specific reading, confirmation, review, and durable-context rules, and states that external project rules take priority.
+- The manifest must track an externally integrated AGENTS block independently from complete target files. An upgrade may update only an unchanged block; modified or removed blocks are preserved and reported.
 - `local-agent-project` is tool-neutral: it generates `AGENTS.md`, methods, workspace records, and a manifest, but no platform-specific skills or configuration folders.
 - `chat-mobile` generates only copyable conversation material and never local project configuration.
 - Existing brand target names remain CLI aliases only; they do not imply brand-specific output.
@@ -119,6 +136,12 @@ npx recowork add <template> --target <target> --locale <locale> <destination>
 - Website should present AI-assisted initialization and CLI initialization as two selectable paths within one initialization area.
 - Website should let users select a workflow template, usage target, output locale, and runtime capability, then generate matching copyable CLI and prompt examples.
 - Website should avoid overlong or unclear main titles.
+- The website must explain value before internal terms such as CLI, template, target, or locale. Its homepage should lead with the user problem: an existing agent needs a concrete, repeatable job to finish.
+- Website terminology should use user-facing labels: "work scenario", "usage environment", and "language" rather than template, target, and locale where implementation details are unnecessary.
+- The homepage must distinguish local executable agents from Chat / Mobile: local mode is the complete durable workflow; Chat / Mobile is a low-friction conversation entry point with a copyable start instruction, task protocol, and manually saved continuation or migration summary.
+- Public copy must state that Chat / Mobile neither creates nor automatically persists a local project workspace, and should guide users to move complex, collaborative, knowledge-heavy, or auditable work to a local executable agent.
+- The homepage must present project engineering, learning engineering, and idea engineering as available workflow scenarios. A retired daily-task workflow must not be presented as a current template; its user problem may be discussed only with an explicit statement that no standalone template is currently available.
+- The web-design standard must be shown separately as an independently validated professional standard, rather than misrepresented as another durable project-workflow scenario.
 
 ## Packaging and Publishing Requirements
 
@@ -135,6 +158,7 @@ npx recowork add <template> --target <target> --locale <locale> <destination>
 - Publishing requires npm authentication that supports package publish, including 2FA or a granular access token with publish permission when required by npm.
 - Every published version must move completed items from `Unreleased` into a dated version section in both `CHANGELOG.md` and `CHANGELOG.zh.md`.
 - Every published version must also have a matching Chinese and English entry on the GitHub Pages release record at `docs/releases.html`.
+- Before committing a completed user-facing, template, target, CLI, or website change that remains unreleased, add its concise bilingual summary to `CHANGELOG.md`, `CHANGELOG.zh.md`, and the Unreleased section of `docs/releases.html`; the three sources must stay aligned until publication.
 
 ## Project Workflow Requirements
 
@@ -164,6 +188,7 @@ npx recowork add <template> --target <target> --locale <locale> <destination>
 - Commits that span multiple surfaces, introduce migrations, alter generated output, or are otherwise non-obvious require `Why`, `Changes`, `Compatibility`, and `Validation` sections in the body.
 - Incompatible command, generated-path, file-format, or workflow-contract changes require a `BREAKING CHANGE:` footer.
 - Template and target manifests must declare semantic versions. A meaningful generated-content change increments its owning template or target version and is described in the release record.
+- Retired templates must not appear in new initialization, list, show, prompt, README, or website selection surfaces. Existing generated files remain user-owned; `rw status` and `rw upgrade` provide read-only migration guidance instead of an in-place conversion.
 
 ## Project Engineering Workspace Requirements
 
@@ -234,56 +259,6 @@ The English locale should also generate:
 methods/
 └── role-contract.md
 ```
-
-## General AI Workflow Workspace Requirements
-
-The `general-ai-workflow` template should remain lightweight for everyday chat and mobile users, while still preserving task context and reusable learning.
-
-The Chinese locale should generate:
-
-```text
-工作方法/
-├── 角色设定.md
-├── 工作流程.md
-├── 检查清单.md
-└── 记忆卡模板.md
-
-工作空间/
-├── index.md
-├── 任务简报.md
-├── 待确认问题.md
-├── 01-任务准备/
-├── 02-任务产出/
-├── 03-过程留痕/
-└── 04-复盘与沉淀/
-```
-
-The English locale should generate the equivalent structure:
-
-```text
-methods/
-├── role-contract.md
-├── workflow.md
-├── quality-checklist.md
-└── continuation-memory-template.md
-
-workspace/
-├── index.md
-├── task-brief.md
-├── open-questions.md
-├── 01-task-setup/
-├── 02-task-output/
-├── 03-thinking-traces/
-└── 04-review-and-reuse/
-```
-
-Responsibilities:
-
-- The role contract defines a rigorous AI work advisor role, explicit uncertainty handling, confirmation behavior, and continuous improvement rules.
-- The task brief stores the stable agreement for the current task; it is not a long process log.
-- Open questions store gaps AI must not silently assume.
-- Task setup, output, thinking traces, and review/reuse keep preparation, deliverables, process, and durable learning separate.
-- The template must stay lighter than `project-engineering`; simple tasks should only capture context that helps the next task.
 
 ## Learning Engineering Workspace Requirements
 

@@ -43,18 +43,19 @@ Template structure changes must also update the generated template files, CLI cl
 - Use `--locale <locale>` for language selection when a template supports multiple locales.
 - Keep locale-specific template content under `templates/<template>/locales/<locale>/`.
 - Keep locale-specific target content under `targets/<target>/locales/<locale>/files/`; use shared `targets/<target>/files/` only for convention-driven or locale-neutral output.
+- Locale-specific non-output partials for root `AGENTS.md` integration may live at `targets/local-agent-project/locales/<locale>/AGENTS.integration.md.tpl`; they must never be emitted as standalone user files.
 - Locale changes may translate user-facing directories and documents, but must not translate convention-driven filenames such as `AGENTS.md`, `README.md`, and `index.md`.
 - Templates that govern ongoing work should include a localized role contract that defines the AI's working role, principles, prohibited behavior, and iteration rules.
 - AI agents must judge objectively rather than merely validate the user's premise. State material risks, contradictions, weak assumptions, and credible alternatives clearly; disagree respectfully when evidence or reasoning warrants it, and never hide concerns to be agreeable.
 - For `project-engineering`, the role contract lives at `工作方法/角色设定.md` for `zh` and `methods/role-contract.md` for `en`.
 - Every template with a durable workspace keeps document conventions at `工作方法/文档规范.md` for `zh` and `methods/document-standard.md` for `en`. Agents navigate from `index.md`, retrieve documents progressively, and update affected indexes after work.
 - Non-index documents follow metadata, conclusion-first summary, structured body, relative references, and a change log. `index.md` remains navigation only, with one-line entries, status, and last-updated state.
-- For `general-ai-workflow`, the role contract uses the same locations and its workspace is task-oriented: task brief, open questions, setup, output, thinking traces, and review/reuse.
 - For `learning-engineering`, the role contract uses the same locations and its learning space is organized around learner brief, roadmap, progress, course design, lessons/practice, project practice, questions/retrospectives, and knowledge capture.
 - Chat targets are lightweight conversation workflow entry points, not local-project equivalents. They generate only a start instruction, task execution protocol, and continuation or migration summary; they do not create workspaces or manifests and do not support upgrades.
 - Initialization must distinguish command-capable local agents from pure chat/mobile environments. Local agents should check Node.js and npm, then request confirmation before installing the latest stable Node.js when needed; pure chat/mobile flows must use direct chat bootstrap prompts and must not request local file creation.
 - Chat continuity is manual: the user saves and pastes the continuation summary into the next conversation. Every chat target must include a migration package with project brief, current decisions, open questions, and next step for a local executable agent.
-- `local-agent-project` is tool-neutral and generates `AGENTS.md` as the sole cross-tool instruction entry point. Do not generate platform-specific skills, rules folders, or configuration files.
+- `local-agent-project` is tool-neutral and uses root `AGENTS.md` as the sole cross-tool instruction entry point. When it is absent, generate it; when an external root `AGENTS.md` exists, preserve its content and append or update only a marker-bounded RecoWork block. Do not generate platform-specific skills, rules folders, or configuration files.
+- `web-design-standard` is intentionally a single-file local standard: besides `AGENTS.md` and `rw-manifest.json`, generate exactly one localized design-standard document (`网页设计规范.md` or `web-design-standard.md`). Do not add a workspace, working-method directory, README, or design-system folder for this template.
 - For `project-engineering`, keep the generated `工作空间/` concise and user-facing:
   - `工作方法/角色设定.md`
   - `项目简报.md`
@@ -73,6 +74,7 @@ Template structure changes must also update the generated template files, CLI cl
 - `rw add` must refuse destinations that already contain `rw-manifest.json`; never use initialization as an in-place upgrade or cleanup mechanism.
 - Legacy chat manifests do not support in-place upgrades. `rw status` and `rw upgrade` must print a migration guide that creates a separate `local-agent-project` destination and leaves existing files untouched.
 - New initializations write `rw-manifest.json` schema version 2 with template/target versions and generated-file hashes. Legacy manifests require `rw upgrade --adopt <destination>` before upgrade checks can establish a baseline.
+- For an external root `AGENTS.md`, record the managed RecoWork block separately in the manifest. Upgrades may replace only an unchanged managed block; any user edit inside or removal of that block must be preserved and reported.
 
 ## Validation
 
@@ -85,10 +87,12 @@ node cli/recowork/bin/rw.js list
 node cli/recowork/bin/rw.js targets
 node cli/recowork/bin/rw.js add project --target local-agent-project --locale zh /private/tmp/recowork-zh-test
 node cli/recowork/bin/rw.js add project --target local-agent-project --locale en /private/tmp/recowork-en-test
-node cli/recowork/bin/rw.js add general --target chat-mobile --locale zh /private/tmp/recowork-general-zh-test
-node cli/recowork/bin/rw.js add general --target chat-mobile --locale en /private/tmp/recowork-general-en-test
 node cli/recowork/bin/rw.js add learning --target chat-mobile --locale zh /private/tmp/recowork-learning-zh-test
 node cli/recowork/bin/rw.js add learning --target chat-mobile --locale en /private/tmp/recowork-learning-en-test
+node cli/recowork/bin/rw.js add web-design-standard --target local-agent-project --locale zh /private/tmp/recowork-web-design-zh
+node cli/recowork/bin/rw.js add web-design-standard --target local-agent-project --locale en /private/tmp/recowork-web-design-en
+node cli/recowork/bin/rw.js add web-design-standard --target chat-mobile --locale zh /private/tmp/recowork-web-design-chat-zh
+node cli/recowork/bin/rw.js add web-design-standard --target chat-mobile --locale en /private/tmp/recowork-web-design-chat-en
 ```
 
 For initialization tests, use `/private/tmp/...` or another temporary directory outside the repository root.
@@ -96,8 +100,9 @@ For initialization tests, use `/private/tmp/...` or another temporary directory 
 ## Commit Rules
 
 - Follow [CONTRIBUTING.md](./CONTRIBUTING.md) and use Conventional Commits: `<type>(<scope>): <summary>`.
-- Use a specific scope such as `cli`, `targets`, `templates`, `project-engineering`, `general-ai-workflow`, `learning-engineering`, `docs`, `specs`, or `release`.
+- Use a specific scope such as `cli`, `targets`, `templates`, `project-engineering`, `idea-engineering`, `learning-engineering`, `docs`, `specs`, or `release`.
 - For multi-surface, migration, generated-output, or otherwise non-obvious changes, include `Why`, `Changes`, `Compatibility`, and `Validation` in the commit body.
 - Use a `BREAKING CHANGE:` footer when an existing command, generated path, file format, or workflow contract becomes incompatible.
+- Before committing a completed user-facing, template, target, CLI, or website change that is not yet released, add a concise bilingual entry to `CHANGELOG.md`, `CHANGELOG.zh.md`, and the Unreleased section of `docs/releases.html`. Keep the three surfaces aligned; publication moves those entries into a dated release section.
 - Inspect staged files before committing; never stage unrelated user changes, generated test output, npm cache, or package tarballs.
 - Before publishing, update `CHANGELOG.md`, `CHANGELOG.zh.md`, and `docs/releases.html` in both languages. Do not publish a version without a release record.

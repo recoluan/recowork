@@ -3,7 +3,7 @@
 Use this prompt only in a command-capable local agent.
 
 ```text
-Initialize the RecoWork template [general-ai-workflow | idea-engineering | learning-engineering | project-engineering] for the [local-agent-project] environment in [zh | en] at [destination].
+Initialize the RecoWork template [idea-engineering | learning-engineering | project-engineering] for the [local-agent-project] environment in [zh | en] at [destination].
 
 First check whether Node.js and npm are available. If either is missing or outdated, explain why it is needed and ask for my confirmation before installing the latest stable Node.js. After confirmation, run:
 

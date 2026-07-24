@@ -23,6 +23,11 @@ This is the product core.
 - Requires a command-capable local agent. The bootstrap prompt may check Node.js and npm and must ask before installing Node.js.
 - Never generates platform-specific `.claude/`, `.cursor/`, `CLAUDE.md`, skills, or brand rules.
 - Durable knowledge belongs in canonical documents inside the template workspace, not in a separate `knowledge/` or `知识库/` directory. Agents update the affected `index.md` when consolidating verified conclusions.
+- Root `AGENTS.md` uses safe auto-integration. If missing, RecoWork generates the complete target file. If an external root file exists, RecoWork preserves all existing content and appends or updates only its marker-bounded block: `<!-- recowork:start ... -->` through `<!-- recowork:end -->`.
+- The integration block explicitly states that rules outside the block take priority. The manifest stores its marker and hashes separately; upgrades replace only an unchanged block and report any edited or removed block without overwriting it.
+- Only the initialization destination's root `AGENTS.md` participates in this behavior. RecoWork does not scan or modify nested instruction files.
+
+The `web-design-standard` template is a deliberate single-file exception: apart from target-owned `AGENTS.md` and `rw-manifest.json`, it generates only `网页设计规范.md` (`zh`) or `web-design-standard.md` (`en`). It does not create a workspace, methods directory, README, or design-system folder. Its rendered `AGENTS.md` requires agents to read the standard before web work, defer to existing brand guidance, complete responsive/state/accessibility checks, and report the checklist result.
 
 ### `chat-mobile`
 
@@ -34,6 +39,8 @@ This is an intentionally limited conversation workflow, not a local-project subs
 - Must include a migration package with project brief, current decisions, open questions, and next step.
 - When work becomes complex, long-running, collaborative, knowledge-heavy, or auditable, it guides the user to initialize `local-agent-project` in a command-capable local agent.
 
+For `web-design-standard`, the start instruction is a complete standalone web-design prompt. It includes task input fields, the default product-web direction and tokens, desktop and mobile rules, component rules, prohibitions, delivery expectations, self-checking, brand-priority handling, and a manual continuation-summary format. It never asks a chat user to create local files.
+
 ## Filesystem Layout
 
 ```text
@@ -42,6 +49,9 @@ targets/
     target.yaml
     files/
       AGENTS.md.tpl
+    locales/
+      zh/AGENTS.integration.md.tpl
+      en/AGENTS.integration.md.tpl
   chat-mobile/
     target.yaml
     locales/
@@ -50,6 +60,8 @@ targets/
 ```
 
 `target.yaml` contains the target id, version, type, description, and optional aliases. Shared `files/` are locale-neutral. User-facing target files belong in `locales/<locale>/files/`.
+
+`AGENTS.integration.md.tpl` is a localized, non-output partial used only when an external root `AGENTS.md` needs a RecoWork block. It is never copied into the initialized project as a standalone file.
 
 ## Compatibility
 

@@ -21,9 +21,9 @@
       </a>
       <nav class="main-nav" aria-label="Primary navigation">
         <a href="./index.html" data-zh="首页" data-en="Home">首页</a>
-        <a href="./usage.html" data-zh="使用说明" data-en="Usage">使用说明</a>
-        <a href="./cases.html" data-zh="案例" data-en="Cases">案例</a>
-        <a href="./philosophy.html" data-zh="设计理念" data-en="Philosophy">设计理念</a>
+        <a href="./usage.html" data-zh="使用方式" data-en="How to use">使用方式</a>
+        <a href="./cases.html" data-zh="工作案例" data-en="Work cases">工作案例</a>
+        <a href="./philosophy.html" data-zh="工作理念" data-en="How it works">工作理念</a>
         <a class="active" href="./releases.html" data-zh="发布记录" data-en="Releases">发布记录</a>
       </nav>
       <div class="header-actions">
@@ -41,7 +41,10 @@
     <main>
       <section class="page-hero release-hero">
         <p class="eyebrow" data-zh="发布记录" data-en="Release notes">发布记录</p>
-        <h1 data-zh="每次版本变化，都能找到原因和影响。" data-en="Every version explains its reason and impact.">每次版本变化，都能找到原因和影响。</h1>
+        <h1 class="localized-title">
+          <span class="title-copy title-zh"><span class="title-line">每次版本变化，</span><span class="title-line">都能找到<span class="title-accent title-accent-orange">原因</span>和<span class="title-accent title-accent-violet">影响</span>。</span></span>
+          <span class="title-copy title-en"><span class="title-line">Every release tells you</span><span class="title-line">its <span class="title-accent title-accent-orange">reason</span> and <span class="title-accent title-accent-violet">impact</span>.</span></span>
+        </h1>
         <p class="hero-text" data-zh="这里同步 npm 发布版本、兼容性说明和未发布变更。详细 Markdown 记录保存在仓库的 CHANGELOG.md 与 CHANGELOG.zh.md。" data-en="This page tracks published npm versions, compatibility notes, and unreleased changes. The full Markdown sources live in CHANGELOG.md and CHANGELOG.zh.md.">这里同步 npm 发布版本、兼容性说明和未发布变更。详细 Markdown 记录保存在仓库的 CHANGELOG.md 与 CHANGELOG.zh.md。</p>
         <div class="page-actions">
           <a class="page-link primary" href="https://github.com/recoluan/recowork/blob/main/CHANGELOG.zh.md" target="_blank" rel="noreferrer" data-zh="查看中文更新日志" data-en="View Chinese changelog">查看中文更新日志</a>
@@ -52,17 +55,55 @@
       <section class="section release-summary">
         <div class="release-summary-card latest-release">
           <span data-zh="最新已发布" data-en="Latest published">最新已发布</span>
-          <strong>1.0.0</strong>
-          <p data-zh="2026-07-21 · 两种使用环境与安全迁移" data-en="2026-07-21 · Two usage environments and safe migration">2026-07-21 · 两种使用环境与安全迁移</p>
+          <strong>2.0.0</strong>
+          <p data-zh="2026-07-24 · 工作标准、网页设计规范与安全迁移" data-en="2026-07-24 · Work standards, web design standard, and safe migration">2026-07-24 · 工作标准、网页设计规范与安全迁移</p>
         </div>
         <div class="release-summary-card next-release">
           <span data-zh="下一版本" data-en="Next release">下一版本</span>
-          <strong data-zh="开发中" data-en="In development">开发中</strong>
-          <p data-zh="当前没有待发布变更。" data-en="No changes are currently queued for release.">当前没有待发布变更。</p>
+          <strong data-zh="暂无未发布变更" data-en="No unreleased changes">暂无未发布变更</strong>
+          <ul class="next-release-summary">
+            <li data-zh="下一次迭代的内容会在这里汇总。" data-en="The next iteration will be summarized here.">下一次迭代的内容会在这里汇总。</li>
+          </ul>
         </div>
       </section>
 
       <section class="section release-list" aria-label="Release history">
+        <article class="release-card">
+          <div class="release-card-heading">
+            <div>
+              <span class="release-kicker">2026-07-24</span>
+              <h2>2.0.0</h2>
+            </div>
+            <span class="release-badge badge-green" data-zh="已发布" data-en="Published">已发布</span>
+          </div>
+          <div class="release-columns">
+            <div>
+              <h3 data-zh="新增与变更" data-en="Added and changed">新增与变更</h3>
+              <ul>
+                <li data-zh="新增网页设计规范模板：本地 Agent 生成一份可复用规范，聊天 / 手机端提供可独立复制的响应式网页大 Prompt。" data-en="Added a web design standard template: local agents receive one reusable standard, while Chat / mobile receives a standalone responsive-web prompt.">新增网页设计规范模板：本地 Agent 生成一份可复用规范，聊天 / 手机端提供可独立复制的响应式网页大 Prompt。</li>
+                <li data-zh="新增网页设计规范的公开交互样例，用于展示默认产品型网页方向并作为响应式、状态和可访问性的人工验收基线。" data-en="Added a public interactive example for the web design standard, showing the default product-web direction and serving as a manual baseline for responsive behavior, states, and accessibility.">新增网页设计规范的公开交互样例，用于展示默认产品型网页方向并作为响应式、状态和可访问性的人工验收基线。</li>
+                <li data-zh="本地初始化会安全集成到已有根目录 AGENTS.md，仅管理 RecoWork 标记区块；升级会保留用户修改或删除过的区块。" data-en="Local initialization safely integrates with an existing root AGENTS.md and manages only the marked RecoWork block; upgrades preserve user-modified or removed blocks.">本地初始化会安全集成到已有根目录 AGENTS.md，仅管理 RecoWork 标记区块；升级会保留用户修改或删除过的区块。</li>
+                <li data-zh="工作流要求 AI 客观指出风险与替代方案，站点也将工作流模板和设计规范分开展示。" data-en="Workflows now require AI to state risks and alternatives objectively, and the site separates workflow templates from design standards.">工作流要求 AI 客观指出风险与替代方案，站点也将工作流模板和设计规范分开展示。</li>
+                <li data-zh="首页首屏重构为面向 AI Agent 的工作标准 Harness，使用透明工作流视觉连接一次需求、任务与标准、项目事实、检查、可审查结果与可续接的下一步。" data-en="The homepage hero is now a work-standard Harness for AI agents, using a transparent workflow visual that connects an initial request, task and standards, project facts, review, reviewable results, and a resumable next step.">首页首屏重构为面向 AI Agent 的工作标准 Harness，使用透明工作流视觉连接一次需求、任务与标准、项目事实、检查、可审查结果与可续接的下一步。</li>
+                <li data-zh="下线日常任务协作模板；新初始化请选想法、项目或学习工作流。已有 general 工作流不被改写，运行 rw status 或 rw upgrade 会得到只读迁移指引。" data-en="Retired the daily task workflow; choose idea, project, or learning for new initialization. Existing general workflows are not changed, and rw status or rw upgrade provides read-only migration guidance.">下线日常任务协作模板；新初始化请选想法、项目或学习工作流。已有 general 工作流不被改写，运行 rw status 或 rw upgrade 会得到只读迁移指引。</li>
+                <li data-zh="站点试用在线加载的 Noto Sans SC 与 JetBrains Mono，统一中英文与代码字体；暂不写入本地字体资产。" data-en="The site now trials remotely loaded Noto Sans SC and JetBrains Mono to unify Chinese, English, and code typography without adding local font assets.">站点试用在线加载的 Noto Sans SC 与 JetBrains Mono，统一中英文与代码字体；暂不写入本地字体资产。</li>
+                <li data-zh="站点标题改为中英文分别按语义换行、统一行间留白并高亮关键词，并收敛桌面端 H1 至 H3 的层级字号，避免词组生硬截断、内页首屏过重或标题层级失衡。" data-en="Site headings now use semantic line breaks with consistent space between lines, highlighted keywords, and a more compact desktop hierarchy from H1 through H3 in Chinese and English, avoiding arbitrary phrase splits, oversized page heroes, and weak visual hierarchy.">站点标题改为中英文分别按语义换行、统一行间留白并高亮关键词，并收敛桌面端 H1 至 H3 的层级字号，避免词组生硬截断、内页首屏过重或标题层级失衡。</li>
+                <li data-zh="首页改用简洁产品定位，并将 Agent 工作问题下沉至痛点区；初始化引导改为左右布局，全部复制按钮移至代码块右上角。" data-en="The homepage now uses a concise product statement and moves the Agent-work problem framing into the pain-point section; initialization guidance uses a side-by-side layout, with every copy control in the code block's top-right corner.">首页改用简洁产品定位，并将 Agent 工作问题下沉至痛点区；初始化引导改为左右布局，全部复制按钮移至代码块右上角。</li>
+                <li data-zh="优化工作卡片标签与命令示例对比度，并调整首页和理念页标题文案与语义换行。" data-en="Improved contrast for work-card labels and command examples, and refined homepage and philosophy headings with clearer copy and semantic line breaks.">优化工作卡片标签与命令示例对比度，并调整首页和理念页标题文案与语义换行。</li>
+                <li data-zh="重构网站与 README 的公开叙事：以让已有 AI Agent 持续完成真实工作为主线，明确任务、标准、项目事实、检查和续接的边界；区分本地可执行 Agent 与 Chat / Mobile，并避免未经验证的平台支持承诺。" data-en="Reframed the website and README around helping an existing AI agent keep finishing real work, with clear task, standards, project facts, review, and continuation boundaries; distinguished local executable agents from Chat / Mobile and avoided unverified platform-support claims.">重构网站与 README 的公开叙事：以让已有 AI Agent 持续完成真实工作为主线，明确任务、标准、项目事实、检查和续接的边界；区分本地可执行 Agent 与 Chat / Mobile，并避免未经验证的平台支持承诺。</li>
+              </ul>
+            </div>
+            <div>
+              <h3 data-zh="兼容性" data-en="Compatibility">兼容性</h3>
+              <p data-zh="已有根目录 AGENTS.md 在 RecoWork 受管区块之外的内容不会被改写。日常任务模板及其别名不再支持新建；已有 general 工作流保持不动，只通过 rw status 或 rw upgrade 提供迁移建议。" data-en="Existing root AGENTS.md content outside the managed RecoWork block is never rewritten. The daily task template and aliases no longer support new initialization; existing general workflows remain untouched and receive migration guidance only through rw status or rw upgrade.">已有根目录 AGENTS.md 在 RecoWork 受管区块之外的内容不会被改写。日常任务模板及其别名不再支持新建；已有 general 工作流保持不动，只通过 rw status 或 rw upgrade 提供迁移建议。</p>
+            </div>
+            <div>
+              <h3 data-zh="破坏性变更" data-en="Breaking changes">破坏性变更</h3>
+              <p data-zh="不再支持初始化、列出或查看 general-ai-workflow 及其 general、task、daily 别名。请改用想法、项目或学习工作流；已有 general 工作流不会被改写。" data-en="general-ai-workflow and its general, task, and daily aliases can no longer be initialized, listed, or shown. Use idea, project, or learning workflows instead; existing general workflows are not modified.">不再支持初始化、列出或查看 general-ai-workflow 及其 general、task、daily 别名。请改用想法、项目或学习工作流；已有 general 工作流不会被改写。</p>
+            </div>
+          </div>
+        </article>
+
         <article class="release-card">
           <div class="release-card-heading">
             <div>
