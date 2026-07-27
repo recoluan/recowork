@@ -762,6 +762,8 @@ function renderGeneratorOutputs() {
 
 # ${currentLanguage === "zh" ? "安装后可使用" : "After installation"}
 ${selectedCommand}`;
+  prompt.setAttribute("aria-busy", "false");
+  cliCommand.setAttribute("aria-busy", "false");
   if (visualCommand) {
     visualCommand.textContent = isChatEnvironment
       ? `${currentLanguage === "zh" ? "聊天启动 Prompt" : "Chat bootstrap prompt"} · ${generatorConfig.target} · ${generatorConfig.locale}`
