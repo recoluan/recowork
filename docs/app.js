@@ -459,6 +459,7 @@ const chatBootstrapDetails = {
 
 function applyLanguage(language) {
   currentLanguage = language;
+  document.body.dataset.lang = language;
   document.documentElement.lang = language === "zh" ? "zh-CN" : "en";
   if (document.body.dataset.titleZh && document.body.dataset.titleEn) {
     document.title = language === "zh" ? document.body.dataset.titleZh : document.body.dataset.titleEn;
