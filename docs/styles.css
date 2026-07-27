@@ -174,15 +174,15 @@ button {
 
 .page-hero h1 {
   max-width: 900px;
-  font-size: clamp(40px, 5vw, 64px);
+  font-size: clamp(40px, 4vw, 54px);
 }
 
 .cases-hero .localized-title {
-  font-size: clamp(42px, 5.5vw, 52px);
+  font-size: clamp(38px, 4.2vw, 48px);
 }
 
 .philosophy-hero .localized-title {
-  font-size: clamp(42px, 5.4vw, 50px);
+  font-size: clamp(38px, 4.2vw, 48px);
 }
 
 @media (min-width: 641px) {
@@ -244,7 +244,7 @@ button {
 }
 
 .home-intro-copy h2 {
-  font-size: clamp(30px, 4vw, 50px);
+  font-size: clamp(28px, 3.4vw, 42px);
 }
 
 .home-intro-copy p:not(.eyebrow) {
@@ -311,7 +311,7 @@ button {
 
 .product-hero .localized-title {
   max-width: 640px;
-  font-size: clamp(46px, 4vw, 54px);
+  font-size: clamp(40px, 3.8vw, 52px);
   line-height: 1.06;
   text-wrap: nowrap;
 }
@@ -339,7 +339,7 @@ p {
 h1 {
   max-width: 820px;
   margin-bottom: 22px;
-  font-size: clamp(42px, 5.2vw, 68px);
+  font-size: clamp(40px, 4.6vw, 60px);
   line-height: 0.95;
   letter-spacing: 0;
   text-wrap: balance;
@@ -348,7 +348,7 @@ h1 {
 h2 {
   max-width: 820px;
   margin-bottom: 0;
-  font-size: clamp(30px, 4vw, 50px);
+  font-size: clamp(28px, 3.4vw, 42px);
   line-height: 1;
   letter-spacing: 0;
   text-wrap: balance;
@@ -426,6 +426,30 @@ html[lang="en"] .title-en {
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 28px;
+}
+
+.hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.hero-badges a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  border-radius: 4px;
+  transition: transform 160ms ease;
+}
+
+.hero-badges a:hover {
+  transform: translateY(-1px);
+}
+
+.hero-badges img {
+  display: block;
+  height: 22px;
 }
 
 .hero-actions a,
@@ -749,7 +773,7 @@ html[lang="en"] .title-en {
 
 .comparison-card h3 {
   max-width: 560px;
-  font-size: clamp(23px, 3vw, 34px);
+  font-size: clamp(22px, 2.6vw, 30px);
 }
 
 .comparison-card ul {
@@ -976,7 +1000,7 @@ html[lang="en"] .title-en {
 
 .pack-card h3 {
   margin-bottom: 12px;
-  font-size: 25px;
+  font-size: 22px;
 }
 
 .pack-card ul {
@@ -1031,7 +1055,7 @@ html[lang="en"] .title-en {
 
 .template-essence-copy h3 {
   margin-bottom: 12px;
-  font-size: 25px;
+  font-size: 22px;
 }
 
 .template-essence-copy p {
@@ -1887,7 +1911,7 @@ pre {
 
 .narrative-hero .localized-title {
   max-width: 700px;
-  font-size: clamp(42px, 4.2vw, 58px);
+  font-size: clamp(40px, 4vw, 54px);
   text-wrap: balance;
 }
 
@@ -2314,7 +2338,7 @@ pre {
 
 .pain-grid h3 {
   margin-bottom: 12px;
-  font-size: 22px;
+  font-size: 20px;
 }
 
 .pain-grid p,
@@ -2407,7 +2431,7 @@ pre {
 
 .work-case-card h3 {
   margin: 16px 0;
-  font-size: 25px;
+  font-size: 22px;
   line-height: 1.25;
 }
 
@@ -2461,7 +2485,7 @@ pre {
 
 .environment-grid article:first-child { box-shadow: 10px 10px 0 var(--blue); }
 .environment-grid article:last-child { box-shadow: 10px 10px 0 var(--yellow); }
-.environment-grid h3 { margin: 18px 0 10px; font-size: 25px; }
+.environment-grid h3 { margin: 18px 0 10px; font-size: 22px; }
 .environment-icon { background: var(--green); }
 .environment-grid article:last-child .environment-icon { background: var(--pink); }
 
@@ -2532,7 +2556,7 @@ pre {
 
 .case-detail h2 {
   margin-bottom: 24px;
-  font-size: 28px;
+  font-size: 26px;
   line-height: 1.15;
 }
 
@@ -2654,7 +2678,7 @@ pre {
 
 .release-card-heading h2 {
   margin: 7px 0 0;
-  font-size: 38px;
+  font-size: 34px;
   line-height: 1;
 }
 
@@ -2855,12 +2879,12 @@ pre {
 
   h1,
   .page-hero h1 {
-    font-size: clamp(38px, 13vw, 54px);
+    font-size: clamp(36px, 12vw, 50px);
     line-height: 1;
   }
 
   .product-hero .localized-title {
-    font-size: clamp(38px, 12vw, 50px);
+    font-size: clamp(36px, 11vw, 48px);
     line-height: 1.04;
     text-wrap: balance;
   }
@@ -2871,16 +2895,16 @@ pre {
 
   .cases-hero .localized-title,
   .philosophy-hero .localized-title {
-    font-size: clamp(38px, 12vw, 50px);
+    font-size: clamp(36px, 11vw, 48px);
   }
 
   h2 {
-    font-size: clamp(28px, 10vw, 40px);
+    font-size: clamp(26px, 9vw, 36px);
     line-height: 1.05;
   }
 
   h3 {
-    font-size: 20px;
+    font-size: 19px;
   }
 
   .hero-text {
@@ -2982,7 +3006,7 @@ pre {
   }
 
   .release-card-heading h2 {
-    font-size: 32px;
+    font-size: 30px;
   }
 
   .target-select-menu {
