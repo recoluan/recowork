@@ -394,7 +394,15 @@ rw-manifest.json`,
   },
 };
 
-let currentLanguage = "zh";
+const languageStorageKey = "recowork-language";
+let currentLanguage = (() => {
+  try {
+    const savedLanguage = window.localStorage.getItem(languageStorageKey);
+    return savedLanguage === "en" ? "en" : "zh";
+  } catch {
+    return "zh";
+  }
+})();
 let currentTemplate = "project";
 let currentInitMethod = "ai";
 let currentGeneratorTemplateCategory = "workflow";
@@ -459,8 +467,16 @@ const chatBootstrapDetails = {
 
 function applyLanguage(language) {
   currentLanguage = language;
+  try {
+    window.localStorage.setItem(languageStorageKey, language);
+  } catch {
+    // Language switching still works when storage is unavailable.
+  }
   document.body.dataset.lang = language;
   document.documentElement.lang = language === "zh" ? "zh-CN" : "en";
+  if (document.querySelector(".config-locale")) {
+    generatorConfig.locale = language;
+  }
   if (document.body.dataset.titleZh && document.body.dataset.titleEn) {
     document.title = language === "zh" ? document.body.dataset.titleZh : document.body.dataset.titleEn;
     const description = document.querySelector('meta[name="description"]');
