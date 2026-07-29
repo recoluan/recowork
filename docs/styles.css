@@ -253,3 +253,53 @@ body[data-lang="en"] .usage-hero h1 {
     white-space: normal;
   }
 }
+
+@media (max-width: 820px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  .hero,
+  .page-hero {
+    overflow-x: hidden;
+  }
+  .hero::before,
+  .page-hero::before {
+    right: 0;
+    width: 260px;
+    height: 260px;
+  }
+}
+
+/* The usage checklist is one review flow, not a set of competing cards. */
+body[data-page="usage"] .trust-section ul {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(21, 21, 30, .78);
+}
+body[data-page="usage"] .trust-section li {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  padding: 16px 18px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted);
+  line-height: 1.65;
+}
+body[data-page="usage"] .trust-section li:last-child { border-bottom: 0; }
+body[data-page="usage"] .trust-section li::before {
+  width: 20px;
+  height: 20px;
+  margin: 2px 0 0;
+  background: rgba(197, 75, 231, .18);
+  color: #e4b6ff;
+}
