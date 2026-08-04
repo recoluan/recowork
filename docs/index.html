@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>RecoWork · 给 AI 一套可持续的工作方式</title>
     <meta name="description" content="RecoWork 将任务、标准、当前事实和续接方式整理成可直接交给 AI Agent 的开始 Prompt。" />
-    <link rel="stylesheet" href="./styles.css?v=20260803g" />
+    <link rel="stylesheet" href="./styles.css?v=20260804a" />
   </head>
   <body data-page="home" data-title-zh="RecoWork · 给 AI 一套可持续的工作方式" data-title-en="RecoWork · A durable way for AI to work" data-description-zh="RecoWork 将任务、标准、当前事实和续接方式整理成可直接交给 AI Agent 的开始 Prompt。" data-description-en="RecoWork organizes tasks, standards, current facts, and continuation into a start prompt for the AI agent you already use.">
     <header class="site-header">
@@ -30,7 +30,14 @@
           <div class="hero-actions"><a class="primary-link" href="./usage.html#initialize" data-zh="生成开始 Prompt" data-en="Generate a start prompt">生成开始 Prompt</a><a class="secondary-link" href="#how-it-works" data-zh="了解如何工作" data-en="See how it works">了解如何工作</a></div>
           <div class="hero-badges" aria-label="RecoWork package status"><a href="https://www.npmjs.com/package/recowork" target="_blank" rel="noreferrer"><img src="https://img.shields.io/npm/d18m/recowork.svg?style=flat-square&amp;logo=npm&amp;color=355C7D" alt="npm downloads" /></a><a href="https://github.com/recoluan/recowork" target="_blank" rel="noreferrer"><img src="https://img.shields.io/github/package-json/v/recoluan/recowork?filename=package.json&amp;style=flat-square&amp;color=355C7D&amp;logo=npm" alt="package version" /></a></div>
         </div>
-        <div class="generated-hero-visual"><img src="./assets/recowork-agent-hero.png" alt="RecoWork turns a real task into a structured agent workflow" /></div>
+        <div class="agent-preview" aria-label="Local agent work preview">
+          <div class="agent-preview-bar"><div class="agent-preview-brand"><span class="agent-status-dot"></span><span>local-agent</span></div><span class="agent-preview-note" data-zh="运行示意" data-en="Work preview">运行示意</span></div>
+          <div class="agent-preview-body">
+            <aside class="agent-context"><p data-zh="当前工作" data-en="Current work">当前工作</p><strong data-zh="网站信息架构重构" data-en="Rebuild site information architecture">网站信息架构重构</strong><span data-zh="项目工程化" data-en="Project engineering">项目工程化</span><div class="agent-context-files"><small>AGENTS.md</small><small data-zh="工作空间/项目简报.md" data-en="workspace/project-brief.md">工作空间/项目简报.md</small><small data-zh="工作空间/待确认问题.md" data-en="workspace/open-questions.md">工作空间/待确认问题.md</small></div></aside>
+            <div class="agent-run"><div class="agent-run-heading"><div><span data-zh="执行中" data-en="Running">执行中</span><strong data-zh="整理工作事实" data-en="Organize working facts">整理工作事实</strong></div><span class="agent-progress">02 / 04</span></div><ol class="agent-log"><li class="is-done"><span>✓</span><div><strong data-zh="读取角色与工作规则" data-en="Read role and working rules">读取角色与工作规则</strong><small>AGENTS.md</small></div></li><li class="is-current"><span></span><div><strong data-zh="检查当前项目事实" data-en="Check current project facts">检查当前项目事实</strong><small data-zh="项目简报 · 已确认决策 · 待确认问题" data-en="Project brief · confirmed decisions · open questions">项目简报 · 已确认决策 · 待确认问题</small></div></li><li><span>03</span><div><strong data-zh="生成可审查的方案" data-en="Generate a reviewable plan">生成可审查的方案</strong><small data-zh="等待当前事实完成整理" data-en="Waiting for current facts">等待当前事实完成整理</small></div></li><li><span>04</span><div><strong data-zh="等待人工确认" data-en="Wait for human confirmation">等待人工确认</strong><small data-zh="不会自动越过决策边界" data-en="Will not cross decision boundaries automatically">不会自动越过决策边界</small></div></li></ol></div>
+          </div>
+          <div class="agent-preview-footer"><span class="agent-live-dot"></span><span data-zh="下一步：确认目标与完成标准" data-en="Next: confirm goal and completion criteria">下一步：确认目标与完成标准</span></div>
+        </div>
       </section>
 
       <section class="product-path" id="how-it-works" aria-labelledby="path-title">
