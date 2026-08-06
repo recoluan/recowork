@@ -174,6 +174,26 @@ function initializeWorkbenchCarousel() {
   startWorkbenchCarousel();
 }
 
+function initializeSiteStats() {
+  const stats = document.querySelector(".site-stats");
+  const counters = [document.querySelector("#busuanzi_site_pv"), document.querySelector("#busuanzi_page_pv")];
+  if (!stats || counters.some((counter) => !counter)) return;
+
+  const hasValidCounts = () => counters.every((counter) => /^[\d,.]+(?:[KWE])?$/.test(counter.textContent.trim()));
+  const reveal = () => {
+    if (!hasValidCounts()) return false;
+    stats.hidden = false;
+    return true;
+  };
+
+  if (reveal()) return;
+  const observer = new MutationObserver(() => {
+    if (reveal()) observer.disconnect();
+  });
+  counters.forEach((counter) => observer.observe(counter, { childList: true, characterData: true, subtree: true }));
+  window.setTimeout(() => observer.disconnect(), 10000);
+}
+
 async function copyText(text) {
   try { await navigator.clipboard.writeText(text); }
   catch {
@@ -202,3 +222,4 @@ document.querySelectorAll("[data-close-design-demo]").forEach((button) => button
 
 applyLanguage(language);
 initializeWorkbenchCarousel();
+initializeSiteStats();
