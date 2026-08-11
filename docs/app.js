@@ -103,8 +103,44 @@ function applyLanguage(nextLanguage) {
     const description = document.querySelector('meta[name="description"]');
     if (description) description.content = language === "zh" ? document.body.dataset.descriptionZh : document.body.dataset.descriptionEn;
   }
+  updateMobileNavigationLabel();
   renderPrompt();
   renderWorkbenchCase();
+}
+
+function updateMobileNavigationLabel() {
+  const toggle = document.querySelector(".nav-toggle");
+  if (!toggle) return;
+  const open = toggle.getAttribute("aria-expanded") === "true";
+  const labelKey = `${open ? "close" : "open"}${language === "zh" ? "Zh" : "En"}`;
+  toggle.setAttribute("aria-label", toggle.dataset[labelKey]);
+}
+
+function initializeMobileNavigation() {
+  const header = document.querySelector(".site-header");
+  const toggle = document.querySelector(".nav-toggle");
+  const nav = document.querySelector(".main-nav");
+  if (!header || !toggle || !nav) return;
+
+  const setOpen = (open) => {
+    header.classList.toggle("nav-open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    updateMobileNavigationLabel();
+  };
+
+  toggle.addEventListener("click", () => setOpen(toggle.getAttribute("aria-expanded") !== "true"));
+  nav.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setOpen(false)));
+  document.addEventListener("click", (event) => {
+    if (toggle.getAttribute("aria-expanded") === "true" && !header.contains(event.target)) setOpen(false);
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape" || toggle.getAttribute("aria-expanded") !== "true") return;
+    setOpen(false);
+    toggle.focus();
+  });
+  window.matchMedia("(max-width: 820px)").addEventListener("change", (event) => {
+    if (!event.matches) setOpen(false);
+  });
 }
 
 function showToast(message) {
@@ -220,6 +256,7 @@ document.querySelectorAll("[data-copy-target]").forEach((button) => button.addEv
 document.querySelectorAll("[data-open-design-demo]").forEach((button) => button.addEventListener("click", () => document.querySelector("#designDemoModal")?.showModal()));
 document.querySelectorAll("[data-close-design-demo]").forEach((button) => button.addEventListener("click", () => document.querySelector("#designDemoModal")?.close()));
 
+initializeMobileNavigation();
 applyLanguage(language);
 initializeWorkbenchCarousel();
 initializeSiteStats();
