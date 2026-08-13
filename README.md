@@ -36,18 +36,18 @@ Chat continuity is manual: save and paste the continuation summary into the next
 In a command-capable local agent, initialize a workflow deterministically:
 
 ```bash
-npx recowork add project --target local-agent-project --locale en .
+npx --yes recowork@latest add project --target local-agent-project --locale en .
 ```
 
 Choose another scenario or locale as needed:
 
 ```bash
-npx recowork list
-npx recowork add learning --target local-agent-project --locale en ./my-learning-work
-npx recowork add idea --target local-agent-project --locale en ./idea-work
+npx --yes recowork@latest list
+npx --yes recowork@latest add learning --target local-agent-project --locale en ./my-learning-work
+npx --yes recowork@latest add idea --target local-agent-project --locale en ./idea-work
 ```
 
-`rw` is the installed command alias. Use `npx recowork` when you do not have the package installed globally.
+`npx --yes recowork@latest` downloads and runs the current package without a global installation. `rw` is only the shorter alias available after installing RecoWork globally.
 
 ## Start Through an Agent
 
@@ -56,8 +56,7 @@ For a local agent that can run commands, paste this instruction:
 ```text
 Initialize a RecoWork project workflow in the current directory.
 
-Repository: https://github.com/recoluan/recowork
-Run: npx recowork add project --target local-agent-project --locale en .
+Run: npx --yes recowork@latest add project --target local-agent-project --locale en .
 
 First verify Node.js and npm. If either is unavailable or outdated, explain the blocker and ask for confirmation before installing the latest stable Node.js. Preserve any existing root AGENTS.md and verify that RecoWork adds only its marker-bounded integration block. Then show the created files and the first working step.
 ```

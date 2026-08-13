@@ -36,18 +36,18 @@ RecoWork 是面向人和 AI Agent 的工作标准与项目事实层。它不替�
 在能够执行命令的本地 Agent 中，使用确定性的 CLI 初始化：
 
 ```bash
-npx recowork add project --target local-agent-project --locale zh .
+npx --yes recowork@latest add project --target local-agent-project --locale zh .
 ```
 
 按需要换成其他工作场景或语言：
 
 ```bash
-npx recowork list
-npx recowork add learning --target local-agent-project --locale zh ./my-learning-work
-npx recowork add idea --target local-agent-project --locale zh ./idea-work
+npx --yes recowork@latest list
+npx --yes recowork@latest add learning --target local-agent-project --locale zh ./my-learning-work
+npx --yes recowork@latest add idea --target local-agent-project --locale zh ./idea-work
 ```
 
-安装后可使用 `rw` 命令；未全局安装时使用 `npx recowork`。
+`npx --yes recowork@latest` 会临时获取并运行当前版本，无需全局安装。只有全局安装 RecoWork 后，才可以直接使用较短的 `rw` 别名。
 
 ## 让本地 Agent 帮你开始
 
@@ -56,8 +56,7 @@ npx recowork add idea --target local-agent-project --locale zh ./idea-work
 ```text
 请在当前目录初始化 RecoWork 项目工作流。
 
-仓库地址：https://github.com/recoluan/recowork
-执行：npx recowork add project --target local-agent-project --locale zh .
+执行：npx --yes recowork@latest add project --target local-agent-project --locale zh .
 
 先检查 Node.js 和 npm。任一项缺失或版本过旧时，先说明阻塞原因，并向我确认后再安装最新版稳定版 Node.js。若根目录已有 AGENTS.md，保留既有内容，并确认 RecoWork 只新增带稳定标记的整合区块。完成后展示创建的文件，并说明第一步如何开始工作。
 ```

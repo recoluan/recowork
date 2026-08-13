@@ -5,12 +5,12 @@
 ## Install or Run
 
 ```bash
-npx recowork list
-npx recowork targets
-npx recowork add project --target local-agent-project --locale zh .
+npx --yes recowork@latest list
+npx --yes recowork@latest targets
+npx --yes recowork@latest add project --target local-agent-project --locale zh .
 ```
 
-After installation, use `rw` instead of `npx recowork`.
+These commands fetch the current package for the run and need no global installation. After installing RecoWork globally, you may use `rw` instead.
 
 ## Templates
 
@@ -56,4 +56,4 @@ Chat targets do not create a manifest and do not support status or upgrade comma
 
 Generated workspaces belong to the user. `rw add` refuses an existing RecoWork destination; use `rw upgrade` instead. `rw upgrade --apply` updates only unchanged method or target files. It never overwrites, moves, or deletes workspace files. Missing workspace files require explicit `--scope workspace --add-missing`. Legacy Chat manifests print a migration guide for a separate local workflow.
 
-Source and website: [RecoWork](https://github.com/reco-dev/recowork)
+Source and website: [RecoWork](https://github.com/recoluan/recowork)

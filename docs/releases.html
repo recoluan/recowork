@@ -59,14 +59,24 @@
         </div>
         <div class="release-summary-card next-release">
           <span data-zh="下一版本" data-en="Next release">下一版本</span>
-          <strong data-zh="暂无未发布变更" data-en="No unreleased changes">暂无未发布变更</strong>
+          <strong data-zh="1 项初始化入口修复" data-en="1 initialization entry fix">1 项初始化入口修复</strong>
           <ul class="next-release-summary">
-            <li data-zh="下一次迭代的内容会在这里汇总。" data-en="The next iteration will be summarized here.">下一次迭代的内容会在这里汇总。</li>
+            <li data-zh="本地 Agent Prompt 改用 npx 临时获取最新版 RecoWork，不再假设已全局安装 rw。" data-en="Local-agent prompts now fetch the latest RecoWork through npx instead of assuming a global rw installation.">本地 Agent Prompt 改用 npx 临时获取最新版 RecoWork，不再假设已全局安装 rw。</li>
           </ul>
         </div>
       </section>
 
       <section class="section release-list" aria-label="Release history">
+        <article class="release-card release-card-muted">
+          <div class="release-card-heading">
+            <div><span class="release-kicker" data-zh="待发布" data-en="Unreleased">待发布</span><h2 data-zh="下一版本" data-en="Next release">下一版本</h2></div>
+            <span class="release-badge badge-gray" data-zh="开发中" data-en="In progress">开发中</span>
+          </div>
+          <div class="release-columns single">
+            <div><h3 data-zh="初始化入口" data-en="Initialization entry">初始化入口</h3><p data-zh="网站生成的本地 Agent Prompt、README 和初始化 Prompt 统一使用 npx --yes recowork@latest。首次使用会临时获取 npm 包，无需预先全局安装 rw，也不会停在 npm 的交互式安装确认。" data-en="The website-generated local-agent prompt, READMEs, and initialization prompts now use npx --yes recowork@latest. First use fetches the npm package without a global rw installation or an interactive npm install confirmation.">网站生成的本地 Agent Prompt、README 和初始化 Prompt 统一使用 npx --yes recowork@latest。首次使用会临时获取 npm 包，无需预先全局安装 rw，也不会停在 npm 的交互式安装确认。</p></div>
+          </div>
+        </article>
+
         <article class="release-card">
           <div class="release-card-heading">
             <div>
@@ -225,6 +235,6 @@
     </footer>
 
   <script src="https://cdn.busuanzi.cc/busuanzi/3.6.9/busuanzi.abbr.min.js" defer></script>
-  <script src="./app.js?v=20260810a"></script>
+  <script src="./app.js?v=20260813a"></script>
   </body>
 </html>

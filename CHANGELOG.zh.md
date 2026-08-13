@@ -6,6 +6,10 @@ RecoWork 的重要变更记录在此。项目遵循 [Keep a Changelog](https://k
 
 ## [未发布]
 
+### 修复
+
+- 本地 Agent 初始化 Prompt 与首次使用文档统一改用 `npx --yes recowork@latest`，无需预先全局安装 `rw`，也不会停在 npm 的交互式安装确认。
+
 ## [2.0.0] - 2026-07-24
 
 ### 新增

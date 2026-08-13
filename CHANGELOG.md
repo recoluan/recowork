@@ -6,6 +6,10 @@ This changelog records functional behavior, compatibility, migration, CLI, templ
 
 ## [Unreleased]
 
+### Fixed
+
+- Local-agent initialization prompts and first-run documentation now use `npx --yes recowork@latest`, so users can fetch and run RecoWork without a globally installed `rw` command or an interactive npm installation prompt.
+
 ## [2.0.0] - 2026-07-24
 
 ### Added

@@ -107,19 +107,23 @@ rw add <template> --target <target> --locale <locale> <destination>
 - Local-agent prompt mode should tell AI to run:
 
 ```bash
-npx recowork add <template> --target <target> <destination>
+npx --yes recowork@latest add <template> --target <target> <destination>
 ```
 
 - When language matters, prompt mode should tell AI to run:
 
 ```bash
-npx recowork add <template> --target <target> --locale <locale> <destination>
+npx --yes recowork@latest add <template> --target <target> --locale <locale> <destination>
 ```
+
+- Public first-run instructions should use `npx --yes recowork@latest` so the package is fetched without requiring a global `rw` command or an interactive npm installation prompt.
+- `rw` may be shown only as an alias for users who have already installed RecoWork globally or inside CLI output after the package is running.
 
 - If a local agent cannot run `npx`, the prompt may instruct it to read the GitHub repository and manually compose `templates/<template>/` with `targets/<target>/`.
 - If the template has localized content, fallback prompt mode should instruct AI to use `templates/<template>/locales/<locale>/`.
 - Chinese prompt templates should be written in Chinese.
-- Prompt templates must include the GitHub repository URL so AI knows where to read the source.
+- Website-generated and primary first-run prompts should not include the GitHub repository URL because the npm package is the normal initialization source.
+- Reusable fallback prompts may include the GitHub repository URL only as an explicitly conditional source when `npx` cannot run; they must not imply that cloning or reading the repository is part of normal initialization.
 - Initialization must distinguish a command-capable local agent from a pure chat/mobile environment.
 - A command-capable agent should check Node.js and npm first. If either is missing, unavailable, or outdated, it must ask for confirmation before installing the latest stable Node.js, then run the CLI.
 - A pure chat/mobile environment must not be asked to install Node.js or create local files. It should receive a direct, copyable chat bootstrap prompt with the selected workflow's role, working protocol, self-review, and continuation-memory rules.

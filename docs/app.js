@@ -44,11 +44,11 @@ const config = { template: "project-engineering", target: "local-agent-project",
 function isChat() { return config.target === "chat-mobile"; }
 
 function localPrompt() {
-  const command = `rw add ${commandNames[config.template]} --target local-agent-project --locale ${config.locale} .`;
+  const command = `npx --yes recowork@latest add ${commandNames[config.template]} --target local-agent-project --locale ${config.locale} .`;
   if (config.locale === "en") {
-    return `You are helping me start a RecoWork workflow.\n\nRepository: https://github.com/recoluan/recowork\nWork type: ${copy.en.templates[config.template]}\nEnvironment: local executable agent\nDestination: current project\n\nWork this way:\n1. Confirm that this environment can run commands. Check Node.js and npm.\n2. If either is unavailable or outdated, explain the blocker and ask for my confirmation before installing a current stable Node.js.\n3. After confirmation, run:\n   ${command}\n4. Preserve any existing root AGENTS.md outside RecoWork's managed block.\n5. Show the generated file tree, explain what was created, and ask for the first work input.\n\nDo not pretend files were created if command execution is unavailable.`;
+    return `You are helping me start a RecoWork workflow.\n\nWork type: ${copy.en.templates[config.template]}\nEnvironment: local executable agent\nDestination: current project\n\nWork this way:\n1. Confirm that this environment can run commands. Check Node.js and npm.\n2. If either is unavailable or outdated, explain the blocker and ask for my confirmation before installing a current stable Node.js.\n3. Once the environment is ready, run the following command. It downloads the latest RecoWork package for this run, so a global rw command is not required:\n   ${command}\n4. Preserve any existing root AGENTS.md outside RecoWork's managed block.\n5. Show the generated file tree, explain what was created, and ask for the first work input.\n\nDo not replace the command with rw unless RecoWork is already installed globally. Do not pretend files were created if command execution is unavailable.`;
   }
-  return `你正在帮助我开始一项 RecoWork 工作。\n\n仓库地址：https://github.com/recoluan/recowork\n工作类型：${copy.zh.templates[config.template]}\n使用环境：本地可执行 Agent\n目标位置：当前项目\n\n请按以下方式工作：\n1. 先确认当前环境可以执行命令，并检查 Node.js 与 npm。\n2. 如果其中任一项缺失、不可用或版本过旧，说明阻塞原因，并在安装稳定版 Node.js 前征求我的确认。\n3. 获得确认后运行：\n   ${command}\n4. 保留已有根目录 AGENTS.md 中 RecoWork 受管区块之外的内容。\n5. 展示生成后的文件树，说明创建了什么，并询问我的第一项工作输入。\n\n如果无法执行命令，不要模拟已经创建了本地文件。`;
+  return `你正在帮助我开始一项 RecoWork 工作。\n\n工作类型：${copy.zh.templates[config.template]}\n使用环境：本地可执行 Agent\n目标位置：当前项目\n\n请按以下方式工作：\n1. 先确认当前环境可以执行命令，并检查 Node.js 与 npm。\n2. 如果其中任一项缺失、不可用或版本过旧，说明阻塞原因，并在安装稳定版 Node.js 前征求我的确认。\n3. 环境满足要求后运行下面的命令。该命令会临时获取最新版 RecoWork，无需预先全局安装 rw：\n   ${command}\n4. 保留已有根目录 AGENTS.md 中 RecoWork 受管区块之外的内容。\n5. 展示生成后的文件树，说明创建了什么，并询问我的第一项工作输入。\n\n除非已经全局安装 RecoWork，否则不要把上述命令替换成 rw。如果无法执行命令，不要模拟已经创建了本地文件。`;
 }
 
 function chatPrompt() {
