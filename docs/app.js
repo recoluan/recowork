@@ -2,9 +2,8 @@ const copy = {
   zh: {
     copied: "已复制",
     templates: {
-      "project-engineering": "项目工程化",
-      "learning-engineering": "系统学习",
-      "idea-engineering": "想法探索与验证",
+      "idea-to-project": "从想法到落地",
+      "learning-engineering": "系统性学习",
       "web-design-standard": "网页设计规范",
     },
     local: "本地可执行 Agent",
@@ -13,9 +12,8 @@ const copy = {
   en: {
     copied: "Copied",
     templates: {
-      "project-engineering": "Project engineering",
+      "idea-to-project": "Idea to project",
       "learning-engineering": "Structured learning",
-      "idea-engineering": "Idea exploration and validation",
       "web-design-standard": "Web design standard",
     },
     local: "Local executable agent",
@@ -24,14 +22,13 @@ const copy = {
 };
 
 const templateCategories = {
-  workflow: ["project-engineering", "learning-engineering", "idea-engineering"],
+  workflow: ["idea-to-project", "learning-engineering"],
   standard: ["web-design-standard"],
 };
 
 const commandNames = {
-  "project-engineering": "project",
+  "idea-to-project": "idea-to-project",
   "learning-engineering": "learning",
-  "idea-engineering": "idea",
   "web-design-standard": "web-design-standard",
 };
 
@@ -39,7 +36,7 @@ const languageKey = "recowork-language";
 let language = (() => {
   try { return localStorage.getItem(languageKey) === "en" ? "en" : "zh"; } catch { return "zh"; }
 })();
-const config = { template: "project-engineering", target: "local-agent-project", locale: language };
+const config = { template: "idea-to-project", target: "local-agent-project", locale: language };
 
 function isChat() { return config.target === "chat-mobile"; }
 
@@ -153,15 +150,13 @@ function showToast(message) {
 
 const workbenchCases = {
   zh: [
-    { template: "项目工程化", project: "星港防线", chat: "明确首个可玩版本", chats: ["明确首个可玩版本", "评估引擎与平台取舍", "拆分两周开发计划"], user: "我想在 8 周内完成一个单人可玩的俯视角生存游戏。首个版本要验证核心循环，不做剧情、联机和付费系统。", response: "我会先把目标、范围和约束写入项目简报；首个可玩版本聚焦移动、战斗、敌人刷新和一轮 10 分钟的生存反馈。引擎选择和美术投入仍会影响计划，需要你确认。", bullets: ["更新 项目简报.md：目标、范围与非目标", "新建 待确认问题.md：引擎与美术方案", "确认后再进入需求与方案设计"], files: [["星港防线/", true], ["AGENTS.md"], ["工作空间/", true], ["项目简报.md", false, true], ["待确认问题.md"], ["01-需求与约束/", true], ["02-方案设计/", true], ["03-计划与决策/", true], ["05-评审验证/", true]], change: "项目简报.md 已更新", status: "待确认：引擎与美术方案" },
-    { template: "系统学习", project: "LangChain 学习计划", chat: "设计四周学习路线", chats: ["设计四周学习路线", "拆解检索应用练习", "复盘第一周诊断"], user: "我有 Python 基础，想用 4 周完成一个能检索个人笔记的 LangChain 小项目。每天最多投入 45 分钟。", response: "我会先建立学习简报和当前能力基线，再按概念、练习、项目验证组织路线。第一个周期只验证本地检索链路，不提前扩展多模型和部署。", bullets: ["更新 学习简报.md：目标、基础与时间约束", "生成 课程路线.md：四周里程碑与练习", "在 学习进度.md 保留每次验证结果"], files: [["langchain-learning/", true], ["AGENTS.md"], ["学习空间/", true], ["学习简报.md", false, true], ["课程路线.md"], ["学习进度.md"], ["01-课程设计/", true], ["02-课程与练习/", true], ["03-项目实践/", true]], change: "课程路线.md 已更新", status: "下一步：确认每周可用时间" },
-    { template: "想法探索与验证", project: "教练预约工具", chat: "收敛首个验证方向", chats: ["收敛首个验证方向", "整理用户访谈假设", "设计一周验证实验"], user: "我想做一个给自由健身教练使用的预约工具，但还不确定用户真正愿意为哪个环节付费。", response: "先不进入产品方案。我会把预约、排课和续费拆成假设，优先验证教练是否愿意为减少反复沟通付费，并记录证据与反例。", bullets: ["更新 想法简报.md：问题、受众与初始假设", "建立 假设与验证：访谈问题和判断阈值", "将未证实判断留在待确认问题中"], files: [["coach-booking/", true], ["AGENTS.md"], ["想法空间/", true], ["想法简报.md", false, true], ["待确认问题.md"], ["01-问题与机会/", true], ["03-方向归纳/", true], ["04-假设与验证/", true], ["05-决策与下一步/", true]], change: "想法简报.md 已更新", status: "验证中：高频沟通是否是痛点" },
+    { template: "从想法到落地", project: "星港防线", chat: "确认首个可玩方向", chats: ["确认首个可玩方向", "评估引擎与平台取舍", "拆分两周开发计划"], user: "我想在 8 周内完成一个单人可玩的俯视角生存游戏。首个版本要验证核心循环，不做剧情、联机和付费系统。", response: "我会先记录问题、目标与候选方向，确认首个可玩版本后再进入需求、方案和推进计划。引擎选择和美术投入仍需你确认。", bullets: ["更新 项目简报.md：目标、范围与非目标", "记录 方向决策包.md：首个可玩方向与依据", "确认后再进入需求与方案设计"], files: [["星港防线/", true], ["AGENTS.md"], ["工作空间/", true], ["项目简报.md", false, true], ["待确认问题.md"], ["01-探索与验证/", true], ["02-需求与约束/", true], ["03-方案设计/", true], ["06-评审验证/", true]], change: "方向决策包.md 已更新", status: "待确认：引擎与美术方案" },
+    { template: "系统性学习", project: "LangChain 学习计划", chat: "设计四周学习路线", chats: ["设计四周学习路线", "拆解检索应用练习", "复盘第一周诊断"], user: "我有 Python 基础，想用 4 周完成一个能检索个人笔记的 LangChain 小项目。每天最多投入 45 分钟。", response: "我会先建立学习简报和当前能力基线，再按概念、练习、项目验证组织路线。第一个周期只验证本地检索链路，不提前扩展多模型和部署。", bullets: ["更新 学习简报.md：目标、基础与时间约束", "生成 课程路线.md：四周里程碑与练习", "在 学习进度.md 保留每次验证结果"], files: [["langchain-learning/", true], ["AGENTS.md"], ["学习空间/", true], ["学习简报.md", false, true], ["课程路线.md"], ["学习进度.md"], ["01-课程设计/", true], ["02-课程与练习/", true], ["03-项目实践/", true]], change: "课程路线.md 已更新", status: "下一步：确认每周可用时间" },
     { template: "网页设计规范", project: "咖啡订阅页", chat: "建立响应式设计规范", chats: ["建立响应式设计规范", "确定商品信息层级", "检查移动端状态"], user: "我要做一个独立咖啡品牌订阅页。请先确定视觉方向、移动端信息层级和组件状态，再开始写页面。", response: "我会先生成一份单文件设计规范，明确字体、色彩、栅格、商品卡片和响应式行为。规范会把可用性检查写进交付标准，避免只留下视觉描述。", bullets: ["生成 网页设计规范.md：方向、组件与状态", "在 AGENTS.md 固定页面实现与检查约束", "先确认参考方向，再进入页面开发"], files: [["coffee-subscription/", true], ["AGENTS.md"], ["网页设计规范.md", false, true], ["assets/", true], ["product-images/", true], ["src/", true]], change: "网页设计规范.md 已生成", status: "待确认：视觉参考与品牌语气" },
   ],
   en: [
-    { template: "Project engineering", project: "Starport Defense", chat: "Define the first playable", chats: ["Define the first playable", "Evaluate engine and platform", "Split the two-week plan"], user: "I want a solo-playable top-down survival game in eight weeks. The first version must validate the core loop, without story, multiplayer, or monetization.", response: "I will record the goal, scope, and constraints in the project brief. The first playable focuses on movement, combat, enemy spawning, and ten minutes of survival feedback. Engine choice and art investment still need your confirmation.", bullets: ["Update project-brief.md: goal, scope, and non-goals", "Create open-questions.md: engine and art direction", "Move to requirements and solution design after confirmation"], files: [["starport-defense/", true], ["AGENTS.md"], ["workspace/", true], ["project-brief.md", false, true], ["open-questions.md"], ["01-requirements-and-constraints/", true], ["02-solution-design/", true], ["03-plan-and-decisions/", true], ["05-review-and-validation/", true]], change: "project-brief.md updated", status: "Open: engine and art direction" },
+    { template: "Idea to project", project: "Starport Defense", chat: "Confirm the first playable direction", chats: ["Confirm the first playable direction", "Evaluate engine and platform", "Split the two-week plan"], user: "I want a solo-playable top-down survival game in eight weeks. The first version must validate the core loop, without story, multiplayer, or monetization.", response: "I will record the problem, goal, and candidate direction first. Once you confirm the first playable, we will move into requirements, solution design, and delivery planning. Engine and art investment still need your confirmation.", bullets: ["Update project-brief.md: goal, scope, and non-goals", "Record direction-decision-package.md: chosen first playable and evidence", "Move to requirements and solution design after confirmation"], files: [["starport-defense/", true], ["AGENTS.md"], ["workspace/", true], ["project-brief.md", false, true], ["open-questions.md"], ["01-exploration-and-validation/", true], ["02-requirements-and-constraints/", true], ["03-solution-design/", true], ["06-review-and-validation/", true]], change: "direction-decision-package.md updated", status: "Open: engine and art direction" },
     { template: "Structured learning", project: "LangChain learning plan", chat: "Design a four-week route", chats: ["Design a four-week route", "Split the retrieval app practice", "Review the first-week diagnosis"], user: "I know Python basics and want to build a small LangChain project that searches my personal notes in four weeks. I can spend at most 45 minutes a day.", response: "I will establish the learning brief and current baseline first, then organize concepts, practice, and project validation. The first cycle only validates local retrieval, without adding multi-model work or deployment early.", bullets: ["Update learning-brief.md: goal, baseline, and time", "Generate learning-roadmap.md: milestones and practice", "Keep validation results in learning-progress.md"], files: [["langchain-learning/", true], ["AGENTS.md"], ["learning-space/", true], ["learning-brief.md", false, true], ["learning-roadmap.md"], ["learning-progress.md"], ["01-course-design/", true], ["02-lessons-and-practice/", true], ["03-project-practice/", true]], change: "learning-roadmap.md updated", status: "Next: confirm weekly availability" },
-    { template: "Idea exploration", project: "Coach booking tool", chat: "Converge on the first direction", chats: ["Converge on the first direction", "Organize interview hypotheses", "Design a one-week experiment"], user: "I want to make a booking tool for independent fitness coaches, but I do not yet know which part users would actually pay for.", response: "We should not jump into a product plan. I will separate booking, scheduling, and renewal into hypotheses, then validate whether coaches pay to reduce repeated communication while recording evidence and counterexamples.", bullets: ["Update idea-brief.md: problem, audience, and hypotheses", "Set up validation: interview questions and thresholds", "Keep unproven claims in open questions"], files: [["coach-booking/", true], ["AGENTS.md"], ["idea-space/", true], ["idea-brief.md", false, true], ["open-questions.md"], ["01-problems-and-opportunities/", true], ["03-direction-synthesis/", true], ["04-hypotheses-and-validation/", true], ["05-decisions-and-next-steps/", true]], change: "idea-brief.md updated", status: "Testing: repeated communication as a pain point" },
     { template: "Web design standard", project: "Coffee subscription page", chat: "Set the responsive design standard", chats: ["Set the responsive design standard", "Define product information hierarchy", "Review mobile states"], user: "I need a subscription page for an independent coffee brand. Set the visual direction, mobile hierarchy, and component states before we build the page.", response: "I will generate one design-standard file defining type, color, grid, product cards, and responsive behavior. It includes usability checks so the output is more than a visual description.", bullets: ["Generate web-design-standard.md: direction, components, and states", "Keep implementation and review constraints in AGENTS.md", "Confirm references before page development"], files: [["coffee-subscription/", true], ["AGENTS.md"], ["web-design-standard.md", false, true], ["assets/", true], ["product-images/", true], ["src/", true]], change: "web-design-standard.md generated", status: "Open: visual references and brand tone" },
   ],
 };

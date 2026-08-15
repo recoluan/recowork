@@ -16,9 +16,8 @@ These commands fetch the current package for the run and need no global installa
 
 | Template | Aliases | Purpose |
 | --- | --- | --- |
-| `idea-engineering` | `idea`, `brainstorm`, `explore` | Idea exploration, validation, and next-step agreement. |
+| `idea-to-project` | `idea`, `project`, `from-idea-to-project` | Staged exploration, validation, direction confirmation, and project advancement. |
 | `learning-engineering` | `learning`, `study`, `course` | Structured learning workflow. |
-| `project-engineering` | `project`, `engineering` | Durable project workflow with methods, workspace records, and quality gates. |
 | `web-design-standard` | `web-design`, `design-standard`, `web-ui` | Reusable product-web design guidance for HTML and web-page work. |
 
 ## Environments
@@ -40,9 +39,9 @@ rw targets
 rw show project
 rw show-target local-agent-project
 
-rw add project --target local-agent-project --locale zh .
+rw add idea-to-project --target local-agent-project --locale zh .
 rw add learning --target local-agent-project --locale en ./langchain-study
-rw add idea --target chat-mobile --locale zh ./idea-chat-kit
+rw add idea-to-project --target chat-mobile --locale zh ./idea-chat-kit
 rw add web-design --target local-agent-project --locale zh ./product-site
 
 rw status .

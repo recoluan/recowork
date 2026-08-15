@@ -10,6 +10,15 @@ RecoWork 的重要变更记录在此。项目遵循 [Keep a Changelog](https://k
 
 - 本地 Agent 初始化 Prompt 与首次使用文档统一改用 `npx --yes recowork@latest`，无需预先全局安装 `rw`，也不会停在 npm 的交互式安装确认。
 
+### 变更
+
+- 将独立的 `idea-engineering` 与 `project-engineering` 收敛为 `idea-to-project`：一个阶段式工作流完成探索、验证、明确进入项目和项目推进。
+- 中文模板名称调整为“从想法到落地”和“系统性学习”；模板 ID、命令和已有工作区保持不变。
+
+### 兼容性
+
+- 既有想法和项目工作区保持不动。`rw status` 与 `rw upgrade` 会提供在单独目录初始化统一工作流的只读指引，绝不进行原地转换。
+
 ## [2.0.0] - 2026-07-24
 
 ### 新增

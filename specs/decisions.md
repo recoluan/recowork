@@ -437,6 +437,24 @@ Implication:
 - `rw status` and `rw upgrade` detect a legacy general manifest and print a read-only migration guide to a separate idea or project workflow; they never perform an in-place conversion.
 - Decisions 011 and 019 are superseded only where they prescribe `general-ai-workflow` as an active template.
 
+## 026. Unify Idea Exploration And Project Advancement
+
+Decision: replace the user-visible `idea-engineering` and `project-engineering` choices with the staged `idea-to-project` template.
+
+Reason:
+
+- Users experienced the two previous templates as overlapping choices because both clarify, record facts, and require confirmation.
+- The actual user journey is continuous: explore an uncertain direction, validate it, explicitly choose whether to commit, then advance the confirmed project.
+- A single workspace creates a traceable handoff without asking users to choose or migrate between two similar templates.
+
+Implication:
+
+- Stage one is `Exploration And Validation`: problem, directions, assumptions, evidence, validation, and a direction decision package.
+- The user must explicitly choose to continue exploration, validate a key assumption, or enter a project. Only explicit project entry unlocks full requirements, solution, planning, implementation, review, and acceptance work.
+- Stage two is `Project Advancement`: the confirmed direction package becomes input to the project brief and numbered project sections.
+- `chat-mobile` remains three lightweight materials only, with stage judgment, a confirmation gate, and a manual continuation/migration summary; it creates no local files.
+- `idea-engineering` and `project-engineering` are retired. Existing workspaces are user-owned and receive only a read-only separate-destination migration guide from status or upgrade.
+
 ## 025. Keep A Public Reference Implementation For The Web Design Standard
 
 Decision: retain one interactive website example for `web-design-standard` at `docs/demos/web-design-standard/index.html` and expose it inside a large preview modal from the design-standard card and configuration flow.

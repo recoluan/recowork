@@ -41,9 +41,8 @@ This document records product and engineering requirements established during th
 
 The first templates are:
 
-- `project-engineering`: project-level AI workflow with rules, canonical workspace records, and quality gates.
+- `idea-to-project`: one staged workflow that starts with exploration and validation, requires explicit direction and project-entry confirmation, then advances through requirements, design, planning, decisions, and review.
 - `learning-engineering`: structured learning workflow with learner diagnosis, a roadmap, lessons, practice, projects, feedback, and durable learning records.
-- `idea-engineering`: idea exploration workflow with divergence, direction synthesis, hypotheses, validation, and a confirmed next step.
 - `web-design-standard`: reusable default design guidance for AI-generated or improved HTML and web pages, covering visual consistency, responsive behavior, component states, and accessibility self-review.
 
 Template content quality is intentionally deferred. The architecture should support better, more differentiated templates later.
@@ -144,7 +143,7 @@ npx --yes recowork@latest add <template> --target <target> --locale <locale> <de
 - Website terminology should use user-facing labels: "work scenario", "usage environment", and "language" rather than template, target, and locale where implementation details are unnecessary.
 - The homepage must distinguish local executable agents from Chat / Mobile: local mode is the complete durable workflow; Chat / Mobile is a low-friction conversation entry point with a copyable start instruction, task protocol, and manually saved continuation or migration summary.
 - Public copy must state that Chat / Mobile neither creates nor automatically persists a local project workspace, and should guide users to move complex, collaborative, knowledge-heavy, or auditable work to a local executable agent.
-- The homepage must present project engineering, learning engineering, and idea engineering as available workflow scenarios. A retired daily-task workflow must not be presented as a current template; its user problem may be discussed only with an explicit statement that no standalone template is currently available.
+- The homepage must present idea-to-project, learning engineering, and web design standard as current choices. It must present the two stages of idea-to-project as one user journey, not competing workflow choices.
 - The web-design standard must be shown separately as an independently validated professional standard, rather than misrepresented as another durable project-workflow scenario.
 
 ## Packaging and Publishing Requirements
@@ -175,7 +174,7 @@ npx --yes recowork@latest add <template> --target <target> --locale <locale> <de
 - Chinese locale output should use Chinese user-facing folders and documents, such as `工作方法/`, `工作空间/`, `项目简报.md`, and `待确认问题.md`.
 - Locale applies to user-facing target paths and static target text as well as template content. Durable knowledge is consolidated into canonical workspace documents; do not generate a separate `知识库/` or `knowledge/` directory.
 - Project-oriented templates should include a role contract that defines the AI role, working principles, core capabilities, prohibited behavior, and iteration rules.
-- Role contracts should be localized with the template content. For `project-engineering`, use `工作方法/角色设定.md` in `zh` and `methods/role-contract.md` in `en`.
+- Role contracts should be localized with the template content. For `idea-to-project`, use `工作方法/角色设定.md` in `zh` and `methods/role-contract.md` in `en`.
 - Generated project rules should explicitly tell AI to read the role contract before planning or executing project work.
 - AI-generated changes should be reviewed before being presented as complete.
 - AI role contracts must require objective judgment: identify material risks, contradictions, weak assumptions, and credible alternatives; disagree respectfully when warranted instead of concealing concerns to satisfy the user.
@@ -194,20 +193,21 @@ npx --yes recowork@latest add <template> --target <target> --locale <locale> <de
 - Template and target manifests must declare semantic versions. A meaningful generated-content change increments its owning template or target version and is described in the release record.
 - Retired templates must not appear in new initialization, list, show, prompt, README, or website selection surfaces. Existing generated files remain user-owned; `rw status` and `rw upgrade` provide read-only migration guidance instead of an in-place conversion.
 
-## Project Engineering Workspace Requirements
+## Idea To Project Workspace Requirements
 
-The `project-engineering` template should generate a concise Chinese-oriented `工作空间/` structure:
+The `idea-to-project` template should generate one concise Chinese-oriented `工作空间/` structure:
 
 ```text
 工作空间/
 ├── index.md
 ├── 项目简报.md
 ├── 待确认问题.md
-├── 01-需求与约束/
-├── 02-方案设计/
-├── 03-计划与决策/
-├── 04-过程留痕/
-└── 05-评审验证/
+├── 01-探索与验证/
+├── 02-需求与约束/
+├── 03-方案设计/
+├── 04-计划与决策/
+├── 05-过程留痕/
+└── 06-评审验证/
 ```
 
 The Chinese locale should also generate:
@@ -221,14 +221,15 @@ The Chinese locale must also generate `工作方法/文档规范.md`; the Englis
 
 Responsibilities:
 
-- Project initialization has a mandatory confirmation gate: clarify the project, present a concise project agreement, and wait for explicit user confirmation before generating or changing a complete solution, plan, or implementation. An explicitly confirmed local task may proceed without repeated confirmation.
+- The workflow has a mandatory stage gate: explore and validate first, then present a direction decision package and wait for explicit confirmation before project entry. After project entry, confirm material scope before a complete solution, plan, or implementation. An explicitly confirmed local task may proceed without repeated confirmation.
 - `项目简报.md`: project background, problem, goals, scope, non-goals, current status, and constraints.
 - `待确认问题.md`: questions that AI must not silently assume.
-- `01-需求与约束/`: requirements, user scenarios, constraints, assumptions, and clarifications.
-- `02-方案设计/`: tradeoff analysis, feasibility, architecture, technical design, and implementation path.
-- `03-计划与决策/`: phases, milestones, execution plan, and durable decisions.
-- `04-过程留痕/`: brainstorming, intermediate reasoning, discussion summaries, and process traces.
-- `05-评审验证/`: review notes, validation results, acceptance checks, and follow-up items.
+- `01-探索与验证/`: problem, candidate directions, hypotheses, evidence, validation, and a direction decision package.
+- `02-需求与约束/`: requirements, user scenarios, constraints, assumptions, and clarifications after project entry.
+- `03-方案设计/`: tradeoff analysis, feasibility, architecture, technical design, and implementation path.
+- `04-计划与决策/`: phases, milestones, execution plan, and durable decisions.
+- `05-过程留痕/`: project process traces and discussion summaries.
+- `06-评审验证/`: review notes, validation results, acceptance checks, and follow-up items.
 
 The old seven-part split must not be generated by default:
 
@@ -314,9 +315,9 @@ Responsibilities:
 - Code or operational courses should show the problem, key change, actual verification, and data-flow reasoning; they must not claim unrun work succeeded.
 - The workspace separates course design, lessons, project work, questions/retrospectives, and validated knowledge capture.
 
-## Idea Engineering Workspace Requirements
+## Legacy Idea Engineering Compatibility
 
-The `idea-engineering` template should help users explore an uncertain idea without prematurely treating brainstorming as a decision. It should diverge broadly, distinguish facts from assumptions, then converge through explicit confirmation and proportionate validation.
+`idea-engineering` and `project-engineering` are retired in favor of `idea-to-project`. Existing generated workspaces remain user-owned and are never converted in place. `rw status` and `rw upgrade` provide a read-only guide to initialize `idea-to-project` in a separate destination and transfer only the current brief, confirmed decisions, open questions, and next step. The historical layout below is retained only to describe legacy user output; it must not be emitted by new initialization.
 
 The Chinese locale should generate:
 

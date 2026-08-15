@@ -1,0 +1,42 @@
+id: idea-to-project
+version: 1.0.1
+name: 从想法到落地工作流包
+name_en: Idea To Project Workflow Template
+description: 用一个阶段式工作流完成探索、验证、方向确认和项目推进，让想法自然收敛并落地为可交付项目。
+description_en: Use one staged workflow to explore, validate, confirm a direction, and advance a project from idea to delivery.
+audience:
+  - 有模糊想法的创作者或团队
+  - 准备启动项目的开发者
+  - 希望让本地 Agent 持续推进真实工作的用户
+audience_en:
+  - Creators or teams with an uncertain idea
+  - Developers preparing to start a project
+  - Local-agent users who need durable progress
+supported_targets:
+  - chat-mobile
+  - local-agent-project
+default_target: chat-mobile
+default_locale: zh
+locales:
+  - zh
+  - en
+aliases:
+  - project
+  - idea
+  - idea-to-project
+  - from-idea-to-project
+outputs:
+  - 两阶段工作方法：探索验证与项目推进
+  - 本地化工作空间、方向决策包和项目简报
+  - 用户确认门与项目迁移/续接规则
+  - 评审、验收与可追溯决策
+outputs_zh:
+  - 两阶段工作方法：探索验证与项目推进
+  - 本地化工作空间、方向决策包和项目简报
+  - 用户确认门与项目迁移/续接规则
+  - 评审、验收与可追溯决策
+outputs_en:
+  - two-stage methods for exploration and project advancement
+  - localized workspace, direction decision package, and project brief
+  - user confirmation gates and continuation rules
+  - review, acceptance, and traceable decisions

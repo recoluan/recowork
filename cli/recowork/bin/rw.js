@@ -43,6 +43,12 @@ const retiredTemplates = {
   "general-ai-workflow": {
     aliases: ["general", "task", "daily"],
   },
+  "idea-engineering": {
+    aliases: [],
+  },
+  "project-engineering": {
+    aliases: ["engineering"],
+  },
 };
 
 function findRetiredTemplate(templateRef) {
@@ -122,7 +128,7 @@ Compatibility:
   rw add <template> --platform <legacy-platform> <destination>
 
 Examples:
-  rw add idea --target chat-mobile ./my-idea-workflow
+  rw add idea-to-project --target chat-mobile ./my-idea-workflow
   rw add project --target local-agent-project --locale zh .
   rw add learning -t local-agent-project ./langchain-study
   rw upgrade --check .
@@ -353,11 +359,11 @@ function printRetiredTemplateMigration(targetDir, manifest) {
   const locale = manifest.locale === "en" ? "en" : "zh";
   const suffix = locale === "zh" ? "-新工作流" : "-new-workflow";
 
-  console.log("The general-ai-workflow template has been retired and no longer supports in-place status or upgrades.");
+  const retiredTemplate = manifest.template;
+  console.log(`The ${retiredTemplate} template has been retired and no longer supports in-place status or upgrades.`);
   console.log("Your existing files remain untouched.");
-  console.log("\nChoose a new workflow in a separate destination:");
-  console.log(`  rw add idea --target chat-mobile --locale ${locale} ${targetDir}-idea`);
-  console.log(`  rw add project --target local-agent-project --locale ${locale} ${targetDir}${suffix}`);
+  console.log("\nInitialize the staged Idea To Project workflow in a separate destination:");
+  console.log(`  rw add idea-to-project --target local-agent-project --locale ${locale} ${targetDir}${suffix}`);
   console.log("\nTransfer only the current brief, confirmed decisions, open questions, and next step into the new workflow.");
 }
 
@@ -725,7 +731,7 @@ function resolveTemplate(templateRef) {
   if (!template) {
     const retired = findRetiredTemplate(templateRef);
     if (retired) {
-      fail(`Template retired: ${templateRef}. Use \`idea\`, \`project\`, or \`learning\` for a supported workflow. Existing general-ai-workflow files remain untouched.`);
+      fail(`Template retired: ${templateRef}. Use \`idea-to-project\`, \`learning\`, or \`web-design-standard\` for a supported workflow. Existing generated files remain untouched.`);
     }
     fail(`Unknown template: ${templateRef}`);
   }
@@ -1279,6 +1285,7 @@ function getLocaleStrings(locale, template, target, localePaths) {
   const isLearningWorkflow = template.id === "learning-engineering";
   const isProjectWorkflow = template.id === "project-engineering";
   const isIdeaWorkflow = template.id === "idea-engineering";
+  const isIdeaToProjectWorkflow = template.id === "idea-to-project";
   const isWebDesignStandard = template.id === "web-design-standard";
   const isChatTarget = target.type === "chat";
   if (locale === "en") {
@@ -1291,14 +1298,16 @@ function getLocaleStrings(locale, template, target, localePaths) {
       headingRules: "Rules",
       ruleReadProjectContext: isWebDesignStandard
         ? `Before designing, generating, or changing a web page, read \`${localePaths.designStandardFile}\`. If the project has a brand or design system, read that source as well and treat it as higher priority.`
-        : `Read \`README.md\`, \`${localePaths.roleFile}\`, \`${localePaths.methodsDir}/\`, \`${localePaths.workspaceDir}/\`, and \`rw-manifest.json\` before ${isLearningWorkflow ? "starting or continuing a learning unit" : isIdeaWorkflow ? "starting or continuing an idea exploration" : "making changes"}.`,
+        : `Read \`README.md\`, \`${localePaths.roleFile}\`, \`${localePaths.methodsDir}/\`, \`${localePaths.workspaceDir}/\`, and \`rw-manifest.json\` before ${isLearningWorkflow ? "starting or continuing a learning unit" : isIdeaWorkflow ? "starting or continuing an idea exploration" : isIdeaToProjectWorkflow ? "determining or continuing the current workflow stage" : "making changes"}.`,
       ruleCaptureKnowledge: isWebDesignStandard
         ? "Keep project-specific visual decisions in the project's own documents. Do not rewrite this reusable standard unless the user explicitly requests it."
         : `Capture verified conclusions in \`${localePaths.knowledgeCaptureDir}/\` and update the affected index.`,
       ruleReviewOutput: isWebDesignStandard
         ? `Before delivery, complete the checklist in \`${localePaths.designStandardFile}\` and report responsive, interaction-state, accessibility, and verification results.`
         : "Before returning work, review the result against the template purpose and expected outputs.",
-      ruleConfirmLargeChanges: isIdeaWorkflow
+      ruleConfirmLargeChanges: isIdeaToProjectWorkflow
+        ? "Before choosing a priority direction, validation plan, or project entry, present the direction decision package and wait for explicit confirmation. After project entry, confirm material scope changes and irreversible operations."
+        : isIdeaWorkflow
         ? "Before selecting a priority direction, validation plan, or project execution, present an idea agreement and wait for the user's explicit confirmation."
         : isLearningWorkflow
         ? "Before creating or changing a roadmap, lesson content, practice plan, or project plan, present a learning agreement and wait for the learner's explicit confirmation. Also ask before large scope changes or irreversible operations."
@@ -1307,7 +1316,9 @@ function getLocaleStrings(locale, template, target, localePaths) {
         : isWebDesignStandard
           ? "Ask for confirmation before a material visual-direction change, a large page rewrite, or an irreversible operation when user requirements or the existing brand are unclear."
           : "Ask for confirmation before large scope changes or irreversible operations.",
-      ruleKeepKnowledge: isIdeaWorkflow
+      ruleKeepKnowledge: isIdeaToProjectWorkflow
+        ? `Keep exploration evidence and the direction decision package in \`${localePaths.workspaceDir}/01-exploration-and-validation/\`. Do not begin complete project design, planning, or implementation until the user explicitly confirms project entry; then transfer the confirmed direction into the project brief and use the numbered project sections.`
+        : isIdeaWorkflow
         ? `Keep idea briefs, directions, hypotheses, and decisions in \`${localePaths.workspaceDir}/\`. Explore broadly first, then separate facts, assumptions, and evidence; wait for confirmation before converging on a priority direction.`
         : isLearningWorkflow
         ? `Keep the learner brief, roadmap, progress, and retrospectives in \`${localePaths.workspaceDir}/\`. Before creating or changing a roadmap, lesson, practice plan, or project plan, present a learning agreement and wait for the learner's explicit confirmation; then teach one validated unit at a time.`
@@ -1320,6 +1331,8 @@ function getLocaleStrings(locale, template, target, localePaths) {
       chatInitIntro: `You are helping me use the RecoWork template \`${template.id}\`.`,
       chatInitInstruction: isWebDesignStandard
         ? `You are a senior product web designer and front-end implementation reviewer. Design or improve a web page from the input below.\n\n## Input\n- Product or page: [describe]\n- Audience and primary task: [describe]\n- Required content and actions: [describe]\n- Existing brand, design system, or reference: [describe or write none]\n- Technical constraints: [describe]\n\n## Priority\nExisting brand guidance, component libraries, and explicit user visual requirements override this default. If they conflict or information is missing, state the conflict and ask the smallest material clarifying questions. Do not present assumptions as facts.\n\n## Default visual direction\nUse a restrained, modern, trustworthy product-web style suited to SaaS, tools, small product sites, and lightweight operational dashboards: content first, clear hierarchy, purposeful whitespace, low decoration, limited accent color, real component states, and accessibility first. Do not apply this default to expressive brand sites, games, complex commerce, or strict existing brand systems without clarification.\n\n## Tokens\n- Page/surface/text/border: #FFFFFF, #F8FAFC, #0F172A, #E2E8F0; muted text #475569.\n- Accent: #2563EB, hover #1D4ED8. Success #15803D, warning #B45309, danger #B91C1C.\n- Font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif. Body 16px/1.5; supporting text 14px/1.5; use a limited 12/14/16/20/24/32/40px scale.\n- Spacing: 4/8/12/16/24/32/48/64px. Container max 1200px, desktop horizontal padding 24px, mobile 16px.\n- Radius: 6px for controls, 8px for cards/dialogs. Use 1px #E2E8F0 borders. Shadows are reserved for floating layers.\n\n## Page and component rules\n- Establish one primary task and normally one primary action. Use semantic HTML and clear section hierarchy.\n- Navigation, buttons, forms, cards, lists/tables, empty states, loading, success, warning, error, disabled, hover, and focus states must be real where relevant.\n- Buttons and inputs need visible focus and usable touch targets. Forms need visible labels, field-level recovery guidance, and submission feedback. Tables need headers and responsive handling.\n- Desktop and mobile are both required. Below 768px prefer one column; collapse side-by-side layouts when needed; make mobile navigation closable; do not rely on hover-only information.\n\n## Do not\nDo not use broad or stacked gradients, purposeless glassmorphism, floating decorative effects, excessive rounding, nested cards, buzzword-heavy marketing copy, fake charts or metrics, desktop-only layouts, or static screenshot-only UI.\n\n## Output\nFirst provide a concise plan covering hierarchy, responsive behavior, component states, and validation. Then implement or propose the requested page. Keep changes scoped and reuse existing project components when available.\n\n## Delivery self-check\nBefore claiming completion, check and report: brand-priority handling; hierarchy and text fit; desktop/mobile layout; navigation and form behavior; relevant interactive, empty, loading, and error states; keyboard/focus/semantic HTML/contrast/alt text; and available build, test, or visual verification.\n\n## Continuation summary\nAt the end of meaningful work, output:\n- Current page goal\n- Confirmed visual decisions\n- Implemented work and verification\n- Open questions or risks\n- Next step\nThis summary must be saved and pasted into the next chat; it is not persisted automatically.`
+        : isIdeaToProjectWorkflow
+        ? "Start by determining the current stage: (1) a fuzzy idea, (2) several directions to compare, or (3) a direction ready to become a project. In exploration, clarify the problem, users, constraints, success signals, known facts, assumptions, and open questions; explore alternatives and create a direction decision package. Then stop and ask me to choose: continue exploring, validate a key assumption, or explicitly confirm project entry for a named direction. Only after I confirm entry, turn the package into a project brief, confirm scope and success criteria, and advance through requirements, solution design, planning, decisions, review, and validation. At each meaningful step, separate facts from assumptions and provide a continuation summary with the current stage, decisions, open questions, and next step."
         : isIdeaWorkflow
         ? "Start with focused idea discovery. Clarify the question, target user, constraints, success signals, known facts, assumptions, and open questions. Explore multiple directions first, then present an idea agreement and wait for my explicit confirmation before selecting a priority direction, validation plan, or project execution."
         : isLearningWorkflow
@@ -1338,6 +1351,8 @@ function getLocaleStrings(locale, template, target, localePaths) {
       chatTaskFieldConstraints: "Constraints",
       chatTaskInstruction: isWebDesignStandard
         ? "Restate the page goal and existing brand constraints first. Use the start instruction's default design system only when no higher-priority system exists. Before delivery, include responsive, interaction-state, accessibility, and verification results plus a continuation summary."
+        : isIdeaToProjectWorkflow
+        ? "First identify the current stage. If the direction is not confirmed, clarify and compare directions, keep assumptions distinct from evidence, update a direction decision package, and wait for my explicit choice to continue, validate, or enter a project. If project entry is confirmed, use that package as the project brief input and work only within confirmed scope. After meaningful work, include a memory card with stage, current facts, decisions, open questions, and next step."
         : isIdeaWorkflow
         ? "First determine whether this idea scope has been explicitly confirmed. If not, clarify the exploration frame, separate facts, assumptions, and open questions, and explore alternatives without prematurely converging. Wait for my confirmation before selecting a priority direction or validation plan."
         : isLearningWorkflow
@@ -1359,7 +1374,9 @@ function getLocaleStrings(locale, template, target, localePaths) {
       chatMigrationInstruction: "When the work becomes complex, long-running, collaborative, knowledge-heavy, or auditable, complete the migration package below and paste it into a command-capable local agent to initialize a full local workflow.",
       claudeInstructionsTitle: "Claude Workflow Instructions",
       claudeInstructionsIntro: `Use RecoWork template \`${template.id}\` and its role contract.`,
-      claudeInstructionsRule: isIdeaWorkflow
+      claudeInstructionsRule: isIdeaToProjectWorkflow
+        ? "Determine the current stage first. Explore and validate multiple directions before convergence; present a direction decision package and wait for explicit confirmation before project entry. After entry, transfer confirmed facts into the project brief and work in small, verified project steps."
+        : isIdeaWorkflow
         ? "Explore multiple directions before converging. Separate facts, assumptions, risks, and evidence, then present an idea agreement and wait for explicit user confirmation before a priority direction, validation plan, or project execution."
         : isLearningWorkflow
         ? "Start with a focused diagnosis and present a learning agreement. Wait for explicit learner confirmation before generating a roadmap, lesson content, practice plan, or project plan. After confirmation, work in one validated unit at a time, keep assumptions explicit, and summarize durable context after each milestone."
@@ -1378,14 +1395,16 @@ function getLocaleStrings(locale, template, target, localePaths) {
     headingRules: "规则",
     ruleReadProjectContext: isWebDesignStandard
       ? `设计、生成或改动网页前，先读取 \`${localePaths.designStandardFile}\`。项目已有品牌规范或设计系统时，也必须先读取，并以其为更高优先级。`
-      : `在${isLearningWorkflow ? "开始或续接一个学习单元" : isIdeaWorkflow ? "开始或续接一次想法探索" : "改动"}前先读取 \`README.md\`、\`${localePaths.roleFile}\`、\`${localePaths.methodsDir}/\`、\`${localePaths.workspaceDir}/\` 和 \`rw-manifest.json\`。`,
+      : `在${isLearningWorkflow ? "开始或续接一个学习单元" : isIdeaWorkflow ? "开始或续接一次想法探索" : isIdeaToProjectWorkflow ? "判断或续接当前工作阶段" : "改动"}前先读取 \`README.md\`、\`${localePaths.roleFile}\`、\`${localePaths.methodsDir}/\`、\`${localePaths.workspaceDir}/\` 和 \`rw-manifest.json\`。`,
     ruleCaptureKnowledge: isWebDesignStandard
       ? "将项目专属的视觉决策记录在项目已有文档中；除非用户明确要求，不要改写这份可复用规范。"
       : `把已验证的结论沉淀到 \`${localePaths.knowledgeCaptureDir}/\`，并更新受影响的索引。`,
     ruleReviewOutput: isWebDesignStandard
       ? `交付前完成 \`${localePaths.designStandardFile}\` 中的自检清单，并报告响应式、交互状态、可访问性和验证结果。`
       : "返回结果前，对照模板用途和预期产物自审。",
-    ruleConfirmLargeChanges: isIdeaWorkflow
+    ruleConfirmLargeChanges: isIdeaToProjectWorkflow
+      ? "选择优先方向、验证计划或进入项目之前，先给出方向决策包并等待用户明确确认；进入项目后，重大范围变化或不可逆操作前也必须确认。"
+      : isIdeaWorkflow
       ? "选择优先方向、验证计划或进入项目执行前，先给出想法约定并等待用户明确确认。"
       : isLearningWorkflow
       ? "生成或变更课程路线、章节内容、练习计划或项目方案前，先给出学习约定并等待学习者明确确认；大范围变更或不可逆操作前也必须先确认。"
@@ -1394,7 +1413,9 @@ function getLocaleStrings(locale, template, target, localePaths) {
       : isWebDesignStandard
         ? "视觉方向发生重大变化、需要大范围重写页面，或既有品牌要求不明确时，先向用户确认；不可逆操作前也必须确认。"
         : "大范围变更或不可逆操作前，先向用户确认。",
-    ruleKeepKnowledge: isIdeaWorkflow
+    ruleKeepKnowledge: isIdeaToProjectWorkflow
+      ? `将探索证据和方向决策包放在 \`${localePaths.workspaceDir}/01-探索与验证/\`。用户明确确认进入项目之前，不得开始完整项目设计、计划或实施；确认后将方向结论同步到项目简报，并使用后续编号目录推进。`
+      : isIdeaWorkflow
       ? `把想法简报、方向、假设和决策放在 \`${localePaths.workspaceDir}/\`。先充分发散，再区分事实、假设和证据；收敛到优先方向前等待用户确认。`
       : isLearningWorkflow
       ? `把学习简报、课程路线、进度和复盘放在 \`${localePaths.workspaceDir}/\`。生成或变更课程路线、章节内容、练习计划或项目方案前，先给出学习约定并等待学习者明确确认；确认后一次只推进一个经过验证的学习单元。`
@@ -1407,6 +1428,8 @@ function getLocaleStrings(locale, template, target, localePaths) {
     chatInitIntro: `你正在使用 RecoWork 模板 \`${template.id}\`。`,
     chatInitInstruction: isWebDesignStandard
       ? `你是一名资深产品网页设计师和前端实现评审者。请根据下面输入设计或改造网页。\n\n## 任务输入\n- 产品或页面：［填写］\n- 目标用户与主任务：［填写］\n- 必要内容与操作：［填写］\n- 既有品牌、设计系统或参考：［填写；没有则写无］\n- 技术约束：［填写］\n\n## 优先级\n用户已有品牌规范、组件库和明确视觉要求优先于本默认规范。出现冲突或信息不足时，说明冲突并只提出最关键的澄清问题；不要把假设当作事实。\n\n## 默认视觉方向\n采用克制、现代、可信赖的产品型网页风格，适用于 SaaS、工具型产品、个人或小团队官网与轻量运营后台：内容优先、层级清晰、留白克制、低装饰、有限强调色、真实组件状态、可访问性优先。强品牌艺术站、游戏、复杂电商或严格既有品牌系统需要先澄清，不能直接套用。\n\n## 视觉 Token\n- 页面/次级背景/主文字/边框：#FFFFFF、#F8FAFC、#0F172A、#E2E8F0；次级文字 #475569。\n- 主强调色 #2563EB，悬停 #1D4ED8；成功 #15803D，警告 #B45309，错误 #B91C1C。\n- 字体：Inter、ui-sans-serif、system-ui、-apple-system、BlinkMacSystemFont、"Segoe UI"、sans-serif。正文 16px/1.5，辅助文字 14px/1.5；字号仅用有限的 12/14/16/20/24/32/40px 层级。\n- 间距：4/8/12/16/24/32/48/64px。容器最大 1200px，桌面水平内边距 24px，移动端 16px。\n- 圆角：控件 6px，卡片和弹层 8px；使用 1px #E2E8F0 边框，阴影只用于浮层。\n\n## 页面与组件规则\n- 每页明确一个主任务，通常只保留一个视觉主操作；使用语义化 HTML 与清晰标题层级。\n- 导航、按钮、表单、卡片、列表/表格、空状态、加载、成功、警告、错误、禁用、悬停和焦点等相关状态必须真实可用。\n- 按钮和输入框要有可见焦点和足够触摸区域；表单必须有可见标签、字段级修复提示和提交反馈；表格必须有表头和响应式处理。\n- 桌面与移动网页都必须覆盖。768px 以下优先单列，空间不足时收起并列布局；移动导航必须可关闭；不要依赖仅悬停可见的信息。\n\n## 禁止项\n不要使用大面积或叠层渐变、无意义玻璃拟态、漂浮装饰效果、过度圆角、卡片嵌卡片、营销词堆砌、虚假图表或指标、仅桌面可用的布局，或只适合截图的静态界面。\n\n## 输出要求\n先给出简短计划，说明信息层级、响应式处理、组件状态和验证方式；再实现或提出页面方案。改动保持聚焦，优先复用项目已有组件。\n\n## 交付前自检\n完成前检查并报告：品牌优先级处理、信息层级与文字适配、桌面/移动布局、导航与表单行为、必要的交互/空/加载/错误状态、键盘/焦点/语义 HTML/对比度/替代文本，以及可执行的构建、测试或视觉验证。\n\n## 续接摘要\n每次重要工作结束时输出：\n- 当前页面目标\n- 已确认的视觉决策\n- 已实现内容与验证结果\n- 待确认问题或风险\n- 下一步\n这份摘要需要由我保存并粘贴到下一轮对话，系统不会自动持久化。`
+      : isIdeaToProjectWorkflow
+      ? "先判断当前处于哪一阶段：（1）只有模糊想法，（2）有多个方向需要比较，或（3）已有方向准备启动项目。探索阶段先澄清问题、用户、约束、成功信号、已知事实、假设和待确认问题，发散备选方向并形成方向决策包；随后停下，请我明确选择继续探索、验证关键假设，或确认以指定方向进入项目。只有在我确认进入项目后，才将决策包转化为项目简报，确认范围和成功标准，并进入需求、方案、计划、决策、评审和验证。每次重要工作结束后，给出包含当前阶段、当前事实、已确认结论、待确认问题和下一步的续接摘要。"
       : isIdeaWorkflow
       ? "先进行聚焦的想法澄清：明确问题、目标用户、约束、成功信号、已知事实、假设和待确认问题。先探索多个方向，再给出想法约定；在我明确确认前，不要选择优先方向、制定验证计划或进入项目执行。"
       : isLearningWorkflow
@@ -1425,6 +1448,8 @@ function getLocaleStrings(locale, template, target, localePaths) {
     chatTaskFieldConstraints: "约束",
     chatTaskInstruction: isWebDesignStandard
       ? "先复述页面目标和已有品牌约束。只有没有更高优先级规范时才使用启动指令中的默认设计规范。交付前报告响应式、交互状态、可访问性与验证结果，并附上续接摘要。"
+      : isIdeaToProjectWorkflow
+      ? "先识别当前阶段。方向尚未确认时，澄清并比较方向，区分假设与证据，更新方向决策包，并等待我明确选择继续探索、验证或进入项目。项目进入已确认时，以决策包作为项目简报输入，只在确认范围内推进。重要工作结束后附上包含阶段、当前事实、决策、待确认问题和下一步的记忆卡。"
       : isIdeaWorkflow
       ? "先判断当前想法探索范围是否已经获得明确确认。未确认时，澄清探索框架，区分事实、假设和待确认问题，并充分发散备选方向；选择优先方向或验证计划前等待我确认。"
       : isLearningWorkflow
@@ -1446,7 +1471,9 @@ function getLocaleStrings(locale, template, target, localePaths) {
     chatMigrationInstruction: "当任务变复杂、需要长期推进、多人协作、知识沉淀或可审计过程时，补全下面的迁移包，再粘贴到具备命令执行能力的本地 Agent 中初始化完整本地工作流。",
     claudeInstructionsTitle: "Claude 工作流说明",
     claudeInstructionsIntro: `请使用 RecoWork 模板 \`${template.id}\` 及其角色设定。`,
-    claudeInstructionsRule: isIdeaWorkflow
+    claudeInstructionsRule: isIdeaToProjectWorkflow
+      ? "先判断当前阶段。探索和验证多个方向后形成方向决策包，并在进入项目之前等待用户明确确认；确认后将方向结论同步到项目简报，再以小步、可验证方式推进项目。"
+      : isIdeaWorkflow
       ? "先探索多个方向再收敛，区分事实、假设、风险和证据；选择优先方向、验证计划或进入项目执行前，给出想法约定并等待用户明确确认。"
       : isLearningWorkflow
       ? "先进行聚焦诊断并给出学习约定。在学习者明确确认前，不要生成课程路线、章节内容、练习计划或项目方案；确认后一次只推进一个经过验证的学习单元，明确标注假设，并在每个阶段结束后总结可持续使用的上下文。"
@@ -1459,6 +1486,7 @@ function getLocaleStrings(locale, template, target, localePaths) {
 function getLocalePaths(locale, template) {
   const isLearningWorkflow = template && template.id === "learning-engineering";
   const isIdeaWorkflow = template && template.id === "idea-engineering";
+  const isIdeaToProjectWorkflow = template && template.id === "idea-to-project";
   const isWebDesignStandard = template && template.id === "web-design-standard";
   if (locale === "en") {
     if (isWebDesignStandard) {
@@ -1483,6 +1511,16 @@ function getLocalePaths(locale, template) {
         roleFile: "methods/role-contract.md",
         ideaDecisionDir: "idea-space/05-decisions-and-next-steps",
         knowledgeCaptureDir: "idea-space/05-decisions-and-next-steps",
+      };
+    }
+    if (isIdeaToProjectWorkflow) {
+      return {
+        methodsDir: "methods",
+        workspaceDir: "workspace",
+        briefFile: "project-brief.md",
+        questionsFile: "open-questions.md",
+        roleFile: "methods/role-contract.md",
+        knowledgeCaptureDir: "workspace/04-plan-and-decisions",
       };
     }
     return {
@@ -1518,6 +1556,16 @@ function getLocalePaths(locale, template) {
       roleFile: "工作方法/角色设定.md",
       ideaDecisionDir: "想法空间/05-决策与下一步",
       knowledgeCaptureDir: "想法空间/05-决策与下一步",
+    };
+  }
+  if (isIdeaToProjectWorkflow) {
+    return {
+      methodsDir: "工作方法",
+      workspaceDir: "工作空间",
+      briefFile: "项目简报.md",
+      questionsFile: "待确认问题.md",
+      roleFile: "工作方法/角色设定.md",
+      knowledgeCaptureDir: "工作空间/04-计划与决策",
     };
   }
 

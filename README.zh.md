@@ -12,9 +12,8 @@ RecoWork 是面向人和 AI Agent 的工作标准与项目事实层。它不替�
 
 | 真实工作 | RecoWork 固定什么 | 当前模板 |
 | --- | --- | --- |
-| 推进一个项目 | 项目简报、未决问题、方案、决策、评审 | `project-engineering` |
+| 从想法推进到项目 | 探索、验证、方向决策包、项目简报、方案、决策、评审 | `idea-to-project` |
 | 用证据学习 | 诊断、路线、练习、项目实践、复盘 | `learning-engineering` |
-| 把想法收敛成方向 | 问题定义、假设、验证、下一步决策 | `idea-engineering` |
 | 提升网页交付质量 | 视觉方向、响应式规则、组件状态、自检 | `web-design-standard` |
 
 网页设计规范是独立可复用的专业标准，当前单独验证，不把它包装成与项目工作流完全相同的场景。
@@ -36,7 +35,7 @@ RecoWork 是面向人和 AI Agent 的工作标准与项目事实层。它不替�
 在能够执行命令的本地 Agent 中，使用确定性的 CLI 初始化：
 
 ```bash
-npx --yes recowork@latest add project --target local-agent-project --locale zh .
+npx --yes recowork@latest add idea-to-project --target local-agent-project --locale zh .
 ```
 
 按需要换成其他工作场景或语言：
@@ -44,7 +43,7 @@ npx --yes recowork@latest add project --target local-agent-project --locale zh .
 ```bash
 npx --yes recowork@latest list
 npx --yes recowork@latest add learning --target local-agent-project --locale zh ./my-learning-work
-npx --yes recowork@latest add idea --target local-agent-project --locale zh ./idea-work
+npx --yes recowork@latest add idea-to-project --target chat-mobile --locale zh ./idea-work
 ```
 
 `npx --yes recowork@latest` 会临时获取并运行当前版本，无需全局安装。只有全局安装 RecoWork 后，才可以直接使用较短的 `rw` 别名。
@@ -54,9 +53,9 @@ npx --yes recowork@latest add idea --target local-agent-project --locale zh ./id
 将下面指令发给能够执行命令的本地 Agent：
 
 ```text
-请在当前目录初始化 RecoWork 项目工作流。
+请在当前目录初始化 RecoWork 从想法到落地工作流。
 
-执行：npx --yes recowork@latest add project --target local-agent-project --locale zh .
+执行：npx --yes recowork@latest add idea-to-project --target local-agent-project --locale zh .
 
 先检查 Node.js 和 npm。任一项缺失或版本过旧时，先说明阻塞原因，并向我确认后再安装最新版稳定版 Node.js。若根目录已有 AGENTS.md，保留既有内容，并确认 RecoWork 只新增带稳定标记的整合区块。完成后展示创建的文件，并说明第一步如何开始工作。
 ```
