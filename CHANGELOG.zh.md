@@ -6,6 +6,8 @@ RecoWork 的重要变更记录在此。项目遵循 [Keep a Changelog](https://k
 
 ## [未发布]
 
+## [3.0.0] - 2026-08-16
+
 ### 修复
 
 - 本地 Agent 初始化 Prompt 与首次使用文档统一改用 `npx --yes recowork@latest`，无需预先全局安装 `rw`，也不会停在 npm 的交互式安装确认。
@@ -18,6 +20,10 @@ RecoWork 的重要变更记录在此。项目遵循 [Keep a Changelog](https://k
 ### 兼容性
 
 - 既有想法和项目工作区保持不动。`rw status` 与 `rw upgrade` 会提供在单独目录初始化统一工作流的只读指引，绝不进行原地转换。
+
+### 破坏性变更
+
+- 不再将 `idea-engineering` 与 `project-engineering` 作为可独立初始化、列出或查看的模板。请使用统一工作流 `idea-to-project`；`idea` 与 `project` 别名仍会解析到该工作流。
 
 ## [2.0.0] - 2026-07-24
 

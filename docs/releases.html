@@ -52,14 +52,18 @@
       </section>
 
       <section class="section release-list" aria-label="Release history">
-        <article class="release-card release-card-muted">
+        <article class="release-card">
           <div class="release-card-heading">
-            <div><span class="release-kicker" data-zh="待发布" data-en="Unreleased">待发布</span><h2 data-zh="下一版本" data-en="Next release">下一版本</h2></div>
-            <span class="release-badge badge-gray" data-zh="开发中" data-en="In progress">开发中</span>
+            <div>
+              <span class="release-kicker">2026-08-16</span>
+              <h2>3.0.0</h2>
+            </div>
+            <span class="release-badge badge-green" data-zh="已发布" data-en="Published">已发布</span>
           </div>
-          <div class="release-columns single">
+          <div class="release-columns">
             <div><h3 data-zh="初始化入口" data-en="Initialization entry">初始化入口</h3><p data-zh="网站生成的本地 Agent Prompt、README 和初始化 Prompt 统一使用 npx --yes recowork@latest。首次使用会临时获取 npm 包，无需预先全局安装 rw，也不会停在 npm 的交互式安装确认。" data-en="The website-generated local-agent prompt, READMEs, and initialization prompts now use npx --yes recowork@latest. First use fetches the npm package without a global rw installation or an interactive npm install confirmation.">网站生成的本地 Agent Prompt、README 和初始化 Prompt 统一使用 npx --yes recowork@latest。首次使用会临时获取 npm 包，无需预先全局安装 rw，也不会停在 npm 的交互式安装确认。</p></div>
-            <div><h3 data-zh="模板名称" data-en="Template labels">模板名称</h3><p data-zh="中文名称更新为“从想法到落地”和“系统性学习”。模板 ID、初始化命令和已有工作区均不受影响。" data-en="Chinese labels now use “从想法到落地” and “系统性学习”. Template IDs, initialization commands, and existing workspaces are unchanged.">中文名称更新为“从想法到落地”和“系统性学习”。模板 ID、初始化命令和已有工作区均不受影响。</p></div>
+            <div><h3 data-zh="统一工作流" data-en="Unified workflow">统一工作流</h3><p data-zh="想法探索与项目工程化合并为“从想法到落地”：探索、验证、明确立项和项目推进在同一套阶段式工作流中完成；中文模板名称同时更新为“从想法到落地”和“系统性学习”。" data-en="Idea exploration and project engineering are unified as “Idea to delivery”: exploration, validation, an explicit project entry, and advancement now share one staged workflow. Chinese labels were also updated to “从想法到落地” and “系统性学习”.">想法探索与项目工程化合并为“从想法到落地”：探索、验证、明确立项和项目推进在同一套阶段式工作流中完成；中文模板名称同时更新为“从想法到落地”和“系统性学习”。</p></div>
+            <div><h3 data-zh="破坏性变更与迁移" data-en="Breaking changes and migration">破坏性变更与迁移</h3><p data-zh="不再支持将 idea-engineering 与 project-engineering 作为独立模板使用；新建请使用 idea-to-project，idea 和 project 别名仍可用。已有工作区不会被改写，rw status 与 rw upgrade 只会给出在新目录初始化统一工作流的迁移指引。" data-en="idea-engineering and project-engineering are no longer available as independent templates. New work should use idea-to-project, while the idea and project aliases remain available. Existing workspaces are never rewritten; rw status and rw upgrade provide only a guide to initialize the unified workflow in a new directory.">不再支持将 idea-engineering 与 project-engineering 作为独立模板使用；新建请使用 idea-to-project，idea 和 project 别名仍可用。已有工作区不会被改写，rw status 与 rw upgrade 只会给出在新目录初始化统一工作流的迁移指引。</p></div>
           </div>
         </article>
 

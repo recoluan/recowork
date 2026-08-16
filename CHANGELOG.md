@@ -6,6 +6,8 @@ This changelog records functional behavior, compatibility, migration, CLI, templ
 
 ## [Unreleased]
 
+## [3.0.0] - 2026-08-16
+
 ### Fixed
 
 - Local-agent initialization prompts and first-run documentation now use `npx --yes recowork@latest`, so users can fetch and run RecoWork without a globally installed `rw` command or an interactive npm installation prompt.
@@ -18,6 +20,10 @@ This changelog records functional behavior, compatibility, migration, CLI, templ
 ### Compatibility
 
 - Existing idea and project workspaces remain untouched. `rw status` and `rw upgrade` now provide a read-only guide to initialize the unified workflow in a separate destination; no in-place conversion is attempted.
+
+### Breaking Changes
+
+- `idea-engineering` and `project-engineering` are no longer available as independent templates for new initialization, listing, or display. Use `idea-to-project` for the unified workflow; the `idea` and `project` aliases continue to resolve to it.
 
 ## [2.0.0] - 2026-07-24
 
