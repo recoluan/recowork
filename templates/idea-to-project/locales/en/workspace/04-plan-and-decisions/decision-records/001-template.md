@@ -31,7 +31,7 @@ To fill: the confirmed or proposed decision, benefits, costs, risks, and follow-
 
 ### Lifecycle Handling
 
-To fill: whether this record replaces an older decision. When replaced, update `superseded_by` and move its parent-index entry to Historical reference. See the [Artifact Freshness Standard](../../../methods/artifact-freshness-standard.md).
+To fill: whether this record replaces an older decision. When it does, update `superseded_by`, archive the prior record after user confirmation, and update the archive index. See the [Artifact Freshness Standard](../../../methods/artifact-freshness-standard.md).
 
 ## Related References
 

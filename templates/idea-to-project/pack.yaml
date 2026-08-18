@@ -1,5 +1,5 @@
 id: idea-to-project
-version: 1.0.1
+version: 1.1.0
 name: 从想法到落地工作流包
 name_en: Idea To Project Workflow Template
 description: 用一个阶段式工作流完成探索、验证、方向确认和项目推进，让想法自然收敛并落地为可交付项目。
@@ -28,15 +28,18 @@ aliases:
 outputs:
   - 两阶段工作方法：探索验证与项目推进
   - 本地化工作空间、方向决策包和项目简报
+  - 当前事实与独立归档，按分类、主题和版本保留历史
   - 用户确认门与项目迁移/续接规则
   - 评审、验收与可追溯决策
 outputs_zh:
   - 两阶段工作方法：探索验证与项目推进
   - 本地化工作空间、方向决策包和项目简报
+  - 当前事实与独立归档，按分类、主题和版本保留历史
   - 用户确认门与项目迁移/续接规则
   - 评审、验收与可追溯决策
 outputs_en:
   - two-stage methods for exploration and project advancement
   - localized workspace, direction decision package, and project brief
+  - current facts with a separate archive organized by category, topic, and version
   - user confirmation gates and continuation rules
   - review, acceptance, and traceable decisions

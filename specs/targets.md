@@ -22,7 +22,7 @@ This is the product core.
 - Writes `rw-manifest.json` schema version 2 for status checks and upgrades.
 - Requires a command-capable local agent. The bootstrap prompt may check Node.js and npm and must ask before installing Node.js.
 - Never generates platform-specific `.claude/`, `.cursor/`, `CLAUDE.md`, skills, or brand rules.
-- Durable knowledge belongs in canonical documents inside the template workspace, not in a separate `knowledge/` or `知识库/` directory. Agents update the affected `index.md` when consolidating verified conclusions.
+- Durable knowledge belongs in canonical documents inside the template workspace, not in a separate `knowledge/` or `知识库/` directory. Formal workspace indexes list only current or still-open material; superseded versions and completed process material are organized under the localized workspace archive by category, topic, and version. Agents update the affected current or archive `index.md` when consolidating verified conclusions.
 - Root `AGENTS.md` uses safe auto-integration. If missing, RecoWork generates the complete target file. If an external root file exists, RecoWork preserves all existing content and appends or updates only its marker-bounded block: `<!-- recowork:start ... -->` through `<!-- recowork:end -->`.
 - The integration block explicitly states that rules outside the block take priority. The manifest stores its marker and hashes separately; upgrades replace only an unchanged block and report any edited or removed block without overwriting it.
 - Only the initialization destination's root `AGENTS.md` participates in this behavior. RecoWork does not scan or modify nested instruction files.

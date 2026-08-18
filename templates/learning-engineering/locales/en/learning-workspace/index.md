@@ -21,14 +21,17 @@ This is the root navigation for the learning system. Start here to recover the g
 | [03 Project Practice](./03-project-practice/index.md) | Throughline projects, practice tasks, and validation. | To populate | Created at initialization |
 | [04 Questions And Retrospectives](./04-questions-and-retrospectives/index.md) | Mistakes, open questions, summaries, and reviews. | To populate | Created at initialization |
 | [05 Knowledge Capture](./05-knowledge-capture/index.md) | Validated explanations, patterns, and personal learning methods. | To populate | Created at initialization |
+| [Archive Index](./archive/index.md) | Superseded formal versions and completed process material, retained by category, topic, and version. | Do not read by default | Created at initialization |
 
 ## Related References
 
 - [Document Standard](../methods/document-standard.md)
 - [Learning Method](../methods/learning-method.md)
+- [Artifact Freshness Standard](../methods/artifact-freshness-standard.md)
 
 ## Change Log
 
 | Date | Version | Change |
 | --- | --- | --- |
+| 2026-08-18 | 1.1 | Moved historical versions and completed process material behind a separate archive index. |
 | 2026-07-12 | 1.0 | Established index-first learning navigation with visible status. |

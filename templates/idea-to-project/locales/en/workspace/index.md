@@ -22,9 +22,14 @@ This is the single workspace entry point from idea to project. Determine the sta
 - [05 Thinking Traces](./05-thinking-traces/index.md): process material and evolution records during advancement.
 - [06 Review And Validation](./06-review-and-validation/index.md): review, validation, acceptance, and follow-up checks.
 
+## Historical Archive
+
+- [Archive Index](./archive/index.md): superseded formal versions and completed process material; do not read by default.
+
 ## Usage Rules
 
 - Before the direction is confirmed, work primarily in stage one; do not treat a candidate direction as a project fact.
 - After the user confirms project entry, record it in `direction-decision-package.md` and transfer the conclusion into the project brief.
+- Formal indexes list Current content only. Historical versions and completed process material belong under `archive/`, navigated by category, topic, and version from the archive index.
 - After creating, finalizing, superseding, or materially revising a document, update the parent index with link, summary, status, and last-updated date.
 - See the [Document Standard](../methods/document-standard.md) for the exact format.

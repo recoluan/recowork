@@ -1317,11 +1317,11 @@ function getLocaleStrings(locale, template, target, localePaths) {
           ? "Ask for confirmation before a material visual-direction change, a large page rewrite, or an irreversible operation when user requirements or the existing brand are unclear."
           : "Ask for confirmation before large scope changes or irreversible operations.",
       ruleKeepKnowledge: isIdeaToProjectWorkflow
-        ? `Keep exploration evidence and the direction decision package in \`${localePaths.workspaceDir}/01-exploration-and-validation/\`. Do not begin complete project design, planning, or implementation until the user explicitly confirms project entry; then transfer the confirmed direction into the project brief and use the numbered project sections.`
+        ? `Keep Current facts concise in \`${localePaths.workspaceDir}/\` and formal indexes. Update one Current document per topic in place; after user confirmation, organize superseded versions and completed process material under \`${localePaths.workspaceDir}/archive/\` by category, topic, and version. Do not begin complete project design, planning, or implementation until the user explicitly confirms project entry; then transfer the confirmed direction into the project brief and use the numbered project sections.`
         : isIdeaWorkflow
         ? `Keep idea briefs, directions, hypotheses, and decisions in \`${localePaths.workspaceDir}/\`. Explore broadly first, then separate facts, assumptions, and evidence; wait for confirmation before converging on a priority direction.`
-        : isLearningWorkflow
-        ? `Keep the learner brief, roadmap, progress, and retrospectives in \`${localePaths.workspaceDir}/\`. Before creating or changing a roadmap, lesson, practice plan, or project plan, present a learning agreement and wait for the learner's explicit confirmation; then teach one validated unit at a time.`
+      : isLearningWorkflow
+        ? `Keep Current learner brief, roadmap, progress, and validated learning records concise in \`${localePaths.workspaceDir}/\` and formal indexes. Update one Current document per topic in place; after learner confirmation, organize superseded versions and completed process material under \`${localePaths.workspaceDir}/archive/\` by category, topic, and version. Before creating or changing a roadmap, lesson, practice plan, or project plan, present a learning agreement and wait for explicit confirmation; then teach one validated unit at a time.`
         : isWebDesignStandard
             ? "Use this file as the reusable default. Existing user brand requirements, design systems, and explicit visual requests override it; state material conflicts rather than silently blending incompatible directions."
             : `Keep durable project context in \`${localePaths.workspaceDir}/\`. Consolidate verified conclusions into the appropriate canonical document and update affected indexes. Before creating a complete solution, plan, or implementation change, present a project agreement and wait for explicit user confirmation.`,
@@ -1414,11 +1414,11 @@ function getLocaleStrings(locale, template, target, localePaths) {
         ? "视觉方向发生重大变化、需要大范围重写页面，或既有品牌要求不明确时，先向用户确认；不可逆操作前也必须确认。"
         : "大范围变更或不可逆操作前，先向用户确认。",
     ruleKeepKnowledge: isIdeaToProjectWorkflow
-      ? `将探索证据和方向决策包放在 \`${localePaths.workspaceDir}/01-探索与验证/\`。用户明确确认进入项目之前，不得开始完整项目设计、计划或实施；确认后将方向结论同步到项目简报，并使用后续编号目录推进。`
+      ? `将当前事实精简地保留在 \`${localePaths.workspaceDir}/\` 和正式索引中；同一主题原地更新一份当前文档。用户确认后，才将已替代版本和已结束过程材料按分类、主题和版本放入 \`${localePaths.workspaceDir}/归档/\`。用户明确确认进入项目之前，不得开始完整项目设计、计划或实施；确认后将方向结论同步到项目简报，并使用后续编号目录推进。`
       : isIdeaWorkflow
       ? `把想法简报、方向、假设和决策放在 \`${localePaths.workspaceDir}/\`。先充分发散，再区分事实、假设和证据；收敛到优先方向前等待用户确认。`
-      : isLearningWorkflow
-      ? `把学习简报、课程路线、进度和复盘放在 \`${localePaths.workspaceDir}/\`。生成或变更课程路线、章节内容、练习计划或项目方案前，先给出学习约定并等待学习者明确确认；确认后一次只推进一个经过验证的学习单元。`
+    : isLearningWorkflow
+      ? `将当前学习简报、课程路线、进度和已验证学习记录精简地保留在 \`${localePaths.workspaceDir}/\` 和正式索引中；同一主题原地更新一份当前文档。学习者确认后，才将已替代版本和已结束过程材料按分类、主题和版本放入 \`${localePaths.workspaceDir}/归档/\`。生成或变更课程路线、章节内容、练习计划或项目方案前，先给出学习约定并等待学习者明确确认；确认后一次只推进一个经过验证的学习单元。`
       : isWebDesignStandard
         ? "将本文件作为可复用默认规范。用户已有品牌、设计系统和明确视觉要求优先；存在实质冲突时应清楚说明，不要默默混合不兼容的方向。"
         : `把长期项目上下文放在 \`${localePaths.workspaceDir}/\`。将已验证结论合并到对应的权威文档，并更新受影响的索引。生成完整方案、计划或实施改动前，先给出项目约定并等待用户明确确认。`,

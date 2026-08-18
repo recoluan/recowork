@@ -22,7 +22,7 @@ The web design standard is a separate reusable standard. It is being validated i
 
 ### Local executable agent
 
-Use this for long-running projects, code, complex learning, and work that needs durable facts or reviewability. RecoWork initializes a root `AGENTS.md`, working methods, a localized workspace where applicable, and a versioned manifest in the directory you choose.
+Use this for long-running projects, code, complex learning, and work that needs durable facts or reviewability. RecoWork initializes a root `AGENTS.md`, working methods, a localized workspace where applicable, and a versioned manifest in the directory you choose. Current facts stay concise in formal workspace documents; confirmed historical versions remain separately traceable in the workspace archive.
 
 ### Chat / Mobile
 

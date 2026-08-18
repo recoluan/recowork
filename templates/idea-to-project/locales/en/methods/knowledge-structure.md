@@ -5,11 +5,12 @@ There is no separate knowledge base. Keep durable project context in small, focu
 ## Canonical Records
 
 - `workspace/project-brief.md`: stable project context.
-- `workspace/01-requirements-and-constraints/`: requirements and constraints.
-- `workspace/02-solution-design/`: current design and tradeoffs.
-- `workspace/03-plan-and-decisions/decision-records/`: confirmed decisions.
-- `workspace/05-review-and-validation/`: validation and acceptance evidence.
+- `workspace/01-exploration-and-validation/`: Current problem, directions, assumptions, validation, and direction decision package.
+- `workspace/02-requirements-and-constraints/`: requirements and constraints after direction confirmation.
+- `workspace/03-solution-design/`: Current design and tradeoffs.
+- `workspace/04-plan-and-decisions/decision-records/`: confirmed decisions.
+- `workspace/06-review-and-validation/`: validation and acceptance evidence.
 
 ## Process Traces
 
-`workspace/04-thinking-traces/` holds dated discussion summaries and evidence. At milestones, consolidate verified conclusions into the canonical records above and update affected indexes.
+`workspace/05-thinking-traces/` holds only active discussion summaries and evidence. At milestones, consolidate verified conclusions into the canonical records above; after user confirmation, move completed material into `workspace/archive/` and update affected indexes.

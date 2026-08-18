@@ -26,7 +26,7 @@ Enter project advancement only after explicit user confirmation. The record must
 2. If material project agreement gaps remain, update `open-questions.md` and wait for confirmation.
 3. Within confirmed scope, use `02-requirements-and-constraints/`, `03-solution-design/`, `04-plan-and-decisions/`, `05-thinking-traces/`, and `06-review-and-validation/`.
 4. Advance material work through planning, implementation, validation, canonical-record updates, and index maintenance.
-5. Run the [Quality Gates](./quality-gates.md) and [Artifact Freshness Standard](./artifact-freshness-standard.md), reporting results, risks, and next step.
+5. Run the [Quality Gates](./quality-gates.md) and [Artifact Freshness Standard](./artifact-freshness-standard.md): consolidate Current conclusions in place, list archive candidates and wait for confirmation, then report results, risks, and next step.
 
 ## Related References
 

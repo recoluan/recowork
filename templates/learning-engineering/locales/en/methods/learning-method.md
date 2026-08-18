@@ -16,7 +16,7 @@
 3. Let the learner attempt practice before providing a full answer.
 4. Use the result to identify misconceptions, explain why they happened, and schedule targeted review.
 5. Update the unit record, progress tracker, and question/retrospective notes using the [Document Standard](./document-standard.md), then update affected `index.md` statuses.
-6. Run the [artifact freshness sweep](./artifact-freshness-standard.md): consolidate validated understanding into formal learning records, mark the destination of practice and discussion materials, and make indexes point to current content by default.
+6. Run the [artifact freshness sweep](./artifact-freshness-standard.md): consolidate validated understanding into Current learning records, mark the destination of practice and discussion material, list archive candidates and wait for learner confirmation; formal indexes point only to Current content.
 
 ## Practice And Validation
 

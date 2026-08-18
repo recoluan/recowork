@@ -1,5 +1,5 @@
 id: learning-engineering
-version: 2.0.2
+version: 2.1.0
 name: 系统性学习工作流包
 name_en: Learning Engineering Workflow Template
 description: 把学习过程工程化，建立学习者画像、课程路线、章节练习、项目实践、复盘和知识沉淀。
@@ -33,6 +33,7 @@ outputs:
   - 学习简报、课程路线和进度追踪
   - 课程单元、练习和项目实践模板
   - 复盘与知识沉淀规则
+  - 当前学习记录与独立归档，按分类、主题和版本保留历史
 outputs_zh:
   - 本地化工作方法目录
   - 学习导师角色设定
@@ -40,6 +41,7 @@ outputs_zh:
   - 学习简报、课程路线和进度追踪
   - 课程单元、练习和项目实践模板
   - 复盘与知识沉淀规则
+  - 当前学习记录与独立归档，按分类、主题和版本保留历史
 outputs_en:
   - localized methods directory
   - learning mentor role contract
@@ -47,3 +49,4 @@ outputs_en:
   - learner brief, course roadmap, and progress tracker
   - lesson, practice, and project templates
   - retrospective and knowledge-capture rules
+  - current learning records with a separate archive organized by category, topic, and version

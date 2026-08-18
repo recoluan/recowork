@@ -6,6 +6,16 @@ This changelog records functional behavior, compatibility, migration, CLI, templ
 
 ## [Unreleased]
 
+## [3.1.0] - 2026-08-18
+
+### Changed
+
+- Durable local workspaces now keep formal directories and normal indexes limited to Current or still-open material. Confirmed historical versions and completed process material are organized in a separate localized archive by category, topic, and version.
+
+### Compatibility
+
+- Existing workspace files remain user-owned. RecoWork never moves, archives, deletes, renames, or rewrites them automatically; agents must present archive candidates and obtain user confirmation first.
+
 ## [3.0.0] - 2026-08-16
 
 ### Fixed

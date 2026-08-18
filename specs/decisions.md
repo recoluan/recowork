@@ -470,3 +470,20 @@ Implication:
 - The example is documentation-site content, not a generated template asset and not a new output from either target.
 - It uses the default restrained product-web direction and covers navigation, primary action, filtering, loading, empty state, form validation, and success feedback.
 - Future changes to the web-design standard should check the example against the same responsive, state, and accessibility criteria.
+
+## 027. Separate Current Work From Historical Archives
+
+Decision: durable workspaces expose only current or still-open material in their formal directories and normal indexes. Superseded formal versions and completed process material are retained only in a localized workspace archive, organized as category, topic, and version.
+
+Reason:
+
+- Co-locating historical versions with canonical documents makes both people and agents select stale context, causing duplicate edits and ambiguous project facts.
+- Preserving history remains necessary for decisions, milestones, comparisons, and traceability, but it should be retrieved deliberately rather than loaded as normal working context.
+
+Implication:
+
+- Every durable workspace includes `归档/index.md` (`zh`) or `archive/index.md` (`en`) as the dedicated historical entry point.
+- Archive paths use `归档/<分类>/<主题>/v<主版本>.<次版本>.md` or `archive/<category>/<topic>/v<major>.<minor>.md`; do not pre-create empty categories.
+- Formal indexes list Current or still-open material only, while archive indexes list the historical category, topic, version, status, and one-line summary.
+- Routine changes update the current source in place. Archive snapshots are reserved for milestones, external deliveries, confirmed decisions, material retrospectives, or meaningful comparisons.
+- Existing user files remain user-owned: before any move, archive, deletion, rename, or rewrite, agents propose the candidate, reason, destination, and replacement and wait for confirmation.
