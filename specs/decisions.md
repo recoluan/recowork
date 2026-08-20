@@ -504,3 +504,24 @@ Implication:
 - Parked ideas stay out of the active project scope and default execution plan, but remain Current workspace material; they are reviewed at milestones or when the user raises the direction again.
 - Chat/mobile does not create files, but its task protocol and continuation summary retain parked directions and restart conditions.
 - An item enters the archive only after explicit abandonment, replacement, or a user-confirmed need for historical retention.
+
+## 029. Provide A Read-Only Local Workspace Viewer
+
+Decision: provide `rw view [directory]` as a built-in, zero-configuration local reader for RecoWork Markdown workspaces.
+
+Reason:
+
+- A durable workspace is useful only if people can scan current facts without manually traversing many Markdown files.
+- A generated documentation site or a VitePress configuration would introduce generated assets, build maintenance, and another mutation surface into a user-owned project.
+- The existing `index.md` and current-versus-archive convention already provide enough structure for a focused first reader.
+
+Implication:
+
+- `rw view` runs a local HTTP service bound to `127.0.0.1` and opens the browser when possible; `--no-open` and `--port` support constrained environments. Its visible UI follows the detected workspace locale.
+- The supplied directory may be either an initialized project root or the workspace itself; an `index.md` at the supplied root is treated as the workspace entry point.
+- It never writes configuration, generated sites, manifests, or workspace content.
+- It follows normal `index.md` links for navigation, shows recognized current brief, open questions, parked ideas, and learning progress as overview entries, and hides `归档/` or `archive/` until the user explicitly opens it.
+- It is an optional local-agent companion, not a target, a replacement for the website, or a static-site export feature.
+- Local-agent instructions direct the agent, not the user, to start `npx --yes recowork@latest view .` after initialization and on a user request to browse or review the workspace. The command discovers the localized workspace from the project root and requires no global install.
+- The viewer uses URL document routes, scope-aware full-text search, short overview summaries with metadata, and breadcrumb plus previous/next navigation to make long workspaces recoverable without directory traversal.
+- A maintained browser Markdown parser renders GitHub-flavored Markdown while raw HTML remains disabled. Relative image sources are mapped to a restricted local asset endpoint rather than exposing arbitrary workspace files, and the reader never follows workspace symlinks. The local service uses canonical workspace paths when probing and reusing an existing process.

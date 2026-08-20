@@ -6,8 +6,11 @@ This changelog records functional behavior, compatibility, migration, CLI, templ
 
 ## [Unreleased]
 
+## [3.2.0] - 2026-08-20
+
 ### Added
 
+- Added `rw view [directory]`, a zero-configuration local Markdown viewer for RecoWork workspaces. It is read-only, localizes its own UI from the workspace locale, follows `index.md` for current-work navigation, and keeps localized archives behind an explicit toggle. It recognizes either a project root or a workspace directory passed directly, supports URL document routes, scope-aware full-text search, concise overview metadata, breadcrumb/previous/next navigation, GitHub-flavored Markdown, collapsible nested navigation, and fixed header/sidebar scrolling. Local agents start it through `npx --yes recowork@latest view .` after initialization or on a browse request; an already-running viewer for the same workspace is reused automatically.
 - `idea-to-project` local workspaces now include `parked-ideas.md` for restartable directions. It records the parking reason, restart condition, priority, last assessment, related material, and next step without mixing parked work with open questions or archived history.
 - Idea-to-project Chat / mobile instructions and continuation summaries now retain parked directions and their restart conditions.
 

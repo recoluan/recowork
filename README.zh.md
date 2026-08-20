@@ -62,6 +62,16 @@ npx --yes recowork@latest add idea-to-project --target chat-mobile --locale zh .
 
 纯聊天或手机端请通过网站选择器生成可复制的聊天启动指令；不要在这类环境中运行 CLI 或模拟创建本地文件。
 
+## 阅读本地工作空间
+
+对于本地工作流，可用内置的只读查看器浏览 Markdown 记录：
+
+```bash
+npx --yes recowork@latest view .
+```
+
+查看器会在 `127.0.0.1` 启动，并在可用时打开浏览器；它不会写入配置、重新生成文件或修改工作空间。它支持可复制的文档链接、全文搜索、面包屑与上一篇/下一篇导航、GitHub 风格 Markdown，并优先展示当前工作、按需打开本地化归档。本地 Agent 工作流也会要求 Agent 在初始化完成后，或你要求浏览工作空间时自行启动该命令；同一工作空间的查看器已运行时会自动复用，用户无需全局安装、查找工作空间目录或操作终端。需要时使用 `--no-open` 或 `--port 4311`。
+
 ## 能力边界
 
 - Agent 由你控制，RecoWork 不替你运行它。
@@ -77,6 +87,7 @@ node --check cli/recowork/bin/rw.js
 node --check docs/app.js
 node cli/recowork/bin/rw.js list
 node cli/recowork/bin/rw.js targets
+node cli/recowork/bin/rw.js view /private/tmp/recowork-view-test --no-open --port 4311
 ```
 
 产品和 target 约定见 [specs/requirements.md](./specs/requirements.md)、[specs/targets.md](./specs/targets.md) 与 [specs/decisions.md](./specs/decisions.md)。未发布和已发布变更见 [CHANGELOG.zh.md](./CHANGELOG.zh.md)。

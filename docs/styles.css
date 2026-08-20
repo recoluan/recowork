@@ -162,6 +162,7 @@ body[data-lang="en"] .title-en { display: block; }
 .prompt-output .terminal-bar strong { font-size: 13px; }
 .terminal-copy { min-height: 32px; margin-left: auto; padding: 0 13px; border: 0; font-size: 12px; }
 .prompt-output pre { min-height: 300px; margin: 0; padding: 20px; color: #273c4c; font-family: "SFMono-Regular", Consolas, monospace; font-size: 12px; line-height: 1.72; white-space: pre-wrap; }
+.viewer-command pre { min-height: auto; }
 
 /* Prompt builder: direct choices replace compact form controls. */
 .prompt-builder { display: grid; gap: 16px; }

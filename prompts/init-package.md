@@ -11,7 +11,7 @@ npx --yes recowork@latest add [template] --target local-agent-project --locale [
 
 This command fetches RecoWork for the current run and does not require a globally installed `rw` command. Do not replace it with `rw` unless RecoWork is already installed globally.
 
-Inspect the generated output. Do not create platform-specific skills or configuration folders. Read AGENTS.md and tell me the first decision or confirmation needed before meaningful work begins.
+Inspect the generated output. Do not create platform-specific skills or configuration folders. Read AGENTS.md, then run `npx --yes recowork@latest view .` from the initialized project root yourself. It automatically detects the workspace and opens the local read-only site; report its URL instead of asking me to install RecoWork, find the workspace directory, or run a command. Then tell me the first decision or confirmation needed before meaningful work begins.
 
 Only if `npx` cannot run, use https://github.com/recoluan/recowork as the fallback source and explain the limitation before manually composing the selected template and target.
 ```

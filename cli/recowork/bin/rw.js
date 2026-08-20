@@ -3,10 +3,15 @@
 const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
+const http = require("http");
+const { URL } = require("url");
+const { execFile } = require("child_process");
 
 const ROOT = path.resolve(__dirname, "../../..");
 const TEMPLATES_DIR = path.join(ROOT, "templates");
 const TARGETS_DIR = path.join(ROOT, "targets");
+const VIEWER_DIR = path.join(ROOT, "cli", "recowork", "viewer");
+const MARKED_BROWSER_FILE = path.join(path.dirname(require.resolve("marked")), "marked.umd.js");
 
 const legacyPlatformTargets = {
   "chatgpt-mobile": "chat-mobile",
@@ -91,6 +96,11 @@ function main() {
     return;
   }
 
+  if (command === "view") {
+    startViewer(args.slice(1)).catch((error) => fail(`Cannot start RecoWork viewer: ${error.message}`));
+    return;
+  }
+
   if (command === "status") {
     upgradeWorkflow(["--check", ...args.slice(1)]);
     return;
@@ -122,6 +132,7 @@ Usage:
   rw status <destination>
   rw upgrade [--check|--plan|--apply] [--scope <methods,target,workspace>] [--add-missing] <destination>
   rw upgrade --adopt <destination>
+  rw view [directory] [--port <port>] [--no-open]
 
 Compatibility:
   rw platforms
@@ -133,7 +144,426 @@ Examples:
   rw add learning -t local-agent-project ./langchain-study
   rw upgrade --check .
   rw upgrade --plan .
+  rw view .
 `);
+}
+
+async function startViewer(args) {
+  const requestedPort = readOption(args, "port");
+  const noOpen = args.includes("--no-open");
+  const targetArg = readViewerDestination(args);
+  const requestedDir = path.resolve(process.cwd(), targetArg || ".");
+
+  if (!fs.existsSync(requestedDir) || !fs.statSync(requestedDir).isDirectory()) {
+    fail(`Viewer directory does not exist: ${requestedDir}`);
+  }
+  const rootDir = fs.realpathSync(requestedDir);
+  if (!fs.existsSync(path.join(VIEWER_DIR, "index.html"))) {
+    fail("RecoWork viewer assets are not available in this installation.");
+  }
+
+  const initialPort = requestedPort ? Number(requestedPort) : 4310;
+  if (!Number.isInteger(initialPort) || initialPort < 1 || initialPort > 65535) {
+    fail("--port must be an integer between 1 and 65535.");
+  }
+
+  const existing = await findExistingViewer(rootDir, initialPort, Boolean(requestedPort));
+  if (existing) {
+    const viewerUrl = `http://127.0.0.1:${existing}`;
+    console.log(`RecoWork Viewer is already reading: ${rootDir}`);
+    console.log(`Open: ${viewerUrl}`);
+    if (!noOpen) {
+      openBrowser(viewerUrl);
+    }
+    return;
+  }
+
+  const server = http.createServer((request, response) => {
+    handleViewerRequest(request, response, rootDir);
+  });
+  let attemptedPort = initialPort;
+
+  const listen = () => {
+    server.once("error", (error) => {
+      if (!requestedPort && error.code === "EADDRINUSE" && attemptedPort < initialPort + 20) {
+        attemptedPort += 1;
+        listen();
+        return;
+      }
+      fail(error.code === "EADDRINUSE"
+        ? `Port ${attemptedPort} is already in use. Choose another with --port.`
+        : `Cannot start RecoWork viewer: ${error.message}`);
+    });
+    server.listen(attemptedPort, "127.0.0.1", () => {
+      const viewerUrl = `http://127.0.0.1:${attemptedPort}`;
+      console.log(`RecoWork Viewer is reading: ${rootDir}`);
+      console.log(`Open: ${viewerUrl}`);
+      console.log("Press Ctrl+C to stop the viewer.");
+      if (!noOpen) {
+        openBrowser(viewerUrl);
+      }
+    });
+  };
+
+  listen();
+}
+
+async function findExistingViewer(rootDir, initialPort, hasRequestedPort) {
+  const ports = hasRequestedPort
+    ? [initialPort]
+    : Array.from({ length: 21 }, (_, index) => initialPort + index).filter((port) => port <= 65535);
+  const probes = await Promise.all(ports.map((port) => probeViewerPort(rootDir, port)));
+  return probes.find(Boolean) || null;
+}
+
+function probeViewerPort(rootDir, port) {
+  return new Promise((resolve) => {
+    const request = http.get({ hostname: "127.0.0.1", port, path: "/api/workspace", timeout: 180 }, (response) => {
+      let body = "";
+      response.setEncoding("utf8");
+      response.on("data", (chunk) => { body += chunk; });
+      response.on("end", () => {
+        try {
+          resolve(response.statusCode === 200 && JSON.parse(body).rootDir === rootDir ? port : null);
+        } catch {
+          resolve(null);
+        }
+      });
+    });
+    request.on("timeout", () => request.destroy());
+    request.on("error", () => resolve(null));
+  });
+}
+
+function readViewerDestination(args) {
+  const skipped = new Set();
+  for (let index = 0; index < args.length; index += 1) {
+    if (args[index] === "--port") {
+      skipped.add(index);
+      skipped.add(index + 1);
+    }
+    if (args[index] === "--no-open") {
+      skipped.add(index);
+    }
+  }
+  return args.find((arg, index) => !skipped.has(index));
+}
+
+function openBrowser(viewerUrl) {
+  const command = process.platform === "darwin" ? "open" : process.platform === "win32" ? "cmd" : "xdg-open";
+  const commandArgs = process.platform === "win32" ? ["/c", "start", "", viewerUrl] : [viewerUrl];
+  execFile(command, commandArgs, () => {});
+}
+
+function handleViewerRequest(request, response, rootDir) {
+  const requestUrl = new URL(request.url, "http://127.0.0.1");
+  if (requestUrl.pathname === "/api/workspace") {
+    return respondJson(response, buildViewerWorkspace(rootDir));
+  }
+  if (requestUrl.pathname === "/api/document") {
+    const relativePath = requestUrl.searchParams.get("path") || "";
+    const workspace = findViewerWorkspace(rootDir);
+    const filePath = resolveViewerPath(workspace.path, relativePath);
+    if (!relativePath.toLowerCase().endsWith(".md") || !isViewerRegularFile(filePath)) {
+      return respondJson(response, { error: "Document not found." }, 404);
+    }
+    return respondJson(response, {
+      path: relativePath.split(path.sep).join("/"),
+      source: fs.readFileSync(filePath, "utf8"),
+    });
+  }
+  if (requestUrl.pathname === "/api/search") {
+    return respondJson(response, searchViewerDocuments(rootDir, requestUrl.searchParams.get("q") || "", requestUrl.searchParams.get("scope") || "current"));
+  }
+  if (requestUrl.pathname === "/api/asset") {
+    const relativePath = requestUrl.searchParams.get("path") || "";
+    const workspace = findViewerWorkspace(rootDir);
+    const filePath = resolveViewerPath(workspace.path, relativePath);
+    const contentType = getViewerAssetContentType(filePath);
+    if (!contentType || !isViewerRegularFile(filePath)) {
+      return respondJson(response, { error: "Asset not found." }, 404);
+    }
+    return respondFile(response, filePath, contentType);
+  }
+  if (requestUrl.pathname === "/" || requestUrl.pathname === "/index.html") {
+    return respondViewerIndex(response, rootDir);
+  }
+  if (requestUrl.pathname === "/viewer.js") {
+    return respondFile(response, path.join(VIEWER_DIR, "viewer.js"), "application/javascript; charset=utf-8");
+  }
+  if (requestUrl.pathname === "/viewer.css") {
+    return respondFile(response, path.join(VIEWER_DIR, "viewer.css"), "text/css; charset=utf-8");
+  }
+  if (requestUrl.pathname === "/vendor/marked.js") {
+    return respondFile(response, MARKED_BROWSER_FILE, "application/javascript; charset=utf-8");
+  }
+  if (requestUrl.pathname === "/recowork-logo.svg") {
+    return respondFile(response, path.join(VIEWER_DIR, "recowork-logo.svg"), "image/svg+xml");
+  }
+  return respondJson(response, { error: "Not found." }, 404);
+}
+
+function searchViewerDocuments(rootDir, query, scope) {
+  const normalizedQuery = query.trim().toLocaleLowerCase();
+  if (!normalizedQuery) {
+    return [];
+  }
+  const workspace = findViewerWorkspace(rootDir);
+  const archiveSegment = workspace.locale === "zh" ? "归档" : "archive";
+  return collectViewerDocuments(workspace.path)
+    .filter((document) => (scope === "archive") === document.relativePath.split("/").includes(archiveSegment))
+    .map((document) => {
+      const source = fs.readFileSync(path.join(workspace.path, document.relativePath), "utf8");
+      return { ...document, searchSnippet: extractViewerSearchSnippet(source, normalizedQuery) };
+    })
+    .filter((document) => `${document.title} ${document.summary} ${document.searchSnippet}`.toLocaleLowerCase().includes(normalizedQuery))
+    .slice(0, 30);
+}
+
+function extractViewerSearchSnippet(source, query) {
+  const normalizedSource = source.replace(/\s+/g, " ").trim();
+  const position = normalizedSource.toLocaleLowerCase().indexOf(query);
+  if (position < 0) {
+    return "";
+  }
+  const start = Math.max(0, position - 56);
+  const end = Math.min(normalizedSource.length, position + query.length + 96);
+  return `${start ? "..." : ""}${normalizedSource.slice(start, end)}${end < normalizedSource.length ? "..." : ""}`;
+}
+
+function respondJson(response, value, statusCode = 200) {
+  response.writeHead(statusCode, { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store" });
+  response.end(`${JSON.stringify(value)}\n`);
+}
+
+function respondFile(response, filePath, contentType) {
+  if (!fs.existsSync(filePath)) {
+    return respondJson(response, { error: "Viewer asset not found." }, 404);
+  }
+  response.writeHead(200, { "Content-Type": contentType, "Cache-Control": "no-store" });
+  response.end(fs.readFileSync(filePath));
+}
+
+function getViewerAssetContentType(filePath) {
+  const types = {
+    ".avif": "image/avif",
+    ".gif": "image/gif",
+    ".jpeg": "image/jpeg",
+    ".jpg": "image/jpeg",
+    ".png": "image/png",
+    ".svg": "image/svg+xml",
+    ".webp": "image/webp",
+  };
+  return filePath ? types[path.extname(filePath).toLowerCase()] || null : null;
+}
+
+function isViewerRegularFile(filePath) {
+  if (!filePath || !fs.existsSync(filePath)) {
+    return false;
+  }
+  return fs.lstatSync(filePath).isFile();
+}
+
+function respondViewerIndex(response, rootDir) {
+  const locale = findViewerWorkspace(rootDir).locale === "zh" ? "zh" : "en";
+  const labels = locale === "zh"
+    ? {
+      html_lang: "zh-CN",
+      viewer_title: "RecoWork 工作空间",
+      viewer_name: "RecoWork 工作空间",
+      search_label: "搜索",
+      search_placeholder: "搜索当前工作空间",
+      view_archive: "查看归档",
+      navigation_label: "工作空间导航",
+    }
+    : {
+      html_lang: "en",
+      viewer_title: "RecoWork Viewer",
+      viewer_name: "RecoWork Viewer",
+      search_label: "Search",
+      search_placeholder: "Search current workspace",
+      view_archive: "View archive",
+      navigation_label: "Workspace navigation",
+    };
+  const source = fs.readFileSync(path.join(VIEWER_DIR, "index.html"), "utf8");
+  const content = source.replace(/\{\{([a-z_]+)\}\}/g, (match, key) => labels[key] || match);
+  response.writeHead(200, { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" });
+  response.end(content);
+}
+
+function resolveViewerPath(rootDir, relativePath) {
+  if (!relativePath || path.isAbsolute(relativePath)) {
+    return null;
+  }
+  const resolved = path.resolve(rootDir, relativePath);
+  return resolved.startsWith(`${rootDir}${path.sep}`) ? resolved : null;
+}
+
+function buildViewerWorkspace(rootDir) {
+  const workspace = findViewerWorkspace(rootDir);
+  const allDocuments = collectViewerDocuments(workspace.path);
+  const archiveSegment = workspace.locale === "zh" ? "归档" : "archive";
+  const documents = allDocuments.filter((document) => !document.relativePath.split("/").includes(archiveSegment));
+  const archiveDocuments = allDocuments.filter((document) => document.relativePath.split("/").includes(archiveSegment));
+  const rootIndex = documents.find((document) => document.relativePath === "index.md");
+  const navigation = buildViewerNavigation(rootIndex, documents, workspace.path);
+  const overview = buildViewerOverview(documents, workspace.locale);
+
+  return {
+    rootDir,
+    workspace: workspace.relativePath || ".",
+    locale: workspace.locale,
+    navigation,
+    documents,
+    archiveDocuments,
+    overview,
+  };
+}
+
+function findViewerWorkspace(rootDir) {
+  if (fs.existsSync(path.join(rootDir, "index.md"))) {
+    return { path: rootDir, relativePath: "", locale: inferViewerLocale(rootDir) };
+  }
+  const candidates = ["工作空间", "workspace", "学习空间", "learning-workspace", "想法空间", "idea-space"];
+  for (const candidate of candidates) {
+    const candidatePath = path.join(rootDir, candidate);
+    if (fs.existsSync(path.join(candidatePath, "index.md"))) {
+      return { path: candidatePath, relativePath: candidate, locale: inferViewerLocale(candidatePath) };
+    }
+  }
+  return {
+    path: rootDir,
+    relativePath: "",
+    locale: inferViewerLocale(rootDir),
+  };
+}
+
+function inferViewerLocale(directory) {
+  if (/[㐀-鿿]/.test(path.basename(directory)) || fs.existsSync(path.join(directory, "网页设计规范.md"))) {
+    return "zh";
+  }
+  const indexPath = path.join(directory, "index.md");
+  if (fs.existsSync(indexPath) && /[㐀-鿿]/.test(fs.readFileSync(indexPath, "utf8"))) {
+    return "zh";
+  }
+  return "en";
+}
+
+function collectViewerDocuments(workspaceDir) {
+  const documents = [];
+  const ignored = new Set([".git", "node_modules", ".recowork"]);
+  const walk = (directory) => {
+    for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+      if (ignored.has(entry.name) || entry.name.startsWith(".")) {
+        continue;
+      }
+      const entryPath = path.join(directory, entry.name);
+      if (entry.isDirectory()) {
+        walk(entryPath);
+      } else if (entry.isFile() && entry.name.toLowerCase().endsWith(".md")) {
+        const source = fs.readFileSync(entryPath, "utf8");
+        const relativePath = path.relative(workspaceDir, entryPath).split(path.sep).join("/");
+        documents.push(describeViewerDocument(relativePath, source));
+      }
+    }
+  };
+  walk(workspaceDir);
+  return documents.sort((left, right) => left.relativePath.localeCompare(right.relativePath, "zh-Hans-CN"));
+}
+
+function describeViewerDocument(relativePath, source) {
+  const metadata = parseViewerFrontmatter(source);
+  const title = metadata.title || (source.match(/^#\s+(.+)$/m) || [])[1] || path.basename(relativePath, ".md");
+  return {
+    relativePath,
+    title: title.trim(),
+    status: metadata.status || "",
+    updated: metadata.date || metadata.last_updated || "",
+    summary: extractViewerSummary(source),
+  };
+}
+
+function parseViewerFrontmatter(source) {
+  const match = source.match(/^---\s*\n([\s\S]*?)\n---\s*\n?/);
+  if (!match) {
+    return {};
+  }
+  const metadata = {};
+  for (const line of match[1].split(/\r?\n/)) {
+    const pair = line.match(/^([A-Za-z0-9_-]+):\s*(.+)$/);
+    if (pair) {
+      metadata[pair[1]] = pair[2].replace(/^['"]|['"]$/g, "");
+    }
+  }
+  return metadata;
+}
+
+function extractViewerSummary(source) {
+  const body = source.replace(/^---\s*\n[\s\S]*?\n---\s*\n?/, "");
+  const conclusion = body.match(/##\s+(结论在前|Conclusion First)\s*\n+([\s\S]*?)(?=\n##\s|$)/i);
+  const text = (conclusion ? conclusion[2] : body)
+    .replace(/^#.+$/gm, "")
+    .replace(/\[[^\]]+\]\([^)]*\)/g, "")
+    .replace(/[`*_>#]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  return text.slice(0, 220);
+}
+
+function buildViewerNavigation(rootIndex, documents, workspacePath) {
+  const byPath = new Map(documents.map((document) => [document.relativePath, document]));
+  const visited = new Set();
+  const walkIndex = (document) => {
+    if (!document || visited.has(document.relativePath)) {
+      return null;
+    }
+    visited.add(document.relativePath);
+    const source = fs.readFileSync(path.join(workspacePath, document.relativePath), "utf8");
+    const links = extractViewerLinks(source, document.relativePath);
+    return {
+      ...document,
+      children: links.map((link) => walkIndex(byPath.get(link))).filter(Boolean),
+    };
+  };
+  return rootIndex ? walkIndex(rootIndex) : null;
+}
+
+function extractViewerLinks(source, relativePath) {
+  const links = [];
+  const directory = path.posix.dirname(relativePath);
+  const pattern = /\[[^\]]+\]\(([^)]+\.md)(?:#[^)]+)?\)/g;
+  for (const match of source.matchAll(pattern)) {
+    const target = match[1].replace(/\\/g, "/");
+    if (/^(https?:|#)/.test(target)) {
+      continue;
+    }
+    const normalized = path.posix.normalize(path.posix.join(directory === "." ? "" : directory, target));
+    if (!normalized.startsWith("..") && !links.includes(normalized)) {
+      links.push(normalized);
+    }
+  }
+  return links;
+}
+
+function buildViewerOverview(documents, locale) {
+  const find = (...names) => documents.find((document) => names.includes(path.posix.basename(document.relativePath)));
+  const brief = find("项目简报.md", "project-brief.md", "学习简报.md", "learner-brief.md", "想法简报.md", "idea-brief.md");
+  const questions = find("待确认问题.md", "open-questions.md");
+  const parked = find("搁置想法.md", "parked-ideas.md");
+  const progress = find("学习进度.md", "learning-progress.md");
+  const labels = locale === "zh"
+    ? { brief: "当前简报", questions: "待确认问题", parked: "搁置想法", progress: "当前进度" }
+    : { brief: "Current brief", questions: "Open questions", parked: "Parked ideas", progress: "Current progress" };
+  return [
+    ["brief", brief],
+    ["questions", questions],
+    ["parked", parked],
+    ["progress", progress],
+  ].filter(([, document]) => document).map(([kind, document]) => ({
+    kind,
+    label: labels[kind],
+    document,
+  }));
 }
 
 function listTemplates() {
@@ -1233,6 +1663,7 @@ function renderTemplate(source, template, target, locale) {
     rule_review_output: localeStrings.ruleReviewOutput,
     rule_confirm_large_changes: localeStrings.ruleConfirmLargeChanges,
     rule_keep_knowledge: localeStrings.ruleKeepKnowledge,
+    rule_open_workspace_viewer: localeStrings.ruleOpenWorkspaceViewer,
     rule_keep_scoped: localeStrings.ruleKeepScoped,
     rule_explain_verification: localeStrings.ruleExplainVerification,
     chat_init_title: localeStrings.chatInitTitle,
@@ -1325,6 +1756,7 @@ function getLocaleStrings(locale, template, target, localePaths) {
         : isWebDesignStandard
             ? "Use this file as the reusable default. Existing user brand requirements, design systems, and explicit visual requests override it; state material conflicts rather than silently blending incompatible directions."
             : `Keep durable project context in \`${localePaths.workspaceDir}/\`. Consolidate verified conclusions into the appropriate canonical document and update affected indexes. Before creating a complete solution, plan, or implementation change, present a project agreement and wait for explicit user confirmation.`,
+      ruleOpenWorkspaceViewer: "After initialization, and whenever the user asks to browse, review, or inspect the current workspace, run `npx --yes recowork@latest view .` from the project root yourself. It detects the workspace automatically, reuses an already-running viewer for the same workspace, and otherwise opens a local read-only viewer. Do not ask the user to install RecoWork, locate the workspace directory, or type the command.",
       ruleKeepScoped: "Keep changes scoped to the current task.",
       ruleExplainVerification: "Explain verification steps after implementation.",
       chatInitTitle: "RecoWork Initialization Prompt",
@@ -1413,7 +1845,7 @@ function getLocaleStrings(locale, template, target, localePaths) {
       : isWebDesignStandard
         ? "视觉方向发生重大变化、需要大范围重写页面，或既有品牌要求不明确时，先向用户确认；不可逆操作前也必须确认。"
         : "大范围变更或不可逆操作前，先向用户确认。",
-    ruleKeepKnowledge: isIdeaToProjectWorkflow
+      ruleKeepKnowledge: isIdeaToProjectWorkflow
       ? `将当前事实精简地保留在 \`${localePaths.workspaceDir}/\` 和正式索引中；把暂不推进但可重启的方向记录在 \`${localePaths.workspaceDir}/搁置想法.md\`，写明搁置原因和重启条件，它既不是待确认问题也不是归档材料。同一主题原地更新一份当前文档。用户确认后，才将已替代版本和已结束过程材料按分类、主题和版本放入 \`${localePaths.workspaceDir}/归档/\`。用户明确确认进入项目之前，不得开始完整项目设计、计划或实施；确认后将方向结论同步到项目简报，并使用后续编号目录推进。`
       : isIdeaWorkflow
       ? `把想法简报、方向、假设和决策放在 \`${localePaths.workspaceDir}/\`。先充分发散，再区分事实、假设和证据；收敛到优先方向前等待用户确认。`
@@ -1422,6 +1854,7 @@ function getLocaleStrings(locale, template, target, localePaths) {
       : isWebDesignStandard
         ? "将本文件作为可复用默认规范。用户已有品牌、设计系统和明确视觉要求优先；存在实质冲突时应清楚说明，不要默默混合不兼容的方向。"
         : `把长期项目上下文放在 \`${localePaths.workspaceDir}/\`。将已验证结论合并到对应的权威文档，并更新受影响的索引。生成完整方案、计划或实施改动前，先给出项目约定并等待用户明确确认。`,
+    ruleOpenWorkspaceViewer: "初始化完成后，以及用户要求浏览、复盘或查看当前工作空间时，由你在项目根目录直接运行 `npx --yes recowork@latest view .`。该命令会自动识别工作空间；同一工作空间的查看器已运行时会自动复用，否则打开本地只读查看器。不要让用户自行安装 RecoWork、查找工作空间目录或输入命令。",
     ruleKeepScoped: "保持改动聚焦在当前任务范围内。",
     ruleExplainVerification: "实现后说明验证步骤。",
     chatInitTitle: "RecoWork 初始化 Prompt",

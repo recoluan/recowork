@@ -90,4 +90,7 @@ Existing generated workspaces are user-owned. `rw add` refuses a destination tha
 rw add idea-to-project --target local-agent-project --locale zh .
 rw add learning --target local-agent-project --locale en ./langchain-study
 rw add idea-to-project --target chat-mobile --locale zh ./idea-chat-kit
+rw view ./my-local-workflow
 ```
+
+`rw view` is a local read-only companion for a directory containing a RecoWork workspace or Markdown files. It is not a target and does not generate a documentation site, write configuration, or change initialized output. It reads `index.md` for normal navigation, localizes its UI from the detected workspace locale, and keeps `归档/` or `archive/` outside the default current-work view. It provides URL document routes, scope-aware full-text search, compact overview metadata, breadcrumbs, previous/next navigation, and GitHub-flavored Markdown with raw HTML disabled. Local-agent instructions direct a command-capable agent to run `npx --yes recowork@latest view .` from the initialized project root after initialization and whenever the user asks to browse or review the workspace; the agent reports the local URL instead of requiring terminal use or a global install. A running viewer is reused only for the same resolved workspace.

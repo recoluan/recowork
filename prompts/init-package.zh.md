@@ -11,7 +11,7 @@ npx --yes recowork@latest add [template] --target local-agent-project --locale [
 
 该命令会临时获取 RecoWork，无需预先全局安装 `rw`。除非 RecoWork 已经全局安装，否则不要把它替换成 `rw`。
 
-检查生成结果。不要创建平台专属 skill 或配置目录。先阅读 AGENTS.md，再告诉我开始有效工作前需要我确认的第一个决策。
+检查生成结果。不要创建平台专属 skill 或配置目录。先阅读 AGENTS.md，再由你在初始化后的项目根目录运行 `npx --yes recowork@latest view .`。它会自动识别工作空间并打开本地只读站点；报告站点地址，不要让我安装 RecoWork、查找工作空间目录或输入命令。然后告诉我开始有效工作前需要我确认的第一个决策。
 
 只有在 `npx` 无法运行时，才将 https://github.com/recoluan/recowork 作为备用来源；先说明限制，再手动组合所选模板与 target。
 ```

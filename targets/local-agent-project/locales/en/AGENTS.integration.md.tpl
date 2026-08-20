@@ -14,4 +14,5 @@ Existing project instructions outside this RecoWork block take priority. This bl
 - {{rule_review_output}}
 - {{rule_confirm_large_changes}}
 - {{rule_keep_knowledge}}
+- {{rule_open_workspace_viewer}}
 <!-- recowork:end -->

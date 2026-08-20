@@ -47,9 +47,16 @@ rw add web-design --target local-agent-project --locale zh ./product-site
 rw status .
 rw upgrade --check .
 rw upgrade --apply .
+
+rw view .
+rw view ./langchain-study --port 4311 --no-open
 ```
 
 Chat targets do not create a manifest and do not support status or upgrade commands.
+
+## Read A Local Workspace
+
+`rw view [directory]` opens a zero-configuration local Markdown viewer for a RecoWork workspace. It runs only on `127.0.0.1`, follows `index.md` for current-work navigation, supports shareable document links, full-text search, breadcrumbs, previous/next navigation, and GitHub-flavored Markdown, and keeps `archive/` or `归档/` behind an explicit toggle. It is read-only: it never writes configuration, generates a documentation site, or changes workspace files. Generated local-agent instructions tell the agent to run `npx --yes recowork@latest view .` itself after initialization or when the user asks to browse the workspace; a running viewer for the same workspace is reused automatically.
 
 ## Upgrade Safety
 
