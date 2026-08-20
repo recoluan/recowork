@@ -202,6 +202,7 @@ The `idea-to-project` template should generate one concise Chinese-oriented `工
 ├── index.md
 ├── 项目简报.md
 ├── 待确认问题.md
+├── 搁置想法.md
 ├── 01-探索与验证/
 ├── 02-需求与约束/
 ├── 03-方案设计/
@@ -225,6 +226,7 @@ Responsibilities:
 - The workflow has a mandatory stage gate: explore and validate first, then present a direction decision package and wait for explicit confirmation before project entry. After project entry, confirm material scope before a complete solution, plan, or implementation. An explicitly confirmed local task may proceed without repeated confirmation.
 - `项目简报.md`: project background, problem, goals, scope, non-goals, current status, and constraints.
 - `待确认问题.md`: questions that AI must not silently assume.
+- `搁置想法.md`: ideas or directions that are not being advanced now but may restart; every entry records its reason, restart condition, priority, last assessment, related material, and next step. It is a current workspace document, not an archive or a list of blocking open questions.
 - `01-探索与验证/`: problem, candidate directions, hypotheses, evidence, validation, and a direction decision package.
 - `02-需求与约束/`: requirements, user scenarios, constraints, assumptions, and clarifications after project entry.
 - `03-方案设计/`: tradeoff analysis, feasibility, architecture, technical design, and implementation path.
@@ -253,6 +255,7 @@ workspace/
 ├── index.md
 ├── project-brief.md
 ├── open-questions.md
+├── parked-ideas.md
 ├── 01-exploration-and-validation/
 ├── 02-requirements-and-constraints/
 ├── 03-solution-design/

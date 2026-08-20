@@ -12,7 +12,7 @@ It fixes the task, professional standards, current facts, review criteria, and h
 
 | Real work | What RecoWork preserves | Current template |
 | --- | --- | --- |
-| Move from an idea into a project | Exploration, validation, a direction decision package, briefs, designs, decisions, reviews | `idea-to-project` |
+| Move from an idea into a project | Exploration, validation, a direction decision package, restartable parked ideas, briefs, designs, decisions, reviews | `idea-to-project` |
 | Learn with evidence | Diagnosis, roadmap, practice, projects, retrospectives | `learning-engineering` |
 | Improve web-page quality | Design direction, responsive rules, component states, self-review | `web-design-standard` |
 

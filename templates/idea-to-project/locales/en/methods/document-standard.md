@@ -1,7 +1,7 @@
 # Document Standard
 
-> Version: 1.2
-> Date: 2026-08-18
+> Version: 1.3
+> Date: 2026-08-20
 > Status: Current
 
 ## Conclusion First
@@ -33,7 +33,7 @@ Except for `index.md`, every project document uses this order:
 ### 4. Progressive retrieval and index maintenance
 
 1. Start by reading the nearest root index (normally `workspace/index.md`) for navigation.
-2. Read only the project brief, open questions, and focused documents required for the current task; do not load every directory at once.
+2. Read only the project brief, open questions, parked ideas when relevant to the task, and focused documents required for the current task; do not load every directory at once.
 3. Before entering a section, read that section's `index.md`, then follow only the relevant entries.
 4. After creating, finalizing, retiring, or materially revising a document, update the parent `index.md` with its relative link, summary, status, and last-updated date. Archive material updates only the archive index and never mixes into formal indexes.
 5. At task completion, check that affected indexes still let the next reader or agent find the current facts.
@@ -50,6 +50,7 @@ Except for `index.md`, every project document uses this order:
 
 | Date | Version | Change |
 | --- | --- | --- |
+| 2026-08-20 | 1.3 | Added parked ideas as a progressive-retrieval entry when relevant to the task. |
 | 2026-08-18 | 1.2 | Limited formal indexes to Current content and moved history behind a separate archive index. |
 | 2026-07-21 | 1.1 | Unified document lifecycle states and linked the artifact freshness standard. |
 | 2026-07-12 | 1.0 | Established document structure, granularity, indexing, and progressive retrieval rules. |

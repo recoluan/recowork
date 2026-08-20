@@ -15,4 +15,5 @@ Core outputs:
 - `workspace/`: one durable home for current exploration and project facts.
 - `01-exploration-and-validation/direction-decision-package.md`: problem, candidate directions, evidence, key assumptions, risks, and recommendation.
 - `project-brief.md` and `open-questions.md`: canonical context maintained after project entry.
+- `parked-ideas.md`: restartable directions with their parking reasons and restart conditions.
 - `02-requirements-and-constraints/` through `06-review-and-validation/`: become the main work areas only after project entry is confirmed.

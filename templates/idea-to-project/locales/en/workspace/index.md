@@ -9,6 +9,7 @@ This is the single workspace entry point from idea to project. Determine the sta
 
 - [Project Brief](./project-brief.md): goals, scope, non-goals, constraints, and current status maintained after project entry is confirmed (to be completed).
 - [Open Questions](./open-questions.md): questions AI must not assume that block a direction or project decision (to be completed).
+- [Parked Ideas](./parked-ideas.md): directions not being advanced now but eligible for restart, with their restart conditions (to be completed).
 
 ## Stage One: Exploration And Validation
 

@@ -6,6 +6,11 @@ This changelog records functional behavior, compatibility, migration, CLI, templ
 
 ## [Unreleased]
 
+### Added
+
+- `idea-to-project` local workspaces now include `parked-ideas.md` for restartable directions. It records the parking reason, restart condition, priority, last assessment, related material, and next step without mixing parked work with open questions or archived history.
+- Idea-to-project Chat / mobile instructions and continuation summaries now retain parked directions and their restart conditions.
+
 ## [3.1.0] - 2026-08-18
 
 ### Changed

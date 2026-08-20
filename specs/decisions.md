@@ -487,3 +487,20 @@ Implication:
 - Formal indexes list Current or still-open material only, while archive indexes list the historical category, topic, version, status, and one-line summary.
 - Routine changes update the current source in place. Archive snapshots are reserved for milestones, external deliveries, confirmed decisions, material retrospectives, or meaningful comparisons.
 - Existing user files remain user-owned: before any move, archive, deletion, rename, or rewrite, agents propose the candidate, reason, destination, and replacement and wait for confirmation.
+
+## 028. Keep Restartable Ideas Separate From Archives And Open Questions
+
+Decision: `idea-to-project` keeps a localized current list for ideas or directions that are intentionally not being advanced now but may restart later.
+
+Reason:
+
+- A direction that is deferred for timing, evidence, or capacity reasons is neither a blocking uncertainty nor obsolete history.
+- Leaving it only inside discussion traces or a decision package makes it hard to review, resume, and prioritize without re-reading old context.
+
+Implication:
+
+- Local workspaces generate `搁置想法.md` (`zh`) or `parked-ideas.md` (`en`) as the single scan-friendly list.
+- Each entry records the idea, parking reason, restart condition, priority, last assessment, related material, and next step.
+- Parked ideas stay out of the active project scope and default execution plan, but remain Current workspace material; they are reviewed at milestones or when the user raises the direction again.
+- Chat/mobile does not create files, but its task protocol and continuation summary retain parked directions and restart conditions.
+- An item enters the archive only after explicit abandonment, replacement, or a user-confirmed need for historical retention.

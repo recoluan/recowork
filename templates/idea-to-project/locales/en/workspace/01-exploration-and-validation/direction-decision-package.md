@@ -20,11 +20,11 @@ To fill: each candidate's value, evidence, counterevidence, key assumptions, ris
 
 ## Recommendation And Unselected Directions
 
-To fill: recommended direction and reasons for retaining, excluding, or validating other directions.
+To fill: recommended direction and reasons for retaining, parking, excluding, or validating other directions. Copy each restartable parked direction to [Parked Ideas](../../parked-ideas.md) with its parking reason and restart condition.
 
 ## Stage-Gate Decision
 
-- Current choice: awaiting user confirmation (continue exploring / validate a key assumption / enter project).
+- Current choice: awaiting user confirmation (continue exploring / validate a key assumption / enter project / park a direction).
 - If entering project: to fill chosen direction, accepted risks, initial scope, non-goals, and success criteria.
 
 ## Related References
@@ -32,4 +32,5 @@ To fill: recommended direction and reasons for retaining, excluding, or validati
 - [Exploration And Validation Index](./index.md)
 - [Project Brief](../project-brief.md)
 - [Open Questions](../open-questions.md)
+- [Parked Ideas](../../parked-ideas.md)
 - [Workflow](../../methods/workflow.md)

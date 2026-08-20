@@ -1,5 +1,5 @@
-> Version: 1.1
-> Date: 2026-08-18
+> Version: 1.2
+> Date: 2026-08-20
 > Status: Current
 
 # Artifact Freshness Standard
@@ -23,6 +23,7 @@ When an older `Final` document is materially revised, mark it Current, Supersede
 ### Current Workspace And Archive Boundary
 
 - The project brief, requirements, designs, plans, current decisions, and current validation records are canonical facts. Update them in place by topic.
+- `parked-ideas.md` is the single Current list of restartable directions. It is not an archive and must not be mixed into open questions or the active project scope.
 - `05-thinking-traces/` holds only active, unresolved, or unvalidated process material. Completed discussion summaries, attempts, rejected options, and evidence move to the archive.
 - Use `workspace/archive/<category>/<topic>/v<major>.<minor>.md`, reusing the workspace category such as `03-solution-design` or `05-thinking-traces`.
 - Archive separate versions only for milestones, external deliveries, confirmed decisions, material retrospectives, or meaningful comparisons. Routine edits update the Current document directly.
@@ -44,7 +45,7 @@ Formal `index.md` files list Current or still-open material only; they never enu
 
 ### Milestone Freshness Sweep
 
-1. Merge confirmed conclusions into the project brief, requirements, designs, plans, decisions, or validation records.
+1. Merge confirmed conclusions into the project brief, requirements, designs, plans, decisions, or validation records. Update `parked-ideas.md` for directions that are not being advanced but may restart.
 2. Mark process material Absorbed, Still open, or Archive candidate and link it to the relevant canonical fact.
 3. Consolidate duplicate drafts so every topic has one Current default source.
 4. List archive candidates for user confirmation; after confirmation, archive them by category, topic, and version.
@@ -57,11 +58,13 @@ Formal `index.md` files list Current or still-open material only; they never enu
 - [Workflow](./workflow.md)
 - [Quality Gates](./quality-gates.md)
 - [Workspace Index](../workspace/index.md)
+- [Parked Ideas](../workspace/parked-ideas.md)
 - [Archive Index](../workspace/archive/index.md)
 
 ## Change Log
 
 | Date | Version | Change |
 | --- | --- | --- |
+| 2026-08-20 | 1.2 | Defined a parked-ideas list for restartable directions, separate from open questions and archives. |
 | 2026-08-18 | 1.1 | Moved historical versions and completed process material into a separate archive with an explicit confirmation protocol. |
 | 2026-07-21 | 1.0 | Established project artifact lifecycle, replacement, consolidation, and index freshness rules. |

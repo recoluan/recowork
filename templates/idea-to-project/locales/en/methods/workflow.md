@@ -13,12 +13,12 @@ This is one workflow with two stages and one workspace. First determine whether 
 2. Clarify the problem, users, scenario, constraints, success signals, known facts, and unknowns.
 3. Explore multiple directions; for each, record value, key assumptions, risks, counterevidence, and the smallest validation.
 4. Put falsifiable assumptions into validation; do not substitute more brainstorming for evidence.
-5. Update `01-exploration-and-validation/direction-decision-package.md` with candidates, evidence, unselected directions, material risks, recommendation, and next step.
+5. Update `01-exploration-and-validation/direction-decision-package.md` with candidates, evidence, unselected directions, material risks, recommendation, and next step. Also register directions not being advanced but eligible for restart in `parked-ideas.md`.
 6. Stop and ask the user to choose explicitly: continue exploring, validate a key assumption, or confirm project entry for a named direction.
 
 ## Stage Gate: Confirm Project Entry
 
-Enter project advancement only after explicit user confirmation. The record must include the selected direction, why to enter now, accepted risks, initial scope, and success criteria. Retain unselected directions as history or pending validation; do not delete their rationale.
+Enter project advancement only after explicit user confirmation. The record must include the selected direction, why to enter now, accepted risks, initial scope, and success criteria. Put unselected directions that may restart in `parked-ideas.md`; use the archive rules for material that is explicitly excluded or retained only for traceability. Do not delete rationale.
 
 ## Stage Two: Project Advancement
 
