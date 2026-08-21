@@ -6,6 +6,8 @@ This changelog records functional behavior, compatibility, migration, CLI, templ
 
 ## [Unreleased]
 
+## [3.2.2] - 2026-08-21
+
 ### Changed
 
 - Durable workflow templates now organize formal work by stable modules. Each module uses `index.md` as its entry point and `整体方案.md` (`zh`) or `overall-plan.md` (`en`) as its Current authority document; specialized child documents are created only for an independent lifecycle, audience, review path, or change cadence.
