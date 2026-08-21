@@ -4,6 +4,16 @@ All notable changes to RecoWork are documented here. This project follows [Keep 
 
 This changelog records functional behavior, compatibility, migration, CLI, template, target, and generated-artifact changes. It excludes website-only visual, copy, layout, interaction-polish, and documentation-presentation changes.
 
+## [Unreleased]
+
+### Changed
+
+- Durable workflow templates now organize formal work by stable modules. Each module uses `index.md` as its entry point and `整体方案.md` (`zh`) or `overall-plan.md` (`en`) as its Current authority document; specialized child documents are created only for an independent lifecycle, audience, review path, or change cadence.
+
+### Compatibility
+
+- Existing workspaces remain user-owned and are not reorganized automatically. The new convention applies to new work and to user-confirmed consolidation of existing material.
+
 ## [3.2.1] - 2026-08-21
 
 ### Fixed

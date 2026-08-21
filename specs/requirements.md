@@ -189,8 +189,9 @@ npx --yes recowork@latest add <template> --target <target> --locale <locale> <de
 - Verification commands should be reported after meaningful code changes.
 - Every template with a durable workspace must generate localized document conventions: `工作方法/文档规范.md` for `zh` and `methods/document-standard.md` for `en`.
 - Every template with a durable workspace must also generate a localized artifact freshness standard: `工作方法/产物保鲜规范.md` for `zh` and `methods/artifact-freshness-standard.md` for `en`.
-- Except for `index.md`, substantial workspace documents use metadata, a conclusion-first summary, structured body, relative references, and a change log; each document covers one topic.
+- Except for `index.md`, substantial workspace documents use metadata, a conclusion-first summary, structured body, relative references, and a change log; each document covers one stable topic or responsibility.
 - `index.md` is navigation only: one-line entries, relative links, status, and last-updated state, without copied body content. Formal workspace indexes list only current or still-open material; historical versions are navigated only from a separate localized workspace archive index.
+- Formal work is organized by stable topics or modules, not by each discussion or agent action. Each module directory has an `index.md` as its current entry point and a localized authority document named `整体方案.md` (`zh`) or `overall-plan.md` (`en`). Create a responsibility-specific child document only when it has an independent lifecycle, audience, review path, or change cadence; otherwise update the authority document in place. Child filenames describe both their object and responsibility when the directory context is insufficient, and never use iteration labels such as “final”, “latest”, or version suffixes.
 - Agents start from the relevant root index, retrieve focused documents progressively, and update affected indexes after material work.
 - Artifact freshness uses `草稿` / `评审中` / `当前有效` / `已替代` / `已归档` (`Draft` / `In review` / `Current` / `Superseded` / `Archived`). A topic and scope has one current default source. Superseded formal versions and completed process traces are stored only in `归档/<分类>/<主题>/v<主版本>.<次版本>.md` or `archive/<category>/<topic>/v<major>.<minor>.md`; active directories keep only current or still-open material. Before moving, archiving, deleting, renaming, or rewriting an existing user-owned document, agents must present the candidate, reason, destination, and replacement and obtain confirmation.
 - Commits must follow Conventional Commits using `<type>(<scope>): <summary>`; the full contributor guidance lives in `CONTRIBUTING.md`.
@@ -225,7 +226,7 @@ The Chinese locale should also generate:
 └── 角色设定.md
 ```
 
-The Chinese locale must also generate `工作方法/文档规范.md`; the English locale must generate `methods/document-standard.md`. This working method defines a five-part document structure (metadata, conclusion first, body, relative references, and change log), one-topic granularity, index-only navigation rules, progressive retrieval, and index-status maintenance after work.
+The Chinese locale must also generate `工作方法/文档规范.md`; the English locale must generate `methods/document-standard.md`. This working method defines a five-part document structure (metadata, conclusion first, body, relative references, and change log), modular authority documents, index-only navigation rules, progressive retrieval, and index-status maintenance after work.
 
 Responsibilities:
 

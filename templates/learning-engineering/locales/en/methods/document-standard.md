@@ -1,7 +1,7 @@
 ---
 title: Document Standard
-version: 1.2
-date: 2026-08-18
+version: 1.3
+date: 2026-08-21
 status: Current
 ---
 
@@ -9,7 +9,7 @@ status: Current
 
 ## Conclusion First
 
-Learning-space documents are both course records and durable evidence of the learner's capability. Except for `index.md`, every new or substantially revised learning document uses the five-part structure and focuses on one learning question, unit, or conclusion. Start from `learning-workspace/index.md`, then read the roadmap, progress, and relevant unit only as needed; update affected indexes after each learning session.
+Learning-space documents are both course records and durable evidence of the learner's capability. Formal learning materials are organized by stable topics, course units, or project modules—not by each discussion, exercise, or agent action. Except for `index.md`, every new or substantially revised learning document uses the five-part structure and focuses on one stable learning topic, unit, or responsibility. Start from `learning-workspace/index.md`, then read the roadmap, progress, and relevant unit only as needed; update affected indexes after each learning session.
 
 ## Body
 
@@ -25,8 +25,11 @@ Except for `index.md`, every substantial learning document uses this order:
 
 ### Granularity and indexes
 
-- One document covers one learning unit, question, retrospective, or reusable conclusion. Split when the topic changes.
-- Do not place an entire course, all practice, and every retrospective in one body.
+- Each stable learning topic, course unit, or project module uses one directory. Its `index.md` is the current entry point and its `overall-plan.md` is the Current authority document for learning goals, the overall path, key conclusions, boundaries, and child-document relationships.
+- Update `overall-plan.md` by default. Create a responsibility-specific child document only when it has an independent lifecycle, audience, review path, or change cadence—for example, `practice-guide.md`, `project-requirements.md`, or `acceptance-criteria.md`.
+- Names must make the content and purpose clear before opening the file. When directory context is insufficient, use an object-and-responsibility name; never use process, “final”, “latest”, or version labels for a Current document.
+- One document covers one stable learning topic, unit, or responsibility. Update new understanding, practice conclusions, and routine revisions in place. Split only for a new stable module or independent responsibility, then link it from the entry index.
+- Do not place an entire course, all practice, and every retrospective in one unbounded body. Scale complex learning through module directories; when a document is hard to scan, split by stable responsibility.
 - `index.md` contains only metadata, directory entries, one-line descriptions, status, and last-updated date; do not repeat lesson bodies or process detail. Formal directory indexes list only Current or still-open material; historical versions are entered only through `archive/index.md`.
 
 ### Progressive retrieval and maintenance
@@ -48,6 +51,7 @@ Except for `index.md`, every substantial learning document uses this order:
 
 | Date | Version | Change |
 | --- | --- | --- |
+| 2026-08-21 | 1.3 | Defined module entry points, `overall-plan.md` authority documents, and responsibility-based splitting to prevent process-driven material sprawl. |
 | 2026-08-18 | 1.2 | Limited formal indexes to Current content and moved history behind a separate archive index. |
 | 2026-07-21 | 1.1 | Unified document lifecycle states and linked the artifact freshness standard. |
 | 2026-07-12 | 1.0 | Established learning-document structure, granularity, indexing, and progressive-retrieval rules. |

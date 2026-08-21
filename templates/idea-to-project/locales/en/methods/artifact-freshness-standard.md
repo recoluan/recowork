@@ -1,5 +1,5 @@
-> Version: 1.2
-> Date: 2026-08-20
+> Version: 1.3
+> Date: 2026-08-21
 > Status: Current
 
 # Artifact Freshness Standard
@@ -23,6 +23,7 @@ When an older `Final` document is materially revised, mark it Current, Supersede
 ### Current Workspace And Archive Boundary
 
 - The project brief, requirements, designs, plans, current decisions, and current validation records are canonical facts. Update them in place by topic.
+- Scale complex work through stable module directories: each directory uses `index.md` as its current entry point and `overall-plan.md` as its Current authority source. Add a responsibility-specific child document only for an independent lifecycle, audience, review path, or change cadence; a discussion, supplement, or routine iteration is not a reason to create a formal file.
 - `parked-ideas.md` is the single Current list of restartable directions. It is not an archive and must not be mixed into open questions or the active project scope.
 - `05-thinking-traces/` holds only active, unresolved, or unvalidated process material. Completed discussion summaries, attempts, rejected options, and evidence move to the archive.
 - Use `workspace/archive/<category>/<topic>/v<major>.<minor>.md`, reusing the workspace category such as `03-solution-design` or `05-thinking-traces`.
@@ -65,6 +66,7 @@ Formal `index.md` files list Current or still-open material only; they never enu
 
 | Date | Version | Change |
 | --- | --- | --- |
+| 2026-08-21 | 1.3 | Added stable modules, authority plans, and responsibility-based splitting to the Current-record lifecycle. |
 | 2026-08-20 | 1.2 | Defined a parked-ideas list for restartable directions, separate from open questions and archives. |
 | 2026-08-18 | 1.1 | Moved historical versions and completed process material into a separate archive with an explicit confirmation protocol. |
 | 2026-07-21 | 1.0 | Established project artifact lifecycle, replacement, consolidation, and index freshness rules. |

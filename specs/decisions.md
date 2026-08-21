@@ -525,3 +525,20 @@ Implication:
 - Local-agent instructions direct the agent, not the user, to start `npx --yes recowork@latest view .` after initialization and on a user request to browse or review the workspace. The command discovers the localized workspace from the project root and requires no global install.
 - The viewer uses URL document routes, scope-aware full-text search, short overview summaries with metadata, and breadcrumb plus previous/next navigation to make long workspaces recoverable without directory traversal.
 - A maintained browser Markdown parser renders GitHub-flavored Markdown while raw HTML remains disabled. Relative image sources are mapped to a restricted local asset endpoint rather than exposing arbitrary workspace files, and the reader never follows workspace symlinks. The local service uses canonical workspace paths when probing and reusing an existing process.
+
+## 030. Organize Current Work By Stable Modules
+
+Decision: organize durable formal work by stable topics or modules instead of creating a document for each discussion, iteration, or agent action. Every module has an `index.md` as its current entry point and an authority document: `整体方案.md` for Chinese workspaces and `overall-plan.md` for English workspaces.
+
+Reason:
+
+- Indexes alone help readers find documents but do not prevent a directory from accumulating overlapping files.
+- A stable module boundary gives both people and agents one default source to update while preserving a clear way to scale complex projects.
+- Responsibility-based child documents keep specialized material reviewable without turning every note or revision into a standalone artifact.
+
+Implication:
+
+- The authority document states the module's current overall conclusion, boundaries, key choices, and links to any specialized child documents.
+- Create a child document only when it has an independent lifecycle, audience, review path, or change cadence; otherwise update the authority document in place.
+- Child filenames use stable, user-understandable object-and-responsibility names when their directory does not provide enough context; never use process, “final”, “latest”, or version names for current documents.
+- `index.md` remains navigation only. Process traces are consolidated into the authority or responsibility-specific document once validated, then handled under the existing archive protocol.

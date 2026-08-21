@@ -1,12 +1,12 @@
 # Document Standard
 
-> Version: 1.3
-> Date: 2026-08-20
+> Version: 1.4
+> Date: 2026-08-21
 > Status: Current
 
 ## Conclusion First
 
-Project documents are durable facts that the AI and team can reuse; they are not backups of chat transcripts. Every new or substantially revised document, except an index, uses the five-part structure below and covers one topic only. An agent reads the root index first, then opens only the documents needed for the task; it must not load the entire workspace at the start. At the end of work, it updates the affected `index.md` status.
+Project documents are durable facts that the AI and team can reuse; they are not backups of chat transcripts. Formal work is organized by stable topics or modules, not by each discussion, review, or agent action. Every new or substantially revised document, except an index, uses the five-part structure below and covers one stable topic or responsibility. An agent reads the root index first, then opens only the documents needed for the task; it must not load the entire workspace at the start. At the end of work, it updates the affected `index.md` status.
 
 ## Body
 
@@ -22,9 +22,11 @@ Except for `index.md`, every project document uses this order:
 
 ### 2. Document granularity
 
-- One document answers one named question. When the topic changes, create a new document and link to it.
-- Do not put “all requirements” or “every decision” in one body. Indexes navigate; focused documents contain the detail.
-- When conclusions become hard to locate, split by topic first and add a parent index.
+- Each stable topic or module uses one directory. Its `index.md` is the current entry point and its `overall-plan.md` is the Current authority document for the module's overall conclusion, boundaries, key trade-offs, and child-document relationships.
+- Update `overall-plan.md` by default. Create a responsibility-specific child document only when its lifecycle, audience, review path, or change cadence is independent—for example, `interface-specification.md`, `data-rules.md`, or `acceptance-criteria.md`.
+- Names must make the content and purpose clear before opening the file. When directory context is insufficient, use an object-and-responsibility name such as `identity-and-access-plan.md`; never use process, “final”, “latest”, or version labels for a Current document.
+- One document answers one stable, named topic or responsibility. Update new facts, discussion conclusions, and routine revisions in place; create a new document only for a new stable module or independent responsibility, then link it from the entry index.
+- Do not put “all requirements” or “every decision” in one unbounded body. Scale complex work through module directories; when a document is hard to scan, split by stable responsibility and add a parent index.
 
 ### 3. An index is navigation, not a body
 
@@ -50,6 +52,7 @@ Except for `index.md`, every project document uses this order:
 
 | Date | Version | Change |
 | --- | --- | --- |
+| 2026-08-21 | 1.4 | Defined module entry points, `overall-plan.md` authority documents, and responsibility-based splitting to prevent process-driven file sprawl. |
 | 2026-08-20 | 1.3 | Added parked ideas as a progressive-retrieval entry when relevant to the task. |
 | 2026-08-18 | 1.2 | Limited formal indexes to Current content and moved history behind a separate archive index. |
 | 2026-07-21 | 1.1 | Unified document lifecycle states and linked the artifact freshness standard. |

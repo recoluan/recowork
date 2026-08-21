@@ -1,7 +1,7 @@
 ---
 title: Artifact Freshness Standard
-version: 1.1
-date: 2026-08-18
+version: 1.2
+date: 2026-08-21
 status: Current
 ---
 
@@ -26,6 +26,7 @@ When an older `Final` document is materially revised, mark it Current, Supersede
 ### Current Learning Area And Archive Boundary
 
 - `learner-brief.md`, `course-roadmap.md`, `learning-progress.md`, Current unit records, and validated knowledge capture are formal learning records. Update them in place by topic.
+- Scale complex learning through stable topic, course-unit, or project-module directories: each directory uses `index.md` as its current entry point and `overall-plan.md` as its Current authority source. Add a responsibility-specific child document only for an independent lifecycle, audience, review path, or change cadence; a discussion, supplement, or routine practice iteration is not a reason to create a formal file.
 - Unit directories, `03-project-practice/`, and `04-questions-and-retrospectives/` hold only active, unresolved, or unvalidated material. Completed summaries, unsuccessful attempts, rejected explanations, and experiment detail move to the archive.
 - Use `learning-workspace/archive/<category>/<topic>/v<major>.<minor>.md`, reusing the learning-area category such as `02-lessons-and-practice`, `03-project-practice`, or `04-questions-and-retrospectives`.
 - Archive separate versions only for phase acceptance, material roadmap changes, important retrospectives, or meaningful comparisons. Routine learning edits update the Current record directly.
@@ -65,5 +66,6 @@ Formal `index.md` files list Current or still-open learning material only; they 
 
 | Date | Version | Change |
 | --- | --- | --- |
+| 2026-08-21 | 1.2 | Added stable learning modules, authority plans, and responsibility-based splitting to the Current-record lifecycle. |
 | 2026-08-18 | 1.1 | Moved historical learning versions and completed process material into a separate archive with an explicit confirmation protocol. |
 | 2026-07-21 | 1.0 | Established learning artifact lifecycle, consolidation, indexing, and archival rules. |
