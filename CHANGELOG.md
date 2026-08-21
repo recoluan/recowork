@@ -6,6 +6,10 @@ This changelog records functional behavior, compatibility, migration, CLI, templ
 
 ## [Unreleased]
 
+### Fixed
+
+- Hardened `rw view` startup: the Markdown renderer now uses a dedicated viewer asset route and loads only when a document is opened, so an unavailable renderer cannot hide workspace navigation or the current-work dashboard. The affected document shows a localized recovery message instead of a blank page.
+
 ## [3.2.0] - 2026-08-20
 
 ### Added

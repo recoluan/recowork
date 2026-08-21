@@ -58,6 +58,13 @@ function chatPrompt() {
 
 function getPrompt() { return isChat() ? chatPrompt() : localPrompt(); }
 
+function getViewerPrompt() {
+  if (language === "en") {
+    return "Open the current RecoWork workspace for me.\n\nWork from this project's root directory. First read AGENTS.md if it exists. Then run:\n\nnpx --yes recowork@latest view .\n\nThe command detects the workspace automatically and opens or reuses its local read-only viewer. Report the local URL when it is ready. Do not reinitialize the workflow, modify workspace files, ask me to install RecoWork, locate the workspace, or run the command myself.";
+  }
+  return "请为我打开当前 RecoWork 工作空间。\n\n请在这个项目的根目录工作；如存在 AGENTS.md，先阅读它。然后运行：\n\nnpx --yes recowork@latest view .\n\n该命令会自动识别工作空间，并启动或复用本地只读查看器。完成后告诉我本地地址。不要重新初始化工作流、修改工作空间文件，也不要让我安装 RecoWork、查找工作空间或自行输入命令。";
+}
+
 function updateLocaleOptions() {
   document.querySelectorAll(".config-locale").forEach((button) => {
     const active = button.dataset.locale === config.locale;
@@ -87,6 +94,13 @@ function renderPrompt() {
   prompt.setAttribute("aria-busy", "false");
 }
 
+function renderViewerPrompt() {
+  const prompt = document.querySelector("#viewerAgentPrompt");
+  if (!prompt) return;
+  prompt.textContent = getViewerPrompt();
+  prompt.setAttribute("aria-busy", "false");
+}
+
 function applyLanguage(nextLanguage) {
   language = nextLanguage;
   config.locale = nextLanguage;
@@ -102,6 +116,7 @@ function applyLanguage(nextLanguage) {
   }
   updateMobileNavigationLabel();
   renderPrompt();
+  renderViewerPrompt();
   renderWorkbenchCase();
 }
 

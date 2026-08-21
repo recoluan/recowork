@@ -294,7 +294,7 @@ function handleViewerRequest(request, response, rootDir) {
   if (requestUrl.pathname === "/viewer.css") {
     return respondFile(response, path.join(VIEWER_DIR, "viewer.css"), "text/css; charset=utf-8");
   }
-  if (requestUrl.pathname === "/vendor/marked.js") {
+  if (requestUrl.pathname === "/markdown-renderer.js") {
     return respondFile(response, MARKED_BROWSER_FILE, "application/javascript; charset=utf-8");
   }
   if (requestUrl.pathname === "/recowork-logo.svg") {

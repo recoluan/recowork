@@ -4,17 +4,18 @@ const content = document.querySelector("#main-content");
 const search = document.querySelector("#search");
 const archiveToggle = document.querySelector("#archive-toggle");
 let searchTimer;
+let markdownConfigured = false;
 
 const copy = {
   en: { viewerName: "RecoWork Viewer", searchPlaceholder: "Search current workspace", navigationLabel: "Workspace navigation", viewArchive: "View archive", currentWorkspace: "Current workspace", workspaceName: "Current workspace", openDocument: "Open this document", viewerEyebrow: "WORKSPACE VIEWER", headline: "Continue from the current facts.", intro: "Current work is shown by default. Open questions, parked directions, and next steps stay visible without mixing in historical archives.", emptyOverview: "No overview documents were recognized. Open a Markdown file from the navigation.", readError: "Unable to read document.", expand: "Expand section", collapse: "Collapse section", searchLoading: "Searching...", noResults: "No matching documents.", previous: "Previous", next: "Next", currentPath: "Current path" },
   zh: { viewerName: "RecoWork 工作空间", searchPlaceholder: "搜索当前工作空间", navigationLabel: "工作空间导航", viewArchive: "查看归档", currentWorkspace: "返回当前工作", workspaceName: "当前工作空间", openDocument: "打开此文档", viewerEyebrow: "工作空间查看器", headline: "从当前事实继续工作。", intro: "默认展示当前工作内容。待确认问题、搁置方向和下一步不再埋在历史文档里；归档内容只在需要追溯时打开。", emptyOverview: "未识别到概览文档。请从左侧导航打开 Markdown 文件。", readError: "无法读取该文档。", expand: "展开目录", collapse: "收起目录", searchLoading: "正在搜索...", noResults: "没有匹配的文档。", previous: "上一篇", next: "下一篇", currentPath: "当前位置" },
 };
 
-configureMarkdown();
-boot();
+boot().catch(showStartupError);
 
 async function boot() {
   const response = await fetch("/api/workspace");
+  if (!response.ok) throw new Error(`Workspace request failed (${response.status}).`);
   state.workspace = await response.json();
   applyLocale();
   document.querySelector("#workspace-name").textContent = state.workspace.workspace === "." ? labels().workspaceName : state.workspace.workspace;
@@ -23,11 +24,30 @@ async function boot() {
 }
 
 function configureMarkdown() {
+  if (markdownConfigured) return;
+  if (!window.marked?.Renderer || !window.marked?.setOptions) {
+    throw new Error("The Markdown renderer did not load.");
+  }
   const renderer = new window.marked.Renderer();
   renderer.html = () => "";
   renderer.link = (href, title, text) => renderLink(text, href, state.selected || "");
   renderer.image = (href, title, text) => renderImage(href, title, text);
   window.marked.setOptions({ gfm: true, breaks: false, renderer });
+  markdownConfigured = true;
+}
+
+function showStartupError(error) {
+  const isChinese = document.documentElement.lang === "zh-CN";
+  const title = isChinese ? "查看器未能启动" : "Viewer could not start";
+  const rendererFailure = /Markdown renderer/i.test(error.message);
+  const detail = isChinese
+    ? rendererFailure
+      ? "Markdown 渲染资源未能加载。请关闭当前查看器后，在项目根目录重新运行 `npx --yes recowork@latest view .`；如仍失败，请更新到最新 RecoWork 版本并提供此页面的错误信息。"
+      : "工作空间内容未能读取。请确认从包含 RecoWork 工作空间的项目目录启动查看器，然后重新运行 `npx --yes recowork@latest view .`；如仍失败，请提供此页面的错误信息。"
+    : rendererFailure
+      ? "The Markdown rendering asset did not load. Close this viewer and run `npx --yes recowork@latest view .` again from the project root. If it still fails, update RecoWork and share this page's error message."
+      : "The workspace contents could not be read. Start the viewer from the project that contains the RecoWork workspace, then run `npx --yes recowork@latest view .` again. If it still fails, share this page's error message.";
+  content.innerHTML = `<section class="startup-error"><p class="eyebrow">RecoWork Viewer</p><h1>${title}</h1><p>${detail}</p><code>${escapeHtml(error.message)}</code></section>`;
 }
 
 function applyLocale() {
@@ -77,15 +97,15 @@ function navigationMessage(message) {
   return element;
 }
 
-function navTree(document, depth = 0) {
+function navTree(workspaceDocument, depth = 0) {
   const wrapper = document.createElement("div");
   wrapper.className = "nav-branch";
-  const hasChildren = document.children?.length;
+  const hasChildren = workspaceDocument.children?.length;
   const row = document.createElement("div");
   row.className = `nav-row${hasChildren ? " has-disclosure" : ""}`;
-  row.append(navButton(document));
+  row.append(navButton(workspaceDocument));
   if (hasChildren) {
-    const expanded = isBranchExpanded(document.relativePath, depth);
+    const expanded = isBranchExpanded(workspaceDocument.relativePath, depth);
     const toggle = document.createElement("button");
     toggle.className = "nav-disclosure";
     toggle.type = "button";
@@ -93,14 +113,14 @@ function navTree(document, depth = 0) {
     toggle.setAttribute("aria-label", expanded ? labels().collapse : labels().expand);
     toggle.title = expanded ? labels().collapse : labels().expand;
     toggle.innerHTML = expanded ? "&#9662;" : "&#9656;";
-    toggle.addEventListener("click", () => toggleBranch(document.relativePath, depth));
+    toggle.addEventListener("click", () => toggleBranch(workspaceDocument.relativePath, depth));
     row.append(toggle);
   }
   wrapper.append(row);
-  if (hasChildren && isBranchExpanded(document.relativePath, depth)) {
+  if (hasChildren && isBranchExpanded(workspaceDocument.relativePath, depth)) {
     const children = document.createElement("div");
     children.className = "nav-children";
-    document.children.forEach((child) => children.append(navTree(child, depth + 1)));
+    workspaceDocument.children.forEach((child) => children.append(navTree(child, depth + 1)));
     wrapper.append(children);
   }
   return wrapper;
@@ -123,13 +143,13 @@ function toggleBranch(relativePath, depth) {
   renderNavigation();
 }
 
-function navButton(document) {
+function navButton(workspaceDocument) {
   const button = document.createElement("button");
-  const detail = document.searchSnippet || document.status || document.updated;
-  button.className = `nav-item${state.selected === document.relativePath ? " active" : ""}`;
+  const detail = workspaceDocument.searchSnippet || workspaceDocument.status || workspaceDocument.updated;
+  button.className = `nav-item${state.selected === workspaceDocument.relativePath ? " active" : ""}`;
   button.type = "button";
-  button.innerHTML = `<span>${escapeHtml(document.title)}</span>${detail ? `<small>${escapeHtml(detail)}</small>` : ""}`;
-  button.addEventListener("click", () => openDocument(document.relativePath));
+  button.innerHTML = `<span>${escapeHtml(workspaceDocument.title)}</span>${detail ? `<small>${escapeHtml(detail)}</small>` : ""}`;
+  button.addEventListener("click", () => openDocument(workspaceDocument.relativePath));
   return button;
 }
 
@@ -200,7 +220,17 @@ function parseFrontmatter(source) {
 }
 
 function findTitle(source) { return (source.match(/^#\s+(.+)$/m) || [])[1]; }
-function renderMarkdown(source) { return window.marked.parse(source); }
+function renderMarkdown(source) {
+  try {
+    configureMarkdown();
+    return window.marked.parse(source);
+  } catch (error) {
+    const message = state.workspace?.locale === "zh"
+      ? "无法加载 Markdown 渲染器。请关闭当前查看器后，在项目根目录重新运行 npx --yes recowork@latest view ."
+      : "The Markdown renderer could not load. Close this viewer and run npx --yes recowork@latest view . again from the project root.";
+    return `<div class="document-render-error"><strong>${escapeHtml(message)}</strong><code>${escapeHtml(error.message)}</code></div>`;
+  }
+}
 
 function renderLink(text, href) {
   const target = String(href || "").trim();
