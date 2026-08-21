@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/recoluan/recowork/main/docs/assets/recowork-logo.svg" width="72" alt="RecoWork logo" />
+</p>
+
 # recowork CLI
 
 `recowork` installs the `rw` command for initializing RecoWork templates.
