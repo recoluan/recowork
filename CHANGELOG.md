@@ -4,7 +4,7 @@ All notable changes to RecoWork are documented here. This project follows [Keep 
 
 This changelog records functional behavior, compatibility, migration, CLI, template, target, and generated-artifact changes. It excludes website-only visual, copy, layout, interaction-polish, and documentation-presentation changes.
 
-## [Unreleased]
+## [3.2.1] - 2026-08-21
 
 ### Fixed
 
