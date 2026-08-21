@@ -74,7 +74,7 @@ For a local workflow, open its Markdown records in the built-in, read-only viewe
 npx --yes recowork@latest view .
 ```
 
-The viewer starts on `127.0.0.1`, opens a browser when possible, and does not write configuration, regenerate files, or alter the workspace. It supports shareable document links, full-text search, breadcrumb and previous/next navigation, GitHub-flavored Markdown, and a current-work-first archive boundary. A generated local-agent workflow also instructs the agent to start this command itself after initialization or when you ask to browse the workspace; it reuses an already-running viewer for the same workspace, so users do not need a global install, to locate the workspace directory, or to operate the terminal. Use `--no-open` or `--port 4311` when needed.
+The viewer starts on `127.0.0.1`, opens a browser when possible, and does not write configuration, regenerate files, or alter the workspace. It supports automatic refresh after Markdown or index edits, shareable document links, full-text search, breadcrumb and previous/next navigation, GitHub-flavored Markdown, and a current-work-first archive boundary. A generated local-agent workflow also instructs the agent to start this command itself after initialization or when you ask to browse the workspace; it reuses an already-running viewer for the same workspace, so users do not need a global install, to locate the workspace directory, or to operate the terminal. Use `--no-open` or `--port 4311` when needed.
 
 ## Boundaries
 

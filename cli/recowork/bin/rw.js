@@ -178,9 +178,11 @@ async function startViewer(args) {
     return;
   }
 
+  const changeTracker = createViewerChangeTracker(rootDir);
   const server = http.createServer((request, response) => {
-    handleViewerRequest(request, response, rootDir);
+    handleViewerRequest(request, response, rootDir, changeTracker);
   });
+  server.once("close", () => changeTracker.close());
   let attemptedPort = initialPort;
 
   const listen = () => {
@@ -255,8 +257,54 @@ function openBrowser(viewerUrl) {
   execFile(command, commandArgs, () => {});
 }
 
-function handleViewerRequest(request, response, rootDir) {
+function createViewerChangeTracker(rootDir) {
+  const clients = new Set();
+  let pendingNotification;
+  let watcher;
+
+  const notify = () => {
+    pendingNotification = null;
+    for (const response of clients) {
+      response.write("data: changed\n\n");
+    }
+  };
+  const scheduleNotification = (filename) => {
+    if (filename && !String(filename).toLowerCase().endsWith(".md")) return;
+    if (!pendingNotification) pendingNotification = setTimeout(notify, 120);
+  };
+
+  try {
+    watcher = fs.watch(rootDir, { recursive: true }, (_eventType, filename) => scheduleNotification(filename));
+  } catch {
+    watcher = fs.watch(rootDir, (_eventType, filename) => scheduleNotification(filename));
+  }
+
+  return {
+    subscribe(response) {
+      clients.add(response);
+      response.write("retry: 1000\n\n");
+      response.on("close", () => clients.delete(response));
+    },
+    close() {
+      if (pendingNotification) clearTimeout(pendingNotification);
+      watcher?.close();
+      clients.forEach((response) => response.end());
+      clients.clear();
+    },
+  };
+}
+
+function handleViewerRequest(request, response, rootDir, changeTracker) {
   const requestUrl = new URL(request.url, "http://127.0.0.1");
+  if (requestUrl.pathname === "/api/changes") {
+    response.writeHead(200, {
+      "Content-Type": "text/event-stream",
+      "Cache-Control": "no-store",
+      Connection: "keep-alive",
+    });
+    changeTracker.subscribe(response);
+    return;
+  }
   if (requestUrl.pathname === "/api/workspace") {
     return respondJson(response, buildViewerWorkspace(rootDir));
   }

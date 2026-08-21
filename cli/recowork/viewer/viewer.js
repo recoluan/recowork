@@ -4,6 +4,7 @@ const content = document.querySelector("#main-content");
 const search = document.querySelector("#search");
 const archiveToggle = document.querySelector("#archive-toggle");
 let searchTimer;
+let refreshTimer;
 let markdownConfigured = false;
 
 const copy = {
@@ -21,6 +22,33 @@ async function boot() {
   document.querySelector("#workspace-name").textContent = state.workspace.workspace === "." ? labels().workspaceName : state.workspace.workspace;
   renderNavigation();
   await syncRoute();
+  watchWorkspaceChanges();
+}
+
+function watchWorkspaceChanges() {
+  if (!window.EventSource) return;
+  const changes = new EventSource("/api/changes");
+  changes.onmessage = () => {
+    clearTimeout(refreshTimer);
+    refreshTimer = setTimeout(refreshWorkspace, 140);
+  };
+}
+
+async function refreshWorkspace() {
+  const response = await fetch("/api/workspace");
+  if (!response.ok) return;
+  state.workspace = await response.json();
+  applyLocale();
+  document.querySelector("#workspace-name").textContent = state.workspace.workspace === "." ? labels().workspaceName : state.workspace.workspace;
+  if (search.value.trim()) {
+    state.searchResults = null;
+    await searchDocuments();
+  }
+  if (state.selected) {
+    await openDocument(state.selected, { updateRoute: false });
+  } else {
+    renderDashboard();
+  }
 }
 
 function configureMarkdown() {
