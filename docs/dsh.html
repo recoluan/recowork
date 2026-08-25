@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RecoWork · 在 DSH 中使用</title>
+    <meta name="description" content="在 DeepSeek Harness 中安装、授权并使用 RecoWork 工作区工具。" />
+    <link rel="stylesheet" href="./styles.css?v=20260825dsh" />
+  </head>
+  <body data-page="dsh" data-title-zh="RecoWork · 在 DSH 中使用" data-title-en="RecoWork · Use with DSH" data-description-zh="在 DeepSeek Harness 中安装、授权并使用 RecoWork 工作区工具。" data-description-en="Install, authorize, and use RecoWork workspace tools in DeepSeek Harness.">
+    <header class="site-header">
+      <a class="brand" href="./index.html" aria-label="RecoWork home"><img class="brand-mark" src="./assets/recowork-logo.svg" alt="" aria-hidden="true" /><span>RecoWork</span></a>
+      <nav class="main-nav" id="primary-navigation" aria-label="Primary navigation">
+        <a href="./index.html" data-zh="首页" data-en="Home">首页</a>
+        <a href="./usage.html" data-zh="开始使用" data-en="Get started">开始使用</a>
+        <a class="active" href="./dsh.html" data-zh="DSH 使用" data-en="DSH guide">DSH 使用</a>
+        <a href="./releases.html" data-zh="发布记录" data-en="Releases">发布记录</a>
+      </nav>
+      <div class="header-actions"><a class="github-link" href="https://github.com/recoluan/recowork" target="_blank" rel="noreferrer" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.1 3.3 9.4 7.9 10.9.58.1.8-.25.8-.56v-2.1c-3.22.7-3.9-1.38-3.9-1.38-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.7.08-.7 1.17.08 1.8 1.2 1.8 1.2 1.04 1.78 2.73 1.27 3.4.97.1-.76.4-1.27.74-1.56-2.57-.3-5.27-1.28-5.27-5.73 0-1.27.45-2.3 1.2-3.12-.12-.3-.52-1.5.12-3.08 0 0 .98-.31 3.2 1.2A11.1 11.1 0 0 1 12 5.94c.98 0 1.96.13 2.88.39 2.22-1.5 3.2-1.2 3.2-1.2.64 1.58.24 2.78.12 3.08.75.82 1.2 1.85 1.2 3.12 0 4.46-2.7 5.43-5.28 5.72.42.36.8 1.08.8 2.18v3.11c0 .31.2.67.8.56a11.5 11.5 0 0 0-3.72-22.4Z" /></svg><span>GitHub</span></a><button class="language-toggle active" type="button" data-lang="zh">中</button><button class="language-toggle" type="button" data-lang="en">EN</button><button class="nav-toggle" type="button" aria-controls="primary-navigation" aria-expanded="false" aria-label="打开导航菜单" data-open-zh="打开导航菜单" data-open-en="Open navigation" data-close-zh="关闭导航菜单" data-close-en="Close navigation"><span></span><span></span><span></span></button></div>
+    </header>
+    <main>
+      <section class="page-hero dsh-hero">
+        <div class="dsh-hero-copy"><p class="eyebrow">DeepSeek Harness</p>
+          <h1 class="localized-title"><span class="title-copy title-zh"><span class="title-line">在 DSH 里，</span><span class="title-line">让工作空间<span class="title-accent">可见、可继续</span>。</span></span><span class="title-copy title-en"><span class="title-line">In DSH, make your workspace</span><span class="title-line"><span class="title-accent">visible and resumable</span>.</span></span></h1>
+          <p class="hero-text" data-zh="recowork-dsh 将 RecoWork 的受限初始化、只读状态和工作协议带入 DeepSeek Harness。它不创建第二套项目格式，也不会获得任意命令或文件访问权限。" data-en="recowork-dsh brings constrained initialization, read-only status, and the RecoWork workflow protocol into DeepSeek Harness. It creates no second project format and grants neither arbitrary commands nor file access.">recowork-dsh 将 RecoWork 的受限初始化、只读状态和工作协议带入 DeepSeek Harness。它不创建第二套项目格式，也不会获得任意命令或文件访问权限。</p>
+          <div class="page-actions"><a class="page-link primary" href="#install" data-zh="开始安装" data-en="Start installation">开始安装</a><a class="page-link" href="https://www.npmjs.com/package/recowork-dsh" target="_blank" rel="noreferrer" data-zh="查看 npm 包" data-en="View on npm">查看 npm 包</a></div>
+        </div>
+        <figure class="dsh-hero-visual"><img src="./assets/recowork-dsh-hero.png" alt="DeepSeek Harness 中的 RecoWork 工作区面板" data-alt-zh="DeepSeek Harness 中的 RecoWork 工作区面板" data-alt-en="RecoWork workspace panel inside DeepSeek Harness" /></figure>
+      </section>
+
+      <section class="section" id="install">
+        <div class="section-heading"><p class="eyebrow" data-zh="三步安装" data-en="Three steps">三步安装</p><h2 data-zh="先安装，再明确授权工作目录。" data-en="Install first, then explicitly authorize a workspace directory.">先安装，再明确授权工作目录。</h2><p class="section-intro" data-zh="开始前请先安装 DSH，并至少启动过一次 Web profile。授权目录必须是你拥有的、已经存在的绝对路径。" data-en="Install DSH first and start its Web profile at least once. An allowed root must be an existing absolute directory that you own.">开始前请先安装 DSH，并至少启动过一次 Web profile。授权目录必须是你拥有的、已经存在的绝对路径。</p></div>
+        <div class="dsh-steps">
+          <article class="dsh-step"><span>01</span><div><h3 data-zh="安装 DSH 插件" data-en="Install the DSH plugin">安装 DSH 插件</h3><p data-zh="将发布版 Bundle 加入 DSH 的 Web profile。" data-en="Add the published Bundle to DSH's Web profile.">将发布版 Bundle 加入 DSH 的 Web profile。</p><div class="dsh-command"><code id="dshInstall">dsh plugin --profile web add recowork-dsh@latest</code><button class="terminal-copy" type="button" data-copy-target="dshInstall" data-zh="复制" data-en="Copy">复制</button></div></div></article>
+          <article class="dsh-step"><span>02</span><div><h3 data-zh="授权工作目录" data-en="Authorize a workspace directory">授权工作目录</h3><p data-zh="把目录换成你想让 RecoWork 使用的位置。向导会备份 DSH 配置，并只写入自己的受管配置块。" data-en="Replace the path with the location you want RecoWork to use. The helper backs up DSH configuration and writes only its own managed block.">把目录换成你想让 RecoWork 使用的位置。向导会备份 DSH 配置，并只写入自己的受管配置块。</p><div class="dsh-command"><code id="dshSetup">npx --yes recowork-dsh@latest setup --root /absolute/path/to/your/recowork-lab</code><button class="terminal-copy" type="button" data-copy-target="dshSetup" data-zh="复制" data-en="Copy">复制</button></div></div></article>
+          <article class="dsh-step"><span>03</span><div><h3 data-zh="启动或重启 DSH Web" data-en="Start or restart DSH Web">启动或重启 DSH Web</h3><p data-zh="打开 DSH 后，右下角会出现可收起的 RecoWork 工作区入口。" data-en="After DSH opens, a collapsible RecoWork workspace entry appears in the lower-right corner.">打开 DSH 后，右下角会出现可收起的 RecoWork 工作区入口。</p><div class="dsh-command"><code id="dshWeb">dsh web</code><button class="terminal-copy" type="button" data-copy-target="dshWeb" data-zh="复制" data-en="Copy">复制</button></div></div></article>
+        </div>
+        <aside class="dsh-callout"><strong data-zh="已有手工配置？" data-en="Already configured it by hand?">已有手工配置？</strong><span data-zh="先检查现有 recowork-dsh 配置；确认要交给向导管理时，在第 2 步末尾加入 --adopt-existing。" data-en="Review an existing recowork-dsh entry first; add --adopt-existing to step 2 only when you want the helper to take over that entry.">先检查现有 recowork-dsh 配置；确认要交给向导管理时，在第 2 步末尾加入 --adopt-existing。</span></aside>
+      </section>
+
+      <section class="section dsh-flow-section">
+        <div class="section-heading"><p class="eyebrow" data-zh="进入工作" data-en="Start working">进入工作</p><h2 data-zh="一个面板，两种受控操作。" data-en="One panel, two bounded operations.">一个面板，两种受控操作。</h2></div>
+        <div class="dsh-flow-grid"><article><div class="dsh-flow-icon">01</div><h3 data-zh="查看状态" data-en="View status">查看状态</h3><p data-zh="从授权目录中选择已识别的 RecoWork 工作区，查看当前阶段、待确认事项、当前文档和工作区健康度。此操作只读。" data-en="Select a recognized RecoWork workspace from an approved directory to see its current stage, open actions, current documents, and workspace health. This is read-only.">从授权目录中选择已识别的 RecoWork 工作区，查看当前阶段、待确认事项、当前文档和工作区健康度。此操作只读。</p></article><article><div class="dsh-flow-icon">02</div><h3 data-zh="新建工作区" data-en="Create a workspace">新建工作区</h3><p data-zh="选择模板、生成语言和相对目录；勾选确认后才可初始化。服务端仍会拒绝越权路径、非空目录和不受支持的选项。" data-en="Choose a template, output language, and relative destination; initialization remains disabled until you confirm. The server still rejects unauthorized paths, non-empty directories, and unsupported options.">选择模板、生成语言和相对目录；勾选确认后才可初始化。服务端仍会拒绝越权路径、非空目录和不受支持的选项。</p></article></div>
+      </section>
+
+      <section class="section dsh-notes-grid">
+        <article><p class="eyebrow" data-zh="语言" data-en="Language">语言</p><h3 data-zh="跟随 DSH 界面语言。" data-en="Follows the DSH interface language.">跟随 DSH 界面语言。</h3><p data-zh="面板会实时跟随 DSH 的中文 / English 设置，无需刷新。工作区中的路径、阶段与事项属于用户内容，保留原始语言。" data-en="The panel follows DSH's Chinese / English setting live without a reload. Workspace paths, stages, and action items are user content and retain their original language.">面板会实时跟随 DSH 的中文 / English 设置，无需刷新。工作区中的路径、阶段与事项属于用户内容，保留原始语言。</p></article>
+        <article><p class="eyebrow" data-zh="更新" data-en="Updates">更新</p><h3 data-zh="保留原有授权目录。" data-en="Keep your existing approved roots.">保留原有授权目录。</h3><p data-zh="更新插件后重启 DSH Web 即可。正常更新不会重写你的工作区；如需调整授权目录，重新运行 setup 并明确传入所需的全部 --root。" data-en="Restart DSH Web after updating the plugin. Normal updates never rewrite your workspaces; to change approved roots, rerun setup and explicitly provide every required --root.">更新插件后重启 DSH Web 即可。正常更新不会重写你的工作区；如需调整授权目录，重新运行 setup 并明确传入所需的全部 --root。</p><div class="dsh-command"><code id="dshUpdate">dsh plugin --profile web update recowork-dsh</code><button class="terminal-copy" type="button" data-copy-target="dshUpdate" data-zh="复制" data-en="Copy">复制</button></div></article>
+        <article><p class="eyebrow" data-zh="边界" data-en="Boundaries">边界</p><h3 data-zh="只授予必要权限。" data-en="Only the needed authority.">只授予必要权限。</h3><p data-zh="插件没有任意 Shell、任意文件读取、删除、移动、重命名、自动升级或工作区修复能力。已有工作区始终归用户所有。" data-en="The plugin has no arbitrary shell, arbitrary file read, deletion, moving, renaming, automatic upgrade, or workspace-repair capability. Existing workspaces always remain user-owned.">插件没有任意 Shell、任意文件读取、删除、移动、重命名、自动升级或工作区修复能力。已有工作区始终归用户所有。</p></article>
+      </section>
+
+      <section class="section trust-section"><div class="section-heading"><p class="eyebrow" data-zh="常见问题" data-en="Common questions">常见问题</p><h2 data-zh="遇到错误时，先检查这几件事。" data-en="When you see an error, check these things first.">遇到错误时，先检查这几件事。</h2></div><ul><li data-zh="提示 profile patch 不存在：先运行一次 dsh web，让 DSH 创建该 profile。" data-en="Profile patch not found: run dsh web once so DSH can create the profile.">提示 profile patch 不存在：先运行一次 dsh web，让 DSH 创建该 profile。</li><li data-zh="DSH home 不在默认位置：运行 setup 时设置 DSH_HOME，或显式追加 --dsh-home /你的/dsh-home。" data-en="DSH home is not in the default location: set DSH_HOME when running setup, or append --dsh-home /your/dsh-home explicitly.">DSH home 不在默认位置：运行 setup 时设置 DSH_HOME，或显式追加 --dsh-home /你的/dsh-home。</li><li data-zh="提示 root 不允许或不存在：确认 setup 使用的是存在的绝对路径，然后重启 dsh web。" data-en="Root is not allowed or does not exist: confirm setup used an existing absolute path, then restart dsh web.">提示 root 不允许或不存在：确认 setup 使用的是存在的绝对路径，然后重启 dsh web。</li><li data-zh="提示目标目录非空：这是保护机制。请使用一个新目录；已有工作区应直接查看状态或使用 rw status / rw upgrade。" data-en="Destination is not empty: this is a safety guard. Use a new directory; inspect an existing workspace or use rw status / rw upgrade instead.">提示目标目录非空：这是保护机制。请使用一个新目录；已有工作区应直接查看状态或使用 rw status / rw upgrade。</li></ul></section>
+    </main>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <footer class="site-footer"><div class="footer-copy"><strong>RecoWork</strong><span data-zh="为已有 AI Agent 提供可持续的工作入口。" data-en="A durable working entry point for the AI agents you already use.">为已有 AI Agent 提供可持续的工作入口。</span></div></footer>
+    <script src="./app.js?v=20260825dsh"></script>
+  </body>
+</html>

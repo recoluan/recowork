@@ -108,6 +108,7 @@ function applyLanguage(nextLanguage) {
   document.documentElement.lang = language === "zh" ? "zh-CN" : "en";
   document.body.dataset.lang = language;
   document.querySelectorAll("[data-zh][data-en]").forEach((node) => { node.textContent = node.dataset[language]; });
+  document.querySelectorAll("[data-alt-zh][data-alt-en]").forEach((node) => { node.alt = node.dataset[`alt${language === "zh" ? "Zh" : "En"}`]; });
   document.querySelectorAll(".language-toggle").forEach((button) => button.classList.toggle("active", button.dataset.lang === language));
   if (document.body.dataset.titleZh) {
     document.title = language === "zh" ? document.body.dataset.titleZh : document.body.dataset.titleEn;

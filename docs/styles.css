@@ -139,6 +139,27 @@ body[data-lang="en"] .title-en { display: block; }
 .viewer-access-grid a { display: inline-flex; margin-top: 16px; color: var(--accent); font-size: 14px; font-weight: 750; text-decoration: none; }
 .viewer-access-grid a::after { margin-left: 7px; content: "→"; }
 .workspace-viewer-guide { border-top: 1px solid var(--line); }
+.dsh-hero { grid-template-columns: minmax(0, .86fr) minmax(420px, 1.14fr); min-height: 500px; gap: 46px; }
+.dsh-hero-copy { min-width: 0; }
+.dsh-hero-visual { margin: 0; overflow: hidden; border: 1px solid #283039; border-radius: 18px; background: #17191c; box-shadow: 0 24px 54px rgba(20, 31, 39, .18); }
+.dsh-hero-visual img { display: block; width: 100%; height: auto; }
+.dsh-steps { display: grid; gap: 14px; }
+.dsh-step { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 16px; padding: 22px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); box-shadow: 0 10px 28px rgba(25, 44, 57, .035); }
+.dsh-step > span, .dsh-flow-icon { display: inline-flex; width: 34px; height: 34px; align-items: center; justify-content: center; border-radius: 10px; background: var(--accent-soft); color: var(--accent); font-size: 12px; font-weight: 850; }
+.dsh-step h3, .dsh-flow-grid h3, .dsh-notes-grid h3 { margin: 0; font-size: 18px; letter-spacing: -.025em; }
+.dsh-step p, .dsh-flow-grid p, .dsh-notes-grid p { margin: 7px 0 0; color: var(--ink-soft); font-size: 14px; line-height: 1.65; }
+.dsh-command { display: flex; align-items: center; gap: 10px; margin-top: 15px; padding: 8px 8px 8px 13px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-soft); }
+.dsh-command code { min-width: 0; flex: 1; overflow-x: auto; color: #273c4c; font-family: "SFMono-Regular", Consolas, monospace; font-size: 12px; line-height: 1.5; white-space: nowrap; }
+.dsh-command .terminal-copy { min-height: 32px; padding: 0 12px; flex: 0 0 auto; font-size: 12px; }
+.dsh-callout { display: flex; gap: 10px; margin-top: 16px; padding: 14px 16px; border: 1px solid #cbdce7; border-radius: 12px; background: var(--accent-soft); color: #29475f; font-size: 13px; line-height: 1.6; }
+.dsh-callout strong { flex: 0 0 auto; }
+.dsh-flow-section { border-top: 1px solid var(--line); }
+.dsh-flow-grid, .dsh-notes-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.dsh-flow-grid article, .dsh-notes-grid article { padding: 24px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
+.dsh-flow-grid h3 { margin-top: 18px; }
+.dsh-notes-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.dsh-notes-grid .eyebrow { margin-bottom: 9px; }
+.dsh-notes-grid .dsh-command { margin-top: 15px; }
 .viewer-guide-card .terminal-bar { display: flex; min-height: 52px; align-items: center; padding: 10px 14px; border-bottom: 1px solid var(--line); background: var(--surface-soft); }
 .viewer-guide-card .terminal-bar strong { font-size: 13px; }
 .viewer-guide-card pre { min-height: 252px; margin: 0; padding: 20px; overflow: auto; color: #273c4c; font-family: "SFMono-Regular", Consolas, monospace; font-size: 12px; line-height: 1.72; white-space: pre-wrap; }
@@ -245,7 +266,7 @@ body[data-lang="en"] .title-en { display: block; }
   .hero-text { font-size: 16px; }.hero-actions, .page-actions { display: grid; grid-template-columns: 1fr; }.hero-actions a, .page-actions a { width: 100%; }
   .section { padding: 54px 0; }.section-heading h2, .product-path-heading h2 { font-size: clamp(25px, 7.5vw, 31px); }
   .home-overview { padding: 54px 0; }.home-overview-heading h2 { font-size: clamp(26px, 8vw, 32px); }.overview-basis { grid-template-columns: 1fr; margin-top: 28px; }.overview-basis article { min-height: 0; padding: 18px 0; border-top: 1px solid var(--line); border-left: 0; }.overview-basis article:first-child { border-top: 0; }.overview-basis strong { margin-top: 12px; }.overview-flow { align-items: flex-start; flex-direction: column; gap: 8px; margin-top: 20px; }.overview-flow i { width: 1px; height: 16px; margin-left: 5px; }.overview-flow i::after { margin-top: 12px; margin-right: -2px; }
-  .product-path, .proof-grid, .pain-grid, .work-case-grid, .environment-grid, .work-loop, .trust-section ul, .release-columns, .prompt-first-panel, .builder-options, .viewer-access-grid, .viewer-guide-grid { grid-template-columns: 1fr; }
+  .product-path, .proof-grid, .pain-grid, .work-case-grid, .environment-grid, .work-loop, .trust-section ul, .release-columns, .prompt-first-panel, .builder-options, .viewer-access-grid, .viewer-guide-grid, .dsh-flow-grid, .dsh-notes-grid { grid-template-columns: 1fr; }
   .product-path { gap: 24px; padding: 32px 0; }.product-path-steps { grid-template-columns: 1fr; gap: 14px; }.product-path-steps li { min-height: 0; padding-left: 14px; }
   .highlight-band { padding: 54px 0; }.highlight-band .section-heading, .highlight-band .work-loop, .highlight-band .asset-explainer { width: min(100% - 32px, 600px); }
   .asset-explainer { grid-template-columns: 1fr 1fr; }
@@ -260,6 +281,8 @@ body[data-lang="en"] .title-en { display: block; }
   body[data-page="usage"] .page-hero h1 { max-width: 355px; font-size: clamp(37px, 10.4vw, 43px); line-height: 1.08; letter-spacing: -.055em; }
   body[data-page="usage"] .page-hero .title-line { display: block; }
   body[data-page="usage"] .page-hero .hero-text { margin-top: 20px; font-size: 16px; line-height: 1.62; }
+  .dsh-hero { grid-template-columns: 1fr; gap: 28px; min-height: 0; }
+  .dsh-hero-visual { order: -1; border-radius: 14px; }
   body[data-page="usage"] .initialize-section { padding-top: 34px; }
   body[data-page="usage"] .initialize-section .section-heading { margin-bottom: 20px; }
 }
