@@ -6,6 +6,33 @@ This changelog records functional behavior, compatibility, migration, CLI, templ
 
 ## [Unreleased]
 
+### Added
+
+- Added the experimental `recowork-codex` Codex plugin. Its initial RecoWork Skill uses the existing CLI and generated root `AGENTS.md` protocol; it adds no Codex-specific workspace format, MCP server, or hidden lifecycle state.
+
+## [recowork-dsh 0.1.1] - 2026-08-25
+
+### Fixed
+
+- Made the DSH workspace card follow DSH's active Chinese or English preference live, while leaving user-owned workspace content in its original language.
+
+## [recowork-dsh 0.1.0] - 2026-08-25
+
+### Added
+
+- Added the experimental `recowork-dsh` DeepSeek Harness Bundle. It offers constrained initialization of new RecoWork local workflows and read-only workspace status inside explicitly approved roots; it leaves generation, manifests, and upgrades to the existing `rw` CLI.
+- `recowork-dsh` now injects a workspace workflow protocol that directs DSH agents to use its two tools only at appropriate explicit-user boundaries and to read `AGENTS.md` plus localized working methods before durable workspace work.
+- Added a read-only DSH Web status panel to `recowork-dsh`. It lists configured workspace roots and displays an authorized workspace's template, locale, and current-document count without adding any write action.
+- Improved the DSH Web panel into a collapsible workspace card that also lists recognized current-document names while preserving its read-only boundary.
+- The DSH status view now selects recognized workspaces from an approved root instead of requiring users to type an existing destination; status results are hidden while the new-workspace view is active.
+- Enriched the DSH status view with a derived current stage, up to three actionable open-question items, and a concise manifest/document health summary, while retaining its read-only scope.
+- Added a guarded DSH Web initialization flow. It accepts only supported templates and locales below configured roots, requires an explicit UI confirmation, and still refuses non-empty destinations server-side.
+- Added `recowork-dsh setup`, a guided profile-configuration command that validates explicit absolute roots, creates a backup, and manages only a marker-bounded RecoWork configuration block.
+
+### Fixed
+
+- Made locally linked `recowork-dsh` packages independent of DSH-internal module resolution, so the Bundle can load from its source checkout in a DSH profile.
+
 ## [3.2.2] - 2026-08-21
 
 ### Changed

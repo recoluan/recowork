@@ -1,0 +1,22 @@
+{
+  "name": "recowork-codex",
+  "version": "0.1.0",
+  "description": "Use RecoWork workflows safely from Codex.",
+  "author": {
+    "name": "RecoWork"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "RecoWork for Codex",
+    "shortDescription": "Run and continue RecoWork workflows safely.",
+    "longDescription": "A Codex skill that uses RecoWork's CLI and project AGENTS.md protocol without creating a second workspace format.",
+    "developerName": "RecoWork",
+    "category": "Productivity",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": [
+      "Initialize a Chinese RecoWork idea-to-project workflow here.",
+      "Read this RecoWork workspace and tell me what needs confirmation.",
+      "Use RecoWork to review the current workspace state."
+    ]
+  }
+}

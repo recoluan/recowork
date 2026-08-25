@@ -542,3 +542,37 @@ Implication:
 - Create a child document only when it has an independent lifecycle, audience, review path, or change cadence; otherwise update the authority document in place.
 - Child filenames use stable, user-understandable object-and-responsibility names when their directory does not provide enough context; never use process, “final”, “latest”, or version names for current documents.
 - `index.md` remains navigation only. Process traces are consolidated into the authority or responsibility-specific document once validated, then handled under the existing archive protocol.
+
+## 031. Keep DeepSeek Harness As An Optional Thin Adapter
+
+Decision: provide an experimental `recowork-dsh` Bundle that registers narrowly scoped workspace tools in DeepSeek Harness (DSH), while retaining the existing `rw` CLI as RecoWork's sole generation and lifecycle authority.
+
+Reason:
+
+- DSH can mount tool plugins through an installable Bundle, which makes RecoWork available in its conversational surface without a fork or a new target.
+- Reimplementing templates, manifests, or upgrade behavior in the plugin would create incompatible sources of truth and multiply maintenance as DSH evolves.
+- A model-facing workspace tool has meaningful filesystem risk unless it has a strict path and action boundary.
+
+Implication:
+
+- The first Bundle exposes only initialization of a new local workflow and read-only status. It has no UI or general shell/filesystem capability.
+- Initialization delegates to `rw add` with the existing supported template, locale, and `local-agent-project` contracts.
+- The plugin accepts only explicitly configured absolute roots, refuses paths outside them and refuses non-empty destinations; existing user workspaces remain outside its write scope.
+- DSH-specific distribution and safety rules live in `specs/dsh-integration.md`. Its first UI surface supports only read-only status and explicitly confirmed new-workspace initialization, both subordinate to the same authorized service boundary.
+
+## 032. Keep Codex As An Optional Thin Skill Adapter
+
+Decision: provide an optional `recowork-codex` plugin whose initial surface is a Codex Skill, while retaining `local-agent-project`, the `rw` CLI, and generated root `AGENTS.md` as the common local-agent contract.
+
+Reason:
+
+- Codex already operates in command-capable local projects, so a Skill can make RecoWork discoverable without creating a Codex-only workspace or duplicating lifecycle logic.
+- DSH's Cordis Bundle and Web panel are host-specific mechanisms; reusing them in Codex would couple RecoWork to a non-portable implementation.
+- A plugin Skill lets real usage establish whether a Codex MCP server or UI would create enough value to justify its permission and maintenance cost.
+
+Implication:
+
+- `recowork-codex` directs Codex to use `npx --yes recowork@latest` and `local-agent-project`, then defer to the initialized root `AGENTS.md`.
+- It has no initial MCP server, custom UI, arbitrary filesystem tool, or hidden state.
+- DSH and Codex share the RecoWork CLI, templates, target contracts, manifests, and workspace protocol, while their installation and interaction layers remain separate.
+- Codex-specific distribution and safety rules live in `specs/codex-integration.md`.

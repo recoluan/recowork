@@ -1,0 +1,8 @@
+- insert:
+    - id: recowork-dsh
+      name: recowork-dsh
+      config:
+        # Set this to one or more absolute directories selected by the user.
+        # The model cannot operate outside these directories.
+        allowedRoots: []
+        recoworkPackage: recowork@3.2.2

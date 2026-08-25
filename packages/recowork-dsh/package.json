@@ -1,0 +1,55 @@
+{
+  "name": "recowork-dsh",
+  "version": "0.1.1",
+  "description": "Safe RecoWork workspace tools for DeepSeek Harness.",
+  "author": "RecoWork",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "recowork-dsh": "bin/recowork-dsh.js"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "bin/",
+    "src/",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-layout"
+      ]
+    }
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/recoluan/recowork.git",
+    "directory": "packages/recowork-dsh"
+  },
+  "homepage": "https://recowork.recoluan.com",
+  "bugs": {
+    "url": "https://github.com/recoluan/recowork/issues"
+  },
+  "keywords": [
+    "recowork",
+    "deepseek",
+    "deepseek-harness",
+    "dsh",
+    "ai-workflow"
+  ]
+}
