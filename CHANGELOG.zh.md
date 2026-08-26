@@ -14,6 +14,7 @@ RecoWork 的重要变更记录在此。项目遵循 [Keep a Changelog](https://k
 
 ### 修复
 
+- 修复 `recowork-dsh setup` 在 DSH profile 使用默认空数组占位符时会写出非法 YAML 的问题。现在 setup 会校验单一 YAML 文档；写后校验失败会恢复原始 patch。
 - DSH 工作区卡片现在会实时跟随 DSH 的中文或英文偏好；用户自有工作区内容仍保持其原始语言。
 
 ## [recowork-dsh 0.1.0] - 2026-08-25

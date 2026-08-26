@@ -1,4 +1,5 @@
 import { existsSync, mkdirSync, readFileSync, realpathSync, statSync, writeFileSync } from 'node:fs'
+import { load as loadYaml } from 'js-yaml'
 import os from 'node:os'
 import path from 'node:path'
 
@@ -71,6 +72,26 @@ function removeUnmanagedRecoWorkEntry(contents) {
   return entry.lines.join('\n').replace(/\n{3,}/g, '\n\n').trimEnd()
 }
 
+function parsePatch(contents, patchPath) {
+  try {
+    const parsed = loadYaml(contents)
+    if (parsed === undefined || Array.isArray(parsed)) return parsed || []
+    throw new Error('the top-level value must be a YAML array')
+  } catch (cause) {
+    throw new Error(`DSH profile patch is not a valid single YAML array: ${patchPath}. ${cause instanceof Error ? cause.message : String(cause)}`)
+  }
+}
+
+function removeEmptyArrayPlaceholder(contents, parsed) {
+  if (parsed.length !== 0) return contents
+  return contents.replace(/^[ \t]*\[\][ \t]*(?:#.*)?(?:\r?\n|$)/m, '')
+}
+
+function validateWrittenPatch(contents, patchPath) {
+  const entries = parsePatch(contents, patchPath)
+  if (!entries.some((entry) => entry?.id === 'recowork-dsh')) throw new Error(`RecoWork configuration was not found after writing ${patchPath}.`)
+}
+
 export function renderManagedConfig(roots) {
   const rootLines = roots.map((root) => `      - ${JSON.stringify(root)}`).join('\n')
   return `${MARKER_START}\n- id: recowork-dsh\n  config:\n    allowedRoots:\n${rootLines}\n    recoworkPackage: ${RECOWORK_PACKAGE}\n${MARKER_END}\n`
@@ -84,18 +105,27 @@ export function configureProfile({ roots, profile = DEFAULT_PROFILE, dshHome, ad
 
   const original = readFileSync(patchPath, 'utf8')
   let withoutManaged = removeManagedBlock(original)
+  const parsedBase = parsePatch(withoutManaged, patchPath)
   if (unmanagedRecoWorkEntryLines(withoutManaged)) {
     if (!adoptExisting) throw new Error('An existing RecoWork DSH configuration was found outside the managed setup block. Review it, then rerun with --adopt-existing to replace that entry after a backup is created.')
     withoutManaged = removeUnmanagedRecoWorkEntry(withoutManaged)
   }
+  withoutManaged = removeEmptyArrayPlaceholder(withoutManaged, parsedBase)
   const next = `${withoutManaged.trimEnd()}${withoutManaged.trim().length ? '\n\n' : ''}${renderManagedConfig(canonicalRoots)}`
+  validateWrittenPatch(next, patchPath)
   if (next === original) return { changed: false, patchPath, roots: canonicalRoots, backupPath: null }
 
   const backupDirectory = path.dirname(patchPath)
   mkdirSync(backupDirectory, { recursive: true })
   const backupPath = path.join(backupDirectory, `cordis.patch.yml.recowork-dsh.${Date.now()}.bak`)
   writeFileSync(backupPath, original)
-  writeFileSync(patchPath, next)
+  try {
+    writeFileSync(patchPath, next)
+    validateWrittenPatch(readFileSync(patchPath, 'utf8'), patchPath)
+  } catch (cause) {
+    writeFileSync(patchPath, original)
+    throw new Error(`RecoWork setup could not validate the updated profile patch and restored the original file. ${cause instanceof Error ? cause.message : String(cause)}`)
+  }
   return { changed: true, patchPath, roots: canonicalRoots, backupPath }
 }
 

@@ -24,18 +24,18 @@ The Bundle has no runtime npm dependency on DSH internals. This keeps a locally 
 2. Install the published Bundle into the Web profile, then explicitly authorize one or more existing directories:
 
 ```bash
-dsh plugin --profile web add recowork-dsh@0.1.0
-npx --yes recowork-dsh@0.1.0 setup --root /absolute/path/to/your/recowork-lab
+dsh plugin --profile web add recowork-dsh@latest
+npx --yes recowork-dsh@latest setup --root /absolute/path/to/your/recowork-lab
 dsh web
 ```
 
 Repeat `--root` to authorize more than one directory. If your DSH home is not the default `~/.dsh`, either set `DSH_HOME` or pass it explicitly:
 
 ```bash
-DSH_HOME=/path/to/dsh-home npx --yes recowork-dsh@0.1.0 setup --root /absolute/path/to/your/recowork-lab
+DSH_HOME=/path/to/dsh-home npx --yes recowork-dsh@latest setup --root /absolute/path/to/your/recowork-lab
 ```
 
-The setup command creates a timestamped backup of `cordis.patch.yml` and writes only a marker-bounded RecoWork block. If you previously configured `recowork-dsh` by hand, review that entry and rerun the command with `--adopt-existing`; it will back up the file before replacing only the old RecoWork entry. The default initializer runs `npx --yes recowork@3.2.2`.
+The setup command creates a timestamped backup of `cordis.patch.yml`, handles DSH's default `[]` placeholder as a single YAML document, and validates the resulting YAML after writing. If validation fails, it restores the original profile patch before reporting the error. If you previously configured `recowork-dsh` by hand, review that entry and rerun the command with `--adopt-existing`; it will back up the file before replacing only the old RecoWork entry. The default initializer runs `npx --yes recowork@3.2.2`.
 
 For local development, replace the first command with `dsh plugin --profile web add ./packages/recowork-dsh`, then run `node ./packages/recowork-dsh/bin/recowork-dsh.js setup --root /absolute/path/to/your/recowork-lab --dsh-home "$DSH_HOME"`.
 

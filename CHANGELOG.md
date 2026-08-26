@@ -14,6 +14,7 @@ This changelog records functional behavior, compatibility, migration, CLI, templ
 
 ### Fixed
 
+- Fixed `recowork-dsh setup` corrupting a fresh DSH profile patch when its default empty-array placeholder was present. Setup now validates one YAML document and restores the original patch if post-write validation fails.
 - Made the DSH workspace card follow DSH's active Chinese or English preference live, while leaving user-owned workspace content in its original language.
 
 ## [recowork-dsh 0.1.0] - 2026-08-25

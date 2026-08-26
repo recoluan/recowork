@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import { existsSync, mkdtempSync, mkdirSync, readFileSync, realpathSync, symlinkSync, writeFileSync } from 'node:fs'
+import { load as loadYaml } from 'js-yaml'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
@@ -104,6 +105,31 @@ test('setup writes an owned profile block, canonicalizes roots, and preserves a 
   assert.match(next, /- id: another-plugin/)
   assert.match(next, new RegExp(JSON.stringify(realpathSync(root))))
   assert.equal(configureProfile({ roots: [root], dshHome: home, profile: 'web', adoptExisting: false }).changed, false)
+})
+
+test('setup replaces DSH’s empty-array profile placeholder with one valid YAML document', () => {
+  const home = mkdtempSync(path.join(tmpdir(), 'recowork-dsh-home-'))
+  const root = mkdtempSync(path.join(tmpdir(), 'recowork-dsh-root-'))
+  const patchPath = path.join(home, 'profiles', 'web', 'cordis.patch.yml')
+  mkdirSync(path.dirname(patchPath), { recursive: true })
+  writeFileSync(patchPath, '# Your patch layer for this DSH profile\n# a top-level YAML array\n[]\n')
+
+  configureProfile({ roots: [root], dshHome: home, profile: 'web' })
+  const next = readFileSync(patchPath, 'utf8')
+  const parsed = loadYaml(next)
+  assert.doesNotMatch(next, /^\[\]$/m)
+  assert.deepEqual(parsed, [{ id: 'recowork-dsh', config: { allowedRoots: [realpathSync(root)], recoworkPackage: 'recowork@3.2.2' } }])
+})
+
+test('setup repairs the invalid empty-array plus managed-block shape left by older releases', () => {
+  const home = mkdtempSync(path.join(tmpdir(), 'recowork-dsh-home-'))
+  const root = mkdtempSync(path.join(tmpdir(), 'recowork-dsh-root-'))
+  const patchPath = path.join(home, 'profiles', 'web', 'cordis.patch.yml')
+  mkdirSync(path.dirname(patchPath), { recursive: true })
+  writeFileSync(patchPath, '# DSH profile\n[]\n\n# >>> RecoWork DSH setup >>>\n- id: recowork-dsh\n  config:\n    allowedRoots: []\n# <<< RecoWork DSH setup <<<\n')
+
+  configureProfile({ roots: [root], dshHome: home, profile: 'web' })
+  assert.doesNotThrow(() => loadYaml(readFileSync(patchPath, 'utf8')))
 })
 
 test('setup requires explicit adoption of an existing un-managed RecoWork entry', () => {

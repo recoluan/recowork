@@ -1,6 +1,6 @@
 {
   "name": "recowork-dsh",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Safe RecoWork workspace tools for DeepSeek Harness.",
   "author": "RecoWork",
   "type": "module",
@@ -23,6 +23,9 @@
   ],
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+    "js-yaml": "^5.4.0"
   },
   "dsh": {
     "bundle": {
