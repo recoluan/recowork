@@ -195,4 +195,8 @@ test('web dashboard registers with the required list-slot id', () => {
   assert.match(client, /height: 'min\(600px, calc\(100vh - 40px\)\)'/)
   assert.match(client, /display: 'flex', flexDirection: 'column', overflow: 'hidden'/)
   assert.match(client, /minHeight: 0, overflowY: 'auto', overscrollBehavior: 'contain'/)
+  assert.match(client, /var\(--dsw-alias-bg-layer-1/)
+  assert.match(client, /var\(--dsw-alias-label-primary/)
+  assert.match(client, /var\(--dsw-alias-button-ghost-active-fill/)
+  assert.match(client, /var\(--dsw-alias-state-error-primary/)
 })

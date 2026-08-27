@@ -10,11 +10,22 @@ This changelog records functional behavior, compatibility, migration, CLI, templ
 
 - Added the experimental `recowork-codex` Codex plugin. Its initial RecoWork Skill uses the existing CLI and generated root `AGENTS.md` protocol; it adds no Codex-specific workspace format, MCP server, or hidden lifecycle state.
 
-## [recowork-dsh 0.1.1] - 2026-08-25
+## [recowork-dsh 0.1.3] - 2026-08-27
+
+### Changed
+
+- Made the DSH workspace card follow the host light/dark palette through DSH semantic tokens. Its action buttons now stay in the panel's corresponding color family instead of using DSH's intentionally inverted primary-button treatment.
+
+## [recowork-dsh 0.1.2] - 2026-08-26
 
 ### Fixed
 
 - Fixed `recowork-dsh setup` corrupting a fresh DSH profile patch when its default empty-array placeholder was present. Setup now validates one YAML document and restores the original patch if post-write validation fails.
+
+## [recowork-dsh 0.1.1] - 2026-08-25
+
+### Fixed
+
 - Made the DSH workspace card follow DSH's active Chinese or English preference live, while leaving user-owned workspace content in its original language.
 
 ## [recowork-dsh 0.1.0] - 2026-08-25

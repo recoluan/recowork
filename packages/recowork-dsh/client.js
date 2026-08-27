@@ -122,24 +122,42 @@
           }
         }
 
+        // DSH exposes its resolved light/dark palette as --dsw-alias-* tokens.
+        // Keeping every surface on those tokens means this overlay follows the
+        // host theme immediately, including when the user changes it in Settings.
+        const theme = {
+          panel: 'var(--dsw-alias-bg-layer-1, rgba(24, 24, 30, .98))',
+          surface: 'var(--dsw-alias-bg-layer-2, #24242c)',
+          primary: 'var(--dsw-alias-label-primary, #f5f5f7)',
+          secondary: 'var(--dsw-alias-label-secondary, #b8b8c3)',
+          border: 'var(--dsw-alias-border-l2, #51515e)',
+          divider: 'var(--dsw-alias-border-l1, #40404d)',
+          // DSH's button-primary is deliberately inverted (white in dark mode).
+          // The dashboard action buttons stay in the panel's own color family.
+          accent: 'var(--dsw-alias-button-ghost-active-fill, #403b73)',
+          accentDisabled: 'var(--dsw-alias-bg-layer-2, #24242c)',
+          selected: 'var(--dsw-alias-button-ghost-active-fill, #403b73)',
+          error: 'var(--dsw-alias-state-error-primary, #ffabab)',
+          shadow: 'var(--dsw-shadow-lv3, 0 16px 48px rgba(0, 0, 0, .38))',
+        }
         const style = {
           position: 'fixed', right: 20, bottom: 20, zIndex: 1000, width: 348,
-          padding: 16, borderRadius: 16, background: 'rgba(24, 24, 30, .98)', color: '#f5f5f7',
+          padding: 16, borderRadius: 16, background: theme.panel, color: theme.primary,
           height: 'min(600px, calc(100vh - 40px))', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', overflow: 'hidden',
-          boxShadow: '0 16px 48px rgba(0, 0, 0, .38)', pointerEvents: 'auto', fontSize: 13,
+          boxShadow: theme.shadow, pointerEvents: 'auto', fontSize: 13,
         }
-        const inputStyle = { width: '100%', boxSizing: 'border-box', marginTop: 6, padding: 9, borderRadius: 8, border: '1px solid #51515e', background: '#24242c', color: 'inherit' }
+        const inputStyle = { width: '100%', boxSizing: 'border-box', marginTop: 6, padding: 9, borderRadius: 8, border: `1px solid ${theme.border}`, background: theme.surface, color: 'inherit' }
         const manifest = status && status.manifest
-        const buttonStyle = { border: 0, borderRadius: 8, color: 'white', cursor: 'pointer', fontWeight: 600 }
+        const buttonStyle = { border: 0, borderRadius: 8, color: theme.primary, cursor: 'pointer', fontWeight: 600 }
         const compactStyle = { ...style, width: 'auto', height: 'auto', padding: 0, overflow: 'hidden' }
         const documentRows = status?.documents || []
         const workflow = status?.workflow
         const health = status?.health
-        const tabStyle = (selected) => ({ ...buttonStyle, flex: 1, padding: '7px 8px', background: selected ? '#403b73' : 'transparent', color: selected ? 'white' : '#b8b8c3' })
+        const tabStyle = (selected) => ({ ...buttonStyle, flex: 1, padding: '7px 8px', background: selected ? theme.selected : 'transparent', color: selected ? theme.primary : theme.secondary })
 
         if (!open) {
           return createElement('button', {
-            type: 'button', onClick: () => setOpen(true), style: { ...compactStyle, ...buttonStyle, padding: '11px 14px', background: '#7567f8' },
+            type: 'button', onClick: () => setOpen(true), style: { ...compactStyle, ...buttonStyle, padding: '11px 14px', background: theme.accent },
             'aria-label': text.open,
           }, text.launcher)
         }
@@ -148,9 +166,9 @@
           createElement('div', { style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 } },
             createElement('div', null,
               createElement('strong', { style: { display: 'block', fontSize: 15 } }, 'RecoWork'),
-              createElement('span', { style: { color: '#b8b8c3', fontSize: 12 } }, mode === 'init' ? text.initialize : text.status)),
-            createElement('button', { type: 'button', onClick: () => setOpen(false), style: { ...buttonStyle, padding: '5px 8px', background: 'transparent', color: '#c7c7d2' }, 'aria-label': text.collapse }, text.collapseLabel)),
-          createElement('div', { role: 'tablist', 'aria-label': text.operations, style: { display: 'flex', marginTop: 14, padding: 3, gap: 3, borderRadius: 10, background: '#24242c' } },
+              createElement('span', { style: { color: theme.secondary, fontSize: 12 } }, mode === 'init' ? text.initialize : text.status)),
+            createElement('button', { type: 'button', onClick: () => setOpen(false), style: { ...buttonStyle, padding: '5px 8px', background: 'transparent', color: theme.secondary }, 'aria-label': text.collapse }, text.collapseLabel)),
+          createElement('div', { role: 'tablist', 'aria-label': text.operations, style: { display: 'flex', marginTop: 14, padding: 3, gap: 3, borderRadius: 10, background: theme.surface } },
             createElement('button', { type: 'button', role: 'tab', 'aria-selected': mode === 'status', onClick: () => { setMode('status'); setError('') }, style: tabStyle(mode === 'status') }, text.statusTab),
             createElement('button', { type: 'button', role: 'tab', 'aria-selected': mode === 'init', onClick: () => { setMode('init'); setError('') }, style: tabStyle(mode === 'init') }, text.initTab)),
           createElement('div', { style: { minHeight: 0, overflowY: 'auto', overscrollBehavior: 'contain', paddingRight: 2 } },
@@ -166,29 +184,29 @@
               createElement('option', { value: 'web-design-standard' }, text.design))),
             createElement('label', { style: { display: 'block', marginTop: 10 } }, text.language, createElement('select', { value: locale, onChange: (event) => setLocale(event.target.value), style: inputStyle },
               createElement('option', { value: 'zh' }, text.chinese), createElement('option', { value: 'en' }, text.english))),
-            createElement('label', { style: { display: 'flex', alignItems: 'flex-start', gap: 8, marginTop: 12, lineHeight: 1.45, color: '#d5d5df' } },
+            createElement('label', { style: { display: 'flex', alignItems: 'flex-start', gap: 8, marginTop: 12, lineHeight: 1.45, color: theme.secondary } },
               createElement('input', { type: 'checkbox', checked: confirmed, onChange: (event) => setConfirmed(event.target.checked), style: { marginTop: 2 } }),
               text.confirm),
-            createElement('button', { type: 'button', onClick: initialize, disabled: loading || !confirmed, style: { ...buttonStyle, marginTop: 12, padding: '9px 12px', background: loading || !confirmed ? '#514a9a' : '#7567f8' } }, loading ? text.initializing : text.confirmInit)) :
-            createElement('button', { type: 'button', onClick: () => refresh(), disabled: loading, style: { ...buttonStyle, marginTop: 12, padding: '9px 12px', background: loading ? '#514a9a' : '#7567f8' } }, loading ? text.loading : text.read),
-          error ? createElement('p', { role: 'alert', style: { color: '#ffabab', margin: '12px 0 0' } }, error) : null,
-          mode === 'status' && manifest ? createElement('div', { style: { marginTop: 14, borderTop: '1px solid #40404d', paddingTop: 12 } },
-            createElement('div', { style: { padding: '9px 10px', borderRadius: 9, background: '#24242c' } },
-              createElement('div', { style: { color: '#b8b8c3', fontSize: 12 } }, text.stage),
+            createElement('button', { type: 'button', onClick: initialize, disabled: loading || !confirmed, style: { ...buttonStyle, marginTop: 12, padding: '9px 12px', background: loading || !confirmed ? theme.accentDisabled : theme.accent } }, loading ? text.initializing : text.confirmInit)) :
+            createElement('button', { type: 'button', onClick: () => refresh(), disabled: loading, style: { ...buttonStyle, marginTop: 12, padding: '9px 12px', background: loading ? theme.accentDisabled : theme.accent } }, loading ? text.loading : text.read),
+          error ? createElement('p', { role: 'alert', style: { color: theme.error, margin: '12px 0 0' } }, error) : null,
+          mode === 'status' && manifest ? createElement('div', { style: { marginTop: 14, borderTop: `1px solid ${theme.divider}`, paddingTop: 12 } },
+            createElement('div', { style: { padding: '9px 10px', borderRadius: 9, background: theme.surface } },
+              createElement('div', { style: { color: theme.secondary, fontSize: 12 } }, text.stage),
               createElement('strong', { style: { display: 'block', marginTop: 4 } }, workflow?.stage || text.unknownStage)),
             createElement('div', { style: { display: 'flex', justifyContent: 'space-between', gap: 12 } },
-              createElement('span', { style: { color: '#b8b8c3' } }, text.template), createElement('strong', null, manifest.template || text.unknownTemplate)),
+              createElement('span', { style: { color: theme.secondary } }, text.template), createElement('strong', null, manifest.template || text.unknownTemplate)),
             createElement('div', { style: { display: 'flex', justifyContent: 'space-between', gap: 12, marginTop: 6 } },
-              createElement('span', { style: { color: '#b8b8c3' } }, text.language), createElement('strong', null, manifest.locale || text.unknownLocale)),
-            createElement('div', { style: { marginTop: 12, color: '#b8b8c3', fontSize: 12 } }, format(text.documents, { count: documentRows.length })),
+              createElement('span', { style: { color: theme.secondary } }, text.language), createElement('strong', null, manifest.locale || text.unknownLocale)),
+            createElement('div', { style: { marginTop: 12, color: theme.secondary, fontSize: 12 } }, format(text.documents, { count: documentRows.length })),
             documentRows.length > 0 ? createElement('ul', { style: { margin: '7px 0 0', padding: 0, listStyle: 'none' } },
-              documentRows.map((document) => createElement('li', { key: document.path, style: { padding: '6px 8px', marginTop: 4, borderRadius: 7, background: '#24242c', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } }, document.path))) : null,
-            createElement('div', { style: { marginTop: 14, color: '#b8b8c3', fontSize: 12 } }, text.attention),
+              documentRows.map((document) => createElement('li', { key: document.path, style: { padding: '6px 8px', marginTop: 4, borderRadius: 7, background: theme.surface, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } }, document.path))) : null,
+            createElement('div', { style: { marginTop: 14, color: theme.secondary, fontSize: 12 } }, text.attention),
             workflow?.nextActions?.length ? createElement('ul', { style: { margin: '7px 0 0', paddingLeft: 18, lineHeight: 1.5 } },
               workflow.nextActions.map((item) => createElement('li', { key: item, style: { marginTop: 4 } }, item))) :
-              createElement('p', { style: { margin: '7px 0 0', color: '#b8b8c3' } }, text.noActions),
-            createElement('div', { style: { marginTop: 14, color: '#b8b8c3', fontSize: 12 } }, text.health),
-            createElement('div', { style: { marginTop: 7, padding: '8px 10px', borderRadius: 9, background: '#24242c', lineHeight: 1.55 } },
+              createElement('p', { style: { margin: '7px 0 0', color: theme.secondary } }, text.noActions),
+            createElement('div', { style: { marginTop: 14, color: theme.secondary, fontSize: 12 } }, text.health),
+            createElement('div', { style: { marginTop: 7, padding: '8px 10px', borderRadius: 9, background: theme.surface, lineHeight: 1.55 } },
               createElement('div', null, format(text.manifest, { version: health?.schemaVersion || text.unknownLocale })),
               createElement('div', null, format(text.currentDocuments, { recognized: health?.recognizedDocuments ?? 0, expected: health?.expectedDocuments ?? 0 })),
               createElement('div', null, health?.missingDocuments?.length ? format(text.missing, { documents: health.missingDocuments.join(activeLocale === 'zh' ? '、' : ', ') }) : text.complete),

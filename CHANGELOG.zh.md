@@ -10,11 +10,22 @@ RecoWork 的重要变更记录在此。项目遵循 [Keep a Changelog](https://k
 
 - 新增实验性的 Codex 插件 `recowork-codex`。首个 RecoWork Skill 只复用现有 CLI 与生成项目根目录的 `AGENTS.md` 协议，不新增 Codex 专属工作区格式、MCP 服务或隐藏生命周期状态。
 
-## [recowork-dsh 0.1.1] - 2026-08-25
+## [recowork-dsh 0.1.3] - 2026-08-27
+
+### 变更
+
+- DSH 工作区卡片现通过 DSH 语义主题变量跟随宿主浅色／深色配色。操作按钮保持与面板对应的颜色层级，不再使用 DSH 主按钮刻意反色的样式。
+
+## [recowork-dsh 0.1.2] - 2026-08-26
 
 ### 修复
 
 - 修复 `recowork-dsh setup` 在 DSH profile 使用默认空数组占位符时会写出非法 YAML 的问题。现在 setup 会校验单一 YAML 文档；写后校验失败会恢复原始 patch。
+
+## [recowork-dsh 0.1.1] - 2026-08-25
+
+### 修复
+
 - DSH 工作区卡片现在会实时跟随 DSH 的中文或英文偏好；用户自有工作区内容仍保持其原始语言。
 
 ## [recowork-dsh 0.1.0] - 2026-08-25
