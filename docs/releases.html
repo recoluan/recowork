@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>RecoWork · 发布记录</title>
     <meta name="description" content="查看 RecoWork 的版本变更、兼容性说明与发布记录。" />
-<link rel="stylesheet" href="./styles.css?v=20260810a" />
+    <link rel="stylesheet" href="./styles.css?v=20260827a" />
   </head>
   <body
     data-page="releases"
@@ -45,14 +45,33 @@
           <span class="title-copy title-zh"><span class="title-line">每次版本变化，</span><span class="title-line">都能找到<span class="title-accent title-accent-violet">原因</span>和<span class="title-accent title-accent-violet">影响</span>。</span></span>
           <span class="title-copy title-en"><span class="title-line">Every release tells you</span><span class="title-line">its <span class="title-accent title-accent-violet">reason</span> and <span class="title-accent title-accent-violet">impact</span>.</span></span>
         </h1>
-        <p class="hero-text" data-zh="这里同步 npm 发布版本、兼容性说明和未发布变更。详细 Markdown 记录保存在仓库的 CHANGELOG.md 与 CHANGELOG.zh.md。" data-en="This page tracks published npm versions, compatibility notes, and unreleased changes. The full Markdown sources live in CHANGELOG.md and CHANGELOG.zh.md.">这里同步 npm 发布版本、兼容性说明和未发布变更。详细 Markdown 记录保存在仓库的 CHANGELOG.md 与 CHANGELOG.zh.md。</p>
+        <p class="hero-text" data-zh="RecoWork 主包与 recowork-dsh 适配器分别展示，版本归属、兼容性和变更影响一眼可见。详细 Markdown 记录保存在仓库的 CHANGELOG.md 与 CHANGELOG.zh.md。" data-en="RecoWork core and the recowork-dsh adapter are shown separately, so package ownership, compatibility, and impact stay clear. The full Markdown sources live in CHANGELOG.md and CHANGELOG.zh.md.">RecoWork 主包与 recowork-dsh 适配器分别展示，版本归属、兼容性和变更影响一眼可见。详细 Markdown 记录保存在仓库的 CHANGELOG.md 与 CHANGELOG.zh.md。</p>
         <div class="page-actions">
           <a class="page-link primary" href="https://github.com/recoluan/recowork/blob/main/CHANGELOG.zh.md" target="_blank" rel="noreferrer" data-zh="查看中文更新日志" data-en="View Chinese changelog">查看中文更新日志</a>
           <a class="page-link" href="https://github.com/recoluan/recowork/blob/main/CHANGELOG.md" target="_blank" rel="noreferrer" data-zh="查看英文更新日志" data-en="View English changelog">查看英文更新日志</a>
         </div>
       </section>
 
-      <section class="section release-list" aria-label="Release history">
+      <section class="section release-catalog" aria-label="Release history">
+        <div class="release-products" role="tablist" aria-label="Package release history">
+          <button class="release-product active" type="button" role="tab" aria-selected="true" aria-controls="release-history" data-release-filter="recowork">
+            <span class="release-product-label" data-zh="核心工具" data-en="Core package">核心工具</span>
+            <strong>recowork</strong>
+            <small data-zh="CLI、模板、工作空间与本地查看器" data-en="CLI, templates, workspaces, and local viewer">CLI、模板、工作空间与本地查看器</small>
+            <span class="release-product-badges"><img src="https://img.shields.io/npm/v/recowork.svg?style=flat-square&amp;logo=npm&amp;color=355C7D&amp;label=version" alt="recowork npm version" /><img src="https://img.shields.io/npm/d18m/recowork.svg?style=flat-square&amp;logo=npm&amp;color=355C7D&amp;label=downloads" alt="recowork npm downloads" /></span>
+          </button>
+          <button class="release-product" type="button" role="tab" aria-selected="false" aria-controls="release-history" data-release-filter="recowork-dsh">
+            <span class="release-product-label" data-zh="DSH 适配器" data-en="DSH adapter">DSH 适配器</span>
+            <strong>recowork-dsh</strong>
+            <small data-zh="面向 DeepSeek Harness 的受限工作空间工具" data-en="Constrained workspace tools for DeepSeek Harness">面向 DeepSeek Harness 的受限工作空间工具</small>
+            <span class="release-product-badges"><img src="https://img.shields.io/npm/v/recowork-dsh.svg?style=flat-square&amp;logo=npm&amp;color=6B5D8D&amp;label=version" alt="recowork-dsh npm version" /><img src="https://img.shields.io/npm/d18m/recowork-dsh.svg?style=flat-square&amp;logo=npm&amp;color=6B5D8D&amp;label=downloads" alt="recowork-dsh npm downloads" /></span>
+          </button>
+        </div>
+        <div class="release-history-heading" aria-live="polite">
+          <p class="eyebrow" data-release-heading="recowork" data-zh="RecoWork 发布历史" data-en="RecoWork release history">RecoWork 发布历史</p>
+          <p class="eyebrow" data-release-heading="recowork-dsh" data-zh="recowork-dsh 发布历史" data-en="recowork-dsh release history" hidden>recowork-dsh 发布历史</p>
+        </div>
+        <div class="release-list" id="release-history">
         <article class="release-card release-card-muted">
           <div class="release-card-heading">
             <div>
@@ -63,7 +82,7 @@
           </div>
           <div class="release-columns single"><div><h3 data-zh="Codex 工作流 Skill" data-en="Codex workflow Skill">Codex 工作流 Skill</h3><p data-zh="实验性的 recowork-codex 插件将 RecoWork 工作流 Skill 带入 Codex。它复用现有 CLI 与生成项目根目录的 AGENTS.md 协议，不新建 Codex 专属工作区、MCP 服务或隐藏状态，因此可与 DSH 适配器处理同一份 RecoWork 项目。" data-en="The experimental recowork-codex plugin brings a RecoWork workflow Skill to Codex. It reuses the existing CLI and generated root AGENTS.md protocol without creating a Codex-only workspace, MCP server, or hidden state, so it can work with the same RecoWork projects as the DSH adapter.">实验性的 recowork-codex 插件将 RecoWork 工作流 Skill 带入 Codex。它复用现有 CLI 与生成项目根目录的 AGENTS.md 协议，不新建 Codex 专属工作区、MCP 服务或隐藏状态，因此可与 DSH 适配器处理同一份 RecoWork 项目。</p></div></div>
         </article>
-        <article class="release-card">
+        <article class="release-card" data-release-package="recowork-dsh">
           <div class="release-card-heading">
             <div>
               <span class="release-kicker" data-zh="2026 年 8 月 27 日" data-en="August 27, 2026">2026 年 8 月 27 日</span>
@@ -73,7 +92,7 @@
           </div>
           <div class="release-columns single"><div><h3 data-zh="跟随 DSH 明暗主题" data-en="Follow the DSH light and dark themes">跟随 DSH 明暗主题</h3><p data-zh="工作区卡片现在会采用 DSH 的语义主题变量。背景、表面、文字、边框和状态色都会随 DSH 外观切换；操作按钮保持与面板对应的颜色层级，不会在深色主题中变成反色按钮。" data-en="The workspace card now uses DSH semantic theme tokens. Its background, surfaces, text, borders, and status colors follow DSH Appearance settings; action buttons stay in the panel's matching color family instead of becoming inverted controls in dark mode.">工作区卡片现在会采用 DSH 的语义主题变量。背景、表面、文字、边框和状态色都会随 DSH 外观切换；操作按钮保持与面板对应的颜色层级，不会在深色主题中变成反色按钮。</p></div></div>
         </article>
-        <article class="release-card">
+        <article class="release-card" data-release-package="recowork-dsh">
           <div class="release-card-heading">
             <div>
               <span class="release-kicker" data-zh="2026 年 8 月 26 日" data-en="August 26, 2026">2026 年 8 月 26 日</span>
@@ -83,17 +102,7 @@
           </div>
           <div class="release-columns single"><div><h3 data-zh="DSH 安装安全修复" data-en="DSH setup safety fix">DSH 安装安全修复</h3><p data-zh="recowork-dsh setup 现在会将 DSH 默认的 [] 占位符转换为单一 YAML 文档，并在写入后校验配置；校验失败时自动恢复原始 profile patch，避免 Desktop 因非法 overlay 进入安全模式。" data-en="recowork-dsh setup now converts DSH's default [] placeholder into one YAML document and validates the profile patch after writing; it restores the original patch on failure, preventing Desktop safe-mode recovery from an invalid overlay.">recowork-dsh setup 现在会将 DSH 默认的 [] 占位符转换为单一 YAML 文档，并在写入后校验配置；校验失败时自动恢复原始 profile patch，避免 Desktop 因非法 overlay 进入安全模式。</p></div></div>
         </article>
-        <article class="release-card">
-          <div class="release-card-heading">
-            <div>
-              <span class="release-kicker" data-zh="2026 年 8 月 25 日" data-en="August 25, 2026">2026 年 8 月 25 日</span>
-              <h2>recowork-dsh 0.1.0</h2>
-            </div>
-            <span class="release-badge badge-gray" data-zh="实验性" data-en="Experimental">实验性</span>
-          </div>
-          <div class="release-columns"><div><h3 data-zh="受限的 DSH 工作空间工具" data-en="Constrained DSH workspace tools">受限的 DSH 工作空间工具</h3><p data-zh="recowork-dsh 的首个公开版本可在用户明确配置的绝对目录内初始化新的 RecoWork 本地工作流，并只读提取现有工作空间状态。它提供可收起的工作区卡片：状态页显示当前阶段、待确认行动项与文档健康度；新建页需要明确确认。recowork-dsh setup --root 会引导授权目录配置：先备份 DSH profile patch，再只更新自己的标记配置块。" data-en="The first public recowork-dsh release can initialize new RecoWork local workflows inside explicitly configured absolute directories and read workspace status. Its collapsible card shows the current stage, actionable open questions, and document health, while new-workspace initialization requires explicit confirmation. recowork-dsh setup --root guides allowed-root configuration: it backs up the DSH profile patch before changing only its managed configuration block.">recowork-dsh 的首个公开版本可在用户明确配置的绝对目录内初始化新的 RecoWork 本地工作流，并只读提取现有工作空间状态。它提供可收起的工作区卡片：状态页显示当前阶段、待确认行动项与文档健康度；新建页需要明确确认。recowork-dsh setup --root 会引导授权目录配置：先备份 DSH profile patch，再只更新自己的标记配置块。</p></div></div>
-        </article>
-        <article class="release-card">
+        <article class="release-card" data-release-package="recowork-dsh">
           <div class="release-card-heading">
             <div>
               <span class="release-kicker" data-zh="2026 年 8 月 25 日" data-en="August 25, 2026">2026 年 8 月 25 日</span>
@@ -102,6 +111,16 @@
             <span class="release-badge badge-gray" data-zh="实验性" data-en="Experimental">实验性</span>
           </div>
           <div class="release-columns"><div><h3 data-zh="跟随 DSH 界面语言" data-en="Follow the DSH interface language">跟随 DSH 界面语言</h3><p data-zh="工作区卡片现在会实时跟随 DSH 的中文或英文偏好，无需刷新页面；用户自有工作区的路径、阶段与行动项继续保持原始语言。" data-en="The workspace card now follows DSH's active Chinese or English preference live without a page reload; user-owned workspace paths, stages, and action items keep their original language.">工作区卡片现在会实时跟随 DSH 的中文或英文偏好，无需刷新页面；用户自有工作区的路径、阶段与行动项继续保持原始语言。</p></div></div>
+        </article>
+        <article class="release-card" data-release-package="recowork-dsh">
+          <div class="release-card-heading">
+            <div>
+              <span class="release-kicker" data-zh="2026 年 8 月 25 日" data-en="August 25, 2026">2026 年 8 月 25 日</span>
+              <h2>recowork-dsh 0.1.0</h2>
+            </div>
+            <span class="release-badge badge-gray" data-zh="实验性" data-en="Experimental">实验性</span>
+          </div>
+          <div class="release-columns"><div><h3 data-zh="受限的 DSH 工作空间工具" data-en="Constrained DSH workspace tools">受限的 DSH 工作空间工具</h3><p data-zh="recowork-dsh 的首个公开版本可在用户明确配置的绝对目录内初始化新的 RecoWork 本地工作流，并只读提取现有工作空间状态。它提供可收起的工作区卡片：状态页显示当前阶段、待确认行动项与文档健康度；新建页需要明确确认。recowork-dsh setup --root 会引导授权目录配置：先备份 DSH profile patch，再只更新自己的标记配置块。" data-en="The first public recowork-dsh release can initialize new RecoWork local workflows inside explicitly configured absolute directories and read workspace status. Its collapsible card shows the current stage, actionable open questions, and document health, while new-workspace initialization requires explicit confirmation. recowork-dsh setup --root guides allowed-root configuration: it backs up the DSH profile patch before changing only its managed configuration block.">recowork-dsh 的首个公开版本可在用户明确配置的绝对目录内初始化新的 RecoWork 本地工作流，并只读提取现有工作空间状态。它提供可收起的工作区卡片：状态页显示当前阶段、待确认行动项与文档健康度；新建页需要明确确认。recowork-dsh setup --root 会引导授权目录配置：先备份 DSH profile patch，再只更新自己的标记配置块。</p></div></div>
         </article>
         <article class="release-card release-card-muted">
           <div class="release-card-heading">
@@ -315,6 +334,7 @@
             </div>
           </div>
         </article>
+        </div>
       </section>
     </main>
 
@@ -324,6 +344,6 @@
     </footer>
 
   <script src="https://cdn.busuanzi.cc/busuanzi/3.6.9/busuanzi.abbr.min.js" defer></script>
-  <script src="./app.js?v=20260813a"></script>
+  <script src="./app.js?v=20260827a"></script>
   </body>
 </html>

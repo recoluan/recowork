@@ -56,7 +56,11 @@ body[data-lang="en"] .title-en { display: block; }
 .secondary-link:hover, .page-link:not(.primary):hover { border-color: #bdc8d0; }
 .hero-compatibility { display: flex; flex-wrap: wrap; gap: 4px 9px; margin: 17px 0 0; color: var(--ink-soft); font-size: 12px; line-height: 1.55; }
 .hero-compatibility strong { color: var(--ink); font-weight: 800; }
-.hero-badges { display: flex; gap: 8px; margin-top: 11px; }
+.hero-packages { display: flex; flex-wrap: wrap; gap: 9px 18px; margin-top: 14px; }
+.hero-package { display: grid; gap: 5px; }
+.hero-package-name { width: fit-content; color: var(--ink-soft); font-family: "SFMono-Regular", Consolas, monospace; font-size: 10px; font-weight: 750; text-decoration: none; }
+.hero-package-name:hover { color: var(--accent); }
+.hero-badges { display: flex; flex-wrap: wrap; gap: 6px; }
 .hero-badges a { display: flex; overflow: hidden; border-radius: 4px; }
 .hero-badges img { height: 20px; }
 .agent-preview { overflow: hidden; border: 1px solid #ced8df; border-radius: 16px; background: var(--surface); box-shadow: var(--shadow); color: var(--ink); }
@@ -224,7 +228,19 @@ body[data-lang="en"] .title-en { display: block; }
 .language-step .config-locale { min-height: 48px; }
 .initialize-section .prompt-first-panel { margin-top: 16px; }
 
+.release-catalog { display: grid; gap: 28px; }
+.release-products { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.release-product { display: grid; min-width: 0; gap: 6px; padding: 20px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--ink); text-align: left; cursor: pointer; transition: border-color .16s, background .16s, box-shadow .16s; }
+.release-product:hover { border-color: #b9c8d1; }
+.release-product.active { border-color: var(--accent); background: #f6fafc; box-shadow: inset 0 0 0 1px var(--accent); }
+.release-product-label { color: var(--accent); font-size: 11px; font-weight: 800; letter-spacing: .05em; }
+.release-product strong { font-family: "SFMono-Regular", Consolas, monospace; font-size: 18px; }
+.release-product small { color: var(--ink-soft); font-size: 13px; line-height: 1.5; }
+.release-product-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.release-product-badges img { display: block; height: 20px; }
+.release-history-heading { padding-top: 5px; border-top: 1px solid var(--line); }
 .release-list { display: grid; gap: 16px; }
+.release-card[hidden] { display: none; }
 .release-card { padding: 28px; }
 .release-card-heading { display: flex; justify-content: space-between; gap: 16px; align-items: start; padding-bottom: 22px; border-bottom: 1px solid var(--line); }
 .release-card h2 { margin: 6px 0 0; font-size: 28px; letter-spacing: -.04em; }
@@ -267,6 +283,9 @@ body[data-lang="en"] .title-en { display: block; }
   .section { padding: 54px 0; }.section-heading h2, .product-path-heading h2 { font-size: clamp(25px, 7.5vw, 31px); }
   .home-overview { padding: 54px 0; }.home-overview-heading h2 { font-size: clamp(26px, 8vw, 32px); }.overview-basis { grid-template-columns: 1fr; margin-top: 28px; }.overview-basis article { min-height: 0; padding: 18px 0; border-top: 1px solid var(--line); border-left: 0; }.overview-basis article:first-child { border-top: 0; }.overview-basis strong { margin-top: 12px; }.overview-flow { align-items: flex-start; flex-direction: column; gap: 8px; margin-top: 20px; }.overview-flow i { width: 1px; height: 16px; margin-left: 5px; }.overview-flow i::after { margin-top: 12px; margin-right: -2px; }
   .product-path, .proof-grid, .pain-grid, .work-case-grid, .environment-grid, .work-loop, .trust-section ul, .release-columns, .prompt-first-panel, .builder-options, .viewer-access-grid, .viewer-guide-grid, .dsh-flow-grid, .dsh-notes-grid { grid-template-columns: 1fr; }
+  .release-products { grid-template-columns: 1fr; }
+  .release-product { padding: 17px; }
+  .release-card { padding: 22px; }
   .product-path { gap: 24px; padding: 32px 0; }.product-path-steps { grid-template-columns: 1fr; gap: 14px; }.product-path-steps li { min-height: 0; padding-left: 14px; }
   .highlight-band { padding: 54px 0; }.highlight-band .section-heading, .highlight-band .work-loop, .highlight-band .asset-explainer { width: min(100% - 32px, 600px); }
   .asset-explainer { grid-template-columns: 1fr 1fr; }

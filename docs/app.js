@@ -241,6 +241,39 @@ function initializeSiteStats() {
   window.setTimeout(() => observer.disconnect(), 10000);
 }
 
+function initializeReleaseFilter() {
+  const filters = [...document.querySelectorAll("[data-release-filter]")];
+  const cards = [...document.querySelectorAll("#release-history > .release-card")];
+  const headings = [...document.querySelectorAll("[data-release-heading]")];
+  if (!filters.length || !cards.length) return;
+
+  const knownPackages = new Set(filters.map((button) => button.dataset.releaseFilter));
+  const packageFromHash = window.location.hash.slice(1);
+  const initialPackage = knownPackages.has(packageFromHash) ? packageFromHash : "recowork";
+
+  const selectPackage = (packageName, updateHash = true) => {
+    filters.forEach((button) => {
+      const active = button.dataset.releaseFilter === packageName;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-selected", String(active));
+      button.tabIndex = active ? 0 : -1;
+    });
+    cards.forEach((card) => {
+      const cardPackage = card.dataset.releasePackage || "recowork";
+      card.hidden = cardPackage !== packageName;
+    });
+    headings.forEach((heading) => { heading.hidden = heading.dataset.releaseHeading !== packageName; });
+    if (updateHash) window.history.replaceState(null, "", `#${packageName}`);
+  };
+
+  filters.forEach((button) => button.addEventListener("click", () => selectPackage(button.dataset.releaseFilter)));
+  window.addEventListener("hashchange", () => {
+    const packageName = window.location.hash.slice(1);
+    if (knownPackages.has(packageName)) selectPackage(packageName, false);
+  });
+  selectPackage(initialPackage, false);
+}
+
 async function copyText(text) {
   try { await navigator.clipboard.writeText(text); }
   catch {
@@ -271,3 +304,4 @@ initializeMobileNavigation();
 applyLanguage(language);
 initializeWorkbenchCarousel();
 initializeSiteStats();
+initializeReleaseFilter();
