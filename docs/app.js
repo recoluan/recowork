@@ -109,6 +109,7 @@ function applyLanguage(nextLanguage) {
   document.body.dataset.lang = language;
   document.querySelectorAll("[data-zh][data-en]").forEach((node) => { node.textContent = node.dataset[language]; });
   document.querySelectorAll("[data-alt-zh][data-alt-en]").forEach((node) => { node.alt = node.dataset[`alt${language === "zh" ? "Zh" : "En"}`]; });
+  document.querySelectorAll("[data-aria-zh][data-aria-en]").forEach((node) => { node.setAttribute("aria-label", node.dataset[`aria${language === "zh" ? "Zh" : "En"}`]); });
   document.querySelectorAll(".language-toggle").forEach((button) => button.classList.toggle("active", button.dataset.lang === language));
   if (document.body.dataset.titleZh) {
     document.title = language === "zh" ? document.body.dataset.titleZh : document.body.dataset.titleEn;
@@ -154,6 +155,63 @@ function initializeMobileNavigation() {
   window.matchMedia("(max-width: 820px)").addEventListener("change", (event) => {
     if (!event.matches) setOpen(false);
   });
+}
+
+function initializeContactDialog() {
+  const actions = document.querySelector(".header-actions");
+  const nav = document.querySelector(".main-nav");
+  if (!actions || !nav || document.querySelector("#contactDialog")) return;
+
+  const contactButton = document.createElement("button");
+  contactButton.className = "contact-button";
+  contactButton.type = "button";
+  contactButton.dataset.openContact = "";
+  contactButton.dataset.ariaZh = "联系作者";
+  contactButton.dataset.ariaEn = "Contact the creator";
+  contactButton.setAttribute("aria-label", "联系作者");
+  contactButton.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"/><path d="M8 9h8M8 13h5"/></svg><span data-zh="联系作者" data-en="Contact">联系作者</span>';
+  actions.insertBefore(contactButton, actions.querySelector(".github-link"));
+
+  const mobileGithub = document.createElement("a");
+  mobileGithub.className = "mobile-nav-github";
+  mobileGithub.href = "https://github.com/recoluan/recowork";
+  mobileGithub.target = "_blank";
+  mobileGithub.rel = "noreferrer";
+  mobileGithub.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.1 3.3 9.4 7.9 10.9.58.1.8-.25.8-.56v-2.1c-3.22.7-3.9-1.38-3.9-1.38-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.7.08-.7 1.17.08 1.8 1.2 1.8 1.2 1.04 1.78 2.73 1.27 3.4.97.1-.76.4-1.27.74-1.56-2.57-.3-5.27-1.28-5.27-5.73 0-1.27.45-2.3 1.2-3.12-.12-.3-.52-1.5.12-3.08 0 0 .98-.31 3.2 1.2A11.1 11.1 0 0 1 12 5.94c.98 0 1.96.13 2.88.39 2.22-1.5 3.2-1.2 3.2-1.2.64 1.58.24 2.78.12 3.08.75.82 1.2 1.85 1.2 3.12 0 4.46-2.7 5.43-5.28 5.72.42.36.8 1.08.8 2.18v3.11c0 .31.2.67.8.56a11.5 11.5 0 0 0-3.72-22.4Z" /></svg><span>GitHub</span>';
+  nav.append(mobileGithub);
+
+  const dialog = document.createElement("dialog");
+  dialog.className = "contact-dialog";
+  dialog.id = "contactDialog";
+  dialog.setAttribute("aria-labelledby", "contactDialogTitle");
+  dialog.innerHTML = `
+    <div class="contact-dialog-layout">
+      <button class="contact-dialog-close" type="button" data-close-contact data-aria-zh="关闭联系窗口" data-aria-en="Close contact dialog" aria-label="关闭联系窗口">×</button>
+      <div class="contact-dialog-copy">
+        <p class="eyebrow" data-zh="联系作者" data-en="Contact the creator">联系作者</p>
+        <h2 id="contactDialogTitle" data-zh="有问题，直接和我聊。" data-en="Have a question? Talk to me directly.">有问题，直接和我聊。</h2>
+        <p data-zh="产品建议、使用问题、Bug 反馈或合作想法，都可以通过微信联系 RecoWork 作者。" data-en="For product feedback, support, bug reports, or collaboration, contact the RecoWork creator on WeChat.">产品建议、使用问题、Bug 反馈或合作想法，都可以通过微信联系 RecoWork 作者。</p>
+        <div class="contact-author"><span>R</span><div><strong>Reco</strong><small data-zh="RecoWork 作者" data-en="Creator of RecoWork">RecoWork 作者</small></div></div>
+        <a class="contact-issues-link" href="https://github.com/recoluan/recowork/issues" target="_blank" rel="noreferrer" data-zh="也可以前往 GitHub Issues" data-en="Or use GitHub Issues">也可以前往 GitHub Issues</a>
+      </div>
+      <div class="contact-qr-panel">
+        <img src="./assets/wechat-contact.jpg" alt="Reco 的微信二维码" data-alt-zh="Reco 的微信二维码" data-alt-en="Reco's WeChat QR code" />
+        <strong data-zh="微信扫一扫添加好友" data-en="Scan with WeChat to connect">微信扫一扫添加好友</strong>
+        <p data-zh="手机访问时，可保存二维码后在微信中从相册识别。" data-en="On mobile, save the QR code and scan it from your WeChat album.">手机访问时，可保存二维码后在微信中从相册识别。</p>
+        <a class="contact-save-link" href="./assets/wechat-contact.jpg" download="recowork-wechat.jpg" data-zh="保存二维码" data-en="Save QR code">保存二维码</a>
+      </div>
+    </div>`;
+  document.body.append(dialog);
+
+  const openDialog = () => {
+    dialog.showModal();
+    document.body.classList.add("contact-open");
+  };
+  const closeDialog = () => dialog.close();
+  contactButton.addEventListener("click", openDialog);
+  dialog.querySelector("[data-close-contact]").addEventListener("click", closeDialog);
+  dialog.addEventListener("click", (event) => { if (event.target === dialog) closeDialog(); });
+  dialog.addEventListener("close", () => document.body.classList.remove("contact-open"));
 }
 
 function showToast(message) {
@@ -300,6 +358,7 @@ document.querySelectorAll("[data-copy-target]").forEach((button) => button.addEv
 document.querySelectorAll("[data-open-design-demo]").forEach((button) => button.addEventListener("click", () => document.querySelector("#designDemoModal")?.showModal()));
 document.querySelectorAll("[data-close-design-demo]").forEach((button) => button.addEventListener("click", () => document.querySelector("#designDemoModal")?.close()));
 
+initializeContactDialog();
 initializeMobileNavigation();
 applyLanguage(language);
 initializeWorkbenchCarousel();

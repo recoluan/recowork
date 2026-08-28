@@ -31,8 +31,13 @@ body[data-lang="en"] .title-en { display: block; }
 .main-nav a { padding: 8px 0; color: var(--ink-soft); font-size: 14px; font-weight: 650; text-decoration: none; }
 .main-nav a:hover, .main-nav a.active { color: var(--ink); }
 .header-actions { display: flex; align-items: center; gap: 10px; }
-.github-link { display: inline-flex; min-height: 38px; align-items: center; gap: 6px; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink); font-size: 13px; font-weight: 700; text-decoration: none; }
-.github-link svg { display: block; width: 15px; height: 15px; flex: 0 0 15px; fill: currentColor; }
+.github-link, .contact-button { display: inline-flex; min-height: 38px; align-items: center; gap: 6px; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink); font-size: 13px; font-weight: 700; text-decoration: none; }
+.github-link svg, .contact-button svg { display: block; width: 15px; height: 15px; flex: 0 0 15px; }
+.github-link svg { fill: currentColor; }
+.contact-button { border-color: #cbdce7; background: var(--accent-soft); color: #29475f; }
+.contact-button svg { fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+.contact-button:hover { border-color: var(--accent); }
+.mobile-nav-github { display: none; }
 .language-toggle { padding: 7px 2px; border: 0; background: transparent; color: #8a969f; font-size: 13px; font-weight: 700; }
 .language-toggle.active { color: var(--ink); }
 .nav-toggle { display: none; width: 40px; height: 40px; padding: 0; border: 1px solid var(--line); border-radius: 50%; background: var(--surface); align-items: center; justify-content: center; flex-direction: column; gap: 4px; color: var(--ink); }
@@ -40,6 +45,27 @@ body[data-lang="en"] .title-en { display: block; }
 .site-header.nav-open .nav-toggle span:first-child { transform: translateY(5.5px) rotate(45deg); }
 .site-header.nav-open .nav-toggle span:nth-child(2) { opacity: 0; }
 .site-header.nav-open .nav-toggle span:last-child { transform: translateY(-5.5px) rotate(-45deg); }
+
+body.contact-open { overflow: hidden; }
+.contact-dialog { width: min(760px, calc(100% - 32px)); max-width: none; padding: 0; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); color: var(--ink); box-shadow: 0 28px 80px rgba(18, 34, 47, .2); }
+.contact-dialog::backdrop { background: rgba(18, 34, 47, .38); backdrop-filter: blur(3px); }
+.contact-dialog-layout { position: relative; display: grid; grid-template-columns: minmax(0, .9fr) minmax(290px, 1.1fr); gap: 32px; padding: 34px; }
+.contact-dialog-close { position: absolute; z-index: 1; top: 14px; right: 14px; display: grid; width: 34px; height: 34px; padding: 0; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: var(--surface); color: var(--ink-soft); font-size: 23px; font-weight: 400; line-height: 1; }
+.contact-dialog-copy { align-self: center; }
+.contact-dialog-copy h2 { max-width: 320px; margin: 0; font-size: 32px; font-weight: 650; line-height: 1.12; letter-spacing: -.045em; }
+.contact-dialog-copy > p:not(.eyebrow) { margin: 17px 0 0; color: var(--ink-soft); font-size: 14px; line-height: 1.65; }
+.contact-author { display: flex; align-items: center; gap: 11px; margin-top: 22px; }
+.contact-author > span { display: grid; width: 38px; height: 38px; place-items: center; border-radius: 10px; background: var(--accent); color: #fff; font-size: 16px; font-weight: 800; }
+.contact-author div { display: grid; gap: 2px; }
+.contact-author strong { font-size: 14px; }
+.contact-author small { color: var(--ink-soft); font-size: 12px; }
+.contact-issues-link { display: inline-flex; margin-top: 24px; color: var(--accent); font-size: 13px; font-weight: 750; text-decoration: none; }
+.contact-issues-link::after { margin-left: 7px; content: "→"; }
+.contact-qr-panel { display: grid; justify-items: center; padding: 22px; border: 1px solid var(--line); border-radius: 14px; background: var(--canvas); text-align: center; }
+.contact-qr-panel img { display: block; width: min(100%, 300px); aspect-ratio: 1; border-radius: 8px; }
+.contact-qr-panel strong { margin-top: 14px; font-size: 14px; }
+.contact-qr-panel p { margin: 5px 0 0; color: var(--ink-soft); font-size: 12px; line-height: 1.5; }
+.contact-save-link { display: inline-flex; min-height: 40px; align-items: center; justify-content: center; margin-top: 15px; padding: 0 17px; border: 1px solid var(--ink); border-radius: 999px; background: var(--ink); color: #fff; font-size: 13px; font-weight: 750; text-decoration: none; }
 
 .hero, .page-hero { display: grid; grid-template-columns: minmax(330px, .74fr) minmax(560px, 1.26fr); align-items: center; gap: 42px; min-height: 520px; padding: 76px 0; }
 .page-hero { grid-template-columns: minmax(0, 740px); min-height: 355px; }
@@ -275,7 +301,20 @@ body[data-lang="en"] .title-en { display: block; }
   .site-header.nav-open .main-nav { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; transition-delay: 0s; }
   .main-nav a { padding: 12px 14px; border-radius: 8px; font-size: 14px; text-align: left; }
   .main-nav a:hover, .main-nav a.active { background: var(--accent-soft); color: var(--ink); }
-  .github-link span { display: none; }.github-link { width: 38px; height: 38px; min-height: 38px; flex: 0 0 38px; justify-content: center; padding: 0; line-height: 0; }
+  .github-link { display: none; }
+  .contact-button { width: 38px; height: 38px; min-height: 38px; flex: 0 0 38px; justify-content: center; padding: 0; line-height: 0; }
+  .contact-button span { display: none; }
+  .mobile-nav-github { display: flex !important; align-items: center; gap: 9px; margin-top: 4px; border-top: 1px solid var(--line); color: var(--ink) !important; }
+  .mobile-nav-github svg { width: 16px; height: 16px; fill: currentColor; }
+  .contact-dialog { width: 100%; max-height: calc(100dvh - 18px); margin: auto 0 0; border-width: 1px 0 0; border-radius: 20px 20px 0 0; }
+  .contact-dialog-layout { grid-template-columns: 1fr; gap: 22px; max-height: calc(100dvh - 18px); padding: 28px 20px 22px; overflow-y: auto; }
+  .contact-dialog-copy { padding-right: 26px; }
+  .contact-dialog-copy h2 { font-size: 27px; }
+  .contact-dialog-copy > p:not(.eyebrow) { margin-top: 13px; }
+  .contact-author { margin-top: 17px; }
+  .contact-issues-link { margin-top: 18px; }
+  .contact-qr-panel { padding: 17px; }
+  .contact-qr-panel img { width: min(100%, 270px); }
   .hero, .page-hero { grid-template-columns: 1fr; gap: 32px; min-height: 0; padding: 55px 0; }
   .hero-copy { order: 2; }.agent-preview { order: 1; }
   .hero h1, .page-hero h1 { font-size: clamp(38px, 11vw, 52px); }
