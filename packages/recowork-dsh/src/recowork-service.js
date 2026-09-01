@@ -105,6 +105,49 @@ function healthSummary(manifest, candidates, excerpts) {
   }
 }
 
+function deckActions(workflow) {
+  const actions = [{ id: 'orient', kind: 'orient' }]
+  for (const item of workflow.nextActions) {
+    actions.push({ id: `question:${item}`, kind: 'resolve-question', item })
+  }
+  actions.push({ id: 'review', kind: 'review' })
+  return actions
+}
+
+function memoryItems(excerpts) {
+  const ignoredPath = /(?:待确认问题|open-questions|搁置想法|parked-ideas)\.md$/
+  const ignoredItem = /^(?:待填写|To be completed|无|None|N\/A)(?:[：:]|$)/i
+  const items = []
+  for (const excerpt of excerpts.filter((item) => !ignoredPath.test(item.path))) {
+    for (const line of excerpt.content.split('\n')) {
+      const match = line.match(/^\s*-\s+(?!\[[ xX]\]\s*)(.+)$/)
+      const text = match?.[1]?.trim()
+      if (!text || ignoredItem.test(text) || /^[-|: ]+$/.test(text)) continue
+      items.push({ text, source: excerpt.path })
+      if (items.length === 3) return items
+    }
+  }
+  return items
+}
+
+function deckSummary(workflow, health, excerpts) {
+  const expected = health.expectedDocuments || 0
+  const complete = expected > 0 && health.recognizedDocuments >= expected
+  const actions = deckActions(workflow)
+  return {
+    stage: workflow.stage,
+    blockingCount: workflow.nextActions.length,
+    primaryActionId: actions.find((action) => action.kind === 'resolve-question')?.id || 'orient',
+    progress: {
+      recognizedDocuments: health.recognizedDocuments,
+      expectedDocuments: expected,
+      complete,
+    },
+    actions,
+    memory: memoryItems(excerpts),
+  }
+}
+
 function readExcerpt(workspace, relativePath) {
   const fullPath = path.resolve(workspace, relativePath)
   if (!fullPath.startsWith(`${workspace}${path.sep}`) || !existsSync(fullPath) || !lstatSync(fullPath).isFile()) return null
@@ -174,6 +217,11 @@ export function createRecoWorkService(config = {}, dependencies = {}) {
       const indexPath = workspaceIndexPath(manifest)
       const indexExcerpt = indexPath === null ? null : readExcerpt(canonicalDestination, indexPath)
       const openQuestion = excerpts.find((excerpt) => /(?:待确认问题|open-questions)\.md$/.test(excerpt.path))
+      const workflow = {
+        stage: stageFromIndex(indexExcerpt),
+        nextActions: openQuestion ? actionableItems([openQuestion]) : [],
+      }
+      const health = healthSummary(manifest, candidates, excerpts)
       return {
         operation: 'read-only-status',
         destination: canonicalDestination,
@@ -187,11 +235,9 @@ export function createRecoWorkService(config = {}, dependencies = {}) {
           recowork_version: manifest.recowork_version,
           generated_at: manifest.generated_at,
         },
-        workflow: {
-          stage: stageFromIndex(indexExcerpt),
-          nextActions: openQuestion ? actionableItems([openQuestion]) : [],
-        },
-        health: healthSummary(manifest, candidates, excerpts),
+        workflow,
+        health,
+        deck: deckSummary(workflow, health, excerpts),
         documents: excerpts,
       }
     },

@@ -61,12 +61,26 @@ test('status includes stage, actionable open questions, and workspace health', (
     },
   }))
   writeFileSync(path.join(destination, '工作空间', 'index.md'), '> 当前阶段：探索与验证')
+  writeFileSync(path.join(destination, '工作空间', '项目简报.md'), '# 项目简报\n\n- 工作区文档是唯一事实来源\n- 待填写：发布范围')
   writeFileSync(path.join(destination, '工作空间', '待确认问题.md'), '# 待确认问题\n\n- 确认目标用户\n- 确认发布方式')
   const result = createRecoWorkService({ allowedRoots: [root] }).status({ root, destination: 'project' })
 
   assert.equal(result.workflow.stage, '探索与验证')
   assert.deepEqual(result.workflow.nextActions, ['确认目标用户', '确认发布方式'])
-  assert.deepEqual(result.health, { manifest: true, schemaVersion: 2, recognizedDocuments: 1, expectedDocuments: 3, missingDocuments: ['工作空间/项目简报.md', '工作空间/搁置想法.md'], modifiedManagedFiles: 1 })
+  assert.deepEqual(result.health, { manifest: true, schemaVersion: 2, recognizedDocuments: 2, expectedDocuments: 3, missingDocuments: ['工作空间/搁置想法.md'], modifiedManagedFiles: 1 })
+  assert.deepEqual(result.deck, {
+    stage: '探索与验证',
+    blockingCount: 2,
+    primaryActionId: 'question:确认目标用户',
+    progress: { recognizedDocuments: 2, expectedDocuments: 3, complete: false },
+    actions: [
+      { id: 'orient', kind: 'orient' },
+      { id: 'question:确认目标用户', kind: 'resolve-question', item: '确认目标用户' },
+      { id: 'question:确认发布方式', kind: 'resolve-question', item: '确认发布方式' },
+      { id: 'review', kind: 'review' },
+    ],
+    memory: [{ text: '工作区文档是唯一事实来源', source: '工作空间/项目简报.md' }],
+  })
 })
 
 test('status rejects a destination symlink that resolves outside its approved root', () => {
@@ -177,22 +191,21 @@ test('web dashboard registers with the required list-slot id', () => {
   const client = readFileSync(new URL('../client.js', import.meta.url), 'utf8')
   assert.match(client, /name: 'shell\.overlay',[\s\S]*id: 'recowork-dashboard'/)
   assert.doesNotMatch(client, /key: 'recowork-dashboard'/)
-  assert.match(client, /const \[open, setOpen\] = useState\(false\)/)
-  assert.match(client, /documentRows\.map/)
+  assert.match(client, /跨会话接着做，不用重新解释项目/)
+  assert.match(client, /带着完整上下文继续/)
+  assert.match(client, /需要你决定/)
+  assert.match(client, /项目记忆/)
+  assert.match(client, /const \[view, setView\] = useState\('dashboard'\)/)
   assert.match(client, /确认并初始化/)
   assert.match(client, /confirmed: true/)
-  assert.match(client, /已有工作区/)
-  assert.match(client, /mode === 'status' && manifest/)
-  assert.match(client, /onClick: \(\) => refresh\(\)/)
-  assert.match(client, /当前阶段/)
-  assert.match(client, /需要关注/)
-  assert.match(client, /工作区健康度/)
-  assert.match(client, /const \{ createElement, useEffect, useState, useSyncExternalStore \} = React/)
-  assert.match(client, /inject: \['slots', 'locale'\]/)
+  assert.match(client, /项目工作区/)
+  assert.match(client, /if \(root && destination\) refresh\(destination\)/)
+  assert.match(client, /和 Agent 一起决策/)
+  assert.match(client, /session\.prompt/)
+  assert.match(client, /inject: \['slots', 'locale', 'sessions'\]/)
   assert.match(client, /localeService\.subscribe\(listener\)/)
-  assert.match(client, /Status/)
-  assert.match(client, /Current stage/)
-  assert.match(client, /height: 'min\(600px, calc\(100vh - 40px\)\)'/)
+  assert.match(client, /Project progress/)
+  assert.match(client, /height: 'min\(700px, calc\(100vh - 40px\)\)'/)
   assert.match(client, /display: 'flex', flexDirection: 'column', overflow: 'hidden'/)
   assert.match(client, /minHeight: 0, overflowY: 'auto', overscrollBehavior: 'contain'/)
   assert.match(client, /var\(--dsw-alias-bg-layer-1/)

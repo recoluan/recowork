@@ -1,6 +1,6 @@
 {
   "name": "recowork-dsh",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "Safe RecoWork workspace tools for DeepSeek Harness.",
   "author": "RecoWork",
   "type": "module",

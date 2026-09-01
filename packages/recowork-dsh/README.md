@@ -7,12 +7,13 @@
 
 It also contributes a model-facing workflow protocol: use initialization only on an explicit request, inspect a workspace before durable work, then read its `AGENTS.md` and localized working methods before planning or editing. It intentionally does not expose a shell, arbitrary file reads, upgrades, deletion, or renaming.
 
-In DSH Web it also adds a collapsible workspace card with two bounded flows:
+In DSH Web it adds a collapsible **RecoWork project cockpit**:
 
-- **Status** lets the user select a recognized direct-child workspace from the configured root, then reads its template, locale, current-document names, derived current stage, up to three actionable open-question items, and a concise manifest/document health summary through the same authorization checks as `recowork_status`.
-- **New workspace** accepts an approved root, relative destination, supported template, and locale. The user must explicitly confirm that the destination is missing or empty before the card calls the same constrained initializer as `recowork_init`.
+- Selecting a recognized workspace automatically loads its authorized read-only status. The main dashboard shows a full-context continuation action, blocking decisions from open questions, the current project stage, and stable project-memory items extracted from the project brief.
+- A guarded action can be queued into the current DSH conversation or copied as the same task package for another conversation. The package includes the workspace path, status read, root `AGENTS.md` protocol, and the selected objective.
+- Technical metadata, document health, current-document names, and manual refresh live under **Status & settings**. **New workspace** remains a separate explicitly confirmed initialization flow.
 
-The card cannot edit, delete, repair, or upgrade a workspace. The server rejects an initialization request without the confirmation field, outside an approved root, or against a non-empty destination.
+The cockpit does not maintain a second task database and cannot edit, delete, repair, or upgrade a workspace. Its generated prompts instruct the agent to read `AGENTS.md` and the localized working methods, treat workspace documents as authoritative, and honor the project's confirmation rules before changing direction, scope, or files. The server rejects an initialization request without the confirmation field, outside an approved root, or against a non-empty destination.
 
 Its interface follows DSH's active `zh` or `en` preference live, including when the user changes the language in DSH Settings. Workspace document names and action text remain in the language of the selected workspace.
 

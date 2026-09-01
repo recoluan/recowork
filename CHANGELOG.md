@@ -10,6 +10,12 @@ This changelog records functional behavior, compatibility, migration, CLI, templ
 
 - Added the experimental `recowork-codex` Codex plugin. Its initial RecoWork Skill uses the existing CLI and generated root `AGENTS.md` protocol; it adds no Codex-specific workspace format, MCP server, or hidden lifecycle state.
 
+## [recowork-dsh 0.2.0] - 2026-09-01
+
+### Added
+
+- Reworked the experimental `recowork-dsh` Web card into a project cockpit. Selecting a workspace automatically loads its authorized status, then leads with full-context continuation, blocking decisions, workflow progress, and stable project-memory items extracted from the project brief; technical metadata and document health move to secondary settings. Actions can queue a guarded prompt in the current DSH session or copy the same task package for another conversation. Workspace files and the generated `AGENTS.md` protocol remain authoritative, and the adapter adds no second task store or workspace write capability.
+
 ## [recowork-dsh 0.1.3] - 2026-08-27
 
 ### Changed
