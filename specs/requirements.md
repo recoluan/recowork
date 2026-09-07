@@ -203,7 +203,7 @@ npx --yes recowork@latest add <template> --target <target> --locale <locale> <de
 
 ## Idea To Project Workspace Requirements
 
-The `idea-to-project` template should generate one concise Chinese-oriented `工作空间/` structure:
+The `idea-to-project` template uses the following stage path map (not a mandatory initialization tree; see the progressive-record contract below):
 
 ```text
 工作空间/
@@ -227,12 +227,12 @@ The Chinese locale should also generate:
 └── 角色设定.md
 ```
 
-The Chinese locale must also generate `工作方法/文档规范.md`; the English locale must generate `methods/document-standard.md`. This working method defines a five-part document structure (metadata, conclusion first, body, relative references, and change log), modular authority documents, index-only navigation rules, progressive retrieval, and index-status maintenance after work.
+The Chinese locale must also generate `工作方法/文档规范.md`; the English locale must generate `methods/document-standard.md`. For this template the working method defines purpose-sized records, progressive topic structure, a source-linked reading home, progressive retrieval and affected-index maintenance; see the progressive-record contract below.
 
 Responsibilities:
 
 - The workflow has a mandatory stage gate: explore and validate first, then present a direction decision package and wait for explicit confirmation before project entry. After project entry, confirm material scope before a complete solution, plan, or implementation. An explicitly confirmed local task may proceed without repeated confirmation.
-- `项目简报.md`: project background, problem, goals, scope, non-goals, current status, and constraints.
+- `项目简报.md`: stable project background, problem, goals, scope, non-goals and constraints; dynamic progress belongs in the delivery plan.
 - `待确认问题.md`: questions that AI must not silently assume.
 - `搁置想法.md`: ideas or directions that are not being advanced now but may restart; every entry records its reason, restart condition, priority, last assessment, related material, and next step. It is a current workspace document, not an archive or a list of blocking open questions.
 - `01-探索与验证/`: problem, candidate directions, hypotheses, evidence, validation, and a direction decision package.
@@ -373,3 +373,17 @@ Responsibilities:
 - Use `RW` for the abbreviation.
 - npm package remains lowercase `recowork`.
 - CLI binary remains lowercase `rw`.
+
+## Idea To Project: Progressive Records And Return Reading
+
+For `idea-to-project` only, the following supersedes the general five-part, mandatory module-pair and physical-archive-only conventions above. Other templates retain their existing contracts.
+
+- Ordinary explanations and unsettled discussion may stay in conversation. Persist changes to goals, scope, design, actions or evidence worth revisiting; update an existing topic first. A new file requires a concrete separate-use task and an explanation of why a section is insufficient. Simple topics need one file; add modules/indexes only for multiple independently useful artifacts. Important decisions retain stable IDs and reasons; small decisions remain in their topics.
+- Formats scale with purpose: short records need conclusions, boundaries and sources; durable designs need status, update date and scope; decisions need confirmation/reasons/alternatives/impact; evidence needs method/results/limits/reproduction. Do not require five sections, duplicate summaries or routine version logs for every file.
+- The home index may give about five lines of dated, source-linked progress and reading guidance. The brief owns stable background/goals/non-goals; the existing delivery plan owns stage/progress/next action, including during exploration. The direction package owns direction confirmation, open questions own unresolved issues, current topics own requirements/design, and evidence owns validation results. Summaries do not become separate fact stores.
+- Confirmed decisions and changed validation trigger affected-topic updates, semantic matching and closure of resolved questions, progress/next-step updates and home/parent navigation checks in the same work cycle. Preserve partially unresolved questions. Trustworthiness and five-minute return readability are separate content reviews, not consequences of passing link tests.
+- Keep numbered stage paths available, but generate only six workspace records: home, brief, open questions, parked ideas, direction package and delivery plan. Create other stage/topic directories, indexes, decision records and archive entries when needed. No mass relocation to topic directories.
+- History can remain in place with explicit status and a current replacement link, outside normal navigation; provide deliberate historical access through an existing index or an on-demand archive index. Preserve relevant dated evidence and important decisions. No routine snapshots or separate archive-candidate paperwork. Viewer search does not automatically exclude in-place history; raw HTML folding is not a viewer feature.
+- Workflow is the authority for confirmation: retain direction/validation-plan/project-entry gates, material scope changes and irreversible-action confirmation. Already authorized synchronization, resolved-question closure, index/link fixes and recoverable status/navigation maintenance can proceed. Reuse explicit standing authorization within scope. Meaning-changing rewrites, moves, renames, physical archives and deletions require concretely scoped authorization; general maintenance never implies deletion or business approval.
+- Method ownership: document standard owns persistence/granularity/navigation; knowledge structure owns fact locations; freshness owns status/synchronization/history; workflow owns stages/authorization; role and quality gates reference these authorities.
+- Existing workspaces remain user-owned. Upgrade preserves all existing workspace paths, including upstream-retired placeholders, and reports review needs. Only unmodified methods/target content is safely updated; missing workspace records require explicit `--scope workspace --add-missing`. New rules apply prospectively; reconciling existing facts/home is authorized manual work, never an automatic migration.

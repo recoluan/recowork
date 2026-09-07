@@ -1,35 +1,13 @@
 # Project Brief
 
-Use this file as the one-page project overview. After the user confirms project entry, transfer stable conclusions from `01-exploration-and-validation/direction-decision-package.md`; record stable agreement here, not exploration traces.
+> Status: Draft
 
-## Background
+Keep stable background, problem, goals, non-goals and overall constraints here. Link detailed requirements; do not duplicate progress. After project entry, use the confirmed [direction package](./01-exploration-and-validation/direction-decision-package.md).
 
-To fill: why this project exists and why now.
+## Background, problem and goals
 
-## Confirmed Direction Source
+Awaiting clarification; unknown is not confirmed.
 
-To fill: link to `01-exploration-and-validation/direction-decision-package.md`, including selected direction, confirmation date, and accepted risks.
+## Scope, non-goals and constraints
 
-## Problem
-
-To fill: the core problem this project needs to solve.
-
-## Goals
-
-To fill: concrete outcomes and success criteria.
-
-## Scope
-
-To fill: features, scenarios, or work covered by this project.
-
-## Non-Goals
-
-To fill: what this project explicitly will not do.
-
-## Current Status
-
-To fill: current progress, confirmed facts, and unresolved information.
-
-## Constraints
-
-To fill: time, resource, technical, platform, compliance, or collaboration constraints.
+To confirm. Maintain dynamic progress and next step only in the [delivery plan](./04-plan-and-decisions/delivery-plan.md).

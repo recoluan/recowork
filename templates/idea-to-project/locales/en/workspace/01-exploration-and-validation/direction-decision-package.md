@@ -20,7 +20,7 @@ To fill: each candidate's value, evidence, counterevidence, key assumptions, ris
 
 ## Recommendation And Unselected Directions
 
-To fill: recommended direction and reasons for retaining, parking, excluding, or validating other directions. Copy each restartable parked direction to [Parked Ideas](../../parked-ideas.md) with its parking reason and restart condition.
+To fill: recommended direction and reasons for retaining, parking, excluding, or validating other directions. Copy each restartable parked direction to [Parked Ideas](../parked-ideas.md) with its parking reason and restart condition.
 
 ## Stage-Gate Decision
 
@@ -29,8 +29,8 @@ To fill: recommended direction and reasons for retaining, parking, excluding, or
 
 ## Related References
 
-- [Exploration And Validation Index](./index.md)
+- [Workspace Home](../index.md)
 - [Project Brief](../project-brief.md)
 - [Open Questions](../open-questions.md)
-- [Parked Ideas](../../parked-ideas.md)
+- [Parked Ideas](../parked-ideas.md)
 - [Workflow](../../methods/workflow.md)

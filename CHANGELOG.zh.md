@@ -6,6 +6,10 @@ RecoWork 的重要变更记录在此。项目遵循 [Keep a Changelog](https://k
 
 ## [未发布]
 
+### 变更
+
+- 改进 idea-to-project：按需生成六份工作记录，首页引导五分钟回读，事实分工与决策收口明确；答疑可不落盘，简单主题不强制模块双文档，维护沿用明确授权。保留阶段门与追溯；升级不搬迁、覆盖或删除已有工作空间。
+
 ### 新增
 
 - 新增实验性的 Codex 插件 `recowork-codex`。首个 RecoWork Skill 只复用现有 CLI 与生成项目根目录的 `AGENTS.md` 协议，不新增 Codex 专属工作区格式、MCP 服务或隐藏生命周期状态。

@@ -1,13 +1,15 @@
 # Delivery Plan
 
-## Phases
+> Status: Draft; Updated: initialization
 
-To fill: split the project into phases that can be executed and validated.
+## Current stage and progress
+
+To determine; no verified progress yet. Maintain dynamic state here during exploration too; stage confirmation belongs in the [direction package](../01-exploration-and-validation/direction-decision-package.md).
+
+## Next step
+
+Clarify problem, users, constraints and success signals. Track completion and evidence for actions; planned is not completed.
 
 ## Milestones
 
-To fill: important checkpoints, deliverables, and completion criteria.
-
-## Next Steps
-
-To fill: the most useful next actions.
+Add stages, completion criteria and evidence links as needed. Do not produce a full project plan before explicit project entry.

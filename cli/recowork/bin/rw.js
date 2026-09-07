@@ -1775,17 +1775,21 @@ function getLocaleStrings(locale, template, target, localePaths) {
       headingExpectedOutputs: "Expected Outputs",
       headingWorkingProtocol: "Working Protocol",
       headingRules: "Rules",
-      ruleReadProjectContext: isWebDesignStandard
+      ruleReadProjectContext: isIdeaToProjectWorkflow
+        ? `Read \`${localePaths.roleFile}\` and \`${localePaths.workspaceDir}/index.md\`, then retrieve relevant methods and facts progressively.`
+        : isWebDesignStandard
         ? `Before designing, generating, or changing a web page, read \`${localePaths.designStandardFile}\`. If the project has a brand or design system, read that source as well and treat it as higher priority.`
         : `Read \`README.md\`, \`${localePaths.roleFile}\`, \`${localePaths.methodsDir}/\`, \`${localePaths.workspaceDir}/\`, and \`rw-manifest.json\` before ${isLearningWorkflow ? "starting or continuing a learning unit" : isIdeaWorkflow ? "starting or continuing an idea exploration" : isIdeaToProjectWorkflow ? "determining or continuing the current workflow stage" : "making changes"}.`,
-      ruleCaptureKnowledge: isWebDesignStandard
+      ruleCaptureKnowledge: isIdeaToProjectWorkflow
+        ? "Ordinary questions may stay in conversation; when project facts change, update the existing authoritative topic and affected navigation."
+        : isWebDesignStandard
         ? "Keep project-specific visual decisions in the project's own documents. Do not rewrite this reusable standard unless the user explicitly requests it."
         : `Capture verified conclusions in \`${localePaths.knowledgeCaptureDir}/\` and update the affected index.`,
       ruleReviewOutput: isWebDesignStandard
         ? `Before delivery, complete the checklist in \`${localePaths.designStandardFile}\` and report responsive, interaction-state, accessibility, and verification results.`
         : "Before returning work, review the result against the template purpose and expected outputs.",
       ruleConfirmLargeChanges: isIdeaToProjectWorkflow
-        ? "Before choosing a priority direction, validation plan, or project entry, present the direction decision package and wait for explicit confirmation. After project entry, confirm material scope changes and irreversible operations."
+        ? "Follow the workflow confirmation gates for direction, validation plans and project entry, material scope changes and irreversible actions. Reuse existing explicit authorization; document maintenance cannot decide business scope."
         : isIdeaWorkflow
         ? "Before selecting a priority direction, validation plan, or project execution, present an idea agreement and wait for the user's explicit confirmation."
         : isLearningWorkflow
@@ -1796,7 +1800,7 @@ function getLocaleStrings(locale, template, target, localePaths) {
           ? "Ask for confirmation before a material visual-direction change, a large page rewrite, or an irreversible operation when user requirements or the existing brand are unclear."
           : "Ask for confirmation before large scope changes or irreversible operations.",
       ruleKeepKnowledge: isIdeaToProjectWorkflow
-        ? `Keep Current facts concise in \`${localePaths.workspaceDir}/\` and formal indexes. Organize complex work by stable module: each module uses \`index.md\` as its entry point and \`overall-plan.md\` as its Current authority source; create a specialized child document only for an independent lifecycle, audience, review path, or change cadence. Keep restartable but not actively advanced directions in \`${localePaths.workspaceDir}/parked-ideas.md\` with a reason and restart condition; they are neither open questions nor archive material. After user confirmation, organize superseded versions and completed process material under \`${localePaths.workspaceDir}/archive/\` by category, topic, and version. Do not begin complete project design, planning, or implementation until the user explicitly confirms project entry; then transfer the confirmed direction into the project brief and use the numbered project sections.`
+        ? `Follow \`${localePaths.methodsDir}/workflow.md\` for stage gates and maintenance authority, \`${localePaths.methodsDir}/document-standard.md\` for persistence and granularity, \`${localePaths.methodsDir}/knowledge-structure.md\` for fact ownership, and \`${localePaths.methodsDir}/artifact-freshness-standard.md\` for synchronization. Start from \`${localePaths.workspaceDir}/index.md\` and read only relevant sources.`
         : isIdeaWorkflow
         ? `Keep idea briefs, directions, hypotheses, and decisions in \`${localePaths.workspaceDir}/\`. Explore broadly first, then separate facts, assumptions, and evidence; wait for confirmation before converging on a priority direction.`
       : isLearningWorkflow
@@ -1873,17 +1877,21 @@ function getLocaleStrings(locale, template, target, localePaths) {
     headingExpectedOutputs: "预期产物",
     headingWorkingProtocol: "工作协议",
     headingRules: "规则",
-    ruleReadProjectContext: isWebDesignStandard
+    ruleReadProjectContext: isIdeaToProjectWorkflow
+      ? `先读取 \`${localePaths.roleFile}\` 和 \`${localePaths.workspaceDir}/index.md\`，再按需读取相关方法与事实。`
+      : isWebDesignStandard
       ? `设计、生成或改动网页前，先读取 \`${localePaths.designStandardFile}\`。项目已有品牌规范或设计系统时，也必须先读取，并以其为更高优先级。`
       : `在${isLearningWorkflow ? "开始或续接一个学习单元" : isIdeaWorkflow ? "开始或续接一次想法探索" : isIdeaToProjectWorkflow ? "判断或续接当前工作阶段" : "改动"}前先读取 \`README.md\`、\`${localePaths.roleFile}\`、\`${localePaths.methodsDir}/\`、\`${localePaths.workspaceDir}/\` 和 \`rw-manifest.json\`。`,
-    ruleCaptureKnowledge: isWebDesignStandard
+    ruleCaptureKnowledge: isIdeaToProjectWorkflow
+      ? "普通答疑可以只留在对话；项目事实变化时更新已有权威主题及受影响导航。"
+      : isWebDesignStandard
       ? "将项目专属的视觉决策记录在项目已有文档中；除非用户明确要求，不要改写这份可复用规范。"
       : `把已验证的结论沉淀到 \`${localePaths.knowledgeCaptureDir}/\`，并更新受影响的索引。`,
     ruleReviewOutput: isWebDesignStandard
       ? `交付前完成 \`${localePaths.designStandardFile}\` 中的自检清单，并报告响应式、交互状态、可访问性和验证结果。`
       : "返回结果前，对照模板用途和预期产物自审。",
     ruleConfirmLargeChanges: isIdeaToProjectWorkflow
-      ? "选择优先方向、验证计划或进入项目之前，先给出方向决策包并等待用户明确确认；进入项目后，重大范围变化或不可逆操作前也必须确认。"
+      ? "按工作流程执行方向、验证计划、进入项目、重大范围变化和不可逆操作的确认门；沿用已有明确授权，文档维护不能代替业务决策。"
       : isIdeaWorkflow
       ? "选择优先方向、验证计划或进入项目执行前，先给出想法约定并等待用户明确确认。"
       : isLearningWorkflow
@@ -1894,7 +1902,7 @@ function getLocaleStrings(locale, template, target, localePaths) {
         ? "视觉方向发生重大变化、需要大范围重写页面，或既有品牌要求不明确时，先向用户确认；不可逆操作前也必须确认。"
         : "大范围变更或不可逆操作前，先向用户确认。",
       ruleKeepKnowledge: isIdeaToProjectWorkflow
-      ? `将当前事实精简地保留在 \`${localePaths.workspaceDir}/\` 和正式索引中。复杂工作按稳定模块组织：每个模块以 \`index.md\` 为入口、以 \`整体方案.md\` 为当前权威来源；只有内容具备独立生命周期、读者、评审路径或变更节奏时，才新建专门子文档。把暂不推进但可重启的方向记录在 \`${localePaths.workspaceDir}/搁置想法.md\`，写明搁置原因和重启条件，它既不是待确认问题也不是归档材料。用户确认后，才将已替代版本和已结束过程材料按分类、主题和版本放入 \`${localePaths.workspaceDir}/归档/\`。用户明确确认进入项目之前，不得开始完整项目设计、计划或实施；确认后将方向结论同步到项目简报，并使用后续编号目录推进。`
+      ? `按 \`${localePaths.methodsDir}/工作流程.md\` 执行阶段门和维护授权，按 \`${localePaths.methodsDir}/文档规范.md\` 判断落盘与粒度，按 \`${localePaths.methodsDir}/知识结构.md\` 维护事实归属，按 \`${localePaths.methodsDir}/产物保鲜规范.md\` 同步结论。从 \`${localePaths.workspaceDir}/index.md\` 按需读取相关来源。`
       : isIdeaWorkflow
       ? `把想法简报、方向、假设和决策放在 \`${localePaths.workspaceDir}/\`。先充分发散，再区分事实、假设和证据；收敛到优先方向前等待用户确认。`
     : isLearningWorkflow

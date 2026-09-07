@@ -576,3 +576,15 @@ Implication:
 - It has no initial MCP server, custom UI, arbitrary filesystem tool, or hidden state.
 - DSH and Codex share the RecoWork CLI, templates, target contracts, manifests, and workspace protocol, while their installation and interaction layers remain separate.
 - Codex-specific distribution and safety rules live in `specs/codex-integration.md`.
+
+## 034. Make Idea To Project Records Progressive And Source-Owned
+
+Decision: apply the progressive-record contract in `requirements.md` to `idea-to-project`, superseding decisions 027 and 030 only for this template where they require physical archiving, navigation-only homes or mandatory module pairs. Other templates are unchanged.
+
+Why: current 1.3.0 rules still force document packaging and overly broad splitting while allowing the brief, questions and decisions to drift. The read-only business-model sample confirms stale questions against decision 005 and stale next steps against MVP validation; its reported missing solution module is already repaired. The sample currently has 48 Markdown files and 15 indexes (rather than the reported 46); all seven methods match the repository 1.3.0 sources. The stale fact synchronization is also an execution failure under the old rules, while the old path and packaging requirements are source defects. Sample history is not evidence that every version or every retained exploration artifact has the same defect.
+
+Changes: source-owned facts, a five-minute reading home, conversation-only answers, existing-topic updates, purpose-sized documents, on-demand structure, explicit historical status and scoped maintenance authorization. Preserve exploration, direction/project-entry gates, advancement, review/acceptance and durable decision reasons.
+
+Compatibility: new local initializations have fewer placeholder paths. Existing workspaces, including retired generated placeholders, remain untouched by upgrades; unmodified methods and target rules can update, with manual reconciliation needed for old facts. No release or destructive migration is implied. Chat stays a three-material manual-continuity workflow.
+
+Validation: generated-link and reachability checks, both locales/targets, old-to-new workspace preservation and edited instruction preservation are automated. Fact consistency, split necessity and five-minute comprehension require content review; links alone cannot prove them.

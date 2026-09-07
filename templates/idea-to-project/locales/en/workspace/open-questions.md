@@ -1,15 +1,10 @@
 # Open Questions
 
-Track questions that are not confirmed yet and must not be silently assumed by AI. After a question is resolved, update the relevant project document or decision record.
+> Status: Draft
 
-## Questions
+Record unresolved issues and impact or blockers only. Questions have not yet been collected; this does not mean none exist.
 
-- To fill: questions that need user confirmation.
+| Question | Impact / blocker | Next step |
+| --- | --- | --- |
 
-## Blocked Decisions
-
-- To fill: decisions blocked by missing information.
-
-## User Input Needed
-
-- To fill: background, materials, accounts, constraints, or preferences needed from the user.
+Close confirmed items; retain a one-line closure date and decision link when needed, not a second strategy ledger. Preserve unresolved portions of partially answered questions. See the [freshness standard](../methods/artifact-freshness-standard.md).

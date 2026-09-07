@@ -1,19 +1,9 @@
 # Idea To Project Workflow Template
 
-Choose this workflow once, then progress through stages: explore and validate first, and move into project advancement only after the user explicitly confirms the direction. It does not mistake brainstorming for project facts or generate a full solution, plan, or implementation before the direction is confirmed.
+Explore and validate first. Explicitly confirm direction and project entry before requirements, design, implementation and acceptance. Core stage gates and important decision traceability remain.
 
-Good fit:
+Start from the [workspace home](./workspace/index.md) for background, confirmed conclusions, progress, unresolved questions and next steps. New spaces contain six working records and the existing methods. Add topics, evidence, stage subdirectories and archives as needed; simple topics need one file. Questions may stay in conversation; update existing topics when project facts change.
 
-- You have a fuzzy idea, several candidate directions, or a direction ready to become a project.
-- You want AI to separate facts, assumptions, evidence, and open questions.
-- You want confirmed exploration to flow into requirements, design, planning, decisions, and acceptance.
+See the [fact map](./methods/knowledge-structure.md) for locations and [workflow](./methods/workflow.md) for maintenance authority.
 
-Core outputs:
-
-- `AGENTS.md`
-- `methods/`: stage judgment, confirmation gates, document standards, quality gates, and freshness rules.
-- `workspace/`: one durable home for current exploration and project facts.
-- `01-exploration-and-validation/direction-decision-package.md`: problem, candidate directions, evidence, key assumptions, risks, and recommendation.
-- `project-brief.md` and `open-questions.md`: canonical context maintained after project entry.
-- `parked-ideas.md`: restartable directions with their parking reasons and restart conditions.
-- `02-requirements-and-constraints/` through `06-review-and-validation/`: become the main work areas only after project entry is confirmed.
+Existing spaces: upgrades safely update only unmodified methods and target files. Existing workspace files are never overwritten, moved or deleted. Apply the new rules prospectively; merge home and fact ownership changes manually within user authorization. Do not reinitialize an existing destination.

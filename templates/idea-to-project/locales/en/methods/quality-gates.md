@@ -1,33 +1,15 @@
 # Quality Gates
 
-> Version: 1.1
-> Date: 2026-07-12
-> Status: Final
+## Trustworthiness (content review)
 
-## Conclusion First
+- Is there evidence of stage and business confirmation? Does the result meet authorized goals, distinguishing passed, untested and not yet accepted?
+- Do affected requirements, designs, open questions and next steps agree with decisions and validation? Are unresolved parts retained?
+- Are scope, limitations and sources clear? Can important decision reasons, supersession and reproduction evidence still be traced?
 
-Quality gates check whether work is ready to deliver; the document standard defines how durable knowledge is written. When project documents are created or substantially revised, both must hold: the content is validated and the next reader or agent can find and understand it.
+## Readability (return review)
 
-Before presenting work as complete, the AI should check:
+Simulate returning after two weeks: within five minutes, can the reader find the problem, confirmed conclusions, actual progress, unresolved questions, next action and what to read? Open current topics through the home; check parent navigation for missing modules and history masquerading as current authority.
 
-- The output matches the user's latest request.
-- Assumptions are stated instead of hidden.
-- Relevant project rules and knowledge were read.
-- Files changed by the task were reviewed.
-- Validation was run or the reason it could not be run is explained.
-- Durable decisions or reusable methods were captured.
-- New or substantially revised documents follow the [Document Standard](./document-standard.md): five parts, one topic, and relative links.
-- Affected `index.md` files have current links, summaries, statuses, and last-updated dates.
-- Traces are consolidated, replacement relationships are marked, and each topic has one Current version under the [Artifact Freshness Standard](./artifact-freshness-standard.md).
+Apply the [document standard](./document-standard.md): questions may stay in conversation, small conclusions update existing sections, simple topics need no directory plus document pair, and complex topics can still supply independent interfaces, acceptance material or reproducible evidence.
 
-## Related References
-
-- [Document Standard](./document-standard.md)
-- [Workflow](./workflow.md)
-- [Artifact Freshness Standard](./artifact-freshness-standard.md)
-
-## Change Log
-
-| Date | Version | Change |
-| --- | --- | --- |
-| 2026-07-12 | 1.1 | Added document-standard and index-maintenance checks. |
+Link existence, relative paths and navigation reachability can be automated. Fact consistency, split necessity, sufficient confirmation and five-minute comprehension require agent and reader content review. Link checks cannot prove semantic correctness. Do not create a separate report for every self-check.

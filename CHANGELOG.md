@@ -6,6 +6,10 @@ This changelog records functional behavior, compatibility, migration, CLI, templ
 
 ## [Unreleased]
 
+### Changed
+
+- Improved idea-to-project with six initial workspace records, a five-minute reading home, explicit fact ownership and decision closure. Answers may stay in conversation, simple topics need no module pair, and maintenance reuses explicit authorization. Stage gates and traceability remain; upgrades never move, overwrite or delete existing workspace content.
+
 ### Added
 
 - Added the experimental `recowork-codex` Codex plugin. Its initial RecoWork Skill uses the existing CLI and generated root `AGENTS.md` protocol; it adds no Codex-specific workspace format, MCP server, or hidden lifecycle state.
