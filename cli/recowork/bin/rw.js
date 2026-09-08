@@ -116,6 +116,11 @@ function main() {
     return;
   }
 
+  if (command === "import") {
+    initTemplate(args.slice(1), { importExisting: true });
+    return;
+  }
+
   fail(`Unknown command: ${command}`);
 }
 
@@ -129,6 +134,7 @@ Usage:
   rw show-target <target>
   rw add <template> --target <target> [--locale <locale>] <destination>
   rw init <template> --target <target> [--locale <locale>] <destination>
+  rw import <template> --target local-agent-project [--locale <locale>] <existing-directory>
   rw status <destination>
   rw upgrade [--check|--plan|--apply] [--scope <methods,target,workspace>] [--add-missing] <destination>
   rw upgrade --adopt <destination>
@@ -141,6 +147,7 @@ Compatibility:
 Examples:
   rw add idea-to-project --target chat-mobile ./my-idea-workflow
   rw add project --target local-agent-project --locale zh .
+  rw import project --target local-agent-project --locale zh ./existing-project
   rw add learning -t local-agent-project ./langchain-study
   rw upgrade --check .
   rw upgrade --plan .
@@ -661,7 +668,7 @@ ${(target.aliases || []).map((alias) => `  - ${alias}`).join("\n")}
 `);
 }
 
-function initTemplate(args) {
+function initTemplate(args, options = {}) {
   const templateRef = args[0];
   if (!templateRef) {
     fail("Missing template name.");
@@ -689,8 +696,13 @@ function initTemplate(args) {
   }
 
   const manifestPath = path.join(targetDir, "rw-manifest.json");
-  if (fs.existsSync(manifestPath)) {
+  if (pathEntryExists(manifestPath)) {
     fail(`RecoWork is already initialized in: ${targetDir}. Use \`rw status\` or \`rw upgrade\`; initialization never overwrites an existing workflow.`);
+  }
+
+  if (options.importExisting) {
+    importExistingProject(targetDir, template, selectedTarget, selectedLocale);
+    return;
   }
 
   fs.mkdirSync(targetDir, { recursive: true });
@@ -750,6 +762,115 @@ function initTemplate(args) {
     console.log("Integrated a RecoWork-managed block into the existing root AGENTS.md.");
   }
   console.log(`Target: ${targetDir}`);
+}
+
+function importExistingProject(targetDir, template, target, locale) {
+  if (target.id !== "local-agent-project") {
+    fail("Existing projects can be imported only into the local-agent-project target.");
+  }
+  if (!fs.existsSync(targetDir) || !fs.lstatSync(targetDir).isDirectory()) {
+    fail(`Existing project directory not found: ${targetDir}`);
+  }
+  if (fs.readdirSync(targetDir).length === 0) {
+    fail(`Existing project directory is empty: ${targetDir}. Use \`rw add\` to create a new workflow.`);
+  }
+
+  const desiredFiles = collectDesiredFiles(template, target, locale);
+  const generatedPaths = new Set();
+  const preservedPaths = [];
+  const blockedPaths = [];
+  const blockedAncestors = new Set();
+
+  for (const relativePath of Object.keys(desiredFiles)) {
+    if (relativePath === "AGENTS.md") {
+      continue;
+    }
+    const outputPath = path.join(targetDir, relativePath);
+    if (pathEntryExists(outputPath)) {
+      preservedPaths.push(relativePath);
+      continue;
+    }
+    const blockedAncestor = findUnsafeImportAncestor(targetDir, relativePath);
+    if (blockedAncestor) {
+      blockedAncestors.add(blockedAncestor);
+    }
+  }
+  for (const blockedAncestor of blockedAncestors) {
+    blockedPaths.push(`${blockedAncestor} (must be a real directory inside the project)`);
+  }
+
+  const agentPath = path.join(targetDir, "AGENTS.md");
+  const hasExternalAgent = pathEntryExists(agentPath);
+  if (hasExternalAgent) {
+    const agentStat = fs.lstatSync(agentPath);
+    if (!agentStat.isFile() || agentStat.isSymbolicLink()) {
+      blockedPaths.push("AGENTS.md (must be a regular file)");
+    }
+  }
+  if (blockedPaths.length) {
+    fail(`Cannot import without risking existing project paths:\n${blockedPaths.map((item) => `  - ${item}`).join("\n")}`);
+  }
+
+  for (const [relativePath, desired] of Object.entries(desiredFiles)) {
+    if (relativePath === "AGENTS.md" || pathEntryExists(path.join(targetDir, relativePath))) {
+      continue;
+    }
+    const outputPath = path.join(targetDir, relativePath);
+    fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+    fs.writeFileSync(outputPath, desired.content);
+    generatedPaths.add(relativePath);
+  }
+
+  let agentBlock = null;
+  if (hasExternalAgent) {
+    agentBlock = integrateAgentBlock(agentPath, template, target, locale, { preserveExistingBlock: true });
+    preservedPaths.push("AGENTS.md (existing content preserved; RecoWork block connected)");
+  } else {
+    const desiredAgent = desiredFiles["AGENTS.md"];
+    if (desiredAgent) {
+      fs.writeFileSync(agentPath, desiredAgent.content);
+      generatedPaths.add("AGENTS.md");
+    }
+  }
+
+  writeManifest(targetDir, template, target, locale, agentBlock, { includePaths: generatedPaths });
+  console.log(`Imported existing project into ${template.id} for ${target.id} (${locale})`);
+  console.log(`Added ${generatedPaths.size} RecoWork file(s) without overwriting existing project files.`);
+  if (preservedPaths.length) {
+    console.log(`Preserved ${preservedPaths.length} existing path(s):`);
+    for (const relativePath of preservedPaths) {
+      console.log(`  - ${relativePath}`);
+    }
+  }
+  console.log(`Target: ${targetDir}`);
+}
+
+function findUnsafeImportAncestor(targetDir, relativePath) {
+  const segments = relativePath.split("/");
+  let current = targetDir;
+  for (const segment of segments.slice(0, -1)) {
+    current = path.join(current, segment);
+    if (!pathEntryExists(current)) {
+      continue;
+    }
+    const stat = fs.lstatSync(current);
+    if (!stat.isDirectory() || stat.isSymbolicLink()) {
+      return path.relative(targetDir, current) || ".";
+    }
+  }
+  return null;
+}
+
+function pathEntryExists(entryPath) {
+  try {
+    fs.lstatSync(entryPath);
+    return true;
+  } catch (error) {
+    if (error && (error.code === "ENOENT" || error.code === "ENOTDIR")) {
+      return false;
+    }
+    throw error;
+  }
 }
 
 function upgradeWorkflow(args) {
@@ -1542,16 +1663,20 @@ function upsertAgentBlock(source, markers, block) {
   return `${source}${suffix}${source.length ? "\n" : ""}${block}\n`;
 }
 
-function integrateAgentBlock(agentPath, template, target, locale) {
+function integrateAgentBlock(agentPath, template, target, locale, options = {}) {
   const markers = getAgentBlockMarkers(template, target, locale);
   const block = renderAgentIntegrationBlock(template, target, locale);
   const existing = fs.readFileSync(agentPath, "utf8");
-  fs.writeFileSync(agentPath, upsertAgentBlock(existing, markers, block));
+  const existingBlock = extractAgentBlock(existing, markers);
+  if (!options.preserveExistingBlock || !existingBlock) {
+    fs.writeFileSync(agentPath, upsertAgentBlock(existing, markers, block));
+  }
+  const baselineBlock = options.preserveExistingBlock && existingBlock ? existingBlock : block;
   return {
     path: "AGENTS.md",
     markers,
     source_hash: hashContent(block),
-    baseline_hash: hashContent(block),
+    baseline_hash: hashContent(baselineBlock),
     template: template.id,
     target: target.id,
     locale,
@@ -2075,10 +2200,13 @@ function formatList(items) {
   return items.map((item) => `- ${item}`).join("\n");
 }
 
-function writeManifest(targetDir, template, target, locale, agentBlock = null) {
+function writeManifest(targetDir, template, target, locale, agentBlock = null, options = {}) {
   const desiredFiles = collectDesiredFiles(template, target, locale);
   const files = {};
   for (const [relativePath, desired] of Object.entries(desiredFiles)) {
+    if (options.includePaths && !options.includePaths.has(relativePath)) {
+      continue;
+    }
     const outputPath = path.join(targetDir, relativePath);
     if (!fs.existsSync(outputPath) || !fs.statSync(outputPath).isFile()) {
       continue;

@@ -50,6 +50,14 @@ npx --yes recowork@latest add learning --target local-agent-project --locale zh 
 npx --yes recowork@latest add idea-to-project --target chat-mobile --locale zh ./idea-work
 ```
 
+把已有的非空项目安全接入 RecoWork，且不覆盖项目文件：
+
+```bash
+npx --yes recowork@latest import idea-to-project --target local-agent-project --locale zh ./existing-project
+```
+
+导入只添加缺失的 RecoWork 文件；同名路径保持不变，已有根目录 `AGENTS.md` 也只会新增带标记边界的 RecoWork 整合区块。
+
 `npx --yes recowork@latest` 会临时获取并运行当前版本，无需全局安装。只有全局安装 RecoWork 后，才可以直接使用较短的 `rw` 别名。
 
 ## 让本地 Agent 帮你开始

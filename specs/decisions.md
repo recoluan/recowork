@@ -577,6 +577,24 @@ Implication:
 - DSH and Codex share the RecoWork CLI, templates, target contracts, manifests, and workspace protocol, while their installation and interaction layers remain separate.
 - Codex-specific distribution and safety rules live in `specs/codex-integration.md`.
 
+## 033. Import Existing Projects Without Overwriting Them
+
+Decision: RecoWork provides `rw import` as the explicit path for connecting an existing non-empty project to `local-agent-project`, and the DSH adapter may expose the same operation only inside approved roots.
+
+Reason:
+
+- Existing code and content projects are a primary RecoWork use case; requiring a separate empty directory disconnects the workflow from the project it should govern.
+- Reusing normal initialization directly is unsafe because a project may already own paths such as `README.md`, `AGENTS.md`, or a localized workspace directory.
+- Import must remain a thin CLI-owned lifecycle operation so DSH does not reimplement merge or manifest behavior.
+
+Implication:
+
+- Import requires an existing non-empty directory without `rw-manifest.json` and supports only `local-agent-project`.
+- Existing paths are never overwritten. RecoWork writes only missing desired files; skipped same-name paths remain untracked project content and are preserved by later upgrade planning.
+- A regular root `AGENTS.md` keeps all existing content. RecoWork appends its marker-bounded integration block when absent and preserves an already present matching block; symlinked or non-file `AGENTS.md` paths are rejected.
+- The DSH UI lists only direct-child, non-empty directories without a RecoWork manifest as import candidates, requires explicit confirmation, and delegates the operation to `rw import`.
+- Existing RecoWork workspaces remain status/upgrade targets and cannot be imported again.
+
 ## 034. Make Idea To Project Records Progressive And Source-Owned
 
 Decision: apply the progressive-record contract in `requirements.md` to `idea-to-project`, superseding decisions 027 and 030 only for this template where they require physical archiving, navigation-only homes or mandatory module pairs. Other templates are unchanged.

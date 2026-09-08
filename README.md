@@ -50,6 +50,14 @@ npx --yes recowork@latest add learning --target local-agent-project --locale en 
 npx --yes recowork@latest add idea-to-project --target chat-mobile --locale en ./idea-work
 ```
 
+To connect an existing non-empty project without overwriting its files:
+
+```bash
+npx --yes recowork@latest import idea-to-project --target local-agent-project --locale en ./existing-project
+```
+
+Import adds only missing RecoWork files. Existing same-name paths stay untouched, and an existing root `AGENTS.md` receives only a marker-bounded RecoWork integration block.
+
 `npx --yes recowork@latest` downloads and runs the current package without a global installation. `rw` is only the shorter alias available after installing RecoWork globally.
 
 ## Start Through an Agent

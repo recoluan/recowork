@@ -89,6 +89,7 @@ rw add <template> --target <target> --locale <locale> <destination>
 - `rw init` can remain as a compatibility alias if needed.
 - CLI initialization should be deterministic file copy/render, not AI-generated long-form reconstruction.
 - `rw add` must refuse a destination containing `rw-manifest.json`; users must use `rw status` or `rw upgrade` for an existing initialized workflow.
+- `rw import <template> --target local-agent-project --locale <locale> <existing-directory>` must connect an existing non-empty project without overwriting any existing path. It writes only missing RecoWork files, preserves existing same-name files as untracked project content, and may append a marker-bounded RecoWork block to a regular root `AGENTS.md`; an already present matching block is preserved.
 - CLI should list templates and targets, and `rw show <template>` should show supported locales.
 - CLI should support aliases only when they are unambiguous.
 - If a requested locale is not supported by the template, the CLI should fail with supported locales.

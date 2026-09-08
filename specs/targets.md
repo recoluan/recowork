@@ -74,6 +74,8 @@ The following discontinued brand targets map to the generic environments for CLI
 
 Existing generated workspaces are user-owned. `rw add` refuses a destination that already contains `rw-manifest.json`; use `rw status` and `rw upgrade` for an existing workflow. RecoWork never deletes, moves, or overwrites existing workspace files during initialization or upgrade. Legacy chat manifests receive a read-only migration guide that initializes a separate local workflow. A release that removes a brand-specific target is a breaking change and must document migration guidance.
 
+An existing non-RecoWork project may join `local-agent-project` through `rw import`. Import requires an existing non-empty directory without `rw-manifest.json`, adds only missing generated paths, preserves every same-name project path outside the manifest, and integrates only a marker-bounded RecoWork block into a regular root `AGENTS.md`. Import never applies to `chat-mobile` and never replaces status or upgrade for an initialized RecoWork workspace.
+
 `idea-to-project` uses these target contracts as one staged user workflow. The local target generates a unified workspace with exploration/validation first and project advancement only after explicit user confirmation, including a localized current list for restartable parked ideas. The chat target still generates only the three lightweight materials; its start instruction must identify the current stage, distinguish a restartable parked direction from an open question or archived decision, require an explicit project-entry gate, and include parked directions with restart conditions in the manual summary.
 
 `idea-engineering` and `project-engineering` are retired template IDs. Existing generated workspaces remain untouched. Status and upgrade commands print a read-only guide to initialize `idea-to-project` in a separate destination; they never attempt an in-place conversion.
@@ -88,6 +90,7 @@ Existing generated workspaces are user-owned. `rw add` refuses a destination tha
 
 ```bash
 rw add idea-to-project --target local-agent-project --locale zh .
+rw import idea-to-project --target local-agent-project --locale zh ./existing-project
 rw add learning --target local-agent-project --locale en ./langchain-study
 rw add idea-to-project --target chat-mobile --locale zh ./idea-chat-kit
 rw view ./my-local-workflow

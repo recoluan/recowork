@@ -6,6 +6,12 @@ This changelog records functional behavior, compatibility, migration, CLI, templ
 
 ## [Unreleased]
 
+## [4.1.0] - 2026-09-07
+
+### Added
+
+- Added safe existing-project import through `rw import`: only missing RecoWork files are written, existing paths are preserved, and root AGENTS.md integration is limited to a marker-bounded block. Existing manifests and unsafe destinations are rejected.
+
 ## [4.0.0] - 2026-09-07
 
 BREAKING CHANGE: New idea-to-project workspaces no longer precreate optional stage indexes and placeholder documents. Create them on demand; existing workspaces are preserved without automatic migration.
