@@ -6,6 +6,12 @@ This changelog records functional behavior, compatibility, migration, CLI, templ
 
 ## [Unreleased]
 
+## [recowork-dsh 0.3.0] - 2026-09-07
+
+### Added
+
+- Added explicitly confirmed existing-project import in the DSH tools and cockpit, with approved-root checks and candidate filtering. Pin initialization, import and setup to published recowork@4.1.0; existing initialized workspaces remain unchanged.
+
 ## [4.1.0] - 2026-09-07
 
 ### Added

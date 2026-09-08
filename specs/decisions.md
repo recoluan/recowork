@@ -555,10 +555,10 @@ Reason:
 
 Implication:
 
-- The first Bundle exposes only initialization of a new local workflow and read-only status. It has no UI or general shell/filesystem capability.
-- Initialization delegates to `rw add` with the existing supported template, locale, and `local-agent-project` contracts.
-- The plugin accepts only explicitly configured absolute roots, refuses paths outside them and refuses non-empty destinations; existing user workspaces remain outside its write scope.
-- DSH-specific distribution and safety rules live in `specs/dsh-integration.md`. Its first UI surface supports only read-only status and explicitly confirmed new-workspace initialization, both subordinate to the same authorized service boundary.
+- The Bundle exposes narrowly scoped new-workspace initialization, safe existing-project import, and read-only status. It has no general shell/filesystem capability.
+- Initialization delegates to `rw add`; import delegates to `rw import`; both reuse the supported template, locale, and `local-agent-project` contracts.
+- The plugin accepts only explicitly configured absolute roots and refuses paths outside them. Initialization refuses non-empty destinations; import requires a non-empty project without a RecoWork manifest and preserves all existing paths.
+- DSH-specific distribution and safety rules live in `specs/dsh-integration.md`. Every UI write path requires explicit confirmation and remains subordinate to the same authorized service boundary.
 
 ## 032. Keep Codex As An Optional Thin Skill Adapter
 

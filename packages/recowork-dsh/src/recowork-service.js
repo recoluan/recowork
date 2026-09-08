@@ -10,6 +10,16 @@ const LOCALES = new Set(['zh', 'en'])
 const MAX_DOCUMENT_CHARS = 12_000
 const MAX_WORKSPACE_CHOICES = 100
 
+function pathEntryExists(entryPath) {
+  try {
+    lstatSync(entryPath)
+    return true
+  } catch (error) {
+    if (error && (error.code === 'ENOENT' || error.code === 'ENOTDIR')) return false
+    throw error
+  }
+}
+
 function normalizeRoot(root) {
   if (typeof root !== 'string' || !path.isAbsolute(root)) {
     throw new Error('root must be an absolute path.')
@@ -43,6 +53,17 @@ function assertEmptyOrMissing(destination) {
   if (readdirSync(destination).length > 0) {
     throw new Error('Destination is not empty. This plugin refuses to modify an existing directory; use the RecoWork CLI directly after reviewing its contents.')
   }
+}
+
+function assertImportableExisting(root, destination) {
+  const canonical = canonicalExistingDestination(root, destination)
+  if (readdirSync(canonical).length === 0) {
+    throw new Error('Existing project is empty. Use new-workspace initialization instead.')
+  }
+  if (pathEntryExists(path.join(canonical, 'rw-manifest.json'))) {
+    throw new Error('RecoWork is already initialized in this project. Use status or upgrade instead.')
+  }
+  return canonical
 }
 
 function canonicalExistingDestination(root, destination) {
@@ -170,9 +191,9 @@ function parseManifest(destination) {
 }
 
 function createCommandRunner({ executable, packageRef }) {
-  return async ({ template, locale, destination, signal }) => {
+  return async ({ operation = 'add', template, locale, destination, signal }) => {
     const { stdout, stderr } = await execFileAsync(executable, [
-      '--yes', packageRef, 'add', template, '--target', 'local-agent-project', '--locale', locale, destination,
+      '--yes', packageRef, operation, template, '--target', 'local-agent-project', '--locale', locale, destination,
     ], { signal, maxBuffer: 1024 * 1024 })
     return { stdout, stderr }
   }
@@ -182,7 +203,7 @@ export function createRecoWorkService(config = {}, dependencies = {}) {
   const allowedRoots = new Set((config.allowedRoots || []).map(normalizeRoot))
   const commandRunner = dependencies.commandRunner || createCommandRunner({
     executable: config.npxExecutable || 'npx',
-    packageRef: config.recoworkPackage || 'recowork@3.2.2',
+    packageRef: config.recoworkPackage || 'recowork@4.1.0',
   })
 
   return {
@@ -195,10 +216,26 @@ export function createRecoWorkService(config = {}, dependencies = {}) {
       if (!LOCALES.has(locale)) throw new Error(`Unsupported locale: ${locale}`)
       const resolved = resolveDestination(allowedRoots, root, destination)
       assertEmptyOrMissing(resolved.destination)
-      const result = await commandRunner({ template, locale, destination: resolved.destination, signal })
+      const result = await commandRunner({ operation: 'add', template, locale, destination: resolved.destination, signal })
       return {
         operation: 'initialized',
         destination: resolved.destination,
+        template,
+        target: 'local-agent-project',
+        locale,
+        output: [result.stdout, result.stderr].filter(Boolean).join('\n').slice(0, MAX_DOCUMENT_CHARS),
+      }
+    },
+
+    async importExisting({ root, destination, template, locale }, signal) {
+      if (!TEMPLATES.has(template)) throw new Error(`Unsupported template: ${template}`)
+      if (!LOCALES.has(locale)) throw new Error(`Unsupported locale: ${locale}`)
+      const resolved = resolveDestination(allowedRoots, root, destination)
+      const canonicalDestination = assertImportableExisting(resolved.root, resolved.destination)
+      const result = await commandRunner({ operation: 'import', template, locale, destination: canonicalDestination, signal })
+      return {
+        operation: 'imported-existing-project',
+        destination: canonicalDestination,
         template,
         target: 'local-agent-project',
         locale,
@@ -256,6 +293,28 @@ export function createRecoWorkService(config = {}, dependencies = {}) {
             const canonicalDestination = canonicalExistingDestination(normalizedRoot, destination)
             const manifest = parseManifest(canonicalDestination)
             return [{ destination: entry.name, template: manifest.template, locale: manifest.locale }]
+          } catch {
+            return []
+          }
+        })
+        .sort((left, right) => left.destination.localeCompare(right.destination))
+    },
+
+    importCandidates(root) {
+      const normalizedRoot = normalizeRoot(root)
+      if (!allowedRoots.has(normalizedRoot)) {
+        throw new Error('root is not in this plugin\'s configured allowedRoots.')
+      }
+      return readdirSync(normalizedRoot, { withFileTypes: true })
+        .filter((entry) => entry.isDirectory())
+        .slice(0, MAX_WORKSPACE_CHOICES)
+        .flatMap((entry) => {
+          const destination = path.join(normalizedRoot, entry.name)
+          try {
+            const canonicalDestination = canonicalExistingDestination(normalizedRoot, destination)
+            const entries = readdirSync(canonicalDestination)
+            if (entries.length === 0 || pathEntryExists(path.join(canonicalDestination, 'rw-manifest.json'))) return []
+            return [{ destination: entry.name, itemCount: entries.length }]
           } catch {
             return []
           }

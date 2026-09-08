@@ -7,25 +7,27 @@
     const { createElement: h, useEffect, useState, useSyncExternalStore } = React
     const copy = {
       zh: {
-        open: '打开 RecoWork', title: 'RecoWork', collapse: '收起', addWorkspace: '新建工作区', settings: '状态与设置', back: '返回项目',
+        open: '打开 RecoWork', title: 'RecoWork', collapse: '收起', addWorkspace: '添加项目', settings: '状态与设置', back: '返回项目',
         value: '跨会话接着做，不用重新解释项目', workspace: '项目工作区', noRoots: '尚未配置授权目录', noWorkspaces: '当前授权目录下没有 RecoWork 工作区',
         setupTitle: '先连接一个安全目录', setupBody: 'RecoWork 只会读取和创建你明确授权的目录。请先按安装说明运行 setup。', loading: '正在读取项目上下文…', reload: '重新读取', retry: '重新读取项目',
         continueLabel: '继续当前工作', continueGeneric: '读取项目规则与当前材料，确认最合适的下一步', continueDescription: 'RecoWork 会把工作区路径、当前状态、项目协议和本次目标一起交给当前会话。', continueAction: '带着完整上下文继续',
         copyTask: '复制任务包', copied: '任务包已复制。', sent: '任务已加入当前 DSH 会话队列。', sending: '发送中…', sentButton: '已发送', decisions: '需要你决定', blocking: '{count} 项正在阻塞', noBlocking: '当前没有从待确认问题中识别到阻塞决策。', decide: '和 Agent 一起决策', sourceQuestion: '待确认问题',
         progress: '项目推进', current: '当前：{stage}', unknownStage: '阶段尚未识别', stages: ['问题定义', '探索验证', '进入项目', '推进交付'], memory: '项目记忆', memoryHint: '来自项目简报的稳定条目', noMemory: '项目简报中还没有可提取的稳定共识。',
         review: '只读复核项目', details: '项目状态', root: '授权目录', template: '模板', language: '语言', documents: '当前文档', healthComplete: '基础文档完整', healthMissing: '缺少 {count} 份基础文档', modified: '{count} 项受管文件由用户修改',
-        initTitle: '新建工作区', destination: '新工作区相对路径', confirmation: '我确认目标目录不存在或为空；初始化不会覆盖已有工作区。', confirmInit: '确认并初始化', initializing: '初始化中…', chooseDestination: '请选择授权目录并填写新工作区相对路径。', confirmationRequired: '请先确认初始化不会覆盖已有工作区。',
+        initTitle: '添加 RecoWork 项目', createWorkspace: '新建工作区', importProject: '导入已有项目', destination: '新工作区相对路径', confirmation: '我确认目标目录不存在或为空；初始化不会覆盖已有工作区。', confirmInit: '确认并初始化', initializing: '初始化中…', chooseDestination: '请选择授权目录并填写新工作区相对路径。', confirmationRequired: '请先确认初始化不会覆盖已有工作区。',
+        existingProject: '已有项目目录', noImportCandidates: '授权目录下没有可导入的已有项目。空目录请使用“新建工作区”。', importHint: '只添加缺失的 RecoWork 文件；同名文件不会被覆盖。现有 AGENTS.md 只会新增受标记保护的 RecoWork 规则块。', importConfirmation: '我确认将 RecoWork 文件安全加入这个已有项目；不会覆盖已有文件。', confirmImport: '确认并导入', importing: '导入中…', chooseImport: '请选择一个尚未接入 RecoWork 的已有项目。', importConfirmationRequired: '请先确认安全导入规则。', importUnavailable: '无法导入已有项目。', itemCount: '{count} 个现有条目',
         idea: '从想法到落地', learning: '系统性学习', design: '网页设计规范', chinese: '中文', english: 'English', statusUnavailable: '无法读取项目状态。', initUnavailable: '无法初始化工作区。',
       },
       en: {
-        open: 'Open RecoWork', title: 'RecoWork', collapse: 'Collapse', addWorkspace: 'New workspace', settings: 'Status & settings', back: 'Back to project',
+        open: 'Open RecoWork', title: 'RecoWork', collapse: 'Collapse', addWorkspace: 'Add project', settings: 'Status & settings', back: 'Back to project',
         value: 'Resume across sessions without re-explaining the project', workspace: 'Project workspace', noRoots: 'No approved directory configured', noWorkspaces: 'No RecoWork workspace in this approved directory',
         setupTitle: 'Connect a safe directory first', setupBody: 'RecoWork only reads and creates inside directories you explicitly approve. Run setup from the installation guide first.', loading: 'Reading project context…', reload: 'Refresh', retry: 'Read project again',
         continueLabel: 'Continue current work', continueGeneric: 'Read the project rules and current material, then identify the best next step', continueDescription: 'RecoWork sends the workspace path, current status, project protocol, and this objective to the current session together.', continueAction: 'Continue with full context',
         copyTask: 'Copy task package', copied: 'Task package copied.', sent: 'Task added to the current DSH session queue.', sending: 'Sending…', sentButton: 'Sent', decisions: 'Needs your decision', blocking: '{count} blocking items', noBlocking: 'No blocking decision was identified in open questions.', decide: 'Decide with Agent', sourceQuestion: 'Open question',
         progress: 'Project progress', current: 'Current: {stage}', unknownStage: 'Stage not identified', stages: ['Problem', 'Explore', 'Project entry', 'Delivery'], memory: 'Project memory', memoryHint: 'Stable items from the project brief', noMemory: 'No stable agreement can be extracted from the project brief yet.',
         review: 'Review project read-only', details: 'Project status', root: 'Approved directory', template: 'Template', language: 'Language', documents: 'Current documents', healthComplete: 'Core documents complete', healthMissing: '{count} core documents missing', modified: '{count} managed files modified by the user',
-        initTitle: 'New workspace', destination: 'New workspace relative path', confirmation: 'I confirm the destination does not exist or is empty; initialization will not overwrite an existing workspace.', confirmInit: 'Confirm and initialize', initializing: 'Initializing…', chooseDestination: 'Choose an approved directory and enter a new workspace relative path.', confirmationRequired: 'Confirm that initialization will not overwrite an existing workspace.',
+        initTitle: 'Add a RecoWork project', createWorkspace: 'New workspace', importProject: 'Import existing project', destination: 'New workspace relative path', confirmation: 'I confirm the destination does not exist or is empty; initialization will not overwrite an existing workspace.', confirmInit: 'Confirm and initialize', initializing: 'Initializing…', chooseDestination: 'Choose an approved directory and enter a new workspace relative path.', confirmationRequired: 'Confirm that initialization will not overwrite an existing workspace.',
+        existingProject: 'Existing project directory', noImportCandidates: 'No existing project is available to import under this approved directory. Use New workspace for an empty directory.', importHint: 'Only missing RecoWork files are added; matching files are never overwritten. An existing AGENTS.md receives only a marker-protected RecoWork rules block.', importConfirmation: 'I confirm RecoWork may be safely added to this existing project without overwriting existing files.', confirmImport: 'Confirm and import', importing: 'Importing…', chooseImport: 'Choose an existing project that has not joined RecoWork yet.', importConfirmationRequired: 'Confirm the safe-import rules first.', importUnavailable: 'Unable to import existing project.', itemCount: '{count} existing items',
         idea: 'Idea to project', learning: 'Learning engineering', design: 'Web design standard', chinese: 'Chinese', english: 'English', statusUnavailable: 'Unable to read project status.', initUnavailable: 'Unable to initialize workspace.',
       },
     }
@@ -65,7 +67,10 @@
       const [notice, setNotice] = useState('')
       const [sentAction, setSentAction] = useState('')
       const [dispatchingAction, setDispatchingAction] = useState('')
+      const [setupMode, setSetupMode] = useState('new')
       const [newDestination, setNewDestination] = useState('')
+      const [importCandidates, setImportCandidates] = useState([])
+      const [importDestination, setImportDestination] = useState('')
       const [template, setTemplate] = useState('idea-to-project')
       const [workspaceLocale, setWorkspaceLocale] = useState('zh')
       const [confirmed, setConfirmed] = useState(false)
@@ -83,9 +88,12 @@
           setWorkspaces([])
           setDestination('')
           setStatus(null)
+          setImportCandidates([])
+          setImportDestination('')
           return
         }
         loadWorkspaces(root)
+        loadImportCandidates(root)
       }, [root])
 
       useEffect(() => {
@@ -94,6 +102,10 @@
         setNotice('')
         if (root && destination) refresh(destination)
       }, [root, destination])
+
+      useEffect(() => {
+        setConfirmed(false)
+      }, [root, newDestination, importDestination, template, workspaceLocale, setupMode])
 
       async function loadWorkspaces(selectedRoot, preferredDestination = '') {
         try {
@@ -108,6 +120,19 @@
           })
         } catch (cause) {
           setError(cause instanceof Error ? cause.message : text.statusUnavailable)
+        }
+      }
+
+      async function loadImportCandidates(selectedRoot) {
+        try {
+          const response = await fetch(`/api/recowork/import-candidates?${new URLSearchParams({ root: selectedRoot })}`)
+          const value = await response.json()
+          if (!response.ok) throw new Error(value.error || text.importUnavailable)
+          const next = Array.isArray(value.projects) ? value.projects : []
+          setImportCandidates(next)
+          setImportDestination((current) => next.some((item) => item.destination === current) ? current : (next[0]?.destination || ''))
+        } catch (cause) {
+          setError(cause instanceof Error ? cause.message : text.importUnavailable)
         }
       }
 
@@ -143,9 +168,32 @@
           setConfirmed(false)
           setNewDestination('')
           setView('dashboard')
-          await loadWorkspaces(root, initializedDestination)
+          await Promise.all([loadWorkspaces(root, initializedDestination), loadImportCandidates(root)])
         } catch (cause) {
           setError(cause instanceof Error ? cause.message : text.initUnavailable)
+        } finally {
+          setLoading(false)
+        }
+      }
+
+      async function importExisting() {
+        if (!root || !importDestination) return setError(text.chooseImport)
+        if (!confirmed) return setError(text.importConfirmationRequired)
+        setLoading(true)
+        setError('')
+        try {
+          const response = await fetch('/api/recowork/import', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ root, destination: importDestination, template, locale: workspaceLocale, confirmed: true }),
+          })
+          const value = await response.json()
+          if (!response.ok) throw new Error(value.error || text.importUnavailable)
+          const importedDestination = importDestination
+          setConfirmed(false)
+          setView('dashboard')
+          await Promise.all([loadWorkspaces(root, importedDestination), loadImportCandidates(root)])
+        } catch (cause) {
+          setError(cause instanceof Error ? cause.message : text.importUnavailable)
         } finally {
           setLoading(false)
         }
@@ -201,7 +249,7 @@
           h('div', { style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 } },
             h('strong', { style: { fontSize: 15 } }, text.title),
             h('div', { style: { display: 'flex', gap: 7 } },
-              h('button', { type: 'button', onClick: () => { setView('init'); setError(''); setNotice('') }, 'aria-label': text.addWorkspace, style: { ...baseButton, width: 30, height: 30, background: 'transparent', border: `1px solid ${theme.border}`, color: theme.secondary } }, '+'),
+              h('button', { type: 'button', onClick: () => { setView('init'); setError(''); setNotice(''); setConfirmed(false) }, 'aria-label': text.addWorkspace, style: { ...baseButton, width: 30, height: 30, background: 'transparent', border: `1px solid ${theme.border}`, color: theme.secondary } }, '+'),
               h('button', { type: 'button', onClick: () => setOpen(false), 'aria-label': text.collapse, style: { ...baseButton, padding: '5px 7px', background: 'transparent', color: theme.secondary } }, text.collapse))),
           view === 'dashboard' && workspaces.length > 0 ? h('select', { value: destination, onChange: (event) => setDestination(event.target.value), 'aria-label': text.workspace, style: { ...inputStyle, marginTop: 12, fontWeight: 600 } },
             workspaces.map((item) => h('option', { key: item.destination, value: item.destination }, `${item.destination} · ${item.template}`))) : null)
@@ -213,7 +261,7 @@
 
       function dashboardView() {
         if (roots.length === 0) return setupView()
-        if (workspaces.length === 0) return h('div', { style: { padding: 16, color: theme.secondary } }, h('p', null, text.noWorkspaces), h('button', { type: 'button', onClick: () => setView('init'), style: { ...baseButton, padding: '9px 11px', background: theme.accent } }, text.addWorkspace))
+        if (workspaces.length === 0) return h('div', { style: { padding: 16, color: theme.secondary } }, h('p', null, text.noWorkspaces), h('button', { type: 'button', onClick: () => { setView('init'); setConfirmed(false) }, style: { ...baseButton, padding: '9px 11px', background: theme.accent } }, text.addWorkspace))
         if (loading && !status) return h('p', { style: { padding: 16, color: theme.secondary } }, text.loading)
         if (!status) return h('div', { style: { padding: 16 } }, error ? h('p', { role: 'alert', style: { color: theme.error } }, error) : null, h('button', { type: 'button', onClick: () => refresh(), style: { ...baseButton, padding: '9px 11px', background: theme.accent } }, text.retry))
 
@@ -260,12 +308,20 @@
         return h('div', { style: { padding: '14px 16px 18px' } },
           h('button', { type: 'button', onClick: () => setView('dashboard'), style: { ...baseButton, padding: 0, background: 'transparent', color: theme.secondary } }, '← ', text.back),
           h('h3', { style: { margin: '14px 0 0', fontSize: 15 } }, text.initTitle),
+          h('div', { role: 'tablist', 'aria-label': text.initTitle, style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4, marginTop: 12, padding: 3, borderRadius: 9, background: theme.surface } },
+            h('button', { type: 'button', role: 'tab', 'aria-selected': setupMode === 'new', onClick: () => { setSetupMode('new'); setConfirmed(false); setError('') }, style: { ...baseButton, padding: '8px 6px', background: setupMode === 'new' ? theme.accent : 'transparent', color: setupMode === 'new' ? theme.primary : theme.secondary } }, text.createWorkspace),
+            h('button', { type: 'button', role: 'tab', 'aria-selected': setupMode === 'import', onClick: () => { setSetupMode('import'); setConfirmed(false); setError('') }, style: { ...baseButton, padding: '8px 6px', background: setupMode === 'import' ? theme.accent : 'transparent', color: setupMode === 'import' ? theme.primary : theme.secondary } }, text.importProject)),
           h('label', { style: { display: 'block', marginTop: 12 } }, text.root, h('select', { value: root, onChange: (event) => setRoot(event.target.value), style: inputStyle }, roots.map((item) => h('option', { key: item, value: item }, item)))),
-          h('label', { style: { display: 'block', marginTop: 10 } }, text.destination, h('input', { value: newDestination, placeholder: 'demo-project', onChange: (event) => setNewDestination(event.target.value), style: inputStyle })),
+          setupMode === 'new'
+            ? h('label', { style: { display: 'block', marginTop: 10 } }, text.destination, h('input', { value: newDestination, placeholder: 'demo-project', onChange: (event) => setNewDestination(event.target.value), style: inputStyle }))
+            : importCandidates.length
+              ? h('label', { style: { display: 'block', marginTop: 10 } }, text.existingProject, h('select', { value: importDestination, onChange: (event) => setImportDestination(event.target.value), style: inputStyle }, importCandidates.map((item) => h('option', { key: item.destination, value: item.destination }, `${item.destination} · ${format(text.itemCount, { count: item.itemCount })}`))))
+              : h('p', { style: { margin: '12px 0 0', color: theme.secondary, lineHeight: 1.5 } }, text.noImportCandidates),
           h('label', { style: { display: 'block', marginTop: 10 } }, text.template, h('select', { value: template, onChange: (event) => setTemplate(event.target.value), style: inputStyle }, h('option', { value: 'idea-to-project' }, text.idea), h('option', { value: 'learning-engineering' }, text.learning), h('option', { value: 'web-design-standard' }, text.design))),
           h('label', { style: { display: 'block', marginTop: 10 } }, text.language, h('select', { value: workspaceLocale, onChange: (event) => setWorkspaceLocale(event.target.value), style: inputStyle }, h('option', { value: 'zh' }, text.chinese), h('option', { value: 'en' }, text.english))),
-          h('label', { style: { display: 'flex', alignItems: 'flex-start', gap: 8, marginTop: 12, color: theme.secondary, lineHeight: 1.45 } }, h('input', { type: 'checkbox', checked: confirmed, onChange: (event) => setConfirmed(event.target.checked), style: { marginTop: 2 } }), text.confirmation),
-          h('button', { type: 'button', onClick: initialize, disabled: loading || !confirmed, style: { ...baseButton, marginTop: 13, padding: '9px 11px', background: confirmed ? theme.accent : theme.surface } }, loading ? text.initializing : text.confirmInit),
+          setupMode === 'import' ? h('p', { style: { margin: '12px 0 0', padding: 10, borderRadius: 8, background: theme.surface, color: theme.secondary, fontSize: 11, lineHeight: 1.5 } }, text.importHint) : null,
+          h('label', { style: { display: 'flex', alignItems: 'flex-start', gap: 8, marginTop: 12, color: theme.secondary, lineHeight: 1.45 } }, h('input', { type: 'checkbox', checked: confirmed, onChange: (event) => setConfirmed(event.target.checked), style: { marginTop: 2 } }), setupMode === 'import' ? text.importConfirmation : text.confirmation),
+          h('button', { type: 'button', onClick: setupMode === 'import' ? importExisting : initialize, disabled: loading || !confirmed || (setupMode === 'import' && !importDestination), style: { ...baseButton, marginTop: 13, padding: '9px 11px', background: confirmed ? theme.accent : theme.surface } }, loading ? (setupMode === 'import' ? text.importing : text.initializing) : (setupMode === 'import' ? text.confirmImport : text.confirmInit)),
           error ? h('p', { role: 'alert', style: { color: theme.error } }, error) : null)
       }
 

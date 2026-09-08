@@ -6,6 +6,7 @@ export const inject = ['tools', 'systemPrompt', 'webServer']
 const WORKFLOW_GUIDANCE = `
 RecoWork workspace protocol:
 - Use recowork_init only when the user explicitly asks to create a new RecoWork workflow. Confirm the requested root, destination, template, and locale in the tool call. Never use it to alter, repair, replace, or upgrade an existing directory.
+- Use recowork_import only when the user explicitly asks to connect an existing non-RecoWork project. Confirm the exact approved root, existing relative directory, template, and locale. The import preserves existing files, adds only missing RecoWork files, and may add or update only the marker-bounded RecoWork block inside an existing root AGENTS.md.
 - Use recowork_status when the user asks to inspect, continue, review, or begin durable work in an existing RecoWork workspace. Treat its result as a concise navigation summary, not the complete source of truth.
 - After a successful status read and before planning or editing work, read the workspace root AGENTS.md, then the localized role contract and document standard named there. Follow their confirmation, ownership, and current-versus-archive rules.
 - Do not infer an allowed root, create an allowed root, or propose bypassing a rejected initialization. Ask the user to choose or configure a safe path instead.
@@ -36,6 +37,18 @@ const STATUS_PARAMETERS = {
   properties: {
     root: { type: 'string', description: 'An exact absolute path from the configured approved roots.' },
     destination: { type: 'string', description: 'A relative path below root containing rw-manifest.json.' },
+  },
+}
+
+const IMPORT_PARAMETERS = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['root', 'destination', 'template', 'locale'],
+  properties: {
+    root: { type: 'string', description: 'An exact absolute path from the configured approved roots.' },
+    destination: { type: 'string', description: 'An existing non-empty relative project path below root without rw-manifest.json.' },
+    template: { type: 'string', enum: ['idea-to-project', 'learning-engineering', 'web-design-standard'], description: 'RecoWork template to add without overwriting existing project files.' },
+    locale: { type: 'string', enum: ['zh', 'en'], description: 'User-facing RecoWork workspace language.' },
   },
 }
 
@@ -100,6 +113,24 @@ function registerWebRoutes(ctx, service) {
 
   ctx.webServer.register({
     kind: 'exact',
+    path: '/api/recowork/import-candidates',
+    handler: (request, response) => {
+      try {
+        const url = new URL(request.url || '/', 'http://127.0.0.1')
+        const root = url.searchParams.get('root')
+        if (root === null) {
+          respondJson(response, 400, { error: 'root is required.' })
+          return
+        }
+        respondJson(response, 200, { projects: service.importCandidates(root) })
+      } catch (error) {
+        respondJson(response, 400, { error: error instanceof Error ? error.message : 'Cannot list existing projects.' })
+      }
+    },
+  })
+
+  ctx.webServer.register({
+    kind: 'exact',
     path: '/api/recowork/status',
     handler: (request, response) => {
       try {
@@ -134,6 +165,25 @@ function registerWebRoutes(ctx, service) {
       }
     },
   })
+
+
+  ctx.webServer.register({
+    kind: 'exact',
+    path: '/api/recowork/import',
+    async handler(request, response) {
+      try {
+        const input = await readJsonBody(request)
+        if (input.confirmed !== true) {
+          respondJson(response, 400, { error: 'Explicit confirmation is required before importing an existing project.' })
+          return
+        }
+        const { root, destination, template, locale } = input
+        respondJson(response, 200, await service.importExisting({ root, destination, template, locale }))
+      } catch (error) {
+        respondJson(response, 400, { error: error instanceof Error ? error.message : 'Cannot import existing project.' })
+      }
+    },
+  })
 }
 
 export function apply(ctx, config = {}) {
@@ -164,6 +214,16 @@ export function apply(ctx, config = {}) {
     output: { schema: OUTPUT_SCHEMA, render: (_args, value) => render(value) },
     async execute(args) {
       return service.status(args)
+    },
+  })
+
+  ctx.tools.register({
+    name: 'recowork_import',
+    description: 'Safely add RecoWork to an existing non-empty project in an approved directory. Existing files are preserved; only missing RecoWork files and a marker-bounded AGENTS.md block may be added.',
+    parameters: IMPORT_PARAMETERS,
+    output: { schema: OUTPUT_SCHEMA, render: (_args, value) => render(value) },
+    async execute(args, exec) {
+      return service.importExisting(args, exec.signal)
     },
   })
 }

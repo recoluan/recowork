@@ -17,6 +17,7 @@ test('initialization is constrained to an empty descendant of an approved root',
 
   const result = await service.init({ root, destination: 'new-project', template: 'idea-to-project', locale: 'zh' })
   assert.equal(result.operation, 'initialized')
+  assert.equal(calls[0].operation, 'add')
   assert.equal(calls[0].destination, path.join(realpathSync(root), 'new-project'))
   await assert.rejects(() => service.init({ root, destination: '../outside', template: 'idea-to-project', locale: 'zh' }), /strictly inside/)
 
@@ -48,6 +49,32 @@ test('workspace choices expose only direct children with a valid manifest', () =
   const service = createRecoWorkService({ allowedRoots: [root] })
 
   assert.deepEqual(service.workspaces(root), [{ destination: 'workflow', template: 'idea-to-project', locale: 'zh' }])
+})
+
+test('existing project import is explicit, approved, and separate from initialization', async () => {
+  const root = mkdtempSync(path.join(tmpdir(), 'recowork-dsh-'))
+  const destination = path.join(root, 'existing-project')
+  const danglingManifest = path.join(root, 'dangling-manifest')
+  mkdirSync(destination)
+  mkdirSync(danglingManifest)
+  writeFileSync(path.join(destination, 'README.md'), 'user-owned project')
+  writeFileSync(path.join(danglingManifest, 'README.md'), 'user-owned project')
+  symlinkSync(path.join(root, 'missing-manifest-target'), path.join(danglingManifest, 'rw-manifest.json'))
+  const calls = []
+  const service = createRecoWorkService({ allowedRoots: [root] }, {
+    commandRunner: async (input) => { calls.push(input); return { stdout: 'imported', stderr: '' } },
+  })
+
+  assert.deepEqual(service.importCandidates(root), [{ destination: 'existing-project', itemCount: 1 }])
+  const result = await service.importExisting({ root, destination: 'existing-project', template: 'idea-to-project', locale: 'zh' })
+  assert.equal(result.operation, 'imported-existing-project')
+  assert.equal(calls[0].operation, 'import')
+  assert.equal(calls[0].destination, realpathSync(destination))
+  await assert.rejects(() => service.importExisting({ root, destination: 'dangling-manifest', template: 'idea-to-project', locale: 'zh' }), /already initialized/)
+
+  writeFileSync(path.join(destination, 'rw-manifest.json'), '{}')
+  await assert.rejects(() => service.importExisting({ root, destination: 'existing-project', template: 'idea-to-project', locale: 'zh' }), /already initialized/)
+  assert.deepEqual(service.importCandidates(root), [])
 })
 
 test('status includes stage, actionable open questions, and workspace health', () => {
@@ -132,7 +159,7 @@ test('setup replaces DSH’s empty-array profile placeholder with one valid YAML
   const next = readFileSync(patchPath, 'utf8')
   const parsed = loadYaml(next)
   assert.doesNotMatch(next, /^\[\]$/m)
-  assert.deepEqual(parsed, [{ id: 'recowork-dsh', config: { allowedRoots: [realpathSync(root)], recoworkPackage: 'recowork@3.2.2' } }])
+  assert.deepEqual(parsed, [{ id: 'recowork-dsh', config: { allowedRoots: [realpathSync(root)], recoworkPackage: 'recowork@4.1.0' } }])
 })
 
 test('setup repairs the invalid empty-array plus managed-block shape left by older releases', () => {
@@ -159,7 +186,7 @@ test('setup requires explicit adoption of an existing un-managed RecoWork entry'
   assert.match(readFileSync(patchPath, 'utf8'), /# >>> RecoWork DSH setup >>>/)
 })
 
-test('plugin registers two tools, a workflow protocol section, and guarded web routes', async () => {
+test('plugin registers three tools, a workflow protocol section, and guarded web routes', async () => {
   const tools = []
   const sections = []
   const routes = []
@@ -169,10 +196,11 @@ test('plugin registers two tools, a workflow protocol section, and guarded web r
     webServer: { register: (route) => routes.push(route) },
   })
 
-  assert.deepEqual(tools.map((tool) => tool.name), ['recowork_init', 'recowork_status'])
+  assert.deepEqual(tools.map((tool) => tool.name), ['recowork_init', 'recowork_status', 'recowork_import'])
   assert.equal(sections[0].name, 'recowork-dsh:workflow-protocol')
   assert.match(sections[0].text, /read the workspace root AGENTS\.md/)
-  assert.deepEqual(routes.map((route) => route.path), ['/api/recowork/roots', '/api/recowork/workspaces', '/api/recowork/status', '/api/recowork/init'])
+  assert.match(sections[0].text, /preserves existing files/)
+  assert.deepEqual(routes.map((route) => route.path), ['/api/recowork/roots', '/api/recowork/workspaces', '/api/recowork/import-candidates', '/api/recowork/status', '/api/recowork/init', '/api/recowork/import'])
 
   const initRoute = routes.find((route) => route.path === '/api/recowork/init')
   const response = {
@@ -185,6 +213,18 @@ test('plugin registers two tools, a workflow protocol section, and guarded web r
   await initRoute.handler(request, response)
   assert.equal(response.statusCode, 400)
   assert.match(response.body, /Explicit confirmation is required/)
+
+  const importRoute = routes.find((route) => route.path === '/api/recowork/import')
+  const importResponse = {
+    writeHead: (statusCode) => { importResponse.statusCode = statusCode },
+    end: (body) => { importResponse.body = body },
+  }
+  const importRequest = Object.assign((async function* () { yield JSON.stringify({ confirmed: false }) })(), {
+    method: 'POST', headers: { 'content-type': 'application/json' },
+  })
+  await importRoute.handler(importRequest, importResponse)
+  assert.equal(importResponse.statusCode, 400)
+  assert.match(importResponse.body, /before importing/)
 })
 
 test('web dashboard registers with the required list-slot id', () => {
@@ -197,6 +237,9 @@ test('web dashboard registers with the required list-slot id', () => {
   assert.match(client, /项目记忆/)
   assert.match(client, /const \[view, setView\] = useState\('dashboard'\)/)
   assert.match(client, /确认并初始化/)
+  assert.match(client, /导入已有项目/)
+  assert.match(client, /不会覆盖已有文件/)
+  assert.match(client, /\/api\/recowork\/import/)
   assert.match(client, /confirmed: true/)
   assert.match(client, /项目工作区/)
   assert.match(client, /if \(root && destination\) refresh\(destination\)/)

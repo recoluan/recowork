@@ -6,7 +6,7 @@ import path from 'node:path'
 const MARKER_START = '# >>> RecoWork DSH setup >>>'
 const MARKER_END = '# <<< RecoWork DSH setup <<<'
 const DEFAULT_PROFILE = 'web'
-const RECOWORK_PACKAGE = 'recowork@3.2.2'
+const RECOWORK_PACKAGE = 'recowork@4.1.0'
 
 function optionValue(argv, index, name) {
   const value = argv[index + 1]
