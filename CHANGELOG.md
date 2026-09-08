@@ -6,6 +6,10 @@ This changelog records functional behavior, compatibility, migration, CLI, templ
 
 ## [Unreleased]
 
+## [4.0.0] - 2026-09-07
+
+BREAKING CHANGE: New idea-to-project workspaces no longer precreate optional stage indexes and placeholder documents. Create them on demand; existing workspaces are preserved without automatic migration.
+
 ### Changed
 
 - Improved idea-to-project with six initial workspace records, a five-minute reading home, explicit fact ownership and decision closure. Answers may stay in conversation, simple topics need no module pair, and maintenance reuses explicit authorization. Stage gates and traceability remain; upgrades never move, overwrite or delete existing workspace content.

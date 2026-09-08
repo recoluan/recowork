@@ -1,6 +1,6 @@
 {
   "name": "recowork",
-  "version": "3.2.2",
+  "version": "4.0.0",
   "description": "Combine RecoWork workflow templates with reusable AI output targets.",
   "bin": {
     "recowork": "bin/rw.js",
