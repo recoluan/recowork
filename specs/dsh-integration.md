@@ -46,3 +46,9 @@ The package is an npm-style DSH Bundle: `package.json` declares `dsh.bundle.patc
 Before public distribution, verify against the pinned DSH version, install from a packed artifact, run the service tests, initialize every supported template/locale in a temporary approved root, and import fixtures with existing `README.md` and `AGENTS.md` content. Confirm that initialization rejects a non-empty destination, import rejects an existing manifest and unsafe paths, and no rejected operation modifies project content.
 
 Release 0.3.0 pins its initializer, importer and setup to `recowork@4.1.0`. Distribution verification uses `@deepseek-ai/dsh@0.1.2-rc.1` in an isolated DSH home: install the packed Bundle into the web profile, apply setup, and compose its configuration. Packed-service checks run all three templates in both locales against the published CLI, including existing README/AGENTS preservation and repeated-import rejection. These checks do not claim a full browser interaction review.
+
+## Task-Specific Methods
+
+Follow the task-specific method contract in `specs/requirements.md`. Local files, chat protocols, DSH guidance and website prompts must preserve their respective environment boundaries. DSH reads project stage from the delivery plan with legacy index fallback, uses localized learning paths and does not infer completion from document presence.
+
+The unreleased DSH 0.4.0 requires RecoWork 4.2.0 for method-aware initialization. Publish and verify core 4.2.0 before publishing the adapter; do not ship a pin to an unavailable package. Development integration must use the packed local core artifact via administrator configuration. No publication is authorized by these source changes alone. Open-question summaries recognize the template table and legacy lists, exclude closed sections/completed checkboxes, and remain heuristic navigation rather than proof of no blockers.

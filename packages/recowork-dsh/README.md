@@ -37,7 +37,7 @@ Repeat `--root` to authorize more than one directory. If your DSH home is not th
 DSH_HOME=/path/to/dsh-home npx --yes recowork-dsh@latest setup --root /absolute/path/to/your/recowork-lab
 ```
 
-The setup command creates a timestamped backup of `cordis.patch.yml`, handles DSH's default `[]` placeholder as a single YAML document, and validates the resulting YAML after writing. If validation fails, it restores the original profile patch before reporting the error. If you previously configured `recowork-dsh` by hand, review that entry and rerun the command with `--adopt-existing`; it will back up the file before replacing only the old RecoWork entry. The default initializer and importer run `npx --yes recowork@4.1.0`.
+The setup command creates a timestamped backup of `cordis.patch.yml`, handles DSH's default `[]` placeholder as a single YAML document, and validates the resulting YAML after writing. If validation fails, it restores the original profile patch before reporting the error. If you previously configured `recowork-dsh` by hand, review that entry and rerun the command with `--adopt-existing`; it will back up the file before replacing only the old RecoWork entry. The default initializer and importer run `npx --yes recowork@4.2.0`.
 
 For local development, replace the first command with `dsh plugin --profile web add ./packages/recowork-dsh`, then run `node ./packages/recowork-dsh/bin/recowork-dsh.js setup --root /absolute/path/to/your/recowork-lab --dsh-home "$DSH_HOME"`.
 

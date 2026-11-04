@@ -159,7 +159,7 @@ test('setup replaces DSH’s empty-array profile placeholder with one valid YAML
   const next = readFileSync(patchPath, 'utf8')
   const parsed = loadYaml(next)
   assert.doesNotMatch(next, /^\[\]$/m)
-  assert.deepEqual(parsed, [{ id: 'recowork-dsh', config: { allowedRoots: [realpathSync(root)], recoworkPackage: 'recowork@4.1.0' } }])
+  assert.deepEqual(parsed, [{ id: 'recowork-dsh', config: { allowedRoots: [realpathSync(root)], recoworkPackage: 'recowork@4.2.0' } }])
 })
 
 test('setup repairs the invalid empty-array plus managed-block shape left by older releases', () => {
@@ -255,4 +255,45 @@ test('web dashboard registers with the required list-slot id', () => {
   assert.match(client, /var\(--dsw-alias-label-primary/)
   assert.match(client, /var\(--dsw-alias-button-ghost-active-fill/)
   assert.match(client, /var\(--dsw-alias-state-error-primary/)
+})
+
+test('project stage prefers delivery plan and learning uses its localized workspace', () => {
+  const root = mkdtempSync(path.join(tmpdir(), 'recowork-methods-'))
+  for (const locale of ['zh', 'en']) {
+    const zh = locale === 'zh'
+    const dest = `project-${locale}`
+    const workspace = zh ? '工作空间' : 'workspace'
+    const plan = zh ? '04-计划与决策/阶段划分与推进路径.md' : '04-plan-and-decisions/delivery-plan.md'
+    mkdirSync(path.join(root, dest, workspace, path.dirname(plan)), { recursive: true })
+    writeFileSync(path.join(root, dest, 'rw-manifest.json'), JSON.stringify({ template: 'idea-to-project', locale }))
+    writeFileSync(path.join(root, dest, workspace, 'index.md'), '> Current stage: stale')
+    writeFileSync(path.join(root, dest, workspace, plan), '## Current stage and progress\n\nValidated prototype; awaiting acceptance.\n')
+    const service = createRecoWorkService({ allowedRoots: [root] })
+    assert.equal(service.status({ root, destination: dest }).workflow.stage, 'Validated prototype; awaiting acceptance.')
+    const learner = `learner-${locale}`
+    const space = zh ? '学习空间' : 'learning-workspace'
+    mkdirSync(path.join(root, learner, space), { recursive: true })
+    writeFileSync(path.join(root, learner, 'rw-manifest.json'), JSON.stringify({ template: 'learning-engineering', locale }))
+    writeFileSync(path.join(root, learner, space, zh ? '学习简报.md' : 'learner-brief.md'), '# Learner')
+    writeFileSync(path.join(root, learner, space, 'index.md'), '> Current stage: practice')
+    const status = service.status({ root, destination: learner })
+    assert.equal(status.documents.length, 1)
+    assert.equal(status.workflow.stage, 'practice')
+  }
+})
+
+test('open question tables and lists exclude closed sections and completed tasks', () => {
+  const root = mkdtempSync(path.join(tmpdir(), 'recowork-questions-'))
+  mkdirSync(path.join(root, 'p', 'workspace'), { recursive: true })
+  writeFileSync(path.join(root, 'p', 'rw-manifest.json'), JSON.stringify({ template: 'idea-to-project', locale: 'en' }))
+  writeFileSync(path.join(root, 'p', 'workspace', 'open-questions.md'), '# Open Questions\n\n| Question | Impact | Next step |\n| --- | --- | --- |\n| Confirm experiment threshold | Blocks test | Ask owner |\n\n## Closed\n- Old question\n\n## Open\n- [x] Done\n- [ ] Check transfer\n')
+  assert.deepEqual(createRecoWorkService({ allowedRoots: [root] }).status({ root, destination: 'p' }).workflow.nextActions, ['Confirm experiment threshold', 'Check transfer'])
+})
+
+test('unresolved questions remain open and closed child headings remain closed', () => {
+  const root = mkdtempSync(path.join(tmpdir(), 'recowork-heading-'))
+  mkdirSync(path.join(root, 'p', 'workspace'), { recursive: true })
+  writeFileSync(path.join(root, 'p', 'rw-manifest.json'), JSON.stringify({ template: 'idea-to-project', locale: 'en' }))
+  writeFileSync(path.join(root, 'p', 'workspace', 'open-questions.md'), '# Unresolved Questions\n| Question | Impact |\n| --- | --- |\n| Need approval | Blocks work |\n## Closed\n### Previous experiment\n- Already answered\n## Open\n- New question\n')
+  assert.deepEqual(createRecoWorkService({ allowedRoots: [root] }).status({ root, destination: 'p' }).workflow.nextActions, ['Need approval', 'New question'])
 })

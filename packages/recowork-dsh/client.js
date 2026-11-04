@@ -34,11 +34,14 @@
 
     const format = (message, values) => message.replace(/\{(\w+)\}/g, (whole, key) => key in values ? String(values[key]) : whole)
 
+    const methodGuidance = {"idea-to-project": {"zh": "用证据支持决策：先核对问题与关键假设，再检查实验信号和反证，建议继续、调整或停止。", "en": "Decide with evidence: check the problem, critical assumptions, experiment signals and counterevidence before recommending continue, adjust or stop."}, "learning-engineering": {"zh": "用表现证明能力：核对目标任务与学习者实际表现，区分独立和提示后完成，安排反馈、延迟回忆及迁移检查。", "en": "Demonstrate ability: compare target tasks with actual independent or prompted performance, then plan feedback, delayed recall and transfer checks."}, "web-design-standard": {"zh": "用任务完成情况验收界面：核对主任务、状态与恢复路径，分别报告响应式、键盘和可用性验证；未测不算通过。", "en": "Validate task completion: check the primary task, states and recovery paths; report responsive, keyboard and usability checks separately. Untested is not passed."}}
+
     function makePrompt(action, status, root, destination) {
       const zh = status.manifest.locale === 'zh'
-      const base = zh
+      const method = methodGuidance[status.manifest.template]?.[zh ? "zh" : "en"] || ""
+      const base = (zh
         ? `继续处理 RecoWork 工作区：${status.destination}\n\n先调用 recowork_status（root：${root}，destination：${destination}），再读取项目根目录 AGENTS.md 及其中指定的本地化工作方法。工作区文档是唯一事实来源；不要建立第二套项目记录。`
-        : `Continue the RecoWork workspace: ${status.destination}\n\nFirst call recowork_status (root: ${root}; destination: ${destination}), then read the root AGENTS.md and the localized working methods it names. Workspace documents are the only source of truth; do not create a second project record.`
+        : `Continue the RecoWork workspace: ${status.destination}\n\nFirst call recowork_status (root: ${root}; destination: ${destination}), then read the root AGENTS.md and the localized working methods it names. Workspace documents are the only source of truth; do not create a second project record.`) + `\n\n${method}\n`
       if (action.kind === 'orient') return `${base}\n\n${zh ? '说明当前阶段、已确认结论、待确认事项和一个建议的下一步；除非用户另行要求，不要修改文件。' : 'Report the current stage, confirmed conclusions, open questions, and one recommended next step. Do not modify files unless the user separately asks.'}`
       if (action.kind === 'resolve-question') return `${base}\n\n${zh ? `聚焦处理待确认事项：「${action.item}」。先检索相关当前材料，给出判断、依据和可选方案；涉及方向、范围或写入前，遵守 AGENTS.md 的确认规则。` : `Focus on this open question: “${action.item}”. Retrieve relevant current materials, then provide judgement, evidence, and options. Follow AGENTS.md confirmation rules before direction, scope, or file changes.`}`
       return `${base}\n\n${zh ? '只读检查项目健康度：确认当前文档、缺失项、用户修改的受管文件和下一步建议。不要自动修复、升级、移动或重写文件。' : 'Perform a read-only project-health review: confirm current documents, gaps, user-modified managed files, and the recommended next step. Do not automatically repair, upgrade, move, or rewrite files.'}`
@@ -281,9 +284,8 @@
             h('div', { style: { display: 'flex', justifyContent: 'space-between', gap: 10 } }, h('strong', { style: { fontSize: 12, lineHeight: 1.4 } }, action.item), h('span', { style: { flex: '0 0 auto', padding: '3px 5px', borderRadius: 4, background: theme.surface, color: theme.secondary, fontSize: 9 } }, text.sourceQuestion)),
             h('button', { type: 'button', onClick: () => dispatch(action), style: { ...baseButton, padding: '6px 0 0', background: 'transparent', color: theme.secondary, fontSize: 10 } }, text.decide, ' →'))) : h('p', { style: { color: theme.secondary, fontSize: 11 } }, text.noBlocking),
 
+          h('p', { style: { fontSize: 12, lineHeight: 1.6 } }, methodGuidance[status?.manifest?.template]?.[text === copy.en ? 'en' : 'zh'] || methodGuidance[status?.manifest?.template]?.zh),
           h('div', { style: { display: 'flex', justifyContent: 'space-between', margin: '15px 1px 7px' } }, h('strong', { style: { fontSize: 12 } }, text.progress), h('span', { style: { color: theme.secondary, fontSize: 10 } }, format(text.current, { stage: deck?.stage || text.unknownStage }))),
-          h('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 3 } }, text.stages.map((label, index) => h('span', { key: label, style: { height: 4, borderRadius: 3, background: index <= activeStage ? theme.accent : theme.elevated } }))),
-          h('div', { style: { display: 'flex', justifyContent: 'space-between', marginTop: 6, color: theme.secondary, fontSize: 9 } }, text.stages.map((label, index) => h('span', { key: label, style: { color: index === activeStage ? theme.primary : theme.secondary } }, label))),
 
           h('div', { style: { display: 'flex', justifyContent: 'space-between', margin: '16px 1px 7px' } }, h('strong', { style: { fontSize: 12 } }, text.memory), h('span', { style: { color: theme.secondary, fontSize: 10 } }, text.memoryHint)),
           deck?.memory?.length ? h('div', null, deck.memory.map((item) => h('div', { key: `${item.source}:${item.text}`, style: { display: 'grid', gridTemplateColumns: '70px 1fr', gap: 8, marginTop: 7 } }, h('span', { style: { color: theme.secondary, fontSize: 9, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } }, item.source.split('/').pop()), h('span', { style: { fontSize: 10, lineHeight: 1.4 } }, item.text)))) : h('p', { style: { color: theme.secondary, fontSize: 11 } }, text.noMemory),

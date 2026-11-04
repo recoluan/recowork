@@ -5,4 +5,4 @@
         # Set this to one or more absolute directories selected by the user.
         # The model cannot operate outside these directories.
         allowedRoots: []
-        recoworkPackage: recowork@4.1.0
+        recoworkPackage: recowork@4.2.0

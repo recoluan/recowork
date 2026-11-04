@@ -6,6 +6,12 @@ This changelog records functional behavior, compatibility, migration, CLI, templ
 
 ## [Unreleased]
 
+## [recowork-dsh 0.4.0] - 2026-11-04
+
+### Changed
+
+- Added template-specific guidance, delivery-plan stage lookup and localized learning paths. Parse open-question tables without hiding Unresolved headings or reopening closed subsections. Pin the adapter to recowork@4.2.0.
+
 ## [4.2.0] - 2026-11-04
 
 ### Changed

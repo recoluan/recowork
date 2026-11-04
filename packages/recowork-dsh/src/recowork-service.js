@@ -82,7 +82,7 @@ function documentCandidates(manifest) {
   if (manifest.template === 'web-design-standard') {
     return [zh ? '网页设计规范.md' : 'web-design-standard.md']
   }
-  const root = zh ? '工作空间' : manifest.template === 'learning-engineering' ? 'learning-workspace' : 'workspace'
+  const root = manifest.template === 'learning-engineering' ? (zh ? '学习空间' : 'learning-workspace') : (zh ? '工作空间' : 'workspace')
   const files = manifest.template === 'learning-engineering'
     ? (zh ? ['学习简报.md', '课程路线.md', '学习进度.md'] : ['learner-brief.md', 'course-roadmap.md', 'learning-progress.md'])
     : (zh ? ['项目简报.md', '待确认问题.md', '搁置想法.md'] : ['project-brief.md', 'open-questions.md', 'parked-ideas.md'])
@@ -91,27 +91,50 @@ function documentCandidates(manifest) {
 
 function workspaceIndexPath(manifest) {
   if (manifest.template === 'web-design-standard') return null
-  return manifest.locale === 'zh' ? '工作空间/index.md' : 'workspace/index.md'
+  return manifest.template === 'learning-engineering'
+    ? (manifest.locale === 'zh' ? '学习空间/index.md' : 'learning-workspace/index.md')
+    : (manifest.locale === 'zh' ? '工作空间/index.md' : 'workspace/index.md')
 }
 
 function stageFromIndex(excerpt) {
   if (excerpt === null) return null
   const match = excerpt.content.match(/^>\s*(?:当前阶段|Current stage)\s*[:：]\s*(.+)$/m)
-  return match?.[1]?.trim() || null
+  const section = excerpt.content.match(/^## (?:当前阶段与进展|Current stage and progress)\s*\n+([^\n]+)/m)
+  return match?.[1]?.trim() || section?.[1]?.trim() || null
 }
 
 function actionableItems(excerpts) {
-  const items = []
+  const items = [];
   for (const excerpt of excerpts) {
+    let closedLevel = null;
+    let questionColumn = -1;
     for (const line of excerpt.content.split('\n')) {
-      const match = line.match(/^\s*-\s+(.+)$/)
-      const item = match?.[1]?.trim()
-      if (!item || /^待填写[：:]/.test(item) || /^To be completed[：:]/i.test(item)) continue
-      items.push(item)
-      if (items.length === 3) return items
+      const heading = line.match(/^(#{1,6})\s+(.+)$/);
+      if (heading) {
+        const level = heading[1].length;
+        if (closedLevel !== null && level <= closedLevel) closedLevel = null;
+        if (closedLevel === null && /已关闭|已解决|\b(?:closed|resolved)\b/i.test(heading[2])) closedLevel = level;
+        questionColumn = -1;
+      }
+      if (closedLevel !== null) continue;
+      let item;
+      if (/^\s*\|/.test(line)) {
+        const cells = line.trim().replace(/^\||\|$/g, '').split('|').map(s => s.trim());
+        const header = cells.findIndex(s => /^(问题|Question)$/i.test(s));
+        if (header >= 0) { questionColumn = header; continue; }
+        if (questionColumn < 0 || cells.every(s => /^[-: ]*$/.test(s))) continue;
+        item = cells[questionColumn];
+      } else {
+        questionColumn = -1;
+        if (/^\s*-\s+\[[xX]\]/.test(line)) continue;
+        item = line.match(/^\s*-\s+(?:\[ \]\s*)?(.+)$/)?.[1]?.trim();
+      }
+      if (!item || /^(待填写|To be completed|To fill|None|无)(?:[：:]|$)/i.test(item)) continue;
+      if (!items.includes(item)) items.push(item);
+      if (items.length === 3) return items;
     }
   }
-  return items
+  return items;
 }
 
 function healthSummary(manifest, candidates, excerpts) {
@@ -203,7 +226,7 @@ export function createRecoWorkService(config = {}, dependencies = {}) {
   const allowedRoots = new Set((config.allowedRoots || []).map(normalizeRoot))
   const commandRunner = dependencies.commandRunner || createCommandRunner({
     executable: config.npxExecutable || 'npx',
-    packageRef: config.recoworkPackage || 'recowork@4.1.0',
+    packageRef: config.recoworkPackage || 'recowork@4.2.0',
   })
 
   return {
@@ -255,7 +278,9 @@ export function createRecoWorkService(config = {}, dependencies = {}) {
       const indexExcerpt = indexPath === null ? null : readExcerpt(canonicalDestination, indexPath)
       const openQuestion = excerpts.find((excerpt) => /(?:待确认问题|open-questions)\.md$/.test(excerpt.path))
       const workflow = {
-        stage: stageFromIndex(indexExcerpt),
+        stage: stageFromIndex(manifest.template === 'idea-to-project'
+          ? readExcerpt(canonicalDestination, manifest.locale === 'zh' ? '工作空间/04-计划与决策/阶段划分与推进路径.md' : 'workspace/04-plan-and-decisions/delivery-plan.md')
+          : null) || stageFromIndex(indexExcerpt),
         nextActions: openQuestion ? actionableItems([openQuestion]) : [],
       }
       const health = healthSummary(manifest, candidates, excerpts)
