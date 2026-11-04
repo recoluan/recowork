@@ -6,6 +6,12 @@ This changelog records functional behavior, compatibility, migration, CLI, templ
 
 ## [Unreleased]
 
+## [4.2.0] - 2026-11-04
+
+### Changed
+
+- Added integrated evidence-based decision steps and experiment records, performance-based learning and transfer checks, and task/recovery-based web acceptance in both locales. Website chat kits are generated from the CLI. Existing workspaces remain user-owned.
+
 ## [recowork-dsh 0.3.0] - 2026-09-07
 
 ### Added

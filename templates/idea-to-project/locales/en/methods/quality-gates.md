@@ -13,3 +13,5 @@ Simulate returning after two weeks: within five minutes, can the reader find the
 Apply the [document standard](./document-standard.md): questions may stay in conversation, small conclusions update existing sections, simple topics need no directory plus document pair, and complex topics can still supply independent interfaces, acceptance material or reproducible evidence.
 
 Link existence, relative paths and navigation reachability can be automated. Fact consistency, split necessity, sufficient confirmation and five-minute comprehension require agent and reader content review. Link checks cannot prove semantic correctness. Do not create a separate report for every self-check.
+
+Check predeclared experiment signals, counterevidence, observed results and the continue/adjust/stop decision. [Method](./workflow.md)

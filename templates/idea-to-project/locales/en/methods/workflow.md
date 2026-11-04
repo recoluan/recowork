@@ -2,9 +2,21 @@
 
 ## Exploration and validation
 
-Start from the [home](../workspace/index.md) to determine stage, then read the role, questions and relevant topics progressively. Clarify problem, users, constraints and success signals; compare directions and distinguish hypotheses, evidence, risks and counterevidence. Test falsifiable assumptions with minimal validation rather than more brainstorming.
+Read current facts progressively from the home. Follow these steps, skipping repeated discovery only with stated evidence. Update the direction package rather than creating a file per step.
 
-Before selecting a direction or validation plan, present a direction decision package with candidates, evidence, recommendation, rejected alternatives and risks. Ask the user to choose continued exploration, assumption validation or project entry. Record restartable parked directions separately; ordinary questions need no file.
+
+1. Define the concrete user, situation, existing alternative and cost; distinguish observation from inference.
+2. Diverge before converging on the problem, without treating a proposed solution as a requirement.
+
+3. Prioritize assumptions whose failure would invalidate the direction and whose evidence is weakest.
+4. Before an experiment, specify the hypothesis, cheapest useful test, pass/fail signals and time/resource limit.
+5. Prefer interviews, manual service or prototypes over a full build.
+Before choosing a priority direction or validation plan, present the direction package and obtain explicit confirmation; do not reapprove work already authorized. Record restartable directions in parked ideas.
+6. Record results, counterevidence and limitations; choose continue, adjust, stop or gather evidence.
+7. Insufficient evidence is not a pass.
+8. After explicit direction and project-entry confirmation, deliver the smallest complete outcome with acceptance defined before implementation.
+9. Skip repeated discovery when sufficient evidence exists and explain why.
+10. Small questions may stay in conversation; no extra methodology documents are required.
 
 ## Project entry and advancement
 
@@ -20,3 +32,7 @@ Within authorized scope, plan, implement, verify and synchronize using the [fres
 - Do not demand separate approval for each maintenance item or classify every rewrite as maintenance. If authority is unclear, complete safe synchronization/navigation first and explain the remaining concrete impact.
 
 The [document standard](./document-standard.md) owns format and new-file criteria; the [fact map](./knowledge-structure.md) owns fact locations.
+
+## Example
+
+For a merchant analysis tool, examine a real decision and its current alternative, then agree success signals for a manual analysis experiment. “Interesting” is not evidence of a changed decision. Missing signals mean gather evidence or adjust, not start building.

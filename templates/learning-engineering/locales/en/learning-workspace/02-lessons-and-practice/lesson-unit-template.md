@@ -1,23 +1,22 @@
-# Lesson Unit Template
+# Learning Unit
 
-Copy this template for a new learning unit. See `methods/lesson-template.md` for the full structure.
+## Target task and acceptance
 
-## Goal
+Specify independent performance, prerequisites and criteria; reading completion is not acceptance.
 
-To fill.
+## Example and practice
 
-## Minimal Experiment Or Example
+Minimal example, learner-first attempt, errors and minimal hints; give full answers only after attempts as needed.
 
-To fill.
+## Performance and feedback
 
-## Practice And Feedback
+| Attempt / date | Independent or hint level | Observed performance and evidence | Unmet criteria / reinforcement |
+| --- | --- | --- | --- |
 
-To fill.
+## Transfer and delayed recall
 
-## My Understanding
+Changed-context task and results, next review trigger; unperformed checks remain unverified.
 
-To fill: explain the concept, data flow, or tradeoff in your own words.
+## Consolidation
 
-## Run And Verification
-
-To fill: actual commands, results, or why verification was not run.
+Criteria met, remaining gaps and next step; progress links this evidence instead of copying it.

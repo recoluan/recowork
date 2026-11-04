@@ -7,6 +7,21 @@ const http = require("http");
 const { URL } = require("url");
 const { execFile } = require("child_process");
 
+const METHOD_PROTOCOLS = {
+  "idea-to-project": {
+    "zh": "先定义具体用户、场景、现有替代方式和损失，区分观察与推断。发散候选后再收敛问题，不把用户提出的方案直接当作需求。按“不成立会否推翻方向”和证据缺口选择最关键假设；实验开始前写明假设、最低成本验证、通过/失败信号、时间或资源上限。优先访谈、人工服务或原型，不默认开发完整产品。记录实际结果、反证和局限，选择继续、调整、停止或补证；证据不足不能算通过。用户确认方向并进入项目后，按最小完整交付推进，先定验收再实施。已有充分证据时可跳过重复探索，说明依据；小问题可在对话完成，不要求新增方法文档。",
+    "en": "Define the concrete user, situation, existing alternative and cost; distinguish observation from inference. Diverge before converging on the problem, without treating a proposed solution as a requirement. Prioritize assumptions whose failure would invalidate the direction and whose evidence is weakest. Before an experiment, specify the hypothesis, cheapest useful test, pass/fail signals and time/resource limit. Prefer interviews, manual service or prototypes over a full build. Record results, counterevidence and limitations; choose continue, adjust, stop or gather evidence. Insufficient evidence is not a pass. After explicit direction and project-entry confirmation, deliver the smallest complete outcome with acceptance defined before implementation. Skip repeated discovery when sufficient evidence exists and explain why. Small questions may stay in conversation; no extra methodology documents are required."
+  },
+  "learning-engineering": {
+    "zh": "先定义学习者最终能独立完成的真实任务和评价标准，再倒推练习、知识与路线。用简短诊断区分已有能力与假设；学习约定确认后再安排单元。根据诊断补充必要概念、最小示范和引导练习，已有基础可跳过；随后撤去提示独立尝试，按错误反馈，不提前代做验收答案。用无提示提取、解释与操作检查掌握程度；看完、听懂或 Agent 讲完不代表学会。未达标时缩小任务、补先修或换例子再测；达标后用不同情境检查迁移。安排间隔后的主动回忆，按遗忘与表现调整复习间隔，不使用固定万能周期。记录独立/提示后完成、错误、证据与下次复习点；没有学习者实际表现时标为未验证。熟练内容可凭诊断跳过，临时答疑无需完整课程或新文档。",
+    "en": "Define a real task the learner should complete independently and its assessment criteria, then work backward to practice, knowledge and a roadmap. Diagnose prior ability briefly rather than assuming it; confirm the learning agreement before planning units. Use diagnosis to supply necessary concepts, a minimal demonstration and guided practice; skip these when prior ability is sufficient. Then remove hints for independent practice and give error-specific feedback without supplying assessment answers first. Check mastery through unaided retrieval, explanation and performance; reading or hearing an explanation is not mastery. If criteria are unmet, reduce the task, repair prerequisites or change examples and reassess. After success, test transfer in a different context. Schedule delayed active recall and adapt spacing to observed retention, without a universal fixed schedule. Record independent versus prompted performance, errors, evidence and the next review trigger; absent learner performance means unverified. Skip mastered content based on diagnosis; a quick question needs no full course or new document."
+  },
+  "web-design-standard": {
+    "zh": "先明确用户、核心任务、使用情境与成功条件，再组织信息层级、导航与主操作。用现有品牌和组件体系统一设计；缺失时才采用本规范默认令牌。围绕真实任务设计正常、加载、空数据、失败、成功与恢复路径，按适用性说明跳过的状态。实现后走完主任务并记录实际结果，检查窄屏、键盘、焦点、语义标签、对比度与错误恢复。视觉自检、自动检查和真实用户验证分别报告；未执行的检查标为未测，不宣称已达到无障碍认证。纯视觉局部改动可缩小验证范围，但须说明受影响任务和状态。保持单文件规范，不为方法另建工作空间。",
+    "en": "Identify users, the primary task, context and success conditions before organizing hierarchy, navigation and primary actions. Reuse the existing brand and component system; use default tokens only where guidance is missing. Design normal, loading, empty, failure, success and recovery paths around the task, explaining inapplicable states. After implementation, complete the primary task and record observed results; check narrow screens, keyboard operation, focus, semantic labels, contrast and error recovery. Report visual review, automated checks and real-user validation separately. Mark unperformed checks as untested and do not claim accessibility certification. A local visual change may use scoped validation with affected tasks and states identified. Preserve the single-file standard without creating a methodology workspace."
+  }
+};
+
 const ROOT = path.resolve(__dirname, "../../..");
 const TEMPLATES_DIR = path.join(ROOT, "templates");
 const TARGETS_DIR = path.join(ROOT, "targets");
@@ -1841,13 +1856,13 @@ function renderTemplate(source, template, target, locale) {
     rule_explain_verification: localeStrings.ruleExplainVerification,
     chat_init_title: localeStrings.chatInitTitle,
     chat_init_intro: localeStrings.chatInitIntro,
-    chat_init_instruction: localeStrings.chatInitInstruction,
+    chat_init_instruction: `${localeStrings.chatInitInstruction}\n\n${METHOD_PROTOCOLS[template.id]?.[locale] || ""}`,
     chat_task_title: localeStrings.chatTaskTitle,
     chat_task_intro: localeStrings.chatTaskIntro,
     chat_task_field_task: localeStrings.chatTaskFieldTask,
     chat_task_field_context: localeStrings.chatTaskFieldContext,
     chat_task_field_constraints: localeStrings.chatTaskFieldConstraints,
-    chat_task_instruction: localeStrings.chatTaskInstruction,
+    chat_task_instruction: `${localeStrings.chatTaskInstruction}\n\n${METHOD_PROTOCOLS[template.id]?.[locale] || ""}`,
     chat_memory_title: localeStrings.chatMemoryTitle,
     chat_memory_template: localeStrings.chatMemoryTemplate,
     chat_memory_target: localeStrings.chatMemoryTarget,

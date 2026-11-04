@@ -37,7 +37,7 @@ for (const locale of ['zh', 'en']) {
     assert.equal(files(ws).length, 6, 'only essential workspace records are initialized');
     for (const file of files(ws)) assert.ok(seen.has(file), `unreachable workspace record: ${file}`);
     const manifest = JSON.parse(fs.readFileSync(path.join(dir, 'rw-manifest.json')));
-    assert.equal(manifest.template_version, '1.4.0');
+    assert.equal(manifest.template_version, '1.5.0');
     for (const [name, entry] of Object.entries(manifest.files)) {
       assert.equal(hash(fs.readFileSync(path.join(dir, name))), entry.baseline_hash);
     }

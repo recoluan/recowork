@@ -18,6 +18,13 @@ To fill: problem, target users, scenario, constraints, success signals, and know
 
 To fill: each candidate's value, evidence, counterevidence, key assumptions, risks, smallest validation, and status.
 
+## Critical assumptions and validation
+
+Use a row when needed; explain existing evidence if no experiment is needed. Set signals before testing, never revise thresholds retrospectively to fit results.
+
+| Assumption / impact if false | Test and resource limit | Predeclared pass / fail signals | Observed results, counterevidence, limits | Continue / adjust / stop / gather evidence and reason |
+| --- | --- | --- | --- | --- |
+
 ## Recommendation And Unselected Directions
 
 To fill: recommended direction and reasons for retaining, parking, excluding, or validating other directions. Copy each restartable parked direction to [Parked Ideas](../parked-ideas.md) with its parking reason and restart condition.

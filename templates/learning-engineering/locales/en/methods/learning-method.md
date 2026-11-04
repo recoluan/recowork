@@ -11,12 +11,17 @@
 
 ## Advance A Learning Unit
 
-1. Explain the problem this lesson solves, its relation to prior knowledge, and completion criteria.
-2. Teach key concepts through a minimal example that exposes input, output, or data flow.
-3. Let the learner attempt practice before providing a full answer.
-4. Use the result to identify misconceptions, explain why they happened, and schedule targeted review.
-5. Update the unit record, progress tracker, and question/retrospective notes using the [Document Standard](./document-standard.md), then update affected `index.md` statuses.
-6. Run the [artifact freshness sweep](./artifact-freshness-standard.md): consolidate validated understanding into Current learning records, mark the destination of practice and discussion material, list archive candidates and wait for learner confirmation; formal indexes point only to Current content.
+1. Define a real task the learner should complete independently and its assessment criteria, then work backward to practice, knowledge and a roadmap.
+2. Diagnose prior ability briefly rather than assuming it; confirm the learning agreement before planning units.
+3. Use diagnosis to provide necessary concepts and a minimal demonstration, followed by guided practice; skip instruction when prior ability is sufficient. Then remove hints for an independent attempt and give error-specific feedback without supplying the assessment answer first.
+4. Check mastery through unaided retrieval, explanation and performance; reading or hearing an explanation is not mastery.
+5. If criteria are unmet, reduce the task, repair prerequisites or change examples and reassess.
+6. After success, test transfer in a different context.
+7. Schedule delayed active recall and adapt spacing to observed retention, without a universal fixed schedule.
+8. Record independent versus prompted performance, errors, evidence and the next review trigger; absent learner performance means unverified.
+9. Skip mastered content based on diagnosis; a quick question needs no full course or new document.
+
+Update the existing unit with performance and feedback. Progress keeps status, evidence links and review triggers; update affected indexes.
 
 ## Practice And Validation
 
@@ -24,3 +29,5 @@
 - Code or operational learning must record actual commands and verification results; say clearly when work was not run.
 - At each stage, have the learner explain concepts, data flow, and key tradeoffs in their own words.
 - Keep each learning document focused on one unit, question, or conclusion, and use relative links for related material.
+
+Example: copying SQL does not demonstrate independent index selection. Remove hints, change the data distribution and ask for a query-plan explanation; failure requires practice, not a mastery label.

@@ -606,3 +606,9 @@ Changes: source-owned facts, a five-minute reading home, conversation-only answe
 Compatibility: new local initializations have fewer placeholder paths. Existing workspaces, including retired generated placeholders, remain untouched by upgrades; unmodified methods and target rules can update, with manual reconciliation needed for old facts. No release or destructive migration is implied. Chat stays a three-material manual-continuity workflow.
 
 Validation: generated-link and reachability checks, both locales/targets, old-to-new workspace preservation and edited instruction preservation are automated. Fact consistency, split necessity and five-minute comprehension require content review; links alone cannot prove them.
+
+## 035. Match Methods To The Work
+
+Decision: make decision evidence, learner performance and task-based interface validation the respective quality bars for the three templates. Embed actionable methods in existing method documents and single-file design guidance, with lightweight chat equivalents. Synchronize DSH guidance and website messaging without adding required document types. Framework ideas are adapted guidance, not standards certification. Existing confirmation and upgrade boundaries remain.
+
+Implementation review for decision 035: methods now sit inside execution steps, with experiment rows in the existing direction package, independent/prompted performance and transfer checks in existing lesson units, and observed task/recovery checks in design acceptance. Content walkthroughs use merchant analysis (interest is not evidence), SQL practice (prompted completion is not mastery), and order filtering (a screenshot is not task acceptance). These are protocol walkthroughs, not empirical learner/user trials. Validation: 30 automated tests, 12 generation combinations, website chat-kit drift check, and six real DSH initializations against the locally packed 4.2.0 core. Browser visual acceptance remains outstanding.

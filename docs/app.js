@@ -48,15 +48,7 @@ function localPrompt() {
   return `你正在帮助我开始一项 RecoWork 工作。\n\n工作类型：${copy.zh.templates[config.template]}\n使用环境：本地可执行 Agent\n目标位置：当前项目\n\n请按以下方式工作：\n1. 先确认当前环境可以执行命令，并检查 Node.js 与 npm。\n2. 如果其中任一项缺失、不可用或版本过旧，说明阻塞原因，并在安装稳定版 Node.js 前征求我的确认。\n3. 环境满足要求后运行下面的命令。该命令会临时获取最新版 RecoWork，无需预先全局安装 rw：\n   ${command}\n4. 保留已有根目录 AGENTS.md 中 RecoWork 受管区块之外的内容。\n5. 展示生成后的文件树后，由你在项目根目录直接运行 \`npx --yes recowork@latest view .\`。它会自动识别工作空间并打开本地只读站点；报告本地地址，不要让我安装 RecoWork、查找工作空间目录或输入命令。\n6. 再询问我的第一项工作输入。\n\n除非已经全局安装 RecoWork，否则不要把上述命令替换成 rw。如果无法执行命令，不要模拟已经创建了本地文件或打开了查看器。`;
 }
 
-function chatPrompt() {
-  const label = copy[config.locale].templates[config.template];
-  if (config.locale === "en") {
-    return `Act as my ${label} partner.\n\nFirst, help me define one real task that should continue beyond this chat. Before doing the work, confirm:\n- the goal and boundary\n- the expected deliverable and completion criteria\n- relevant facts, constraints, and decisions\n- what needs human review\n\nThen work in small verifiable steps. At the end of each meaningful step, provide a continuation summary with current facts, decisions, open questions, and the next action. Do not claim to create local files or retain memory outside this conversation.`;
-  }
-  return `作为我的${label}协作伙伴工作。\n\n先帮助我定义一项需要跨多次对话持续推进的真实工作。在开始前，请确认：\n- 目标与边界\n- 交付物与完成标准\n- 已知事实、约束与决策\n- 需要人工审查的位置\n\n随后按可验证的小步骤推进。每完成一个重要步骤，都给出续接摘要：当前事实、已确认决策、待确认问题与下一步。不要声称会创建本地文件，也不要声称能在对话之外自动保留记忆。`;
-}
-
-function getPrompt() { return isChat() ? chatPrompt() : localPrompt(); }
+function getPrompt() { return isChat() ? chatKits[config.template][config.locale] : localPrompt(); }
 
 function getViewerPrompt() {
   if (language === "en") {

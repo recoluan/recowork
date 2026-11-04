@@ -103,3 +103,9 @@ node cli/recowork/bin/rw.js view /private/tmp/recowork-view-test --no-open --por
 ```
 
 产品和 target 约定见 [specs/requirements.md](./specs/requirements.md)、[specs/targets.md](./specs/targets.md) 与 [specs/decisions.md](./specs/decisions.md)。未发布和已发布变更见 [CHANGELOG.zh.md](./CHANGELOG.zh.md)。
+
+## 按任务选择专业方法
+
+- 想法：定义问题、验证关键假设，用证据决定继续、调整或停止。
+- 学习：从目标能力倒推练习，检查独立表现、延迟回忆与迁移。
+- 设计：围绕用户任务组织界面，验证交互状态、响应式与无障碍。

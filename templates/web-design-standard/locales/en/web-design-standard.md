@@ -1,8 +1,8 @@
 # Web Design Standard
 
-> Version: 1.0.0
+> Version: 1.1.0
 >
-> Date: 2026-07-22
+> Date: 2026-11-04
 >
 > Status: Final
 
@@ -153,12 +153,16 @@ Text and background combinations should meet WCAG AA contrast. Never use color a
 
 ## 7. AI Implementation Instructions
 
-1. Read this standard and the project's existing brand, component library, page code, and technical constraints first. Existing brand guidance and explicit user requests take precedence.
-2. When information is incomplete, ask the smallest set of material clarifying questions. Do not present guesses as requirements.
-3. Offer a concise implementation plan: page task, hierarchy, responsive handling, component states, and validation. Wait for confirmation before a large change when scope or visual direction is unclear.
-4. Implement real HTML, CSS, and interaction states. Do not deliver screenshot-like layouts, fake charts, or unusable buttons.
-5. Keep changes scoped and reuse existing project components and tokens. Add abstractions or dependencies only when justified.
-6. Complete section 8 after implementation and report passed checks, fixes, known limits, and unverified items.
+Before a large change with unclear scope or visual direction, present the plan and obtain confirmation. Keep changes scoped and justify additional dependencies.
+
+1. Identify users, the primary task, context and success conditions before organizing hierarchy, navigation and primary actions.
+2. Reuse the existing brand and component system; use default tokens only where guidance is missing.
+3. Design normal, loading, empty, failure, success and recovery paths around the task, explaining inapplicable states.
+4. After implementation, complete the primary task and record observed results; check narrow screens, keyboard operation, focus, semantic labels, contrast and error recovery.
+5. Report visual review, automated checks and real-user validation separately.
+6. Mark unperformed checks as untested and do not claim accessibility certification.
+7. A local visual change may use scoped validation with affected tasks and states identified.
+8. Preserve the single-file standard without creating a methodology workspace.
 
 ## 8. Post-Implementation Checklist
 
@@ -172,6 +176,12 @@ Text and background combinations should meet WCAG AA contrast. Never use color a
 - [ ] The result contains no purposeless gradients, glassmorphism, excessive rounding, fake data, or static-only decoration.
 - [ ] Available project build, test, or visual checks were run and their result is reported.
 
+
+- [ ] Complete the primary task and failure recovery; record expected/observed results, environment and failures.
+- [ ] Report automated checks, agent walkthrough and real-user acceptance separately; untested is not passed.
+
+Example: an attractive order page fails acceptance if keyboard filtering cannot be submitted. Repair focus and the task path, then retest.
+
 ## Related References
 
 - [AGENTS.md](./AGENTS.md): local-agent execution constraints and delivery-report requirement.
@@ -181,3 +191,4 @@ Text and background combinations should meet WCAG AA contrast. Never use color a
 | Version | Date | Change |
 | --- | --- | --- |
 | 1.0.0 | 2026-07-22 | Established the default product-web design standard. |
+| 1.1.0 | 2026-11-04 | Integrate tasks, states, recovery and observed acceptance into execution. |

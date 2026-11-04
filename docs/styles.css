@@ -346,3 +346,7 @@ body.contact-open { overflow: hidden; }
 }
 
 @media (prefers-reduced-motion: reduce) { .agent-live-dot, .agent-stream i, .demo-progress i.is-active::after { animation: none; }.demo-progress i.is-active::after { width: 100%; } }
+
+#methods .viewer-access-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+#methods .method-example { border-top: 1px solid var(--border, #ddd); padding-top: 1rem; }
+@media (max-width: 760px) { #methods .viewer-access-grid { grid-template-columns: 1fr; } }

@@ -1,31 +1,22 @@
-# Lesson Unit Template
+# Learning Unit
 
-Create an independent folder or document for each unit. For code courses, use a structure such as `NN-topic/README.md`, `exercise.<ext>`, and `solution.<ext>`.
+## Target task and acceptance
 
-```markdown
-# Unit Title
+Specify independent performance, prerequisites and criteria; reading completion is not acceptance.
 
-## Goal
+## Example and practice
 
-## Prerequisites
+Minimal example, learner-first attempt, errors and minimal hints; give full answers only after attempts as needed.
 
-## Problem To Solve
+## Performance and feedback
 
-## Core Concepts And API / Method Reference
+| Attempt / date | Independent or hint level | Observed performance and evidence | Unmet criteria / reinforcement |
+| --- | --- | --- | --- |
 
-## Minimal Experiment
+## Transfer and delayed recall
 
-## Step-by-Step Implementation
+Changed-context task and results, next review trigger; unperformed checks remain unverified.
 
-## Practice
+## Consolidation
 
-## Run And Verification
-
-## Common Misconceptions
-
-## My Understanding
-
-## Review And Next Step
-```
-
-Explain why a decision was made, not only the final answer. For code changes, record the starting point, key changes, actual commands, and results.
+Criteria met, remaining gaps and next step; progress links this evidence instead of copying it.

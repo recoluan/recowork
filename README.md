@@ -103,3 +103,9 @@ node cli/recowork/bin/rw.js view /private/tmp/recowork-view-test --no-open --por
 ```
 
 Product and target conventions are recorded in [specs/requirements.md](./specs/requirements.md), [specs/targets.md](./specs/targets.md), and [specs/decisions.md](./specs/decisions.md). See [CHANGELOG.md](./CHANGELOG.md) for unreleased and published changes.
+
+## Methods matched to the work
+
+- Ideas: frame problems and test critical assumptions before continuing, adjusting or stopping.
+- Learning: work backward from target ability; check independent performance, delayed recall and transfer.
+- Design: organize interfaces around tasks; validate states, responsive behavior and accessibility.
